@@ -17,7 +17,7 @@ ExaDEM Capabilities
 
 The following table provides a glossary of features supported by ``ExaDEM``, categorized by their computational platform (``CPU`` or ``GPU``) and particle type (Sphere or Polyhedron). Please note that this information is indicative and may be subject to change based on updates or modifications to the ``ExaDEM`` framework.
 
-.. list-table:: Features Glossary
+.. list-table:: Glossary Of Features
   :widths: 40 15 15 15 15
   :header-rows: 1
 

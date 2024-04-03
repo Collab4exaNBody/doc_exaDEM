@@ -15,7 +15,7 @@ In ``ExaDEM``, a ``driver`` denotes a significant shape, such as walls, cylinder
 The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each serving specific purposes within the simulation framework. The detailed list of implemented ``drivers`` is provided in the following table:
 
 
-.. list-table:: Driver Glossary
+.. list-table:: Glossary Of Drivers
    :widths: 25 25 25
    :header-rows: 1
 
