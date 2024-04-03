@@ -28,7 +28,7 @@ ExaNB stands for **Exa**\ scale **N**\ -**B**\ ody simulations.
    project_exaDEM/ForceField.rst
    project_exaDEM/Drivers.rst
    project_exaDEM/Test_cases.rst
-   project_exaDEM/Operators.rst
+   project_exaDEM/Fields.rst
    project_exaDEM/Analysis.rst
    project_exaDEM/Tutorial.rst
              

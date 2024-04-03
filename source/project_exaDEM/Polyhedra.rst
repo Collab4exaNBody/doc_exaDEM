@@ -1,5 +1,5 @@
-Polyhedra In ExaDEM
-===================
+Polyhedron
+==========
 
 In this section, we will describe the various information used to build simulations with polyhedron particles.
 

@@ -1,11 +1,19 @@
 Force Field
 ===========
 
+The force field encompasses a broader set of operators and mechanisms responsible for computing forces acting on particles within the particle environment. It includes various types of forces such as gravitational forces, contact forces, and other external influences that affect particle dynamics.
+
 Contact Forces
 --------------
 
-Hooke Law Operators
-^^^^^^^^^^^^^^^^^^^
+Contact forces specifically refer to interactions between particles or entities that come into direct contact with each other within the simulation. These forces arise from physical contact and can include repulsive forces to prevent particle overlap, frictional forces, and cohesive forces between bonded particles.
+
+
+Hooke's Law Operators
+^^^^^^^^^^^^^^^^^^^^^
+
+``Hooke's Law`` in the context of Discrete Element Method (DEM) refers to the principle used to calculate forces between particles based on their relative displacements. In DEM simulations, ``Hooke's Law`` is applied to model ``interactions`` between particles, enabling the simulation of elastic deformation and linear force behaviors within particle-based systems.
+
 
 Variables:
 
@@ -18,7 +26,7 @@ Variables:
 * \\(vrot_j\\) : The angular velocity of the particle j
 * \\(m_i\\) : The mass of the particle i
 * \\(m_j\\) : The mass of the particle j
-* \\(d_n\\) : The interpenetration
+* \\(d_n\\) : The interpenetration / particle overlap
 
 And constants:
 
@@ -52,7 +60,7 @@ with the effective mass:
 
   m_{eff} = \frac{m_i.m_j}{m_i+m_j}
 
-and the relatuve velocity norm:
+and the relative velocity norm:
 
 .. math::
 
@@ -85,7 +93,7 @@ with:
 
 with **n** normalized vector from particle i to particle j
 
-* Name: `hooke_force`
+* Name: ``hooke_force``
 * Description: This operator computes forces between spherical particles using the Hooke law. 
 * Paremeter:
 
@@ -98,9 +106,9 @@ with **n** normalized vector from particle i to particle j
 
 .. note::
 
-  Hooke force operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
+  ``Hooke force`` operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
 
-* Name: `hooke_force_driver`
+* Name: ``hooke_force_driver``
 * Description: This operator computes forces between spherical particles and drivers using the Hooke law. 
 * Paremeter:
 
@@ -114,22 +122,32 @@ with **n** normalized vector from particle i to particle j
 
 .. note::
 
-  Hooke force driver operator processes contact between spherical particles and drivers stored into the drivers list (wall/surface or ball/sphere). 
+  ``Hooke force driver`` operator processes contact between spherical particles and ``drivers`` stored into the list of ``drivers`` such as walls/surfaces or balls/spheres. 
 
 .. warning::
 
   This operator is used with spherical particles.
 
-* Operator Name: `compute_hooke_interaction`
+* Operator Name: ``compute_hooke_interaction``
 * Description: This operator computes forces between spheropolyhedron particles using the Hooke law.
 * Parameters:
 
   * `config`:  Data structure that contains hooke force parameters for interactions between a polyhedron and a polyhedron (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.
   * `config_driver`:  Data structure that contains hooke force parameters for interactions between a polyhedron and a driver (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.
 
+``YAML`` example:
+
+
+.. code-block:: yaml
+
+   - hooke_force_interaction:
+      config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.1, damp_rate: 0.9}
+      config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
+
 .. note::
 
-  This operator is designed to process interactions built in `update_grid_interaction` (spheropolyhedra).
+  - rcut is not used in the contexte of simulations with polyhedra.
+  - This operator is designed to process interactions built in ``update_grid_interaction`` (spheropolyhedra).
 
 Hooke Law Sphere - Driver Operators (legacy)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -138,7 +156,7 @@ Hooke Law Sphere - Driver Operators (legacy)
 
   These operators are destined to disappear with the factorization of drivers.
 
-* Name: `rigid_surface`
+* Name: ``rigid_surface``
 * Description: This operator computes forces between particles and a rigid surface (named wall in other operators) using the Hooke law.          
 * Parameters:
 
@@ -150,7 +168,7 @@ Hooke Law Sphere - Driver Operators (legacy)
    * `normal` : Normal vector of the rigid surface. No default value.
    * `offset` : Offset from the origin (0,0,0) of the rigid surface. Default is 0.
 
-YAML example:
+``YAML`` example:
 
 .. code-block:: yaml
 
@@ -163,7 +181,7 @@ YAML example:
       mu: 0.9
       damprate: 0.9
 
-* Operator Name: `cylinder_wall`
+* Operator Name: ``cylinder_wall``
 * Description: This operator computes forces for interactions beween particles and a cylinder.
 * Parameters:
    * `damprate` : Parameter of the force law used to model contact cylinder/sphere.
@@ -176,7 +194,7 @@ YAML example:
    * `axis` : Define the plan of the cylinder
    * `cylinder_angular_velocity` : Angular velocity of the cylinder, default is 0 m.s-1
 
-YAML example:
+``YAML`` example:
 
 .. code-block:: yaml
 
@@ -194,6 +212,8 @@ YAML example:
 External Forces
 ---------------
 
+External forces are additional influences acting on particles within the simulation environment, originating from sources outside the particle system itself. These forces can include environmental factors like wind, fluid flow, or magnetic fields, as well as user-defined forces applied to specific particles or regions.
+
 Gravity Operator
 ^^^^^^^^^^^^^^^^
 
@@ -206,11 +226,13 @@ Formula:
 
 With **f** the forces, m the particle mass, and **g** the gravity constant.
 
-* Operator Name: `gravity_force`
+* Operator Name: ``gravity_force``
 * Description: This operator computes forces related to the gravity. 
 * Parameter:
 
   * `gravity`:  Define the gravity constant in function of the gravity axis, default value are x axis = 0, y axis = 0 and z axis = -9.807
+
+``YAML`` example:
 
 .. code-block:: yaml
 
@@ -229,7 +251,7 @@ Formula:
 
 With **f** the particle forces, cx the aerodynamic coefficient, and \\(\\mu\\) the drag coefficient, \||v\|| the norm of the particle velocity, and **v** the particle velocity.
 
-* Operator Name: `quadratic_force`
+* Operator Name: ``quadratic_force``
 * Description: External forces that model air or fluid, f = - mu * cx * norm(v) * vector(v).
 * Parameter:
 
@@ -237,7 +259,7 @@ With **f** the particle forces, cx the aerodynamic coefficient, and \\(\\mu\\) t
   * `mu` : drag coefficient. default value is for air = 0.000015.
 
 
-YAML example:  see example `quadratic-force-test/QuadraticForceInput.msp`
+``YAML`` example:  see example `quadratic-force-test/QuadraticForceInput.msp`
 
 .. code-block:: yaml
 
