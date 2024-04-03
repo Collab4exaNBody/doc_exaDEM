@@ -1,5 +1,12 @@
 # README for exaDEM
 
+## Get ExaNBody Documentation
+
+```
+git submodule init
+git submodule update
+```
+
 ## Build static html doc
 
 ```
