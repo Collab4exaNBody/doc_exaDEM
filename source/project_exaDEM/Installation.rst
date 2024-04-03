@@ -7,14 +7,14 @@ Installation With CMAKE
 Minimal Requirements
 --------------------
 
-To proceed with the installation, your system must meet the minimum prerequisites. The first step involves the installation of exaNBody:
+To proceed with the installation, your system must meet the minimum prerequisites. The first step involves the installation of ``exaNBody``:
 
 .. code-block:: bash
 
    git clone https://github.com/Collab4exaNBody/exaNBody.git
    export exaNBody_DIR=${PWD}/exaNBody 
 
-The next step involves the installation of yaml-cpp, which can be achieved using either the spack package manager or cmake:
+The next step involves the installation of ``yaml-cpp``, which can be achieved using either the ``spack`` package manager or ``cmake``:
 
 .. code-block:: bash
 
@@ -26,15 +26,16 @@ Optional Dependencies
 
 Before proceeding further, you have the option to consider the following dependencies:
 
-- Cuda
-- MPI
+- ``CUDA``
+- ``HIP``
+- ``MPI``
 
 ExaDEM Installation
 -------------------
 
-To install ExaDEM, follow these steps:
+To install ``ExaDEM``, follow these steps:
 
-Set the exaNBody_DIR environment variable to the installation path. Clone the ExaDEM repository using the command:
+Set the exaNBody_DIR environment variable to the installation path. Clone the ``ExaDEM`` repository using the command:
 
 .. code-block:: bash
 		
@@ -46,13 +47,13 @@ Create a directory named build-exaDEM and navigate into it:
 		
    mkdir build-exaDEM && cd build-exaDEM
 
-Run CMake to configure the ExaDEM build, specifying that CUDA support should be turned off:
+Run CMake to configure the ExaDEM build, specifying that ``CUDA`` support should be turned off:
 
 .. code-block:: bash
 		
    cmake ../exaDEM -DXSTAMP_BUILD_CUDA=OFF
 
-Build ExaDEM using the make command with a specified number of parallel jobs (e.g., -j 4 for 4 parallel jobs):
+Build ``ExaDEM`` using the make command with a specified number of parallel jobs (e.g., -j 4 for 4 parallel jobs):
 
 .. code-block:: bash
 		
@@ -81,7 +82,7 @@ This command will display all plugins and related operators. Example:
 Running your simulation
 -----------------------
 
-Now that you have installed the exaDEM and exaNBody packages, you can create your simulation file in YAML format (refer to the 'example' folder or the documentation for each operator). Once this file is constructed, you can initiate your simulation using the following instructions.
+Now that you have installed the ``ExaDEM`` and ``exaNBody`` packages, you can create your simulation file in ``YAML`` format (refer to the 'example' folder or the documentation for each operator). Once this file is constructed, you can initiate your simulation using the following instructions.
 
 .. code-block:: bash
 		
@@ -93,7 +94,10 @@ Now that you have installed the exaDEM and exaNBody packages, you can create you
 
 Installation With Spack
 ^^^^^^^^^^^^^^^^^^^^^^^
-Installation with spack is preferable for people who don't want to develop in exaDEM. Only stable versions are added when you install ExaDEM with Spack. Note: exaDEM main will never be directly accessible via this installation method.
+Installation with ``spack`` is preferable for people who don't want to develop in ``exaDEM``. Only stable versions are added when you install ``ExaDEM`` with ``Spack``.
+
+.. note::
+  The main of ``ExaDEM`` will never be directly accessible via this installation method.
 
 Installing Spack
 ----------------
@@ -107,7 +111,7 @@ Installing Spack
 Installing ExaDEM
 -----------------
 
-First get the spack repository in exaDEM directory and it to spack. It contains two packages: exanbody and exadem
+First get the ``spack`` repository in exaDEM directory and it to spack. It contains two packages: ``exanbody`` and ``exadem``:
 
 .. code-block:: bash
 		
@@ -121,13 +125,13 @@ First get the spack repository in exaDEM directory and it to spack. It contains 
   
   * +cuda: Add GPU support
 
-Second install exaDEM (this command will install cmake, yaml-cpp and exanbody).
+Second install ``ExaDEM`` (this command will install ``cmake``, ``yaml-cpp`` and ``exanbody``).
 
 .. code-block:: bash
 
   spack install exadem
 
-Finally the ExaDEM executable has been created in the spack directory. You can run your simulation with your input file (*your_input_file.msp*) such as:
+Finally the ``ExaDEM`` executable has been created in the spack directory. You can run your simulation with your input file (*your_input_file.msp*) such as:
 
 .. code-block:: bash
 
