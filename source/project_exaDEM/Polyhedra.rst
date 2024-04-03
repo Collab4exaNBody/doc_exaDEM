@@ -1,4 +1,3 @@
-This operator initialize shapes data structure from a shape input file.
 Polyhedra In ExaDEM
 ===================
 
