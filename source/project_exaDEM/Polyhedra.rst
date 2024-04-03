@@ -1,18 +1,19 @@
+This operator initialize shapes data structure from a shape input file.
 Polyhedra In ExaDEM
 ===================
 
-In this section, we will describe the various information used to build polyhedra simulation.
+In this section, we will describe the various information used to build simulations with polyhedron particles.
 
 Overview
 ^^^^^^^^
 
-The polyhedra implemented in exaDEM are sphero-polyhedra, i.e. the vertices of the polyhedra are considered as spheres. To achieve this, exaDEM incorporates many of the features of the Rockable DEM code developed at CNRS (https://github.com/richefeu/rockable, https://richefeu.github.io/rockable/quickStart.html). ExaDEM relies in particular on a Shape class containing information about the polyhedron (vertex, edge, face and minskowski radius) and an interaction class used to qualify a contact between polyhedra.
+The polyhedra implemented in ``ExaDEM`` are sphero-polyhedra, i.e. the vertices of the polyhedra are considered as spheres. To achieve this, ``ExaDEM`` incorporates many of the features of the ``Rockable`` DEM code developed at CNRS (https://github.com/richefeu/rockable, https://richefeu.github.io/rockable/quickStart.html). ``ExaDEM`` relies in particular on a ``Shape`` class containing information about the polyhedron (vertex, edge, face and minskowski radius) and an interaction class used to qualify a contact between polyhedra.
 
 
 Shape
 ^^^^^
 
-The shape class provides all the information on vertices, edges and faces, but it also provides other support to speed up calculations, such as OBB sets for each type of information. ExaDEM provides many features linked to the shape class, such as reading shp files (the format used by Rockable), as well as other functions such as outputting a .vtk file of the shape in question.
+The ``Shape`` class provides all the information on vertices, edges and faces, but it also provides other support to speed up calculations, such as ``OBB`` sets for each type of information. ``ExaDEM`` provides many features linked to the ``Shape`` class, such as reading ``.shp`` files (the format used by ``Rockable``), as well as other functions such as outputting a ``.vtk`` file of the shape in question.
 
 This class is defined by its:
 
@@ -24,15 +25,15 @@ This class is defined by its:
 * m_inertia_on_mass: Intertia coeff
 * m_name: name, default is undefined
 * obb: Oriented Bounded Box of the polyhedron
-* m_obb_vertices: List of OBB for each vertex (only for STL Mesh)
-* m_obb_edges: List of OBB for each edge
-* m_obb_faces: List of OBB for each face
+* m_obb_vertices: List of ``OBB`` for each vertex (only for ``STL Mesh``)
+* m_obb_edges: List of ``OBB`` for each edge
+* m_obb_faces: List of ``OBB`` for each face
 
 .. note::
-	Oriented Bounded Boxes are enlarged of the Minskowki radius.
+	OBB (Oriented Bounded Boxes) are enlarged of the Minskowki radius.
 
 .. note::
-	By default, every shapes are stored in a list of shapes, and the maximum cut-off radius are deduced from these shapes. Note that a cut-off radius that is too large can drastically reduce simulation performance. That's why, do not put big shapes using the classical way (i.e. read_shape), big shapes should be defined as drivers  
+	By default, every shapes are stored in a list of shapes, and the maximum cut-off radius are deduced from these shapes. Note that a cut-off radius that is too large can drastically reduce simulation performance. That's why, do not put big shapes using the classical way (i.e. ``read_shape_file``), big shapes should be defined as ``drivers``.
 
 Shape example (octahedron, 6 vertices, 12 edges and 8 faces): 
 	
@@ -103,17 +104,23 @@ Or a sphere (1 vertex, 0 edge, 0 face):
   I/m 0.1 0.1 0.1
   >
 
-It's important to note that using a sphere shape with a polyhedron configuration instead of directly using a sphere configuration decreases overall performance due to unnecessary calculations such as applying an orientation to a vertex. We have observed that in this case, simulations are about 2 to 3 times slower. 
+It's important to note that using a shape of a spherical particle with a polyhedron configuration instead of directly using a sphere configuration decreases overall performance due to unnecessary calculations such as applying an orientation to a vertex. We have observed that in this case, simulations are about 2 to 3 times slower. 
+
+* Operator Name: ``read_shape_file``
+* Description: This operator initialize shapes data structure from a shape input file.
+* Parameter:
+
+  * filename: Input file name (.stl)
 
 
 Interaction / Contact
 ^^^^^^^^^^^^^^^^^^^^^
 
-The exaDEM::Interaction class in ExaDEM is used to model various types of interactions between polyhedra and between polyhedra and drivers. This class serves as a crucial component for identifying two elements within the data grid and characterizing the type of interaction between them.
+The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types of interactions between polyhedra and between polyhedra and ``drivers``. This class serves as a crucial component for identifying two elements within the data grid and characterizing the type of interaction between them.
 
 **Interaction Class Attributes:**
 
-* id_i and id_j: Id of botth polyhedra.
+* id_i and id_j: Id of both polyhedra.
 * cell_i and cell_j: Indices of the cells containing the interacting polyhedra.
 * p_i and p_j: Positions of the polyhedra within their respective cells.
 * sub_i and sub_j: Indices of the vertex, edge, or face of the polyhedron involved in the interaction.
@@ -122,10 +129,10 @@ The exaDEM::Interaction class in ExaDEM is used to model various types of intera
 
 
 .. note::
-  When the interaction involves a polyhedron and a driver, particle j is used to locate the driver. In this scenario, cell_j represents the index of the driver. If the driver utilizes a shape, such as with STL meshes, sub_j is also utilized to store the index of the vertex, edge, or face.
+  When the interaction involves a polyhedron and a ``driver``, particle j is used to locate the ``driver``. In this scenario, cell_j represents the index of the ``driver``. If the ``driver`` utilizes a shape, such as with ``STL meshes``, sub_j is also utilized to store the index of the vertex, edge, or face.
 
 
-.. list-table:: Interaction Glossary
+.. list-table:: Glossary of ``Interaction`` types
    :widths: 10 25 65
    :header-rows: 1
 
@@ -174,14 +181,14 @@ The exaDEM::Interaction class in ExaDEM is used to model various types of intera
 
 **Interaction Class Usage:**
 
-To retrieve data associated with a specific interaction between two polyhedra, the attributes of the exaDEM::Interaction class are used to identify cells, positions, and interaction types. This information is then utilized within simulation computations to accurately model interactions between polyhedra, considering conditions defined by the interaction type.
+To retrieve data associated with a specific interaction between two polyhedra, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. Theses informations are then utilized within simulation computations to accurately model interactions between polyhedra, considering the interaction type.
 
-These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both CPU and upcoming GPU implementations. The interactions are populated within the update_grid_interactions operator and subsequently processed in the compute_hooke_interaction operator.
+These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``update_grid_interactions`` operator and subsequently processed in the ``compute_hooke_interaction`` operator.
 
 
-In summary, the exaDEM::Interaction class provides a crucial data structure for managing interactions between polyhedra and drivers within DEM simulations. By storing information such as cell numbers, positions, and interaction types, it enables precise modeling of physical interactions between simulated objects.
+In summary, the ``exaDEM::Interaction`` class provides a crucial data structure for managing interactions between polyhedra and drivers within DEM simulations. By storing information such as cell numbers, positions, and interaction types, it enables precise modeling of physical interactions between simulated objects.
 
-**Grid Of Interactions**
+**Grid Of Interactions:**
 
-In exaDEM, interactions are stored in the form of a grid of cells, the cell then containing a GridExtraDynamicDataStorageT, i.e. a data structure similar to an interaction vector + particle information vector. This data structure facilitates the migration of information between MPI processes when the interaction is considered to be always active (i.e. the two polyhedra are always in contact from one time step to the next). For more details in code, see `src/polyhedra/include/exaDEM/interaction/grid_cell_interaction.hpp` and `extra_storage` package in ExaNBody.
+In ``ExaDEM``, interactions are stored in the form of a grid of cells (AOSOA), the cell (SOA) then containing a ``GridExtraDynamicDataStorageT``, i.e. a data structure similar to a vector of ``Interactions`` + particle information vector. This data structure facilitates the migration of information between ``MPI`` processes when the interaction is considered to be always active (i.e. the two polyhedra are always in contact from one time step to the next). For more details in code, see `src/polyhedra/include/exaDEM/interaction/grid_cell_interaction.hpp` and ``extra_storage`` package in ``ExaNBody``.
 
