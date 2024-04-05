@@ -51,7 +51,7 @@ Run CMake to configure the ExaDEM build, specifying that ``CUDA`` support should
 
 .. code-block:: bash
 		
-   cmake ../exaDEM -DXSTAMP_BUILD_CUDA=OFF
+   cmake ../exaDEM -DXNB_BUILD_CUDA=OFF
 
 Build ``ExaDEM`` using the make command with a specified number of parallel jobs (e.g., -j 4 for 4 parallel jobs):
 
