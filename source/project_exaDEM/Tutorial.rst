@@ -64,7 +64,7 @@ We add a paraview polydata created for this shape (exaDEM doesn't display correc
    :width: 300pt
 
 
-For this simulation, we choose to fill an infinite cylinder centered at (10,3.75,10) with a radius of 16. This detection is added after the construction of neighbor lists.
+For this simulation, we choose to fill an infinite cylinder centered at (10,3.75,10) with a radius of 16. This detection is added during the construction of neighbor lists (`update_grid_interaction` operator).
 
 .. code-block:: yaml
 
@@ -75,6 +75,9 @@ For this simulation, we choose to fill an infinite cylinder centered at (10,3.75
        axis: [1, 0, 1]
        radius: 16
        angular_velocity: [0,0,0]
+
+.. note::
+	`setup_drivers` is a default operator integrated in the default execution graph of exaDEM. By default, this operator is set to nop for `no operator`.
 
 We use the Hooke's law to compute contact force between the polyhedra/polyhedra and cylinder/polyhedra. Gravity is applied everywhere.
 
@@ -157,6 +160,14 @@ The following block consists in the overload of `add_generated_particles` operat
    - add_particles
    - init_new_particles
 
+Step one is the `generator.msp` file. To run the simulation, use the following command.
+
+.. code-block:: console
+	mpirun -n 2 ./exaDEM generator.msp --omp-num-threads 2
+
+.. note::
+  Make sure that the alpha3.shp file is in the same location as the simulation.
+
 Picture at the middle of the first step:
 
 .. image:: ../_static/ExaDEM/step1-mid.png
@@ -187,6 +198,10 @@ Disable the hexapod generator:
 
  simulation_generator_frequency: -1
 
+Step two corresponds to the `wait.msp` file. To run this simulation, use the following command.
+
+.. code-block:: console
+	mpirun -n 2 ./exaDEM wait.msp --omp-num-threads 2
 
 Picture at the end of the second step, the desposit is stable (i.e. no velocity):
 
@@ -207,7 +222,16 @@ In addition, we display the contact network (normal force) between the hexapods.
 
  +dump_data_paraview:
    - dump_contact_network:
+      config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.0, fc: 0.0, mu: 0.1, damp_rate: 0.999}
       basename: hexapods
+
+.. warning:: 
+  Currently, we need to specify Hooke parameters to calculate the contact network, but this option will disappear with future development (hooke parameters factory).      
+
+Step three corresponds to the `run.msp` file. To run this simulation, use the following command.
+
+.. code-block:: console
+	mpirun -n 2 ./exaDEM run.msp --omp-num-threads 2
 
 This is the final contact network at 50s.
 
