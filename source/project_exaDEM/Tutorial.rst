@@ -163,6 +163,7 @@ The following block consists in the overload of `add_generated_particles` operat
 Step one is the `generator.msp` file. To run the simulation, use the following command.
 
 .. code-block:: console
+
 	mpirun -n 2 ./exaDEM generator.msp --omp-num-threads 2
 
 .. note::
@@ -201,6 +202,7 @@ Disable the hexapod generator:
 Step two corresponds to the `wait.msp` file. To run this simulation, use the following command.
 
 .. code-block:: console
+
 	mpirun -n 2 ./exaDEM wait.msp --omp-num-threads 2
 
 Picture at the end of the second step, the desposit is stable (i.e. no velocity):
@@ -231,6 +233,7 @@ In addition, we display the contact network (normal force) between the hexapods.
 Step three corresponds to the `run.msp` file. To run this simulation, use the following command.
 
 .. code-block:: console
+
 	mpirun -n 2 ./exaDEM run.msp --omp-num-threads 2
 
 This is the final contact network at 50s.
