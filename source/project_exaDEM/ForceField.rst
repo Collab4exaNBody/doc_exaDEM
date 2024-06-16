@@ -282,3 +282,24 @@ With **f** the particle forces, cx the aerodynamic coefficient, and \\(\\mu\\) t
    - quadratic_force:
       cx: 0.38
       mu: 0.0000015
+
+Fluid Grid Force
+^^^^^^^^^^^^^^^^
+
+* Operator Name: ``sphere_fluid_friction``
+* Description: External forces that model a fluid computed from a grid such as: f = ||fv - pv|| 
+
+.. math::
+
+	dv = fv - pv 
+
+.. math::
+
+  f = cx . dv . ||dv|| . \pi . r . r.
+
+With `fv` the fuild velocity, `pv` the particle velocity, `r` the particle radius and `cx` a coefficient set to 1 by default.
+
+.. note::
+
+  The fluid velocity `fv` for each point of the grid has been defined by the operator `set_cell_values` (pure exaNBody operator)
+
