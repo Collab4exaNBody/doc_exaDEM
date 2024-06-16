@@ -182,7 +182,7 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 
 To retrieve data associated with a specific interaction between two polyhedra, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. Theses informations are then utilized within simulation computations to accurately model interactions between polyhedra, considering the interaction type.
 
-These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``update_grid_interactions`` operator and subsequently processed in the ``compute_hooke_interaction`` operator.
+These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_polyhedron`` operator and subsequently processed in the ``hooke_polyhedron`` operator.
 
 
 In summary, the ``exaDEM::Interaction`` class provides a crucial data structure for managing interactions between polyhedra and drivers within DEM simulations. By storing information such as cell numbers, positions, and interaction types, it enables precise modeling of physical interactions between simulated objects.

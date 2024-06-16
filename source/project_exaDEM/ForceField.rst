@@ -128,8 +128,24 @@ with **n** normalized vector from particle i to particle j
 
   This operator is used with spherical particles.
 
-* Operator Name: ``compute_hooke_interaction``
-* Description: This operator computes forces between spheropolyhedron particles using the Hooke law.
+
+Other ``hooke forces`` are defined when the data interaction is used and filled via the opertators ``nbh_sphere_sym`` or ``nbh_sphere_no_sym``.
+
+* Operator Name: ``hooke_sphere_sym`` / ``hooke_sphere_no_sym``
+* Description: This operator computes forces between spherical particles themselves and with drivers using the Hooke law.
+* Parameters:
+
+  * `config`:  Data structure that contains hooke force parameters for interactions between a polyhedron and a polyhedron (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.
+  * `config_driver`:  Data structure that contains hooke force parameters for interactions between a polyhedron and a driver (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.
+
+.. code-block:: yaml
+
+   - hooke_sphere_sym:
+      config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.1, damp_rate: 0.9}
+      config_driver: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
+
+* Operator Name: ``hooke_polyhedron``
+* Description: This operator computes forces between polyhedral particles themselves and with drivers using the Hooke law.
 * Parameters:
 
   * `config`:  Data structure that contains hooke force parameters for interactions between a polyhedron and a polyhedron (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.
@@ -140,14 +156,14 @@ with **n** normalized vector from particle i to particle j
 
 .. code-block:: yaml
 
-   - hooke_force_interaction:
+   - hooke_polyhedron:
       config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.1, damp_rate: 0.9}
-      config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
+      config_driver: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
 
 .. note::
 
   - rcut is not used in the contexte of simulations with polyhedra.
-  - This operator is designed to process interactions built in ``update_grid_interaction`` (spheropolyhedra).
+  - This operator is designed to process interactions built in ``nbh_polyhedron`` (spheropolyhedra).
 
 Hooke Law Sphere - Driver Operators (legacy)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
