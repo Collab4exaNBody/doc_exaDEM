@@ -64,7 +64,7 @@ We add a paraview polydata created for this shape (exaDEM doesn't display correc
    :width: 300pt
 
 
-For this simulation, we choose to fill an infinite cylinder centered at (10,3.75,10) with a radius of 16. This detection is added during the construction of neighbor lists (`update_grid_interaction` operator).
+For this simulation, we choose to fill an infinite cylinder centered at (10,3.75,10) with a radius of 16. This detection is added during the construction of neighbor lists (`nbh_polyhedron` operator).
 
 .. code-block:: yaml
 
@@ -85,7 +85,7 @@ We use the Hooke's law to compute contact force between the polyhedra/polyhedra 
 
  compute_force:
    - gravity_force
-   - compute_hooke_interaction:
+   - hooke_polyhedron:
       config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.0, fc: 0.0, mu: 0.1, damp_rate: 0.999}
       config_driver: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.0, fc: 0.0, mu: 0.1, damp_rate: 0.999} 
 
