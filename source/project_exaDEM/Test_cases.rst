@@ -189,6 +189,27 @@ This example demonstrates the application of a velocity field to spheres based o
 | |ex10startfull|          | |ex10endfull|            |
 +--------------------------+--------------------------+
 
+Example 11 : Mirror Boundary Conditions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This example tests the mirror conditions available in exaNBody. Although these conditions are not directly applicable (" not physics "), because all fields are copied identically (without processing/filtering) at each time step in the ghost cells (e.g. velocity, moments), except for positions (axial symmetry). This example highlights this functionality, and could potentially be coupled with other operators to develop new boundary conditions (e.g. resetting velocities to 0 to model a rigid surface). This example involves dropping 33120 spheres, adding mirror boundary conditions in all directions and letting them fall by gravity. 
+
+
+.. |ex11start| image:: ../_static/ExaDEM/mirror_start.png
+   :width: 250pt
+
+.. |ex11end| image:: ../_static/ExaDEM/mirror_end.png
+   :width: 250pt
+
++--------------------------+--------------------------+
+| .. centered:: Mirror Simulation                     |
++--------------------------+--------------------------+
+| .. centered:: Start      | .. centered:: End        |
++==========================+==========================+
+| |ex11start|              | |ex11end|                |
++--------------------------+--------------------------+
+
+
 Examples Using Polyhedra
 ------------------------
 
