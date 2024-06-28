@@ -70,7 +70,7 @@ The following table provides a glossary of features supported by ``ExaDEM``, cat
     - YES
     - YES
     - YES
-    - NO
+    - YES
   * - Gravity Force
     - YES
     - YES
@@ -85,27 +85,31 @@ The following table provides a glossary of features supported by ``ExaDEM``, cat
     - YES
     - YES
     - YES
-    - NO
+    - YES
   * - Driver Wall/Surface
     - YES
     - YES
     - YES
-    - NO
+    - YES
   * - Driver type Ball/Sphere
-    - NO
-    - NO
     - YES
-    - NO
+    - YES
+    - YES
+    - YES
   * - Driver type STL Mesh
-    - LEGACY
-    - LEGACY
     - YES
-    - NO
+    - YES
+    - YES
+    - YES
   * - Contact Network File
     - NO
     - X
     - YES
     - X
+
+.. note::
+
+  With version 1.0.1, ``exaDEM`` can now run ``GPU`` calculations with polyhedra. Nevertheless, optimizations are required to achieve good performance. These are currently being implemented.
 
 
 Default Execution Graph With ExaDEM
