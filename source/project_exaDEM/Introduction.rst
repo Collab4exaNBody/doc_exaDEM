@@ -126,3 +126,43 @@ Default Execution Graph With ExaDEM
   - Violet: These operators are only called with the polyhedra variant.
   - Blue: Numerical time scheme operators.
 
+Release Note
+^^^^^^^^^^^^
+
+
+Release Notes for Version 1.0.1 (06/24):
+----------------------------------------
+
+New Features:
+
+* Classifier for Interactions
+
+  - Introduced a classifier to categorize interactions and enhancing data organization.
+  - Provides improved management and processing of interaction data.
+
+* Mirror Boundary Conditions from ExaNBody Are Availables
+
+  - Mirror boundary conditions to simulate reflections at domain boundaries.
+
+* GPU Version for Polyhedra
+
+  - Added GPU-accelerated support for polyhedra computations.
+
+Changes and Enhancements:
+
+* Unified Drivers for Spheres and Polyhedra
+
+  - Integrated a unified driver system for both spherical and polyhedral objects.
+  - Simplifies driver management and enhances code reusability.
+
+Removed Features:
+
+* Meshset and Friction Plugins
+
+  - Removed deprecated meshset and friction plugins.
+  - Reduces complexity.
+
+Added Examples:
+
+* New Example: Funnel
+* Mirror Boundary Conditions
