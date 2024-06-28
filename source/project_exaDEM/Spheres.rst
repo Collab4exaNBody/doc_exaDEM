@@ -55,7 +55,7 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 
 To retrieve data associated with a specific interaction between two spheres, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. Theses informations are then utilized within simulation computations to accurately model interactions between spheres, considering the interaction type.
 
-These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_sphere_sym`` / ``nbh_sphere_no_sym`` operator and subsequently processed in the ``hooke_sphere_sym`` / ``hooke_sphere_no_sym`` operator.
+These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_sphere`` operator and subsequently processed in the ``hooke_sphere`` operator.
 
 
 In summary, the ``exaDEM::Interaction`` class provides a crucial data structure for managing interactions between spheres and drivers within DEM simulations. By storing information such as cell numbers, positions, and interaction types, it enables precise modeling of physical interactions between simulated objects.
