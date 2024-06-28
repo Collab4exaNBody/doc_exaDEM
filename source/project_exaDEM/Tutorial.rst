@@ -86,6 +86,7 @@ We use the Hooke's law to compute contact force between the polyhedra/polyhedra 
  compute_force:
    - gravity_force
    - hooke_polyhedron:
+      symetric: true
       config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.0, fc: 0.0, mu: 0.1, damp_rate: 0.999}
       config_driver: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.0, fc: 0.0, mu: 0.1, damp_rate: 0.999} 
 

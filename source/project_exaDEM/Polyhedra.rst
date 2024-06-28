@@ -191,3 +191,10 @@ In summary, the ``exaDEM::Interaction`` class provides a crucial data structure 
 
 In ``ExaDEM``, interactions are stored in the form of a grid of cells (AOSOA), the cell (SOA) then containing a ``GridExtraDynamicDataStorageT``, i.e. a data structure similar to a vector of ``Interactions`` + particle information vector. This data structure facilitates the migration of information between ``MPI`` processes when the interaction is considered to be always active (i.e. the two polyhedra are always in contact from one time step to the next). For more details in code, see `src/polyhedra/include/exaDEM/interaction/grid_cell_interaction.hpp` and ``extra_storage`` package in ``ExaNBody``.
 
+**Classifier:**
+
+To improve the implementation of kernels linked to ``GPU`` interactions, ``exaDEM`` relies on the `classifier` class, which sorts all interactions by type in an ``SOA``, so that several kernels can be launched, each dealing with the same type of interaction. The aim is to limit instruction divergence between ``GPU`` threads.
+
+It's important to point out that this data structure complements the interaction grid. The main idea is to classify and unclassify interaction information as long as the data has not changed (``cell migration``, ``move particle``, ``IO``). To achieve this, we use two operators: ``classify`` and ``unclassify``.
+
+Using the classifier is currently the default strategy in exaDEM for spheres and polyhedra.

@@ -93,66 +93,20 @@ with:
 
 with **n** normalized vector from particle i to particle j
 
-* Name: ``hooke_force``
-* Description: This operator computes forces between spherical particles using the Hooke law. 
+* Name: ``hooke_sphere`` or ``hooke_polyehdron``
+* Description: These operators compute forces between particles and particles/drivers using the Hooke's law.
 * Paremeter:
 
-  * `config`:  Data structure that contains hooke force parameters (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams. No default operator.
+  * `symetric`: Activate or disable symetric updates (do not disable it with polyhedron).
+  * `config`:  Data structure that contains hooke force parameters (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams. No default parameter.
+  * `config_driver`:  Data structure that contains hooke force parameters (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams. This parameter is optional.
+
+Here two examples with YAML:
 
 .. code-block:: yaml
 
-   - hooke_force:
+   - hooke_sphere:
       config: { rcut: 1.1 m , dncut: 1.1 m, kn: 100000, kt: 100000, kr: 0.1, fc: 0.05, mu: 0.9, damp_rate: 0.9}
-
-.. note::
-
-  ``Hooke force`` operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
-
-* Name: ``hooke_force_driver``
-* Description: This operator computes forces between spherical particles and drivers using the Hooke law. 
-* Paremeter:
-
-  * `config`:  Data structure that contains hooke force parameters (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams. No default operator.
-
-.. code-block:: yaml
-
-   - hooke_force_driver:
-      config: { rcut: 1.1 m , dncut: 1.1 m, kn: 100000, kt: 100000, kr: 0.1, fc: 0.05, mu: 0.9, damp_rate: 0.9}
-
-
-.. note::
-
-  ``Hooke force driver`` operator processes contact between spherical particles and ``drivers`` stored into the list of ``drivers`` such as walls/surfaces or balls/spheres. 
-
-.. warning::
-
-  This operator is used with spherical particles.
-
-
-Other ``hooke forces`` are defined when the data interaction is used and filled via the opertators ``nbh_sphere_sym`` or ``nbh_sphere_no_sym``.
-
-* Operator Name: ``hooke_sphere_sym`` / ``hooke_sphere_no_sym``
-* Description: This operator computes forces between spherical particles themselves and with drivers using the Hooke law.
-* Parameters:
-
-  * `config`:  Data structure that contains hooke force parameters for interactions between a polyhedron and a polyhedron (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.
-  * `config_driver`:  Data structure that contains hooke force parameters for interactions between a polyhedron and a driver (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.
-
-.. code-block:: yaml
-
-   - hooke_sphere_sym:
-      config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.1, damp_rate: 0.9}
-      config_driver: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
-
-* Operator Name: ``hooke_polyhedron``
-* Description: This operator computes forces between polyhedral particles themselves and with drivers using the Hooke law.
-* Parameters:
-
-  * `config`:  Data structure that contains hooke force parameters for interactions between a polyhedron and a polyhedron (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.
-  * `config_driver`:  Data structure that contains hooke force parameters for interactions between a polyhedron and a driver (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.
-
-``YAML`` example:
-
 
 .. code-block:: yaml
 
@@ -162,68 +116,16 @@ Other ``hooke forces`` are defined when the data interaction is used and filled 
 
 .. note::
 
+  It is important to check that interaction lists have been built with this option enabled. By default, `exaDEM` always builds interaction lists using the symmetry option to limit the number of calculations.
+
+.. note::
+
+  ``Hooke force`` operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
+
+.. note::
+
   - rcut is not used in the contexte of simulations with polyhedra.
   - This operator is designed to process interactions built in ``nbh_polyhedron`` (spheropolyhedra).
-
-Hooke Law Sphere - Driver Operators (legacy)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. warning::
-
-  These operators are destined to disappear with the factorization of drivers.
-
-* Name: ``rigid_surface``
-* Description: This operator computes forces between particles and a rigid surface (named wall in other operators) using the Hooke law.          
-* Parameters:
-
-   * `damprate` : Parameter of the force law used to model contact rigid surface/sphere.
-   * `kn` : Parameter of the force law used to model contact rigid surface/sphere.
-   * `kr` : Parameter of the force law used to model contact rigid surface/sphere.
-   * `kt` : Parameter of the force law used to model contact rigid surface/sphere.
-   * `mu` : Parameter of the force law used to model contact rigid surface/sphere.
-   * `normal` : Normal vector of the rigid surface. No default value.
-   * `offset` : Offset from the origin (0,0,0) of the rigid surface. Default is 0.
-
-``YAML`` example:
-
-.. code-block:: yaml
-
-   - rigid_surface:
-      normal: [0,0,1]
-      offset: -1
-      kt: 80000
-      kn: 100000
-      kr : 0
-      mu: 0.9
-      damprate: 0.9
-
-* Operator Name: ``cylinder_wall``
-* Description: This operator computes forces for interactions beween particles and a cylinder.
-* Parameters:
-   * `damprate` : Parameter of the force law used to model contact cylinder/sphere.
-   * `kn` : Parameter of the force law used to model contact cylinder/sphere.
-   * `kr` : Parameter of the force law used to model contact cylinder/sphere.
-   * `kt` : Parameter of the force law used to model contact cylinder/sphere.
-   * `mu` : Parameter of the force law used to model contact cylinder/sphere.
-   * `radius` : The cylinder radius.
-   * `center` : The cylinder center.
-   * `axis` : Define the plan of the cylinder
-   * `cylinder_angular_velocity` : Angular velocity of the cylinder, default is 0 m.s-1
-
-``YAML`` example:
-
-.. code-block:: yaml
-
-  - cylinder_wall:
-     radius: 100
-     center: [50,50,50]
-     axis: [1,0,1]
-     cylinder_angular_velocity: [0,0.017,0]
-     kt: 80000
-     kn: 100000
-     kr : 0
-     mu: 0.3
-     damprate: 0.9
 
 External Forces
 ---------------
