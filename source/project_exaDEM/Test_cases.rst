@@ -26,25 +26,6 @@ A DEM simulation of a rotating drum involves modeling the movement of spherical 
 | |ex1start|               | |ex1end|                 |
 +--------------------------+--------------------------+
 
-Example 2: Axial stress
-^^^^^^^^^^^^^^^^^^^^^^^
-
-A DEM simulation under axial stress involves subjecting a collection of particles to pressure from a rigid surface along a specific axis. By simulating this scenario using the Discrete Element Method (DEM), we can study how particles respond to the applied stress. The simulation reveals how particles interact, deform, and reposition under the influence of the external force, providing insights into the behavior of granular materials under axial loading conditions. 
-
-.. |ex2start| image:: ../_static/axial_stress_start.png
-   :width: 300pt
-
-.. |ex2end| image:: ../_static/axial_stress_end.png
-   :width: 300pt
-
-+--------------------------+--------------------------+
-| .. centered:: Axial Stress                          |
-+--------------------------+--------------------------+
-| .. centered:: Start      | .. centered:: End        |
-+==========================+==========================+
-| |ex2start|               | |ex2end|                 |
-+--------------------------+--------------------------+
-
 Example 3: Rigid stress
 ^^^^^^^^^^^^^^^^^^^^^^^
 
