@@ -143,13 +143,6 @@ YAML example:
      center: [2, 2, 0]
      radius: 20
 
-
-.. note::
-  The operator add_ball is currently only available with polyhedra.
-
-
-
-
 STL Mesh
 --------
 
@@ -184,19 +177,3 @@ YAML example:
      filename: box_for_octa.stl
      minskowski: 0.01
   - update_grid_stl_mesh
-
-.. note::
-  The operator add_stl is currently only available with polyhedra.
-
-Legacy Operators
-^^^^^^^^^^^^^^^^
-
-This is the list of legacy ``drivers`` that will undergo refactoring using the ``drivers`` list:
-
-* drive_wall
-* drive_cylinder_wall
-* drive_ball_wall_radius
-* shear_configuration
-* drive_pebble_radius
-* drive_compression_wall
-
