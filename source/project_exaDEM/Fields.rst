@@ -23,7 +23,8 @@ This repertory plugin only provides operators for modifying fields, especially a
    * [double] `density`
    * [Quaternion] `quat`
 * ``set_quaternion``:
-   * [Quaternion] `quat` 
+   * [Quaternion] `quat`
+   * [bool] `random`, default is false. 
 * ``set_radius``:
    * [double] `rad`
 * ``set_radius_multiple_materials``:
