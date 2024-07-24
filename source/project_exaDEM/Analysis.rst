@@ -274,6 +274,64 @@ Comments / Extensions:
 * This operator can be modified to display more values per contact. To achieve this, you need to change the type of `StorageType` in the `NetworkFunctor` structure. Then, you'll need to populate this function in the operator `() (exaDEM::Interaction* I, const size_t offset, const size_t size)`. Finally, you'll need to add a field in write_pvtp and include this field in `write_vtp`.
 * Currently, this operator doesn't take particularly long to execute and isn't called frequently. However, it doesn't benefit from any shared-memory parallelization (OpenMP) because the network storage is implemented using a `std::map`. 
 
+Dump Interaction Data
+^^^^^^^^^^^^^^^^^^^^^
+
+This feature outputs the main information for each interaction. This feature has been implemented to enable post-simulation analysis.  
+An option has been added to the hooke_polyhedron and hooke_sphere operators to output interaction data as a csv file. To activate it, simply modify the value of ``analysis_interaction_dump_frequency`` in the operator block ``global``. 
+
+Output files are located in the `ExaDEMOutputDir/ExaDEMAnalysis` folder. For each iteration (XXX) with file writing, a folder containing an interaction file is created, such as:  `Interaction_XXX/Interaction_XXX_MPIRANK.txt`.
+
+For each interaction, we write:
+
+- The particle identifier i [uint64_t],
+- The particle identifier j [uint64_t],
+- The sub-identifier of the particle i [int], 
+- The sub-identifier of the particle j [int],
+- The interaction type [int <= 13],
+- The contact position [Vec3d], 
+- The normal force [Vec3d], 
+- The tangential force [Vec3d].
+
+
+.. warning::
+
+  Inactive interactions have been filtered out when writing output files.
+
+.. note::
+
+  An example is available in: example/polyhedra/analyses/interaction.msp 
+
+
+``ExaDEM`` also offers post-processing scripts for basic interaction analyses. The scripts can be used as a basis for developing other analyses according to need. The first available script is `interaction_summary.py` : 
+
+- Read all interaction files
+- Plot the number of interactions per types in function of the timestep (`types.pdf`)
+- Plot the number of interactions in function of the timestep (`count.pdf`)
+
+How to run this script:
+
+.. code-block:: bash
+
+  cd ExaDEMOutputDir/ExaDEMAnalyses
+  python3 PATH_TO_ExaDEM/scripts/post_processing/interaction_summary.py
+
+Output file exemples:
+
+.. |antypes| image:: ../_static/Analyses/types.png
+   :width: 500pt
+
+.. |ancount| image:: ../_static/Analyses/count.png
+   :width: 500pt
+
+- types.pdf
+
+|antypes|
+
+- count.pdf
+
+|ancount|
+
 
 Interaction Summary
 ^^^^^^^^^^^^^^^^^^^^
@@ -303,4 +361,5 @@ Output example:
    * Vertex - Face          : 695 / 252612
    * Edge   - Edge          : 2159 / 363237
    ==================================
+
 
