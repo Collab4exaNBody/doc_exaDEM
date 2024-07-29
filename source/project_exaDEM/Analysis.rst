@@ -75,8 +75,8 @@ YAML example:
 Writer Operators
 ----------------
 
-Writer Of MPIIO File
-^^^^^^^^^^^^^^^^^^^^
+Writer Of MPIIO Files
+^^^^^^^^^^^^^^^^^^^^^
 
 - Name: `write_dump_particles`
 - Description: This operator writes a dump file with all particles information required to restart the simulation. See operator : @read_dump_particles.
@@ -87,6 +87,46 @@ Writer Of MPIIO File
 
 .. note::
   This operator is defined in the default `ExaDEM` operator named `dump_data_particles`. 
+
+Writer Of XYZ Files
+^^^^^^^^^^^^^^^^^^^
+
+- Name: `write_xyz_generic`
+- Description: This operator writes a txt file (`.xyz`) with all specified fields.
+- Parameters:
+  * `fields`: array of fieldsets. Example: ``[ id, velocity, radius ]``
+  * `filename`: name of the output file.
+  * `units`: array of units. Example: ``{ velocity: "m/s", radius: "m" }``
+
+.. note:: 
+  The first line of the output file contains the number of particles. The second line contains the “lattice” description, useful when using ovito.
+
+YAML example: Replaces MPIIO Output files with xyz files. 
+
+.. code-block:: yaml
+
+  dump_data_xyz:
+    - timestep_file: "dem_pos_vel_%09d.xyz"
+    - write_xyz_generic:
+       fields: [ id, velocity, radius ]
+       units: { velocity: "m/s", radius: "m" }
+
+  iteration_dump_writer:
+    - dump_data_xyz
+
+  global:
+    simulation_dump_frequency: 500
+
+
+To process these files, a sample script is provided in ``scripts/post_processing/profile_pos_vel.py``. This is a minimal, easily modifiable post-processing file, that calculates the averages of all position and velocity components.
+
+Output file: [mean_r_v.pdf]
+
+.. |anmean| image:: ../_static/Analyses/mean_r_v.png
+   :width: 500pt
+
+|anmean|
+
 
 Polyedra I/O and Analysis
 -------------------------
