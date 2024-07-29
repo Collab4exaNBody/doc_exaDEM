@@ -318,11 +318,18 @@ How to run this script:
 
 Output file exemples:
 
+Simulation: near 104,000 octahedral particles over 200,000 timesteps of 5.10^{-5} s falling into a cylinder.
+
+.. |ananalyses| image:: ../_static/Analyses/analyses.png
+   :width: 500pt
+
 .. |antypes| image:: ../_static/Analyses/types.png
    :width: 500pt
 
 .. |ancount| image:: ../_static/Analyses/count.png
    :width: 500pt
+
+|ananalyses|
 
 - types.pdf
 
