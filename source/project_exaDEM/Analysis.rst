@@ -330,6 +330,7 @@ For each interaction, we write:
 - The sub-identifier of the particle i [int], 
 - The sub-identifier of the particle j [int],
 - The interaction type [int <= 13],
+- The deflection / overlap [double <= 0],
 - The contact position [Vec3d], 
 - The normal force [Vec3d], 
 - The tangential force [Vec3d].
