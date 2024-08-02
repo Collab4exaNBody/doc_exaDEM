@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v1
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
@@ -38,10 +38,15 @@ jobs:
       - uses: ammaraskar/sphinx-action@master
         with:
           docs-folder: ${{github.workspace}}
-      - name: Compile Website
-        run: make html
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload artifact    
+        uses: actions/upload-artifact@v1
+        with:
+          name: DocumentationHTML
+          path: ${{github.workspace}}/_build/html/    
+#      - name: Compile Website
+#        run: make html
+#      - name: Upload artifact
+#        uses: actions/upload-pages-artifact@v3
 
   # Deployment job
   deploy:
