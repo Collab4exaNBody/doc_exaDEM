@@ -2,3 +2,5 @@ furo
 sphinxcontrib-gtagjs
 sphinx_rtd_theme
 myst-parser
+commonmark
+recommonmark
