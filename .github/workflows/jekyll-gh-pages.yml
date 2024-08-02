@@ -16,6 +16,6 @@ jobs:
     steps:
     - name: Get submodule
       run: git clone git@github.com:Collab4exaNBody/doc_exaNBody.git
-      working-directory: docs
+      working-directory: ../docs
     - id: deployment
       uses: sphinx-notes/pages@v3
