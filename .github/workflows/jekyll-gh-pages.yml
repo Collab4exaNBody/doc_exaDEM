@@ -35,6 +35,9 @@ jobs:
         with:
           source: ./
           destination: ./_site
+      - uses: ammaraskar/sphinx-action@master
+        with:
+          docs-folder: ${{github.workspace}}
       - name: Compile Website
         run: make html
       - name: Upload artifact
