@@ -12,12 +12,12 @@ jobs:
     - name: Build HTML
       uses: ammaraskar/sphinx-action@master
       with:
-        path: ${{github.workspace}}
+        docs-folder: ${{github.workspace}}
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: html-docs
-        path: docs/build/html/
+        path: build/html/
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main'
