@@ -38,7 +38,7 @@ Formula:
 
 .. math::
 
-  f = a / m;
+  f = a.m;
 
 with **f** the sum of forces applied to the particle, **a** the acceleration of the particle, and m its mass.
 
