@@ -8,7 +8,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: test
-      run: sudo pip install -r docs/requirements.txt
+      run: |
+        python -m pip install --upgrade pip
+        sudo pip install -r docs/requirements.txt
     - name: Build HTML
       uses: ammaraskar/sphinx-action@master
 
