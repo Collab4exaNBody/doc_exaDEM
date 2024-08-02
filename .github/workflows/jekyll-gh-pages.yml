@@ -28,4 +28,4 @@ jobs:
       with:
         checkout: false
         documentation_path: docs/source
-        requirements_path: docs/source
+        requirements_path: docs/source/requirements.txt
