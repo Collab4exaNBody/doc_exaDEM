@@ -100,6 +100,7 @@ with **n** normalized vector from particle i to particle j
   * `symetric`: Activate or disable symetric updates (do not disable it with polyhedron).
   * `config`:  Data structure that contains hooke force parameters (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams. No default parameter.
   * `config_driver`:  Data structure that contains hooke force parameters (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams. This parameter is optional.
+  * `save_interactions`: Store interactions into the classifier data structure. Default is false.
 
 Here two examples with YAML:
 
