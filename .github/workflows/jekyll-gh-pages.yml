@@ -29,7 +29,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: add Sphynx
-        run: sudo apt install python3-sphinx
+        run: |
+          sudo apt install python3-sphinx
+          pip3  install sphinx sphinx_rtd_theme
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - uses: ammaraskar/sphinx-action@master
