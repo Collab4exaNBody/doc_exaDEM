@@ -15,9 +15,7 @@ jobs:
       id-token: write
     steps:
     - name: Get submodule
-      run: |
-        git submodule init
-        git submodule update
-      working-directory: ${{github.workspace}}
+      run: git clone git@github.com:Collab4exaNBody/doc_exaNBody.git
+      working-directory: ${{github.workspace}}/docs
     - id: deployment
       uses: sphinx-notes/pages@v3
