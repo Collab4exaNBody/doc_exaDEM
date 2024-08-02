@@ -1,2 +1,3 @@
 furo
 sphinxcontrib-gtagjs
+sphinx_rtd_theme
