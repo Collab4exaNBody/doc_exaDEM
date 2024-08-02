@@ -1,26 +1,22 @@
-name: "Sphinx: Render docs"
+name: Sphinx build
 
 on: push
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    jobs:
-      post_create_environment:
-        - python -m pip install sphinx_rtd_theme      
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
+
     - name: Build HTML
       uses: ammaraskar/sphinx-action@master
-      with:
-        docs-folder: ${{github.workspace}}
+
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: html-docs
-        path: build/html/
+        path: docs/build/html/
+
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main'
