@@ -14,5 +14,9 @@ jobs:
       pages: write
       id-token: write
     steps:
+    - name: Get submodule
+      run: |
+        git submodule init
+        git submodule update
     - id: deployment
       uses: sphinx-notes/pages@v3
