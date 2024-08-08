@@ -72,66 +72,6 @@ YAML example:
 .. note::
   This operator is used for spheres and not polyhedra because we need a special reader to read current interactions values containing the friction and moment. Show `read_dump_particle_interaction`.
 
-Writer Operators
-----------------
-
-Writer Of MPIIO Files
-^^^^^^^^^^^^^^^^^^^^^
-
-- Name: `write_dump_particles`
-- Description: This operator writes a dump file with all particles information required to restart the simulation. See operator : @read_dump_particles.
-- Parameters:
-   * `compression_level` Zlib compression level.
-   * `filename` Dump output file name.
-- Default behaviour: the default name is defined by : `- timestep_file: "exaDEM_%09d.dump` and piloted by `simulation_dump_frequency: 1` in the operator `global`.
-
-.. note::
-  This operator is defined in the default `ExaDEM` operator named `dump_data_particles`. 
-
-Writer Of XYZ Files
-^^^^^^^^^^^^^^^^^^^
-
-- Name: `write_xyz_generic`
-- Description: This operator writes a txt file (`.xyz`) with all specified fields.
-- Parameters:
-  * `fields`: array of fieldsets. Example: ``[ id, velocity, radius ]``
-  * `filename`: name of the output file.
-  * `units`: array of units. Example: ``{ velocity: "m/s", radius: "m" }``
-
-.. note:: 
-  The first line of the output file contains the number of particles. The second line contains the “lattice” description, useful when using ovito.
-
-YAML example: Replaces MPIIO Output files with xyz files. 
-
-.. code-block:: yaml
-
-  dump_data_xyz:
-    - timestep_file: "dem_pos_vel_%09d.xyz"
-    - write_xyz_generic:
-       fields: [ id, velocity, radius ]
-       units: { velocity: "m/s", radius: "m" }
-
-  iteration_dump_writer:
-    - dump_data_xyz
-
-  global:
-    simulation_dump_frequency: 500
-
-
-To process these files, a sample script is provided in ``scripts/post_processing/profile_pos_vel.py``. This is a minimal, easily modifiable post-processing file, that calculates the averages of all position and velocity components.
-
-Output file: [mean_r_v.pdf]
-
-.. |anmean| image:: ../_static/Analyses/mean_r_v.png
-   :width: 500pt
-
-|anmean|
-
-
-Polyedra I/O and Analysis
--------------------------
-
-In this section, we will describe the operators related to the usage of polyhedra.
 
 
 Read Shape File
@@ -139,6 +79,9 @@ Read Shape File
 
 The purpose of this operator is to add shapes to a collection of shapes. This operator can be called as many times as desired. However, if you add the same shape multiple times, it will create duplicates. Additionally, the shapes will be ordered according to the order of reading, meaning that type 0 will be associated with the first shape from the first input file. Furthermore, this operator will automatically create a polydata for each shape, which will be used for displaying the polyhedra using ParaView.
 
+.. note::
+
+  The output Paraview file does not incorporate the "spherical" characteristics of polyhedra, i.e. surfaces are created by connecting the centers of vertices, edges are straight lines (instead of cylinders), and vertices are points (instead of spheres).
 
 * `read_shape_file` :
    * `filename`: Input file name, no default name.
@@ -210,6 +153,70 @@ Example of `Octahedron.vtk` with paraview:
 
 .. image:: ../_static/octahedron.png
    :width: 300pt
+   :align: center
+
+
+
+Writer Operators
+----------------
+
+Writer Of MPIIO Files
+^^^^^^^^^^^^^^^^^^^^^
+
+- Name: `write_dump_particles`
+- Description: This operator writes a dump file with all particles information required to restart the simulation. See operator : @read_dump_particles.
+- Parameters:
+   * `compression_level` Zlib compression level.
+   * `filename` Dump output file name.
+- Default behaviour: the default name is defined by : `- timestep_file: "exaDEM_%09d.dump` and piloted by `simulation_dump_frequency: 1` in the operator `global`.
+
+.. note::
+  This operator is defined in the default `ExaDEM` operator named `dump_data_particles`. 
+
+Writer Of XYZ Files
+^^^^^^^^^^^^^^^^^^^
+
+- Name: `write_xyz_generic`
+- Description: This operator writes a txt file (`.xyz`) with all specified fields.
+- Parameters:
+  * `fields`: array of fieldsets. Example: ``[ id, velocity, radius ]``
+  * `filename`: name of the output file.
+  * `units`: array of units. Example: ``{ velocity: "m/s", radius: "m" }``
+
+.. note:: 
+  The first line of the output file contains the number of particles. The second line contains the “lattice” description, useful when using ovito.
+
+YAML example: Replaces MPIIO Output files with xyz files. 
+
+.. code-block:: yaml
+
+  dump_data_xyz:
+    - timestep_file: "dem_pos_vel_%09d.xyz"
+    - write_xyz_generic:
+       fields: [ id, velocity, radius ]
+       units: { velocity: "m/s", radius: "m" }
+
+  iteration_dump_writer:
+    - dump_data_xyz
+
+  global:
+    simulation_dump_frequency: 500
+
+
+To process these files, a sample script is provided in ``scripts/post_processing/profile_pos_vel.py``. This is a minimal, easily modifiable post-processing file, that calculates the averages of all position and velocity components.
+
+Output file: [mean_r_v.pdf]
+
+.. image:: ../_static/Analyses/mean_r_v.png
+   :width: 500pt
+   :align: center
+
+
+
+I/O and Analysis
+-------------------------
+
+In this section, we will describe the operators related to the usage of polyhedra or spheres.
 
 
 
@@ -238,6 +245,7 @@ Example with 850,000 octahedra:
 
 .. image:: ../_static/850kpolyzoom.png
    :width: 500pt
+   :align: center
 
 .. note::
 	This operator is rather limited in terms of visualization, so we now advise you to use option 2, which offers more possibilities (field display) and less memory-intensive files. 
@@ -269,17 +277,20 @@ How to use it with Paraview:
 
 .. image:: ../_static/tuto1_dump_polyhedra.png
    :width: 250pt
+   :align: center
 
 - Fourthly, in the Glyph Parameters section, choose "Orient" withi the Orientation Mode "Quaternion" and as Orientation Vectors: "orient". To change the size, you can check Scaling and add the Scale Array you wish. Finally, in the Glyph Type dropdown menu, select "Pipeline Connection" and in Input, choose "Octahedron.vtk".
 
 
 .. image:: ../_static/tuto2_dump_polyhedra.png
    :width: 250pt
+   :align: center
 
 Result for a simulation of 1000 Octahedra falling in a cylinder coloried by their id:
 
 .. image:: ../_static/tuto3_dump_polyhedra.png
    :width: 500pt
+   :align: center
 
 Dump Contact Network
 ^^^^^^^^^^^^^^^^^^^^
@@ -308,6 +319,7 @@ Here is an example for 216 polyhedra after a fall into a cylinder, left the simu
 
 .. image:: ../_static/contact_network_example.png
    :width: 500pt
+   :align: center
 
 
 Comments / Extensions:
@@ -362,25 +374,24 @@ Output file exemples:
 
 Simulation: near 104,000 octahedral particles over 200,000 timesteps of 5.10^{-5} s falling into a cylinder.
 
-.. |ananalyses| image:: ../_static/Analyses/analyses.png
-   :width: 500pt
 
-.. |antypes| image:: ../_static/Analyses/types.png
-   :width: 500pt
 
-.. |ancount| image:: ../_static/Analyses/count.png
-   :width: 500pt
 
-|ananalyses|
+.. image:: ../_static/Analyses/analyses.png
+   :width: 500pt
+   :align: center
 
 - types.pdf
 
-|antypes|
+.. image:: ../_static/Analyses/types.png
+   :width: 500pt
+   :align: center
 
 - count.pdf
 
-|ancount|
-
+.. image:: ../_static/Analyses/count.png
+   :width: 500pt
+   :align: center
 
 Interaction Summary
 ^^^^^^^^^^^^^^^^^^^^
@@ -411,4 +422,96 @@ Output example:
    * Edge   - Edge          : 2159 / 363237
    ==================================
 
+Global Stress Tensor
+^^^^^^^^^^^^^^^^^^^^
+
+A stress tensor for a given particle is computed such as: 
+
+.. math::
+
+  \sigma_{loc}=\sum_{ij \in I}[f_{ij} c_{ij}^T]
+
+With ``I`` the active interactions, :math:`f_{ij} = (fx_{ij},fy_{ij},fz_{ij})` the forces between the particle `i` and `j`, and :math:`c_{ij} = r_i - p_{ij}` the vector between the center of the particle `i` noted :math:`r_i` and the contact position of the interaction ``I`` named :math:`p_{ij}`. 
+
+And the total stress of the system : :math:`\sigma =  \frac{1}{V} \sum_{loc} [\sigma_{loc}]`, with ``V`` the volume.
+
+
+Stress tensor calculation is performed by the ``stress_tensor`` operator, and writing to a .txt output file is performed by the ``write_stres_tensor`` operator. To trigger the writing of the stress tensor, simply declare the ``analysis_dump_stress_tensor_frequency`` variable to frequency chosen in the global operator of your yaml file (`.msp`), which by default is set to -1.
+
+YAML example:
+
+.. code-block:: yaml
+
+  global:
+    simulation_end_iteration: 150000
+    simulation_log_frequency: 1000
+    simulation_paraview_frequency: 10000
+    analysis_dump_stress_tensor_frequency: 1000
+
+**For further information**
+
+This frequency triggers several things. When passing through the ``Hooke Force`` operator, the list of interactions / normal force / tangential force are stored in the classifier. The stress tensor is then calculated in ``stress_tensor`` and written in ``write_stress_tensor``. By default, volume is calculated from the simulation volume using the ``compute_volume`` operator. So, by default, the frequency will trigger the chaining of these three operators: 
+
+.. code-block:: yaml
+
+  compute_volume:
+    - domain_volume
+  
+  compute_stress_tensor:
+    - stress_tensor
+  
+  dump_stress_tensor_if_triggered:
+    condition: trigger_write_stress_tensor
+    body:
+      - compute_volume
+      - compute_stress_tensor
+      - write_stress_tensor
+
+In the case of a particle deposit or other simulation where the simulation domain does not correspond to the simulation volume, you can either implement your ``my_volume`` operator and replace the ``compute_volume`` operator block such as:
+
+.. code-block:: yaml
+
+  compute_volume:
+    - my_volume:
+       my_param1: x
+       my_param2: y
+       my_param3: z
+
+If you want to directly assign the value of a fixed-size volume, we advise you to add these lines to your input file: 
+
+.. code-block:: yaml
+
+	compute_volume: nop
+
+	compute_stress_tensor:
+		- stress_tensor:
+			 volume: 21952
+
+A usage example is available at the following address: `example/polyhedra/analyses/write_avg_stress.msp`. It involves dropping a set of hexapods into a box and watching the stress tensor evolve over time.
+
+.. |anastart| image:: ../_static/avgStressStart.png
+   :width: 250pt
+
+.. |anaend| image:: ../_static/avgStressEnd.png
+   :width: 250pt
+
+|anastart| |anaend|
+
+
+A gnuplot script is available at `scripts/post_processing/avg_stress.gnu` to quickly plot lines:
+
+.. code-block:: bash
+
+	set key autotitle columnhead
+	N = system("awk 'NR==1{print NF}' AvgStresTensor.txt")
+	plot for [i=2:N] "AvgStresTensor.txt" u 1:i w l
+	set key autotitle columnhead
+	set term png
+	set output "avgStress.png"
+	replot
+
+
+.. image:: ../_static/Analyses/avgStress.png
+   :width: 400pt
+   :align: center
 
