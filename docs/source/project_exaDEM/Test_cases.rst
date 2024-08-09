@@ -45,6 +45,8 @@ In a DEM simulation under radial stress, particles are exposed to pressure from 
 | |ex3start|               | |ex3end|                 |
 +--------------------------+--------------------------+
 
+.. warning:: This example is currently disabled. 
+
 Example 4: Rigid surface
 ^^^^^^^^^^^^^^^^^^^^^^^^
 

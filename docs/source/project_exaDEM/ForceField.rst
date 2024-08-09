@@ -17,28 +17,54 @@ Hooke's Law Operators
 
 Variables:
 
-* \\(cp\\) : The contact position
-* \\(r_i\\) : The position of the particle i
-* \\(r_j\\) : The position of the particle j
-* \\(v_i\\) : The velocity of the particle i
-* \\(v_j\\) : The velocity of the particle j
-* \\(vrot_i\\) : The angular velocity of the particle i
-* \\(vrot_j\\) : The angular velocity of the particle j
-* \\(m_i\\) : The mass of the particle i
-* \\(m_j\\) : The mass of the particle j
-* \\(d_n\\) : The interpenetration / particle overlap
+
++--------------+-----------------------------------------+
+| Variable     | Description                             |
++==============+=========================================+
+| \\(cp\\)     | The contact position                    |
++--------------+-----------------------------------------+
+| \\(r_i\\)    | The position of the particle i          |
++--------------+-----------------------------------------+
+| \\(r_j\\)    | The position of the particle j          |
++--------------+-----------------------------------------+
+| \\(v_i\\)    | The velocity of the particle i          |
++--------------+-----------------------------------------+
+| \\(v_j\\)    | The velocity of the particle j          |
++--------------+-----------------------------------------+
+| \\(vrot_i\\) | The angular velocity of the particle i  |
++--------------+-----------------------------------------+
+| \\(vrot_j\\) | The angular velocity of the particle j  |
++--------------+-----------------------------------------+
+| \\(m_i\\)    | The mass of the particle i              |
++--------------+-----------------------------------------+
+| \\(m_j\\)    | The mass of the particle j              |
++--------------+-----------------------------------------+
+| \\(d_n\\)    | The interpenetration / particle overlap |
++--------------+-----------------------------------------+
 
 And constants:
 
-* \\(\\Delta_t\\) : The timestep increment
-* \\(\\alpha_n\\) : The damping rate
-* \\(k_n\\) : The normal stiffness coefficient
-* \\(k_t\\) : The tangential stiffness coefficient
-* \\(v_t\\) : The relative tangential velocity 
-* \\(k_r\\) : The rotational stiffness coefficient
-* \\(\mu\\) : The coefficient of friction
-* \\(fc\\) : The cohesive coefficient
-* \\(dncut\\) : 
++-----------------+--------------------------------------+
+| Constant        | Description                          |
++=================+======================================+
+| \\(\\Delta_t\\) | The timestep increment               |
++-----------------+--------------------------------------+
+| \\(\\alpha_n\\) | The damping rate                     |
++-----------------+--------------------------------------+
+| \\(k_n\\)       | The normal stiffness coefficient     |
++-----------------+--------------------------------------+
+| \\(k_t\\)       | The tangential stiffness coefficient |
++-----------------+--------------------------------------+
+| \\(v_t\\)       | The relative tangential velocity     |
++-----------------+--------------------------------------+
+| \\(k_r\\)       | The rotational stiffness coefficient |
++-----------------+--------------------------------------+
+| \\(\mu\\)       | The coefficient of friction          |
++-----------------+--------------------------------------+
+| \\(fc\\)        | The cohesive coefficient             |
++-----------------+--------------------------------------+
+| \\(dncut\\)     | X                                    |
++-----------------+--------------------------------------+
 
 
 Three possibilities depending on the value of the interpenetration between \\(d_n\\) two particles:
@@ -97,10 +123,19 @@ with **n** normalized vector from particle i to particle j
 * Description: These operators compute forces between particles and particles/drivers using the Hooke's law.
 * Paremeter:
 
-  * `symetric`: Activate or disable symetric updates (do not disable it with polyhedron).
-  * `config`:  Data structure that contains hooke force parameters (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams. No default parameter.
-  * `config_driver`:  Data structure that contains hooke force parameters (rcut, dncut, kn, kt, kr, fc, mu, damp_rate). Type = exaDEM::HookeParams. This parameter is optional.
-  * `save_interactions`: Store interactions into the classifier data structure. Default is false.
+
++---------------------+----------------------------------------------------------------------------+
+| `symetric`          | Activate or disable symetric updates (do not disable it with polyhedron).  |
++---------------------+----------------------------------------------------------------------------+
+| `config`            | Data structure that contains hooke force parameters (rcut, dncut, kn, kt,  | 
+|                     | kr, fc, mu, damp_rate). Type = exaDEM::HookeParams. No default parameter.  |
++---------------------+----------------------------------------------------------------------------+
+| `config_driver`     | Data structure that contains hooke force parameters (rcut, dncut, kn, kt,  |
+|                     | kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.                        |
+|                     | This parameter is optional.                                                |
++---------------------+----------------------------------------------------------------------------+
+| `save_interactions` | Store interactions into the classifier data structure. Default is false.   |
++---------------------+----------------------------------------------------------------------------+
 
 Here two examples with YAML:
 
@@ -149,7 +184,9 @@ With **f** the forces, m the particle mass, and **g** the gravity constant.
 * Description: This operator computes forces related to the gravity. 
 * Parameter:
 
-  * `gravity`:  Define the gravity constant in function of the gravity axis, default value are x axis = 0, y axis = 0 and z axis = -9.807
++-----------+----------------------------------------------------------------------------------------------------------------------------+
+| `gravity` |  Define the gravity constant in function of the gravity axis, default value are x axis = 0, y axis = 0 and z axis = -9.807 |
++-----------+----------------------------------------------------------------------------------------------------------------------------+
 
 ``YAML`` example:
 
@@ -174,8 +211,11 @@ With **f** the particle forces, cx the aerodynamic coefficient, and \\(\\mu\\) t
 * Description: External forces that model air or fluid, f = - mu * cx * norm(v) * vector(v).
 * Parameter:
 
-  * `cx` :  aerodynamic coefficient, default value is for air = 0.38.
-  * `mu` : drag coefficient. default value is for air = 0.000015.
++------+------------------------------------------------------------+
+| `cx` |  aerodynamic coefficient, default value is for air = 0.38. |
++------+------------------------------------------------------------+
+| `mu` | drag coefficient. default value is for air = 0.000015.     |
++------+------------------------------------------------------------+
 
 
 ``YAML`` example:  see example `quadratic-force-test/QuadraticForceInput.msp`
