@@ -350,7 +350,7 @@ For each interaction, we write:
 
 .. warning::
 
-  Inactive interactions have been filtered out when writing output files.
+  Inactive interactions have been filtered out when writing output files. In addition, symetrized interactions are stored one time. 
 
 .. note::
 
@@ -375,8 +375,6 @@ Output file exemples:
 Simulation: near 104,000 octahedral particles over 200,000 timesteps of 5.10^{-5} s falling into a cylinder.
 
 
-
-
 .. image:: ../_static/Analyses/analyses.png
    :width: 500pt
    :align: center
@@ -386,6 +384,10 @@ Simulation: near 104,000 octahedral particles over 200,000 timesteps of 5.10^{-5
 .. image:: ../_static/Analyses/types.png
    :width: 500pt
    :align: center
+
+.. note::
+
+  Symetrized interaction are counted twice within the ``interaction_summary.py`` python script.
 
 - count.pdf
 
