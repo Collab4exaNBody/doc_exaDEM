@@ -3,8 +3,35 @@ I/O and Analysis
 
 In this section, we will describe the various operators used for analysis and I/O in DEM simulations.
 
-Reader Operators
-----------------
+
+Configuration
+-------------
+
+IO Configuration
+^^^^^^^^^^^^^^^^
+
+This operator is used to define the tree structure of output files. By default, exaDEM proposes a tree structure with names defined in the `config_exaDEM` file. You can override this operator yourself by redefining it in the `io_tree` operator.
+
+- Name: `io_config`
+- Description: This operator defines the tree structure of output files.
+- Parameters:
+   * `avg_stress_tensor_name` : Write an Output file containing stress tensors.
+   * `dir_name` : Main output directory.
+   * `interaction_basename` : Write an Output file containing interactions.
+   * `log_name` : Write an Output file containing log lines.
+
+YAML example:
+
+.. code-block:: yaml
+
+  - io_config:
+     dir_name: "ExaDEMOutputDir"
+     log_name: "log.txt"
+     avg_stress_tensor_name: "AvgStressTensor.txt"
+     interaction_basename: "InteractionOutputDir-"
+
+Checkpoint/Restart Operators
+----------------------------
 
 Reader Of xyz File
 ^^^^^^^^^^^^^^^^^^
@@ -157,8 +184,6 @@ Example of `Octahedron.vtk` with paraview:
 
 
 
-Writer Operators
-----------------
 
 Writer Of MPIIO Files
 ^^^^^^^^^^^^^^^^^^^^^
@@ -213,12 +238,10 @@ Output file: [mean_r_v.pdf]
 
 
 
-I/O and Analysis
--------------------------
+Analysis
+--------
 
 In this section, we will describe the operators related to the usage of polyhedra or spheres.
-
-
 
 Dump Paraview For Polyhedra
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -230,7 +253,48 @@ In exaDEM, there are two ways to display polyhedra with Paraview:
 .. note::
   Only the default behavior when the `config_polyhedra.msp file` is used, is the option 2 that offers more possibilities. In addition, it is important to note that paraview does not include the layer of shape->radius size, i.e. faces are displayed according to the vertex centers.
 
-* Option 1: write_paraview_polyhedra
+
+* Option 1: `write_paraview_generic`
+   * `binary_mode` [BOOL] : paraview format file, default is true.
+   * `compression` [STRING] : level of compression, default is "default" for vtkZLibDataCompressor.
+   * `filename` [STRING]: basename of the parallel paraview output files, default is "output". 
+   * `write_ghost` [BOOL]: dump ghost particles, default is false.
+   * `write_box` [BOOL]: write box information in a box.vtp file, default is true. 
+   * `write_external_box` [BOOL]: write external box (ghost area), default is false. 
+   * This operator is based on this function: `ParaviewWriteTools::write_particles`.
+
+YAML example:
+
+.. code-block:: yaml
+
+  write_paraview_generic:
+    binary: false
+    write_ghost: false
+    fields: ["vx","vy","vz","id","orient"]
+
+How to use it with Paraview:
+
+- Firstly, we need to load our reference mesh (Octahedron.vtk) in our case.
+- Secondly, load your particle file into the Paraview folder (default name in exaDEM for the paraview_generic operator).
+- Thirdly, choose the 3D Glyphs representation and the coloring.
+
+.. image:: ../_static/tuto1_dump_polyhedra.png
+   :width: 250pt
+   :align: center
+
+- Fourthly, in the Glyph Parameters section, choose "Orient" withi the Orientation Mode "Quaternion" and as Orientation Vectors: "orient". To change the size, you can check Scaling and add the Scale Array you wish. Finally, in the Glyph Type dropdown menu, select "Pipeline Connection" and in Input, choose "Octahedron.vtk".
+
+.. image:: ../_static/tuto2_dump_polyhedra.png
+   :width: 250pt
+   :align: center
+
+Result for a simulation of 1000 Octahedra falling in a cylinder coloried by their id:
+
+.. image:: ../_static/tuto3_dump_polyhedra.png
+   :width: 500pt
+   :align: center
+
+* Option 2: write_paraview_polyhedra
    * `basedir` : Name of the directory where paraview files will be written, by default this directory is named `polyhedra_paraview`.
    * `basename` : Name of paraview file, there is no default name.
 
@@ -249,48 +313,6 @@ Example with 850,000 octahedra:
 
 .. note::
 	This operator is rather limited in terms of visualization, so we now advise you to use option 2, which offers more possibilities (field display) and less memory-intensive files. 
-
-* Option 2: `write_paraview_generic`
-   * `binary_mode` [BOOL] : paraview format file, default is true.
-   * `compression` [STRING] : level of compression, default is "default" for vtkZLibDataCompressor.
-   * `filename` [STRING]: basename of the parallel paraview output files, default is "output". 
-   * `write_ghost` [BOOL]: dump ghost particles, default is false.
-   * `write_box` [BOOL]: write box information in a box.vtp file, default is true. 
-   * `write_external_box` [BOOL]: write external box (ghost area), default is false. 
-   * This operator is based on this function: `ParaviewWriteTools::write_particles`.
-
-YAML example:
-
-.. code-block:: yaml
-
-  write_paraview_generic:
-    binary: false
-    write_ghost: false
-    fields: ["vx","vy","vz","id","orient"]
-
-
-How to use it with Paraview:
-
-- Firstly, we need to load our reference mesh (Octahedron.vtk) in our case.
-- Secondly, load your particle file into the Paraview folder (default name in exaDEM for the paraview_generic operator).
-- Thirdly, choose the 3D Glyphs representation and the coloring.
-
-.. image:: ../_static/tuto1_dump_polyhedra.png
-   :width: 250pt
-   :align: center
-
-- Fourthly, in the Glyph Parameters section, choose "Orient" withi the Orientation Mode "Quaternion" and as Orientation Vectors: "orient". To change the size, you can check Scaling and add the Scale Array you wish. Finally, in the Glyph Type dropdown menu, select "Pipeline Connection" and in Input, choose "Octahedron.vtk".
-
-
-.. image:: ../_static/tuto2_dump_polyhedra.png
-   :width: 250pt
-   :align: center
-
-Result for a simulation of 1000 Octahedra falling in a cylinder coloried by their id:
-
-.. image:: ../_static/tuto3_dump_polyhedra.png
-   :width: 500pt
-   :align: center
 
 Dump Contact Network
 ^^^^^^^^^^^^^^^^^^^^
