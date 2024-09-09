@@ -10,12 +10,18 @@ Example Using Spheres
 Example 1: Rotating drum
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-A DEM simulation of a rotating drum involves modeling the movement of spherical particles within a drum container as it rotates. Through this simulation, we can observe how particles interact, collide, and move in response to the drum's motion. This provides insights into phenomena like particle segregation, convection currents, and mixing patterns, contributing to improved understanding of granular material behavior in rotational scenarios.
+A DEM simulation of a rotating drum involves modeling the movement of spherical particles within a drum container as it rotates. Through this simulation, we can observe how particles interact, collide, and move in response to the drum's motion. This provides insights into phenomena like particle segregation, convection currents, and mixing patterns, contributing to improved understanding of granular material behavior in rotational scenarios. A second scenario without periodic conditions is available, with two rigid surfaces rotating at the same speed as the drum.  
 
 .. |ex1start| image:: ../_static/rotating_drum_start.png
    :width: 300pt
 
 .. |ex1end| image:: ../_static/rotating_drum_end.png
+   :width: 300pt
+
+.. |ex1npstart| image:: ../_static/ExaDEM/rotating_drum_no_periodic_start.png
+   :width: 300pt
+
+.. |ex1npend| image:: ../_static/ExaDEM/rotating_drum_no_periodic_end.png
    :width: 300pt
 
 +--------------------------+--------------------------+
@@ -24,6 +30,8 @@ A DEM simulation of a rotating drum involves modeling the movement of spherical 
 | .. centered:: Start      | .. centered:: End        |
 +==========================+==========================+
 | |ex1start|               | |ex1end|                 |
++--------------------------+--------------------------+
+| |ex1npstart|             | |ex1npend|               |
 +--------------------------+--------------------------+
 
 Example 3: Rigid stress
