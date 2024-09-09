@@ -53,6 +53,11 @@ Run CMake to configure the ExaDEM build, specifying that ``CUDA`` support should
 		
    cmake ../exaDEM -DXNB_BUILD_CUDA=OFF
 
+
+.. note::
+
+  To install with CUDA with `sm_80`: `cmake ../exaDEM -DXNB_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80`
+
 Build ``ExaDEM`` using the make command with a specified number of parallel jobs (e.g., -j 4 for 4 parallel jobs):
 
 .. code-block:: bash
@@ -79,17 +84,6 @@ This command will display all plugins and related operators. Example:
    operator    read_xyz
    operator    read_dump_particles
 
-Running your simulation
------------------------
-
-Now that you have installed the ``ExaDEM`` and ``exaNBody`` packages, you can create your simulation file in ``YAML`` format (refer to the 'example' folder or the documentation for each operator). Once this file is constructed, you can initiate your simulation using the following instructions.
-
-.. code-block:: bash
-		
-   export N_OMP=1
-   export N_MPI=1
-   export OMP_NUM_THREADS=$N_OMP
-   mpirun -n $N_MPI ./exaDEM test-case.msp
 
 
 Installation With Spack
@@ -131,7 +125,27 @@ Second install ``ExaDEM`` (this command will install ``cmake``, ``yaml-cpp`` and
 
   spack install exadem
 
-Finally the ``ExaDEM`` executable has been created in the spack directory. You can run your simulation with your input file (*your_input_file.msp*) such as:
+
+
+Running your simulation
+^^^^^^^^^^^^^^^^^^^^^^^
+
+CMake
+-----
+
+Now that you have installed the ``ExaDEM`` and ``exaNBody`` packages, you can create your simulation file in ``YAML`` format (refer to the 'example' folder or the documentation for each operator). Once this file is constructed, you can initiate your simulation using the following instructions.
+
+.. code-block:: bash
+		
+   export N_OMP=1
+   export N_MPI=1
+   export OMP_NUM_THREADS=$N_OMP
+   mpirun -n $N_MPI ./exaDEM test-case.msp
+
+Spack
+-----
+
+The ``ExaDEM`` executable has been created in the spack directory. You can run your simulation with your input file (*your_input_file.msp*) such as:
 
 .. code-block:: bash
 
