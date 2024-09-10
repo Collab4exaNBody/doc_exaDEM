@@ -79,13 +79,13 @@ For this simulation, we choose to fill an infinite cylinder centered at (10,3.75
 .. note::
 	`setup_drivers` is a default operator integrated in the default execution graph of exaDEM. By default, this operator is set to nop for `no operator`.
 
-We use the Hooke's law to compute contact force between the polyhedra/polyhedra and cylinder/polyhedra. Gravity is applied everywhere.
+We use the Contact's law to compute contact force between the polyhedra/polyhedra and cylinder/polyhedra. Gravity is applied everywhere.
 
 .. code-block:: yaml
 
  compute_force:
    - gravity_force
-   - hooke_polyhedron:
+   - contact_polyhedron:
       symetric: true
       config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.0, fc: 0.0, mu: 0.1, damp_rate: 0.999}
       config_driver: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.0, fc: 0.0, mu: 0.1, damp_rate: 0.999} 
@@ -229,7 +229,7 @@ In addition, we display the contact network (normal force) between the hexapods.
       basename: hexapods
 
 .. warning:: 
-  Currently, we need to specify Hooke parameters to calculate the contact network, but this option will disappear with future development (hooke parameters factory).      
+  Currently, we need to specify Contact parameters to calculate the contact network, but this option will disappear with future development (contact parameters factory).      
 
 Step three corresponds to the `run.msp` file. To run this simulation, use the following command.
 

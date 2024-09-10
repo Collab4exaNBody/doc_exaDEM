@@ -9,10 +9,10 @@ Contact Forces
 Contact forces specifically refer to interactions between particles or entities that come into direct contact with each other within the simulation. These forces arise from physical contact and can include repulsive forces to prevent particle overlap, frictional forces, and cohesive forces between bonded particles.
 
 
-Hooke's Law Operators
+Contact's Law Operators
 ^^^^^^^^^^^^^^^^^^^^^
 
-``Hooke's Law`` in the context of Discrete Element Method (DEM) refers to the principle used to calculate forces between particles based on their relative displacements. In DEM simulations, ``Hooke's Law`` is applied to model ``interactions`` between particles, enabling the simulation of elastic deformation and linear force behaviors within particle-based systems.
+``Contact's Law`` in the context of Discrete Element Method (DEM) refers to the principle used to calculate forces between particles based on their relative displacements. In DEM simulations, ``Contact's Law`` is applied to model ``interactions`` between particles, enabling the simulation of elastic deformation and linear force behaviors within particle-based systems.
 
 
 Variables:
@@ -119,19 +119,19 @@ with:
 
 with **n** normalized vector from particle i to particle j
 
-* Name: ``hooke_sphere`` or ``hooke_polyehdron``
-* Description: These operators compute forces between particles and particles/drivers using the Hooke's law.
+* Name: ``contact_sphere`` or ``contact_polyehdron``
+* Description: These operators compute forces between particles and particles/drivers using the Contact's law.
 * Paremeter:
 
 
 +---------------------+----------------------------------------------------------------------------+
 | `symetric`          | Activate or disable symetric updates (do not disable it with polyhedron).  |
 +---------------------+----------------------------------------------------------------------------+
-| `config`            | Data structure that contains hooke force parameters (rcut, dncut, kn, kt,  | 
-|                     | kr, fc, mu, damp_rate). Type = exaDEM::HookeParams. No default parameter.  |
+| `config`            | Data structure that contains contact force parameters (rcut, dncut, kn, kt,  | 
+|                     | kr, fc, mu, damp_rate). Type = exaDEM::ContactParams. No default parameter.  |
 +---------------------+----------------------------------------------------------------------------+
-| `config_driver`     | Data structure that contains hooke force parameters (rcut, dncut, kn, kt,  |
-|                     | kr, fc, mu, damp_rate). Type = exaDEM::HookeParams.                        |
+| `config_driver`     | Data structure that contains contact force parameters (rcut, dncut, kn, kt,  |
+|                     | kr, fc, mu, damp_rate). Type = exaDEM::ContactParams.                        |
 |                     | This parameter is optional.                                                |
 +---------------------+----------------------------------------------------------------------------+
 | `save_interactions` | Store interactions into the classifier data structure. Default is false.   |
@@ -141,12 +141,12 @@ Here two examples with YAML:
 
 .. code-block:: yaml
 
-   - hooke_sphere:
+   - contact_sphere:
       config: { rcut: 1.1 m , dncut: 1.1 m, kn: 100000, kt: 100000, kr: 0.1, fc: 0.05, mu: 0.9, damp_rate: 0.9}
 
 .. code-block:: yaml
 
-   - hooke_polyhedron:
+   - contact_polyhedron:
       config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.1, damp_rate: 0.9}
       config_driver: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
 
@@ -156,7 +156,7 @@ Here two examples with YAML:
 
 .. note::
 
-  ``Hooke force`` operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
+  ``Contact force`` operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
 
 .. note::
 

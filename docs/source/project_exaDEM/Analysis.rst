@@ -317,13 +317,13 @@ Example with 850,000 octahedra:
 Dump Contact Network
 ^^^^^^^^^^^^^^^^^^^^
 
-This operator is used to visualize the contact network between polyhedra using ParaView. For each active contact/interaction, we assign the value of the normal force calculated in Hooke's law.
+This operator is used to visualize the contact network between polyhedra using ParaView. For each active contact/interaction, we assign the value of the normal force calculated in Contact's law.
 
 
 * `dump_contact_network`:
    * `basedir` : Name of the directory where paraview files will be written, by default this directory is named `network`.
    * `basename` : Name of paraview file, there is no default name.  
-   * `config` : You can redefine HookeParameters, noting that by default, this operator reuses the ComputeHookeForce operator slot. You need to define it if you do a restart for this analysis (i.e. no simulation).
+   * `config` : You can redefine ContactParameters, noting that by default, this operator reuses the ComputeContactForce operator slot. You need to define it if you do a restart for this analysis (i.e. no simulation).
    * `dt` : Time step of the simulation, should be already defined as config.
    * `timestep` : Current simulation time, is defined.
    * `grid_interaction` : List of interaction, defined by default.
@@ -353,7 +353,7 @@ Dump Interaction Data
 ^^^^^^^^^^^^^^^^^^^^^
 
 This feature outputs the main information for each interaction. This feature has been implemented to enable post-simulation analysis.  
-An option has been added to the hooke_polyhedron and hooke_sphere operators to output interaction data as a csv file. To activate it, simply modify the value of ``analysis_interaction_dump_frequency`` in the operator block ``global``. 
+An option has been added to the contact_polyhedron and contact_sphere operators to output interaction data as a csv file. To activate it, simply modify the value of ``analysis_interaction_dump_frequency`` in the operator block ``global``. 
 
 Output files are located in the `ExaDEMOutputDir/ExaDEMAnalysis` folder. For each iteration (XXX) with file writing, a folder containing an interaction file is created, such as:  `Interaction_XXX/Interaction_XXX_MPIRANK.txt`.
 
@@ -474,7 +474,7 @@ YAML example:
 
 **For further information**
 
-This frequency triggers several things. When passing through the ``Hooke Force`` operator, the list of interactions / normal force / tangential force are stored in the classifier. The stress tensor is then calculated in ``stress_tensor`` and written in ``write_stress_tensor``. By default, volume is calculated from the simulation volume using the ``compute_volume`` operator. So, by default, the frequency will trigger the chaining of these three operators: 
+This frequency triggers several things. When passing through the ``Contact Force`` operator, the list of interactions / normal force / tangential force are stored in the classifier. The stress tensor is then calculated in ``stress_tensor`` and written in ``write_stress_tensor``. By default, volume is calculated from the simulation volume using the ``compute_volume`` operator. So, by default, the frequency will trigger the chaining of these three operators: 
 
 .. code-block:: yaml
 

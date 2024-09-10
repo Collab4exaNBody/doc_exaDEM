@@ -66,7 +66,7 @@ The following table provides a glossary of features supported by ``ExaDEM``, cat
     - X
     - YES
     - X
-  * - Hooke Law
+  * - Contact Law
     - YES
     - YES
     - YES

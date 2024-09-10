@@ -77,7 +77,7 @@ This command will display all plugins and related operators. Example:
  + exadem_force_fieldPlugin
    operator    cylinder_wall
    operator    gravity_force
-   operator    hooke_force
+   operator    contact_force
    operator    rigid_surface
  + exadem_ioPlugin
    operator    print_simulation_state

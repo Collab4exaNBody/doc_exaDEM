@@ -39,7 +39,7 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
      - no operator
 
 .. note::
- When adding a ``driver`` to the simulation in ``ExaDEM``, it is essential to define a Hooke parameter list specific to the ``driver`` within the `compute_hooke_interaction` operator.
+ When adding a ``driver`` to the simulation in ``ExaDEM``, it is essential to define a Contact parameter list specific to the ``driver`` within the `compute_contact_interaction` operator.
 
 
 Add a Driver To Your Simulation
@@ -47,7 +47,7 @@ Add a Driver To Your Simulation
 
 In ``ExaDEM``, ``drivers`` are managed differently depending on whether spheres or polyhedra are used in the simulation. Forces are computed per interaction for polyhedra, while forces are computed per sphere:
 
-  * Using spheres, a special contact force is added to handle interactions with drivers in the ``hooke_force_driver`` operator.
+  * Using spheres, a special contact force is added to handle interactions with drivers in the ``contact_force_driver`` operator.
   * Using polyhedra, special interactions (described in the Polyhedra section) are added to the interaction lists. Additionally, you need to specify your driver list in the list of operators called ``setup_drivers``, which is integrated into the default ``ExaDEM`` execution. It's crucial to specify an ID for each driver. If you create a second driver with an already used ID, it will overwrite the previous driver configuration.
 
 
