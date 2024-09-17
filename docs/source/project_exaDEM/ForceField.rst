@@ -10,7 +10,7 @@ Contact forces specifically refer to interactions between particles or entities 
 
 
 Contact's Law Operators
-^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
 
 ``Contact's Law`` in the context of Discrete Element Method (DEM) refers to the principle used to calculate forces between particles based on their relative displacements. In DEM simulations, ``Contact's Law`` is applied to model ``interactions`` between particles, enabling the simulation of elastic deformation and linear force behaviors within particle-based systems.
 
@@ -124,18 +124,18 @@ with **n** normalized vector from particle i to particle j
 * Paremeter:
 
 
-+---------------------+----------------------------------------------------------------------------+
-| `symetric`          | Activate or disable symetric updates (do not disable it with polyhedron).  |
-+---------------------+----------------------------------------------------------------------------+
++---------------------+------------------------------------------------------------------------------+
+| `symetric`          | Activate or disable symetric updates (do not disable it with polyhedron).    |
++---------------------+------------------------------------------------------------------------------+
 | `config`            | Data structure that contains contact force parameters (rcut, dncut, kn, kt,  | 
 |                     | kr, fc, mu, damp_rate). Type = exaDEM::ContactParams. No default parameter.  |
-+---------------------+----------------------------------------------------------------------------+
++---------------------+------------------------------------------------------------------------------+
 | `config_driver`     | Data structure that contains contact force parameters (rcut, dncut, kn, kt,  |
 |                     | kr, fc, mu, damp_rate). Type = exaDEM::ContactParams.                        |
-|                     | This parameter is optional.                                                |
-+---------------------+----------------------------------------------------------------------------+
-| `save_interactions` | Store interactions into the classifier data structure. Default is false.   |
-+---------------------+----------------------------------------------------------------------------+
+|                     | This parameter is optional.                                                  |
++---------------------+------------------------------------------------------------------------------+
+| `save_interactions` | Store interactions into the classifier data structure. Default is false.     |
++---------------------+------------------------------------------------------------------------------+
 
 Here two examples with YAML:
 

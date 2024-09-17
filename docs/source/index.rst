@@ -45,11 +45,5 @@ ExaNB stands for **Exa**\ scale **N**\ -**B**\ ody simulations.
 
    project_exaNBody/adastra.rst
 
-.. _bibliography:
 
-.. toctree::
-   :name: reference
-   :maxdepth: 1
-   :caption: Bibliography
-
-   project_exaNBody/bibliography.rst
+.. bibliography:: ../doc_exaNBody/sources/bibliography.bib
