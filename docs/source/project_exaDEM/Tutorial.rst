@@ -71,10 +71,11 @@ For this simulation, we choose to fill an infinite cylinder centered at (10,3.75
   setup_drivers:
     - add_cylinder:
        id: 0
-       center: [10, 10, 10]
+       center: [10 m, 3.75 m, 10 m]
        axis: [1, 0, 1]
-       radius: 16
+       radius: 16 m
        angular_velocity: [0,0,0]
+
 
 .. note::
 	`setup_drivers` is a default operator integrated in the default execution graph of exaDEM. By default, this operator is set to nop for `no operator`.
@@ -99,32 +100,30 @@ Now, we need to define a spatial zone for particle generation, this zone is the 
     - AREA:
        bounds: [ [ 0 , 0 , 19 ] , [ 20 , 7.5 , 20 ] ]
 
+And we design the domain such as the region AREA is included:
 
-Now we add a first lattice generator operator to initialize the simulation, note that `init_domain` is set to true. In addition, if you want that the periodic condition (y-axis) fit with your `AREA`, this lattice generator should be correctly filled, i.e, `repeats[Y]` * `y_size[Y]` = `bounds[Y]` = 5 * 1.5 = 7.5 .
-
+ 
 .. code-block:: yaml
 
- first_particles:
-   - lattice:
-      init_domain: true
-      structure: SC
-      types: [ 0 ]
-      size: [ 1.5 , 1.5 , 1.5 ]
-      repeats: [ 15, 5 , 15 ]
-      region: AREA
+  domain:
+    cell_size: 1.5 m
+    periodic: [false,true,false]
+    grid_dims: [14, 5, 14]
+    bounds: [[0 m ,0 m, 0 m], [21 m, 7.5 m, 21 m]]
+    expandable: true
 
-The following block consists in created our operator that adds hexapods. Note that `init_domain` is set to false.
+
+Now we add a first lattice generator operator to initialize the simulation. 
 
 .. code-block:: yaml
 
  add_particles:
-   - lattice:
-      init_domain: false
-      structure: SC
-      types: [ 0 ]
-      size: [ 1.5 , 1.5 , 1.5 ]
-      repeats: [ 15 , 5 , 15 ]
-      region: AREA
+    - lattice:
+       structure: SC
+       types: [ 0 ]
+       size: [ 1.5 , 1.5 , 1.5 ]
+       region: AREA
+
 
 Then we need to initialize hexapods in this region (AREA). The default density is `1`, the volume information used to compute the mass is stored in the shape. 
 
@@ -149,7 +148,7 @@ Now, we can define our `input_data` operator:
  input_data:
    - read_shape_file:
       filename: alpha3.shp
-   - first_particles
+   - add_particles
    - init_new_particles
 
 The following block consists in the overload of `add_generated_particles` operator that is set to `nop` by default. Note that this operator is triggered by the frequency `simulation_generator_frequency: 40000` defined in the global operator, default is `-1`.
@@ -191,7 +190,7 @@ First, load the snapshot at time step 1,200,000 and disable generation. It's imp
    - read_shape_file:
       filename: alpha3.shp
    - read_dump_particle_interaction:
-      filename: exaDEM_001200000.dump
+      filename: ExaDEMOutputDir/CheckpointFiles/exaDEM_001200000.dump
    - radius_from_shape
 
 Disable the hexapod generator:
