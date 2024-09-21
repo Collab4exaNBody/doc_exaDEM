@@ -77,12 +77,18 @@ A DEM simulation involving spherical particles falling onto a rigid surface offe
 Example 5: Impose Velocity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, a scenario is simulated where a group of particles with imposed velocity occupies a defined area. As other particles fall into this region, they interact with the moving particles, impacting their trajectories. The simulation provides insights into how moving particles influence the behavior of surrounding particles.
+In this DEM simulation, a scenario is simulated where a group of particles with imposed velocity occupies a defined area. As other particles fall into this region, they interact with the moving particles, impacting their trajectories. The simulation provides insights into how moving particles influence the behavior of surrounding particles. Example: ``impose_velocity_hole``, credit: ``lafourcadp``.  
 
 .. |ex5start| image:: ../_static/impose_velocity_start.png
    :width: 300pt
 
 .. |ex5end| image:: ../_static/impose_velocity_end.png
+   :width: 300pt
+
+.. |ex5start2| image:: ../_static/ExaDEM/impose_vel_hole_start.png
+   :width: 300pt
+
+.. |ex5end2| image:: ../_static/ExaDEM/impose_vel_hole_end.png
    :width: 300pt
 
 +--------------------------+--------------------------+
@@ -91,6 +97,8 @@ In this DEM simulation, a scenario is simulated where a group of particles with 
 | .. centered:: Start      | .. centered:: End        |
 +==========================+==========================+
 | |ex5start|               | |ex5end|                 |
++--------------------------+--------------------------+
+| |ex5start2|              | |ex5end2|                |
 +--------------------------+--------------------------+
 
 Example 6 : Movable wall
