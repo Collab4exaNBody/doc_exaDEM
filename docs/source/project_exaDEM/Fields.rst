@@ -17,6 +17,8 @@ This repertory plugin only provides operators for modifying fields, especially a
    * [double] `density`
 * ``set_homothety``:
    * [double] `homothety`
+* ``set_type``:
+   * [uint32_t] `type`
 * ``set_material_properties``:
    * [uint8_t] `type`
    * [double] `rad`
