@@ -42,6 +42,10 @@ This repertory plugin only provides operators for modifying fields, especially a
    * [Vec3d] `mean`, default = {0,0,0}
 * ``update_inertia``
 
+.. note::
+
+  It is possible to specify the ``region`` slot to apply the following kernel to a special spatial area: ``set_homothety``, ``set_type``, ``set_quaternion``, ``set_rand_velocity``, ``set_material_properties``, ``set_radius``, and ``update_inertia``.
+
 YAML example:
 
 
@@ -69,4 +73,8 @@ In this section, we briefly describe ``field`` mutator operators that relate to 
    * [double] `density`
 * ``inertia_from_shape`` : This operator deduces the particle intertia from the shape constant I/M and the particle mass.
 * ``radius_from_shape`` : This operator computes the maximum radius cutoff in function of shape types and stores the radius cutoff for every particles corresponding to their shape types.
+
+.. note::
+
+  It is possible to specify the ``region`` slot to apply the following kernel to a special spatial area: ``radius_from_shape``.
 
