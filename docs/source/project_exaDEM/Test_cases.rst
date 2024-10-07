@@ -344,3 +344,26 @@ This simulation example illustrates the gravitational drop of a set of 1.3 milli
 +--------------------------+--------------------------+
 | |ex5pstartfull|          | |ex5pendfull|            |
 +--------------------------+--------------------------+
+
+
+Show-cases
+----------
+
+On a laptop or single node
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Simulation of 48,000 spheres on rotating drum after reading an stl file. This simulation takes around two hours on a laptop of 12 cores.
+
+.. image:: ../_static/cyl_stl.gif
+   :align: center
+
+
+Simulation of 140,000 spheres falling into a cell. A blade is then activated with rotational and translational motion. A This simulation takes around 4-5 days on a single node of 32 cores.
+
+.. image:: ../_static/pale-0.5.gif
+   :align: center
+
+On a supercomputer
+^^^^^^^^^^^^^^^^^^
+
+TODO
