@@ -28,11 +28,14 @@ This class is defined by its:
 * m_obb_edges: List of ``OBB`` for each edge
 * m_obb_faces: List of ``OBB`` for each face
 
+It's important to note that the maximum number of vertices per particle shape is set to 8 by default. This is because the vertex positions for each particle are stored in an exaDEM “Array Of Vec3d” field, which is why the size is set at compile time. To change this value to, you can specify this number by adding at compile time: ``-DEXADEM_MAX_VERTICES=N``.
+
 .. note::
 	OBB (Oriented Bounded Boxes) are enlarged of the Minskowki radius.
 
 .. note::
 	By default, every shapes are stored in a list of shapes, and the maximum cut-off radius are deduced from these shapes. Note that a cut-off radius that is too large can drastically reduce simulation performance. That's why, do not put big shapes using the classical way (i.e. ``read_shape_file``), big shapes should be defined as ``drivers``.
+	
 
 Shape example (octahedron, 6 vertices, 12 edges and 8 faces): 
 	
