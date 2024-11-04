@@ -21,7 +21,6 @@ with ``W`` the array of weights, ``i`` is the cell id, :math:`I_i` the interacti
 .. list-table:: F values
    :widths: 10 25 65
    :header-rows: 1
-   :centered:
 
    * - Value
      - Type 
