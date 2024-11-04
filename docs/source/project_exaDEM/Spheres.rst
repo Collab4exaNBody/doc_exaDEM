@@ -1,5 +1,5 @@
-Spheres
-=======
+Spherical Particle
+==================
 
 In this section, we will describe the various information used to build simulations with spheres particles. Note that ``exaDEM::Interaction`` and ``Shape`` are describe in the section : Polyhedron.
 
