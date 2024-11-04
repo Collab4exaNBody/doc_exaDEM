@@ -13,13 +13,12 @@ Cost Model
 The weight associated with each cell used for load distribution using the RCB method is as follows: 
 
 .. math::
+   W_i=1+3*P_i+\sum_{j \in {0,...,N_i}[F(I_i[j].type)]
 
-  W_i=1+3*P_i+\sum_{j \in {0,...,N_i}[F(I_i[j].type)]
-
-with ``W`` the array of weights, ``i`` is the cell id, :math:`I_i` the interactions into the cell ``i`` , :math:`P_i` the number of particle into the cell ``i``, :math:`N_i` is number of interactions and ``F`` is the cost function associated to the interaction type.
+with :math:`W_i` the array of weights, ``i`` is the cell id, :math:`I_i` the interactions into the cell ``i`` , :math:`P_i` the number of particle into the cell ``i``, :math:`N_i` is number of interactions and ``F`` is the cost function associated to the interaction type.
 
 .. list-table:: F values
-   :widths: 10 25 65
+   :widths: 20 25 20
    :header-rows: 1
 
    * - Value
