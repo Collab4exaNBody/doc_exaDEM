@@ -10,6 +10,63 @@ Domain Decomposition
 Cost Model
 ----------
 
+The weight associated with each cell used for load distribution using the RCB method is as follows: 
+
+.. math::
+
+  W_i=1+3*P_i+\sum_{j \in {0,...,N_i}[F(I_i[j].type)]
+
+with ``W`` the array of weights, ``i`` is the cell id, :math:`I_i` the interactions into the cell ``i`` , :math:`P_i` the number of particle into the cell ``i``, :math:`N_i` is number of interactions and ``F`` is the cost function associated to the interaction type.
+
+.. list-table:: F values
+   :widths: 10 25 65
+   :header-rows: 1
+   :centered:
+
+   * - Value
+     - Type 
+     - F(Value)
+   * - 0
+     - Vertex - Vertex
+     - 1
+   * - 1
+     - Vertex - Edge
+     - 3
+   * - 2
+     - Vertex - Face
+     - 5
+   * - 3
+     - Edge - Edge
+     - 4
+   * - 4
+     - Vertex - Cylinder
+     - 1
+   * - 5
+     - Vertex - Surface
+     - 1
+   * - 6
+     - Vertex - Ball
+     - 1
+   * - 7
+     - Vertex - Vertex (STL)
+     - 1
+   * - 8
+     - Vertex - Edge (STL)
+     - 3
+   * - 9
+     - Vertex - Face (STL)
+     - 5
+   * - 10
+     - Edge - Edge (STL)
+     - 4
+   * - 11
+     - Vertex (STL) - Edge
+     - 3
+   * - 12
+     - Vertex (STL) - Face
+     - 5
+
+
 Thread Parallelization
 ^^^^^^^^^^^^^^^^^^^^^^
 
