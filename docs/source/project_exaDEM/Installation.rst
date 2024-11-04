@@ -1,7 +1,12 @@
-Installation
-============
+Installing ExaDEM
+=================
 
-Installation With CMAKE
+``ExaDEM`` provides flexible installation methods to meet various user and developer needs. For user usage, the ``Spack`` package manager offers a straightforward installation process, ideal for user-only. 
+However, for those who intend to develop or customize ``ExaDEM``, ``CMake`` is recommended, as it supports both `CPU` and `GPU` configurations (`GPU` support is not available with ``Spack``).
+
+Choose the method below that best suits your setup and follow the instructions for a smooth installation experience.
+
+Installation With CMake
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 Minimal Requirements
