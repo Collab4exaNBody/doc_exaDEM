@@ -1,5 +1,5 @@
-Fields
-======
+Particle Fields
+===============
 
 In this section, we provide an overview of ``ExaDEM`` operators associated with ``field`` mutation. This section is divided into two subsections: ``field`` operators applicable to particles of any type, and ``field`` operators specifically designed for polyhedra.
 
