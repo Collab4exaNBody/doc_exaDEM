@@ -2,18 +2,6 @@
 ExaDEM & ExaNBody Documentation
 ###############################
 
-ExaNB stands for **Exa**\ scale **N**\ -**B**\ ody simulations.
-
-.. _exanb:
-
-.. toctree::
-   :name: exanb_framework
-   :numbered:
-   :maxdepth: 2
-   :caption: ExaNB Framework
-
-   project_exaNBody/index.rst
-
 .. _exdem:
 
 .. toctree::
@@ -34,6 +22,17 @@ ExaNB stands for **Exa**\ scale **N**\ -**B**\ ody simulations.
    project_exaDEM/Analysis.rst
    project_exaDEM/Parallelization.rst
    project_exaDEM/Tutorial.rst
+
+.. _exanb:
+
+.. toctree::
+   :name: exanb_framework
+   :numbered:
+   :maxdepth: 2
+   :caption: ExaNB Framework
+
+   project_exaNBody/index.rst
+
              
 .. _adastra:
 
