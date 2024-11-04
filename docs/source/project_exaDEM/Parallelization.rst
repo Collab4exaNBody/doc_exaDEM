@@ -14,7 +14,7 @@ The weight associated with each cell used for load distribution using the RCB me
 
 .. math::
 
-   W_i=1+3*P_i+\sum_{j \in {0,...,N_i}}[F(I_i[j].type)]
+   W_i=1+3.P_i+\sum_{j \in {0,...,N_i}}[F(I_i[j].type)]
 
 with :math:`W_i` the array of weights, ``i`` is the cell id, :math:`I_i` the interactions into the cell ``i`` , :math:`P_i` the number of particle into the cell ``i``, :math:`N_i` is number of interactions and ``F`` is the cost function associated to the interaction type.
 
@@ -75,8 +75,8 @@ GPU Support
 Benchmarks
 ^^^^^^^^^^
 
-Rotating Drum (Sphere)
-----------------------
+Rotating Drum - CPU (Sphere)
+----------------------------
 
 .. |bench1-picture| image:: ../_static/mpi-dem-example-100M-modified.png
 .. |bench1-picture-mpi| image:: ../_static/mpi-dem-example-100M-mpi.png
@@ -133,6 +133,25 @@ Additionally, the employed contact force model has a low arithmetic intensity, a
 
    Operator time ratios at different paralellization scales.
 
+
+Rotating Drum - GPU (Polyhedron)
+--------------------------------
+
+This example is defined in the repository: https://github.com/Collab4exaNBody/exaDEM-benchmark/tree/main/rotating-drum-poly . This simulation is run on an a100 GPU using 32 cores. Result format: Loop time (Update Particles/Force Field).
+
+.. list-table:: GPU Benchmarks
+   :widths: 20 40 40
+   :header-rows: 1
+
+   * - Version
+     - Case 10k 
+     - Case 80K
+   * - v1.0.1 (06/24)
+     - 28.1(17.1/6.8)
+     - 71.6(37.8/26.0)
+   * - v1.0.2 (11/24)
+     - 23.3(17.7/4.1)
+     - 48.9(33.0/13.8)
 
 Polyhedra Into A Box
 --------------------
