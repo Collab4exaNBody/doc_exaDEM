@@ -53,10 +53,11 @@ Run CMake to configure the ExaDEM build, specifying that ``CUDA`` support should
 		
    cmake ../exaDEM -DXNB_BUILD_CUDA=OFF
 
-
 .. note::
+  To install with CUDA with ``sm_80``: ``cmake ../exaDEM -DXNB_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80``
 
-  To install with CUDA with `sm_80`: `cmake ../exaDEM -DXNB_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80`
+.. warning::
+  It's important to note that the maximum number of vertices per particle shape is set to 8 by default. To change this value to , you can specify this number by adding : ``-DEXADEM_MAX_VERTICES=N``.
 
 Build ``ExaDEM`` using the make command with a specified number of parallel jobs (e.g., -j 4 for 4 parallel jobs):
 
@@ -113,11 +114,6 @@ First get the ``spack`` repository in exaDEM directory and it to spack. It conta
    cd exaDEM
    spack repo add spack_repo
 
-.. note::
-  
-  Current variante(s):
-  
-  * +cuda: Add GPU support
 
 Second install ``ExaDEM`` (this command will install ``cmake``, ``yaml-cpp`` and ``exanbody``).
 
