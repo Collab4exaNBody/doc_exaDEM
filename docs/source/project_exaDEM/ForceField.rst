@@ -3,11 +3,14 @@ Force Field
 
 The force field encompasses a broader set of operators and mechanisms responsible for computing forces acting on particles within the particle environment. It includes various types of forces such as gravitational forces, contact forces, and other external influences that affect particle dynamics.
 
-Contact Forces
+Contact Force Laws
 --------------
 
-Contact forces specifically refer to interactions between particles or entities that come into direct contact with each other within the simulation. These forces arise from physical contact and can include repulsive forces to prevent particle overlap, frictional forces, and cohesive forces between bonded particles.
+In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variable. The normal and tangential forces $\\mathbf{f_n}$ and $\\mathbf{f_t}$ are
+expressed in the local contact frame $(\\mathbf{n},\\mathbf{t},\\mathbf{s})$ as a function of the overlaps and tangential displacements.
 
+Contact forces specifically refer to interactions between particles or entities that come into direct contact with each other within the simulation. These forces arise from physical contact and can include repulsive forces to prevent particle overlap, frictional forces, and cohesive forces between bonded particles.
+The total interaction force 
 
 Contact's Law Operators
 ^^^^^^^^^^^^^^^^^^^^^^^
