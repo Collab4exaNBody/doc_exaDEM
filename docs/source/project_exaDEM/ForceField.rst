@@ -6,11 +6,15 @@ The force field encompasses a broader set of operators and mechanisms responsibl
 Contact Force Laws
 --------------
 
-In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variable. The normal and tangential forces $\\mathbf{f_n}$ and $\\mathbf{f_t}$ are
-expressed in the local contact frame $(\\mathbf{n},\\mathbf{t},\\mathbf{s})$ as a function of the overlaps and tangential displacements.
+In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variable. The total contact force between particle $i$ and particle $j$ is giveng by 
 
-Contact forces specifically refer to interactions between particles or entities that come into direct contact with each other within the simulation. These forces arise from physical contact and can include repulsive forces to prevent particle overlap, frictional forces, and cohesive forces between bonded particles.
-The total interaction force 
+.. math::
+ \textbf{f}_{ij} = f_n \textbf{n}  +  \textbf{f_t}
+
+where $\\textbf{f}_n$ and $\\textbf{f}_t$ are the normal and tangential forces expressed in the local contact frame $(\\textbf{n},\\textbf{t},\\textbf{s})$ as a function of the overlaps and tangential displacements. These forces are calculated from force laws which generally describe frictional contact interactions. An important feature of DEM is to allow the particles to overlap. This overlap $\\delta_n$ represents a normal strain localized in the vicinity of the contact point. A simple linear relation is assumed between notrmal contact force and $\\delta_n$ . This is consistent with the fact that the overlaps allow for a penalty-based explicit formulation of particle motions, i.e. the elastic repulsion force is mobilized to prevent two penalize the overlap. The condition of particle undeformability implies that the overlaps must stay small compared to particle size. In this linear approximation, the normal force is given by 
+
+
+ 
 
 Contact's Law Operators
 ^^^^^^^^^^^^^^^^^^^^^^^
