@@ -6,12 +6,12 @@ The force field encompasses a broader set of operators and mechanisms responsibl
 Contact Force Laws
 --------------
 
-In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variable. The total contact force between particle $i$ and particle $j$ is giveng by 
+In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variable. The total contact force between particle :math:`i` and particle :math:`j` is giveng by 
 
 .. math::
  \textbf{f}_{ij} = f_n \textbf{n}  +  \textbf{f_t}
 
-where $\\textbf{f}_n$ and $\\textbf{f}_t$ are the normal and tangential forces expressed in the local contact frame $(\\textbf{n},\\textbf{t},\\textbf{s})$ as a function of the overlaps and tangential displacements. These forces are calculated from force laws which generally describe frictional contact interactions. An important feature of DEM is to allow the particles to overlap. This overlap $\\delta_n$ represents a normal strain localized in the vicinity of the contact point. A simple linear relation is assumed between notrmal contact force and $\\delta_n$ . This is consistent with the fact that the overlaps allow for a penalty-based explicit formulation of particle motions, i.e. the elastic repulsion force is mobilized to prevent two penalize the overlap. The condition of particle undeformability implies that the overlaps must stay small compared to particle size. In this linear approximation, the normal force is given by 
+where :math:`f_n` and :math:`\textbf{f}_t` are the normal component and tangential forces force expressed in the local contact frame :math:`(\textbf{n},\textbf{t},\textbf{s})` as a function of the overlaps and tangential displacements. These forces are calculated from force laws which generally describe frictional contact interactions. An important feature of DEM is to allow the particles to overlap. This overlap :math:`\delta_n` represents a normal strain localized in the vicinity of the contact point. A simple linear relation is assumed between notrmal contact force and :math:`\delta_n` . This is consistent with the fact that the overlaps allow for a penalty-based explicit formulation of particle motions, i.e. the elastic repulsion force is mobilized to prevent two penalize the overlap. The condition of particle undeformability implies that the overlaps must stay small compared to particle size. In this linear approximation, the normal force is given by 
 
 
  
