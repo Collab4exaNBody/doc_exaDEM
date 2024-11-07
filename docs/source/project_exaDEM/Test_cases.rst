@@ -123,7 +123,7 @@ In this DEM simulation, a cluster of spherical particles is compacted against a 
 Example 6 : Using a STL Mesh
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, a cluster of spherical particles is  a cluster of particles falls onto an stl mesh and into a box. This case study highlights the use of meshes containing numerous facets.
+In this DEM simulation, a cluster of spherical particles falls onto an .stl mesh and into a box. This case study highlights the use of meshes containing numerous facets and allows to compute simulation from all geometries coming from CAD or graphic design.
 
 .. |ex7start| image:: ../_static/mesh_stl_start.png
    :width: 300pt
@@ -235,7 +235,7 @@ In this example, we simulate the generation of 100 new polyhedra at every 45000 
 Example 2 : Octahedra in Rotating Drum
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, we observe the dynamics of 125 octahedra as they descend into a rotating drum. The interaction between these discrete particles, governed by defined the Contact law. The second test case contains 25,000 octahedra (yellow) and 25,000 hexapods (blue).
+In this DEM simulation, we observe the dynamics of 125 octahedra as they descend into a rotating drum. The second test case contains 25,000 octahedra (yellow) and 25,000 hexapods (blue).
 
 .. |ex2pstart| image:: ../_static/octahedra_rotating_drum_start.png
    :width: 250pt
@@ -320,7 +320,7 @@ This simulation example illustrates the use of stl file with polyhedra. In this 
 Example 5 : Funnel
 ^^^^^^^^^^^^^^^^^^
 
-This simulation example illustrates the gravitational drop of a set of 1.3 million hexapods into a funnel. The funnel is represented using a mesh of faces (STL mesh). Interactions between spheres, as well as between spheres and the funnel, are modeled using Contact's law.
+This simulation example illustrates the gravitational drop of a set of 1.3 million hexapods into a funnel. The funnel is represented using a mesh of faces (STL mesh).
 
 .. |ex5pstarthalf| image:: ../_static/ExaDEM/funnel_half_start.png
    :width: 250pt
@@ -352,7 +352,7 @@ Show-cases
 On a laptop or single node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Simulation of 48,000 spheres on rotating drum after reading an stl file. This simulation takes around two hours on a laptop of 12 cores.
+Simulation of 48,000 spheres on rotating drum after reading an .stl file. This simulation takes around two hours on a laptop of 12 cores.
 
 .. image:: ../_static/cyl_stl.gif
    :align: center
