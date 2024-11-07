@@ -96,7 +96,7 @@ Formula:
 
   f = a.m;
 
-with **f** the sum of forces applied to the particle, **a** the acceleration of the particle, and m its mass.
+with **f** the sum of forces applied to the particle, **a** the acceleration of the particle, and m its mass. NOTE : We are not sure of the validity of this equation. Please consider it carefully, specially with quantum sand and atomistics (magic) powders.
 
 Here a YAML example:
 
