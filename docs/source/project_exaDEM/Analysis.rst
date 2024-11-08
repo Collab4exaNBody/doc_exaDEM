@@ -314,6 +314,40 @@ Example with 850,000 octahedra:
 .. note::
 	This operator is rather limited in terms of visualization, so we now advise you to use option 2, which offers more possibilities (field display) and less memory-intensive files. 
 
+
+Dump Paraview With OBBs
+^^^^^^^^^^^^^^^^^^^^^^^
+
+This operator allows you to display OBBs around polyhedra in paraview. These files are stored in different files from those used to store polyhedron information. By default, these files are available in the directory: `ExaDEMOutputDir/ParaviewOutputFiles/` under the format `obb_%010d.pvtp`. The fields associated with OBBs are the polyhedron id and type.
+
+* `write_paraview_obb_particle`:
+   * `basedir` : Name of the directory where paraview files will be written
+   * `basename` : Name of paraview file, there is no default name. Default is "obb".
+   * `timestep` : Current simulation time, is defined.
+
+.. note::
+  This operator is called after `write_paraview_generic` and is trigerred by `simulation_paraview_frequency` called into the global operator.
+
+.. warning::
+  This operator doesn't work for simulations with spheres.
+
+YAML example:
+
+.. code-block:: yaml
+
+  - write_paraview_obb_particle
+
+Output example:
+
+.. image:: ../_static/obb_cylinder_start.png
+   :width: 350pt
+   :align: center
+
+.. image:: ../_static/obb_cylinder_end.png
+   :width: 350pt
+   :align: center
+
+
 Dump Contact Network
 ^^^^^^^^^^^^^^^^^^^^
 
