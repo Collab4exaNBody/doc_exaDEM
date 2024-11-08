@@ -45,7 +45,7 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
 Add a Driver To Your Simulation
 -------------------------------
 
-In ``ExaDEM``, ``drivers`` are managed differently depending on whether spheres or polyhedra are used in the simulation. Forces are computed per interaction for polyhedra, while forces are computed per sphere:
+In ``ExaDEM``, ``drivers`` are managed differently depending on whether spheres or polyhedra are used in the simulation. Forces are computed per interaction for polyhedra, while forces are computed and summed per sphere body:
 
   * Using spheres, a special contact force is added to handle interactions with drivers in the ``contact_force_driver`` operator.
   * Using polyhedra, special interactions (described in the Polyhedra section) are added to the interaction lists. Additionally, you need to specify your driver list in the list of operators called ``setup_drivers``, which is integrated into the default ``ExaDEM`` execution. It's crucial to specify an ID for each driver. If you create a second driver with an already used ID, it will overwrite the previous driver configuration.
@@ -56,10 +56,10 @@ Driver Descriptions
 
 In this section, we provide brief descriptions of available ``drivers``. Please note that a test case is defined for each ``driver`` in the ``example`` directory.
 
-Rotattion Drum / Cylinder
+Rotating Drum / Cylinder
 -------------------------
 
-The rotation drum or cylinder driver represents an infinite cylinder along a specified axis. It is defined by parameters including its center, velocity, axis, and angular velocity.
+The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its center, velocity, axis, and angular velocity.
 
 .. |ex1end| image:: ../_static/rotating_drum_end.png
    :width: 300pt
@@ -150,7 +150,7 @@ YAML example:
 STL Mesh
 --------
 
-The STL Mesh driver is constructed from an STL (Stereolithography) file to create a mesh of faces. This approach enables the rapid setup of complex geometries within the simulation environment. It's important to note that faces in an STL mesh are processed as a sphere polyhedron, meaning a small layer is added around each face.
+The STL Mesh driver is constructed from an .STL (Stereolithography) file to create a mesh of faces. This approach enables the rapid setup of complex geometries within the simulation environment. It's important to note that faces in an STL mesh are processed as a sphere polyhedron, meaning a small layer is added around each face.
 
 .. |ex4pendmixte| image:: ../_static/ExaDEM/stl_mixte_end.png
    :width: 250pt
