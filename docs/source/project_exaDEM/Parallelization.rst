@@ -89,7 +89,7 @@ This benchmark has been presented in 2023 within the paper :cite:`Carrard_2024` 
 
 Description:
 
-Different OpenMP/Mpi con␜gurations (number of cores/threads per ``mpi`` process) have been tested to balance multi-level parallelism. 
+Different OpenMP/Mpi conigurations (number of cores/threads per ``mpi`` process) have been tested to balance multi-level parallelism. 
 Both simulations were instrumented during 1,000 representative iterations. 
 The performance of ``ExaDEM`` was evaluated using up to 256 cluster nodes, built on bi-socket 64-core AMD EPYC ``Milan`` 7763 processors running at 2.45 GHz and equipped with 256 GB of RAM.
 
