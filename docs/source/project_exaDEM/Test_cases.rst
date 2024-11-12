@@ -10,7 +10,7 @@ Example Using Spheres
 Example 1: Rotating drum
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-A DEM simulation of a rotating drum involves modeling the movement of spherical particles within a drum container as it rotates. Through this simulation, we can observe how particles interact, collide, and move in response to the drum's motion. This provides insights into phenomena like particle segregation, convection currents, and mixing patterns, contributing to improved understanding of granular material behavior in rotational scenarios. A second scenario without periodic conditions is available, with two rigid surfaces rotating at the same speed as the drum.  
+A DEM simulation of a set of spheres in a periodic rotating drum. Through this simulation, we can observe how particles interact, collide, and move in response to the drum's motion. This provides insights into phenomena like particle segregation, convection currents, and mixing patterns, contributing to improved understanding of granular material behavior in rotational scenarios. A second scenario without periodic conditions is available, with two rigid surfaces fixed to the end of the drum.  
 
 .. |ex1start| image:: ../_static/rotating_drum_start.png
    :width: 300pt
@@ -34,10 +34,10 @@ A DEM simulation of a rotating drum involves modeling the movement of spherical 
 | |ex1npstart|             | |ex1npend|               |
 +--------------------------+--------------------------+
 
-Example 3: Rigid stress
+Example 2: Rigid stress
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-In a DEM simulation under radial stress, particles are exposed to pressure from a central point, causing an outward force in all directions. Using the Discrete Element Method (DEM) to simulate this scenario allows us to analyze how particles within a system react to the applied radial stress. The simulation offers insights into particle rearrangements, contact forces, and structural changes, giving us a deeper understanding of granular material behavior under radial loading conditions.
+In a DEM simulation under radial stress, particles are exposed to an attractive force from a central point. This scenario allows us to analyze how particles within a system react to the applied radial stress. The simulation offers insights into particle rearrangements, contact forces, and structural changes, giving us a deeper understanding of granular material behavior under radial loading conditions.
 
 .. |ex3start| image:: ../_static/radial_stress_start.png
    :width: 300pt
@@ -55,10 +55,10 @@ In a DEM simulation under radial stress, particles are exposed to pressure from 
 
 .. warning:: This example is currently disabled. 
 
-Example 4: Rigid surface
+Example 3: Rigid surface
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-A DEM simulation involving spherical particles falling onto a rigid surface offers a virtual exploration of particle dynamics in a gravity-driven scenario. This simulation captures the behavior of individual spherical particles as they descend and interact with a solid surface below.
+A DEM simulation involving spherical particles falling onto a rigid surface offers a virtual exploration of particle dynamics in a gravity-driven scenario. This simulation captures the behavior of individual spherical particles as they fall and interact with a solid surface below.
 
 .. |ex4start| image:: ../_static/rigid_surface_start.png
    :width: 300pt
@@ -74,10 +74,10 @@ A DEM simulation involving spherical particles falling onto a rigid surface offe
 | |ex4start|               | |ex4end|                 |
 +--------------------------+--------------------------+
 
-Example 5: Impose Velocity
+Example 4: Impose Velocity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, a scenario is simulated where a group of particles with imposed velocity occupies a defined area. As other particles fall into this region, they interact with the moving particles, impacting their trajectories. The simulation provides insights into how moving particles influence the behavior of surrounding particles. Example: ``impose_velocity_hole``, credit: ``lafourcadp``.  
+In this DEM simulation, a scenario is simulated where a group of particles with imposed velocity occupies a defined area. As other particles fall into this region, they interact with the moving particles, impacting their trajectories. The simulation provides insights into how moving driver-particles influence the behavior of surrounding particles. Example: ``impose_velocity_hole``, credit: ``lafourcadp``.  
 
 .. |ex5start| image:: ../_static/impose_velocity_start.png
    :width: 300pt
@@ -101,10 +101,10 @@ In this DEM simulation, a scenario is simulated where a group of particles with 
 | |ex5start2|              | |ex5end2|                |
 +--------------------------+--------------------------+
 
-Example 6 : Movable wall
-^^^^^^^^^^^^^^^^^^^^^^^^
+Example 5: Movable wall
+^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, a cluster of spherical particles is constrained against a rigid surface. A piston is introduced to apply a steadily increasing stress that linearly evolves over time. This simulation captures the dynamics as the piston's force gradually grows. As the piston imparts its stress, the particle block undergoes deformation and stress propagation. 
+In this DEM simulation, a cluster of spherical particles is compacted against a rigid surface. A piston is introduced to apply a steadily increasing stress that linearly evolves over time. This simulation captures the dynamics as the piston's force gradually grows. As the piston imparts its stress, the particle block undergoes deformation and stress propagation. 
 
 .. |ex6start| image:: ../_static/movable_wall_start.png
    :width: 300pt
@@ -120,10 +120,10 @@ In this DEM simulation, a cluster of spherical particles is constrained against 
 | |ex6start|               | |ex6end|                 |
 +--------------------------+--------------------------+
 
-Example 7 : Using a STL Mesh
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Example 6: Using a STL Mesh
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, a cluster of spherical particles is  a cluster of particles falls onto an stl mesh and into a box. This case study highlights the use of meshes containing numerous facets.
+In this DEM simulation, a cluster of spherical particles falls onto an .stl mesh and into a box. This case study highlights the use of meshes containing numerous facets and allows to compute simulation from all geometries coming from CAD or graphic design.
 
 .. |ex7start| image:: ../_static/mesh_stl_start.png
    :width: 300pt
@@ -139,8 +139,8 @@ In this DEM simulation, a cluster of spherical particles is  a cluster of partic
 | |ex7start|               | |ex7end|                 |
 +--------------------------+--------------------------+
 
-Example 9 : Particle Generation With RSA Algorithm
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Example 7: Particle Generation With RSA Algorithm
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In this DEM simulation, a cluster of 287,642 spherical particles has been generated by the parallelized `rsa` algorithm :cite:`JOSIEN2024109354`. Then, particles fall by gravity in a drum.
 
@@ -159,8 +159,8 @@ In this DEM simulation, a cluster of 287,642 spherical particles has been genera
 | |ex8start|               | |ex8end|                 |
 +--------------------------+--------------------------+
 
-Example 10 : Jet
-^^^^^^^^^^^^^^^^
+Example 8: Jet
+^^^^^^^^^^^^^^
 
 
 This example demonstrates the application of a velocity field to spheres based on a Cartesian grid projection. Although it does not represent a physical scenario, a geyser-like effect has been simulated using a cylindrical shape, directing the particle velocities towards a specified speed. Future developments will involve applying non-uniform velocity fields to simulate more complex fluid configurations.
@@ -188,8 +188,8 @@ This example demonstrates the application of a velocity field to spheres based o
 | |ex10startfull|          | |ex10endfull|            |
 +--------------------------+--------------------------+
 
-Example 11 : Mirror Boundary Conditions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Example 9: Mirror Boundary Conditions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This example tests the mirror conditions available in exaNBody. Although these conditions are not directly applicable (" not physics "), because all fields are copied identically (without processing/filtering) at each time step in the ghost cells (e.g. velocity, moments), except for positions (axial symmetry). This example highlights this functionality, and could potentially be coupled with other operators to develop new boundary conditions (e.g. resetting velocities to 0 to model a rigid surface). This example involves dropping 33120 spheres, adding mirror boundary conditions in all directions and letting them fall by gravity. 
 
@@ -235,7 +235,7 @@ In this example, we simulate the generation of 100 new polyhedra at every 45000 
 Example 2: Octahedra in Rotating Drum
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, we observe the dynamics of 125 octahedra as they descend into a rotating drum. The interaction between these discrete particles, governed by defined the Contact law. The second test case contains 25,000 octahedra (yellow) and 25,000 hexapods (blue).
+In this DEM simulation, we observe the dynamics of 125 octahedra as they descend into a rotating drum. The second test case contains 25,000 octahedra (yellow) and 25,000 hexapods (blue).
 
 .. |ex2pstart| image:: ../_static/octahedra_rotating_drum_start.png
    :width: 250pt
@@ -317,10 +317,10 @@ This simulation example illustrates the use of stl file with polyhedra. In this 
 +--------------------------+--------------------------+
 
 
-Example 5 : Funnel
-^^^^^^^^^^^^^^^^^^
+Example 5: Funnel
+^^^^^^^^^^^^^^^^^
 
-This simulation example illustrates the gravitational drop of a set of 1.3 million hexapods into a funnel. The funnel is represented using a mesh of faces (STL mesh). Interactions between spheres, as well as between spheres and the funnel, are modeled using Contact's law.
+This simulation example illustrates the gravitational drop of a set of 1.3 million hexapods into a funnel. The funnel is represented using a mesh of faces (STL mesh).
 
 .. |ex5pstarthalf| image:: ../_static/ExaDEM/funnel_half_start.png
    :width: 250pt
@@ -352,7 +352,7 @@ Show-cases
 On a laptop or single node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Simulation of 48,000 spheres on rotating drum after reading an stl file. This simulation takes around two hours on a laptop of 12 cores.
+Simulation of 48,000 spheres on rotating drum after reading an .stl file. This simulation takes around two hours on a laptop of 12 cores.
 
 .. image:: ../_static/cyl_stl.gif
    :align: center

@@ -96,7 +96,7 @@ Formula:
 
   f = a.m;
 
-with **f** the sum of forces applied to the particle, **a** the acceleration of the particle, and m its mass.
+with **f** the sum of forces applied to the particle, **a** the acceleration of the particle, and m its mass. 
 
 Here a YAML example:
 

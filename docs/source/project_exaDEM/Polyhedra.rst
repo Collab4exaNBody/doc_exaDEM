@@ -6,20 +6,20 @@ In this section, we will describe the various information used to build simulati
 Overview
 ^^^^^^^^
 
-The polyhedra implemented in ``ExaDEM`` are sphero-polyhedra, i.e. the vertices of the polyhedra are considered as spheres. To achieve this, ``ExaDEM`` incorporates many of the features of the ``Rockable`` DEM code developed at CNRS (https://github.com/richefeu/rockable, https://richefeu.github.io/rockable/quickStart.html). ``ExaDEM`` relies in particular on a ``Shape`` class containing information about the polyhedron (vertex, edge, face and minskowski radius) and an interaction class used to qualify a contact between polyhedra.
+The polyhedra implemented in ``ExaDEM`` are sphero-polyhedra, i.e. the vertices of the polyhedra are considered as spheres and the edges as cylinders. To achieve this, ``ExaDEM`` incorporates many of the features of the ``Rockable`` DEM code developed at CNRS (https://github.com/richefeu/rockable, https://richefeu.github.io/rockable/quickStart.html). ``ExaDEM`` relies in particular on a ``Shape`` class containing information about the polyhedron (vertex, edge, face and minskowski radius) and an interaction class used to qualify a contact between polyhedra.
 
 
 Shape
 ^^^^^
 
-The ``Shape`` class provides all the information on vertices, edges and faces, but it also provides other support to speed up calculations, such as ``OBB`` sets for each type of information. ``ExaDEM`` provides many features linked to the ``Shape`` class, such as reading ``.shp`` files (the format used by ``Rockable``), as well as other functions such as outputting a ``.vtk`` file of the shape in question.
+The ``Shape`` class provides all the information on vertices, edges and faces, but it also provides other support to speed up calculations, such as ``OBB`` sets for each type of information. ``ExaDEM`` provides many features linked to the ``Shape`` class, such as reading ``.shp`` files (the format used by ``Rockable``), as well as other functions such as outputting a ``.vtk`` file of the shape.
 
 This class is defined by its:
 
 * m_vertices: List of vertices
 * m_edges: List of edges
 * m_faces: List of fases
-* m_radius: Minskowki radius
+* m_radius: Minskowki radius (radius of the vertices)
 * m_volume: Volume
 * m_inertia_on_mass: Intertia coeff
 * m_name: name, default is undefined
@@ -183,9 +183,9 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 
 **Interaction Class Usage:**
 
-To retrieve data associated with a specific interaction between two polyhedra, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. Theses informations are then utilized within simulation computations to accurately model interactions between polyhedra, considering the interaction type.
+To retrieve data associated with a specific interaction between two polyhedra, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. Theses informations are then used within simulation computations to accurately model interactions between polyhedra, considering the interaction type.
 
-These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_polyhedron`` operator and subsequently processed in the ``contact_polyhedron`` operator.
+These interactions are used as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_polyhedron`` operator and subsequently processed in the ``contact_polyhedron`` operator.
 
 
 In summary, the ``exaDEM::Interaction`` class provides a crucial data structure for managing interactions between polyhedra and drivers within DEM simulations. By storing information such as cell numbers, positions, and interaction types, it enables precise modeling of physical interactions between simulated objects.
