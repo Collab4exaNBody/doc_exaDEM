@@ -295,15 +295,16 @@ Result for a simulation of 1000 Octahedra falling in a cylinder coloried by thei
    :align: center
 
 * Option 2: write_paraview_polyhedra
-   * `basedir` : Name of the directory where paraview files will be written, by default this directory is named `polyhedra_paraview`.
-   * `basename` : Name of paraview file, there is no default name.
+   * `filename` : Name of paraview file, there is no default name. Note that in `ExaDEM`, filename is defined into the default execution stream.
 
 YAML example:
 
 .. code-block:: yaml
 
-  - write_paraview_polyhedra:
-     basename: polyhedra
+  particle_write_paraview_generic:
+    - write_paraview_polyhedra
+    - write_paraview_obb_particles
+
 
 Example with 850,000 octahedra:
 
@@ -312,7 +313,7 @@ Example with 850,000 octahedra:
    :align: center
 
 .. note::
-	This operator is rather limited in terms of visualization, so we now advise you to use option 2, which offers more possibilities (field display) and less memory-intensive files. 
+	This operator is rather limited in terms of visualization, so we now advise you to use option 1, which offers more possibilities (field display) and less memory-intensive files. 
 
 
 Dump Paraview With OBBs
