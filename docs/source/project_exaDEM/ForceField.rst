@@ -17,8 +17,41 @@ where :math:`f_n` the normal component of the contact force and :math:`\textbf{f
 
   f_n =  - k_n \delta_n + \nu_n v_n
 
-where :math:`k_n` is the normal stiffness coefficient, :math:`v_n` the normal componenet of the relative velocity between particle :math:`i` and particle :math:`j` and :math:`\nu_n`      
- 
+where :math:`k_n` is the normal stiffness coefficient, :math:`v_n` the normal componenet of the relative velocity (between particle :math:`i` and particle :math:`j`) and :math:`\nu_n` is the viscous damping coefficient. 
+:math:`\nu_n` is related to the restitution coeficient :math:`e_n` by 
+
+.. math::
+\nu_n = \alpha_n \sqrt{2 m_{\text{eff}} v_n}
+\alpha_n = \frac{- \ln{e_n}}{\sqrt{\ln^2{e_n} + \pi^2}}
+where :
+- :math:`\nu_n` is the viscous damping rate during the collision
+- :math:`\alpha_n` is the damping parameter, calculated from the restitution coefficient :math:`e_n`
+- :math:`m_{\text{eff}}` is the effective mass of the two colliding particles, defined by :math:`m_{\text{eff}} = \frac{m_i m_j}{m_i + m_j}`
+
+Tangential Component
+=====================
+
+The tangential force represents the frictional resistance between particles when they slide against each other. This force is calculated based on the relative tangential velocity (:math:`v_t`) and a tangential stiffness parameter (:math:`k_t`, keyword ``ktContact``). 
+
+The **Coulomb friction model** is used to limit the tangential force, ensuring that it does not exceed the product of the friction coefficient :math:`\mu` and the normal force (:math:`f_n`):
+
+.. math::
+
+    f_t \leq \mu \cdot f_n
+
+The tangential force :math:`f_t` is incrementally updated at each time step according to the following relation, starting from the onset of contact:
+
+.. math::
+
+    f_t = f_t + k_t \cdot v_t \cdot \Delta t
+
+where:
+- :math:`f_t` is the tangential force,
+- :math:`k_t` is the tangential stiffness,
+- :math:`v_t` is the relative tangential velocity, and
+- :math:`\delta t` is the time step.
+
+The friction force is reset to zero as soon as contact is lost.
 
 Contact's Law Operators
 ^^^^^^^^^^^^^^^^^^^^^^^
