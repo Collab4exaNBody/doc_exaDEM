@@ -4,21 +4,20 @@ Force Field
 The force field encompasses a broader set of operators and mechanisms responsible for computing forces acting on particles within the particle environment. It includes various types of forces such as gravitational forces, contact forces, and other external influences that affect particle dynamics.
 
 Contact Force Laws
---------------
+------------------
 
-In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variable. The total contact force between particle :math:`i` and particle :math:`j` is giveng by 
+In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variable. The total contact force between particle :math:`i` and particle :math:`j` is given by 
 
 .. math::
  \textbf{f}_{ij} = f_n \textbf{n}  +  \textbf{f_t}
-
-where :math:`f_n` the normal component of the contact force and :math:`\textbf{f}_t` is the tangential force vector. these forces are expressed in the local contact frame :math:`(\textbf{n},\textbf{t},\textbf{s})` as a function of the overlaps and tangential displacements. They are calculated from force laws which generally describe frictional contact interactions. An important feature of DEM is to allow the particles to overlap. This overlap :math:`\delta_n` represents a normal strain localized in the vicinity of the contact point. A simple linear relation is assumed between notrmal contact force and :math:`\delta_n` . This is consistent with the fact that the overlaps allow for a penalty-based explicit formulation of particle motions, i.e. the elastic repulsion force is mobilized to prevent two penalize the overlap. The condition of particle undeformability implies that the overlaps must stay small compared to particle size. In this linear approximation, the normal component of the contact force is given by 
+Twhere :math:`f_n` the normal component of the contact force and :math:`\textbf{f}_t` is the tangential force vector. These forces are expressed in the local contact frame :math:`(\textbf{n},\textbf{t},\textbf{s})` as a function of the overlaps and tangential displacements. They are calculated from force laws which generally describe frictional contact interactions. An important feature of DEM is to allow the particles to overlap. This overlap :math:`\delta_n` represents a normal strain localized in the vicinity of the contact point. A simple linear relation is assumed between normal contact force and :math:`\delta_n` . This is consistent with the fact that the overlaps allow for a penalty-based explicit formulation of particle motions, i.e. the elastic repulsion force is mobilized to prevent two penalize the overlap. The condition of particle undeformability implies that the overlaps must stay small compared to particle size. In this linear approximation, the normal component of the contact force is given by 
 
 .. math::
 
   f_n =  - k_n \delta_n + \nu_n v_n
 
-where :math:`k_n` is the normal stiffness coefficient, :math:`v_n` the normal componenet of the relative velocity (between particle :math:`i` and particle :math:`j`) and :math:`\nu_n` is the viscous damping coefficient. 
-:math:`\nu_n` is related to the restitution coeficient :math:`e_n` by 
+Where :math:`k_n` is the normal stiffness coefficient, :math:`v_n` the normal component of the relative velocity (between particle :math:`i` and particle :math:`j`) and :math:`\nu_n` is the viscous damping coefficient. 
+:math:`\nu_n` is related to the restitution coefficient :math:`e_n` by 
 
 .. math::
 \nu_n = \alpha_n \sqrt{2 m_{\text{eff}} v_n}
@@ -29,7 +28,7 @@ where :
 - :math:`m_{\text{eff}}` is the effective mass of the two colliding particles, defined by :math:`m_{\text{eff}} = \frac{m_i m_j}{m_i + m_j}`
 
 Tangential Component
-=====================
+====================
 
 The tangential force represents the frictional resistance between particles when they slide against each other. This force is calculated based on the relative tangential velocity (:math:`v_t`) and a tangential stiffness parameter (:math:`k_t`, keyword ``ktContact``). 
 
