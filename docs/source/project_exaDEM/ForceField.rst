@@ -10,6 +10,7 @@ In the Discrete Element Method (DEM), the equations of motion (translations and 
 
 .. math::
  \textbf{f}_{ij} = f_n \textbf{n}  +  \textbf{f_t}
+
 Twhere :math:`f_n` the normal component of the contact force and :math:`\textbf{f}_t` is the tangential force vector. These forces are expressed in the local contact frame :math:`(\textbf{n},\textbf{t},\textbf{s})` as a function of the overlaps and tangential displacements. They are calculated from force laws which generally describe frictional contact interactions. An important feature of DEM is to allow the particles to overlap. This overlap :math:`\delta_n` represents a normal strain localized in the vicinity of the contact point. A simple linear relation is assumed between normal contact force and :math:`\delta_n` . This is consistent with the fact that the overlaps allow for a penalty-based explicit formulation of particle motions, i.e. the elastic repulsion force is mobilized to prevent two penalize the overlap. The condition of particle undeformability implies that the overlaps must stay small compared to particle size. In this linear approximation, the normal component of the contact force is given by 
 
 .. math::
@@ -20,15 +21,18 @@ Where :math:`k_n` is the normal stiffness coefficient, :math:`v_n` the normal co
 :math:`\nu_n` is related to the restitution coefficient :math:`e_n` by 
 
 .. math::
-\nu_n = \alpha_n \sqrt{2 m_{\text{eff}} v_n}
-\alpha_n = \frac{- \ln{e_n}}{\sqrt{\ln^2{e_n} + \pi^2}}
+
+  \nu_n = \alpha_n \sqrt{2 m_{\text{eff}} v_n}
+  \alpha_n = \frac{- \ln{e_n}}{\sqrt{\ln^2{e_n} + \pi^2}}
+
 where :
+
 - :math:`\nu_n` is the viscous damping rate during the collision
 - :math:`\alpha_n` is the damping parameter, calculated from the restitution coefficient :math:`e_n`
 - :math:`m_{\text{eff}}` is the effective mass of the two colliding particles, defined by :math:`m_{\text{eff}} = \frac{m_i m_j}{m_i + m_j}`
 
 Tangential Component
-====================
+--------------------
 
 The tangential force represents the frictional resistance between particles when they slide against each other. This force is calculated based on the relative tangential velocity (:math:`v_t`) and a tangential stiffness parameter (:math:`k_t`, keyword ``ktContact``). 
 
@@ -53,7 +57,7 @@ where:
 The friction force is reset to zero as soon as contact is lost.
 
 Contact's Law Operators
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 ``Contact's Law`` in the context of Discrete Element Method (DEM) refers to the principle used to calculate forces between particles based on their relative displacements. In DEM simulations, ``Contact's Law`` is applied to model ``interactions`` between particles, enabling the simulation of elastic deformation and linear force behaviors within particle-based systems.
 
