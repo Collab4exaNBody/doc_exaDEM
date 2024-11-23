@@ -8,6 +8,9 @@ Polyhedra tutorials
 Build Your Rotating Drum Simulation With Hexapods And A Particle Generator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+.. warning::
+
+  The tutorial does not work correctly with the example files in exaDEM version `1.0.2`. Please go to the master or manually change the AREA of the generator.msp to : ``bounds: [ [ 0 , 0 , 18 ] , [ 20 , 7.5 , 20 ] ]``
 
 In this section, we will outline the steps to generate a set of hexapods in a rotating drum and then initiate the simulation. The simulation will proceed in three steps: 
 
@@ -98,7 +101,7 @@ Now, we need to define a spatial zone for particle generation, this zone is the 
 
  particle_regions:
     - AREA:
-       bounds: [ [ 0 , 0 , 19 ] , [ 20 , 7.5 , 20 ] ]
+       bounds: [ [ 0 , 0 , 18 ] , [ 20 , 7.5 , 20 ] ]
 
 And we design the domain such as the region AREA is included:
 
@@ -222,13 +225,8 @@ In addition, we display the contact network (normal force) between the hexapods.
 
 .. code-block:: yaml
 
- +dump_data_paraview:
-   - dump_contact_network:
-      config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.0, fc: 0.0, mu: 0.1, damp_rate: 0.999}
-      basename: hexapods
-
-.. warning:: 
-  Currently, we need to specify Contact parameters to calculate the contact network, but this option will disappear with future development (contact parameters factory).      
+  global:
+    enable_contact_network: true
 
 Step three corresponds to the `run.msp` file. To run this simulation, use the following command.
 
