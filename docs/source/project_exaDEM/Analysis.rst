@@ -352,24 +352,23 @@ Output example:
 Dump Contact Network
 ^^^^^^^^^^^^^^^^^^^^
 
-This operator is used to visualize the contact network between polyhedra using ParaView. For each active contact/interaction, we assign the value of the normal force calculated in Contact's law.
-
+This operator is used to visualize the contact network between polyhedra using ParaView. For each active contact/interaction, we assign the value of the normal force calculated in Contact's law. You can enable this option, which will be automatically triggered at the same time as the other paraview files, with the option ``enable_contact_network: true`` in global.
 
 * `dump_contact_network`:
-   * `basedir` : Name of the directory where paraview files will be written, by default this directory is named `network`.
-   * `basename` : Name of paraview file, there is no default name.  
-   * `config` : You can redefine ContactParameters, noting that by default, this operator reuses the ComputeContactForce operator slot. You need to define it if you do a restart for this analysis (i.e. no simulation).
-   * `dt` : Time step of the simulation, should be already defined as config.
+   * `filename` : Name of paraview file, there is no default name.  
    * `timestep` : Current simulation time, is defined.
-   * `grid_interaction` : List of interaction, defined by default.
-   * `shapes_collection` : Collection of shapes, filled during the call of `read_shape_file`.
 
 YAML example:
 
 .. code-block:: yaml
 
-  - dump_contact_network:
-     basename: polyhedra
+  - timestep_paraview_file: "ParaviewOutputFiles/contact_network_%010d"
+  - dump_contact_network
+
+.. code-block:: yaml
+
+  global:
+    enable_contact_network: true
 
 
 Here is an example for 216 polyhedra after a fall into a cylinder, left the simulation and right the contact network:
