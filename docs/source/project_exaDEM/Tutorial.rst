@@ -261,10 +261,193 @@ As in the previous example, this simulation is carried out in 3 stages, correspo
 The files are available in the exaDEM/tutorial/blade folder. The stl files are available in the following git: https://github.com/Collab4exaNBody/exaDEM-Data.git . 
 Note that msp files are set to fetch stl / shp files directly from the exaDEM-Data folder if it has been copied to your blade repository.
 
-Step 1 consists in generating particles in a cylinder whose main axis is Oz and with a base to stop it. To do this, add them to the list of drivers by defining the `setup_driver` operator.
+Step 1 consists in generating particles in a cylinder whose main axis is Oz and with a base to stop it. To do this, add them to the list of drivers by defining the `setup_drivers` operator.
+
+.. code-block:: yaml
+
+  setup_drivers:
+    - add_stl_mesh:
+       id: 0
+       filename: exaDEM-Data/stl_files/mod_base.shp
+       center: [0,0,-20] 
+       minskowski: 0.01
+    - add_cylinder:
+       id: 1
+       radius: 25
+       center: [0,0,0] 
+       axis: [1,1,0]
+       angular_velocity: [0,0,0]
+
+With mod_base, a large shape in the image is just below: 
+
+.. image:: ../_static/mod_base.png
+   :align: center
+   :width: 400pt
+
+The type of polyhedral particle used for this simulation is as follows (defined into shape.shp): 
+
+.. image:: ../_static/blade_polyhedron.png
+   :align: center
+   :width: 250pt
+
+To add it, define it in the `input_data` operator. We also add particles using the `lattice` operator:
+
+.. code-block:: yaml
+
+  input_data:
+    - read_shape_file:
+       filename: shape.shp
+    - init_rcb_grid
+    - lattice:
+        structure: SC
+        types: [ 0 ]
+        size: [ 4.0 m , 4.0 m , 4.0 m ]
+        region: CYL1 and BOX 
+    - init_fields:
+
+In simulations with exaDEM, you need to define a simulation domain, which can be expanded later if necessary if you specify expandable: true and the boundary condition is not periodic. It is very important that cell size, grid dimensions and simulation box are consistent.
+
+.. code-block:: yaml
+
+  domain:
+    cell_size: 5.0 m
+    periodic: [false,false,false]
+    grid_dims: [10, 10, 8]
+    bounds: [[-25 m , -25 m, 0 m], [25 m, 25 m, 40 m]]
+    expandable: true
 
 
+For this example, we have decided to define a zone / area that fits to the shape of the cylinder to generate the particles. To do this, we need to define the different regions: 
 
+.. code-block:: yaml
+
+  particle_regions:
+    - CYL1:
+        quadric:
+          shape: cylz
+          transform:
+            - scale: [ 23 m, 23 m, 5 m]
+            - translate: [ 0 m , 0 m, 50 m ]
+    - BOX:
+        bounds: [ [ -25 , -25 , 35 m ] , [ 25 m , 25 m, 40 m] ]
+
+
+To generate new polyhedra every 25,000 time steps, you need to define two points: the generation frequency, and the operator that will create and initialize the particle. The frequency must be specified in the global operator:  
+
+.. code-block:: yaml
+
+  global:
+    simulation_generator_frequency: 25000
+
+For the particle generation, operators must be grouped together in the `add_generated_particles` operator call: 
+
+.. code-block:: yaml
+
+  init_fields:
+    - radius_from_shape
+    - set_density:
+       density: 0.0026
+       region: CYL1 and BOX 
+    - set_rand_velocity:
+       var: 0.0001
+       mean: [0.0,0.0,-0.5]
+       region: CYL1 and BOX 
+    - set_rand_vrot_arot:
+       region: CYL1 and BOX 
+    - set_quaternion:
+       random: true
+       region: CYL1 and BOX 
+    - update_inertia:
+       region: CYL1 and BOX 
+
+  add_generated_particles:
+    - lattice:
+        structure: SC
+        types: [ 0 ]
+        size: [ 4.0 m , 4.0 m , 4.0 m ]
+        region: CYL1 and BOX 
+    - init_fields
+
+
+Next, define the parameters of the contact law and add gravity for gravity deposition. To achieve this, they must be defined in the compute_force operator:
+
+.. code-block:: yaml
+
+  compute_force:
+    - gravity_force:
+       gravity: [0,0,-0.00981]
+   - contact_polyhedron:
+       symetric: true
+       config: { rcut: 0.0 m , dncut: 0.0 m, kn: 1.257, kt: 1.077, kr: 0.0, fc: 0.0, mu: 0.0, damp_rate: 0.999}
+       config_driver: { rcut: 0.0 m , dncut: 0.0 m, kn: 12.57, kt: 10.77, kr: 0.0, fc: 0.0, mu: 0.0, damp_rate: 0.999}
+
+.. note:: 
+
+  During deposition, friction is set to 0. It will be changed when the blade is set in motion in step 3. 
+
+Finally, we now define the general parameters of the simulation, i.e. the time step value (dt), the number of time steps, the Verlet radius (rcut_inc), and the frequencies of the stop/restart and paraview outputs.
+
+.. code-block:: yaml
+
+  global:
+    simulation_dump_frequency: 100000
+    simulation_end_iteration: 1400000 
+    simulation_log_frequency: 1000
+    simulation_paraview_frequency: 5000
+    simulation_load_balance_frequency: -1 #27000
+    dt: 0.0005 s
+    rcut_inc: 0.5 m
+    enable_stl_mesh: true
+    simulation_generator_frequency: 25000
+
+.. note::
+
+  For the sake of performance, it's important to understand that a larger Verlet radius means less frequent updating of interaction lists, but more frequent updating of interaction lists. It's very important to find a good trade-off between these two factors.
+
+Step one is the `generator.msp` file. To run the simulation, use the following command.
+
+.. code-block:: console
+
+ ./exaDEM generator.msp --omp-num-threads 12
+
+After 1,400,000 time steps, you should reach the following configuration. To complete the deposit, you'll need to wait a while for the deposit to stabilize (step2).
+
+.. image:: ../_static/blade-step1.png
+   :align: center
+   :width: 300pt
+
+
+Step 2, in this step, we restart the simulation where we stopped it, while disabling the polyhedron generator. To do this, load all stored elements (drivers, shapes, and particles) into the ExaDEMOutputDIR/CheckpointFiles/ folder. For drivers, you can simply include the .msp files created for this purpose. For particles, you need to specify in the input_data operator the shape file created and the file containing the particle data and active interactions.
+
+
+.. code-block:: yaml
+
+  includes:
+    - config_polyhedra.msp
+    - ExaDEMOutputDir/CheckpointFiles/driver_0001400000.msp
+
+  input_data:
+    - read_shape_file:
+       filename: ExaDEMOutputDir/CheckpointFiles/RestartShapeFile.shp
+    - read_dump_particle_interaction:
+       filename: ExaDEMOutputDir/CheckpointFiles/exadem_0001400000.dump
+    - radius_from_shape
+
+.. warning:: 
+
+  You have to call radius_from_shape otherwise, the interactions won't be defined.
+
+After 100,000 time steps [t = 1,500,000 time steps], you should reach the following configuration:
+
+.. image:: ../_static/blade-step2.png
+   :align: center
+   :width: 300pt
+
+Step 3, 
+
+.. image:: ../_static/blade-step3.png
+   :align: center
+   :width: 300pt
 
 Developers Tutorials
 --------------------
