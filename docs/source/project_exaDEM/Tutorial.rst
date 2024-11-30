@@ -245,9 +245,29 @@ Picture at the end of the third step:
    :width: 600pt
 
 
+Tutorial: Blade simulation
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The aim of this tutorial is to set up a simulation of a descending blade in a silo. 
+
+.. image:: ../_static/blade.gif
+
+As in the previous example, this simulation is carried out in 3 stages, corresponding to 3 msp files:  
+
+- Particle generation [generator.msp]
+- Waiting for the deposit to stabilize [wait.msp]
+- Adding the blade and setting it in motion [run.msp]
+
+The files are available in the exaDEM/tutorial/blade folder. The stl files are available in the following git: https://github.com/Collab4exaNBody/exaDEM-Data.git . 
+Note that msp files are set to fetch stl / shp files directly from the exaDEM-Data folder if it has been copied to your blade repository.
+
+Step 1 consists in generating particles in a cylinder whose main axis is Oz and with a base to stop it. To do this, add them to the list of drivers by defining the `setup_driver` operator.
+
+
+
+
 Developers Tutorials
 --------------------
-
 
 Add Your Own mutator_field Operator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
