@@ -122,10 +122,10 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 
 **Interaction Class Attributes:**
 
-* id_i and id_j: Id of both polyhedra.
-* cell_i and cell_j: Indices of the cells containing the interacting polyhedra.
-* p_i and p_j: Positions of the polyhedra within their respective cells.
-* sub_i and sub_j: Indices of the vertex, edge, or face of the polyhedron involved in the interaction.
+* :math:`id_i` and :math:`id_j`: Id of both polyhedra.
+* :math:`cell_i` and :math:`cell_j`: Indices of the cells containing the interacting polyhedra.
+* :math:`p_i` and :math:`p_j`: Positions of the polyhedra within their respective cells.
+* :math:`sub_i` and :math:`sub_j`: Indices of the vertex, edge, or face of the polyhedron involved in the interaction.
 * type: Type of interaction (integer). See Interaction Glossary.
 * friction and moment: Storage used for temporary computations.
 
