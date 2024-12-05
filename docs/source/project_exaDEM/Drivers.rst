@@ -62,6 +62,7 @@ Rotating Drum / Cylinder
 The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its center, velocity, axis, and angular velocity.
 
 .. |ex1end| image:: ../_static/rotating_drum_end.png
+   :align: center
    :width: 300pt
 
 |ex1end|
@@ -94,6 +95,7 @@ Wall / Surface
 The wall or surface driver represents an infinite wall within the simulation environment. It is defined by parameters including its normal vector, offset, and velocity. Please note that currently, no angular velocity is defined for this driver. 
 
 .. |ex4end| image:: ../_static/rigid_surface_end.png
+   :align: center
    :width: 300pt
 
 |ex4end|
@@ -124,7 +126,8 @@ Ball / Sphere
 The ball or sphere driver represents a spherical object within the simulation environment. It is defined by parameters including its center, velocity, and angular velocity. This driver can be utilized as a boundary condition or obstacle in the simulation.
 
 .. |ex3pend| image:: ../_static/ExaDEM/polyhedra_ball_end.png
-   :width: 250pt
+   :align: center
+   :width: 300pt
 
 |ex3pend|
 
@@ -153,7 +156,8 @@ STL Mesh
 The STL Mesh driver is constructed from an .STL (Stereolithography) file to create a mesh of faces. This approach enables the rapid setup of complex geometries within the simulation environment. It's important to note that faces in an STL mesh are processed as a sphere polyhedron, meaning a small layer is added around each face.
 
 .. |ex4pendmixte| image:: ../_static/ExaDEM/stl_mixte_end.png
-   :width: 250pt
+   :align: center
+   :width: 300pt
 
 |ex4pendmixte|
 
