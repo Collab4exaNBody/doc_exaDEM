@@ -471,14 +471,23 @@ Output example:
 
 .. code-block:: bash
 
-   ==================================
-   * Type of interaction    : active / total 
-   * Number of interactions : 3180 / 809086
-   * Vertex - Vertex        : 26 / 4779
-   * Vertex - Edge          : 300 / 188458
-   * Vertex - Face          : 695 / 252612
-   * Edge   - Edge          : 2159 / 363237
-   ==================================
+  ==================================
+  * Type of interaction    : active / total 
+  * Number of interactions : 42058 / 41943
+  * Vertex - Vertex        : 0 / 0
+  * Vertex - Edge          : 625 / 625
+  * Vertex - Face          : 5546 / 5546
+  * Edge   - Edge          : 31698 / 31698
+  * Vertex - Cylinder      : 0 / 0
+  * Vertex - Surface       : 0 / 0
+  * Vertex - Ball          : 0 / 0
+  * Vertex - Vertex (STL)  : 0 / 0
+  * Vertex - Edge (STL)    : 0 / 0
+  * Vertex - Face (STL)    : 4060 / 4074
+  * Edge   - Edge (STL)    : 0 / 0
+  * Edge (STL) - Vertex    : 0 / 0 
+  * Face (STL) - Vertex    : 0 / 0
+  ==================================
 
 Global Stress Tensor
 ^^^^^^^^^^^^^^^^^^^^
