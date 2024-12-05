@@ -217,6 +217,46 @@ YAML example:
 
 Output example:
 
+.. code-block:: bash
+
+  ==================== Driver Configuraions =======================
+  ===== Summary
+  Drivers Stats
+  Number of drivers: 3
+  Number of Cylinders: 1
+  Number of Surfaces: 0
+  Number of Balls: 0
+  Number of Stl_meshs: 2
+  Number of Undefined Drivers: 0
+  ===== List Of Drivers
+  Driver [0]:
+  Driver Type: MESH STL
+  Name   : base
+  Center : 0,0,-20
+  Vel    : 0,0,0
+  AngVel : 0,0,0
+  Quat   : 1 0 0 0
+  Number of faces    : 52
+  Number of edges    : 150
+  Number of vertices : 100
+  Driver [1]:
+  Driver Type: Cylinder
+  Radius: 25
+  Axis  : 1,1,0
+  Center: 0,0,0
+  Vel   : 0,0,0
+  AngVel: 0,0,0
+  Driver [2]:
+  Driver Type: MESH STL
+  Name   : palefine
+  Center : 0,0,1.5
+  Vel    : 0,0,-0.0174
+  AngVel : 0,0,-0.004
+  Quat   : 1 0 0 0
+  Number of faces    : 25952
+  Number of edges    : 77856
+  Number of vertices : 31647
+  =================================================================
 
 
 Advanced Operators
