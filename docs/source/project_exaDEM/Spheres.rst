@@ -10,10 +10,10 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 
 **Interaction Class Attributes:**
 
-* id_i and id_j: Id of both spheres.
-* cell_i and cell_j: Indices of the cells containing the interacting spheres.
-* p_i and p_j: Positions of the spheres within their respective cells.
-* sub_i and sub_j: Indices of the vertex, edge, or face of the sphere involved in the interaction.
+* :math:`id_i` and :math:`id_j`: Id of both spheres.
+* :math:`cell_i` and :math:`cell_j`: Indices of the cells containing the interacting spheres.
+* :math:`p_i and :math:`p_j`: Positions of the spheres within their respective cells.
+* :math:`sub_i and :math:`sub_j`: Indices of the vertex, edge, or face of the sphere involved in the interaction.
 * type: Type of interaction (integer). See Interaction Glossary.
 * friction and moment: Storage used for temporary computations.
 
@@ -57,6 +57,4 @@ To retrieve data associated with a specific interaction between two spheres, the
 
 These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_sphere`` operator and subsequently processed in the ``contact_sphere`` operator.
 
-
 In summary, the ``exaDEM::Interaction`` class provides a crucial data structure for managing interactions between spheres and drivers within DEM simulations. By storing information such as cell numbers, positions, and interaction types, it enables precise modeling of physical interactions between simulated objects.
-
