@@ -152,7 +152,7 @@ This example is defined in the repository: https://github.com/Collab4exaNBody/ex
    * - v1.0.2 (11/24)
      - 23.3(17.7/4.1)
      - 48.9(33.0/13.8)
-   * - master (06/11/24)
+   * - master (05/12/24)
      - 6.38(2.61/2.49)
      - 17.6(11.65/4.3)
 
