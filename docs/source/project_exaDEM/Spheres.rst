@@ -13,7 +13,7 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 * :math:`id_i` and :math:`id_j`: Id of both spheres.
 * :math:`cell_i` and :math:`cell_j`: Indices of the cells containing the interacting spheres.
 * :math:`p_i and :math:`p_j`: Positions of the spheres within their respective cells.
-* :math:`sub_i and :math:`sub_j`: Indices of the vertex, edge, or face of the sphere involved in the interaction.
+* :math:`sub_i` and :math:`sub_j`: Indices of the vertex, edge, or face of the sphere involved in the interaction.
 * type: Type of interaction (integer). See Interaction Glossary.
 * friction and moment: Storage used for temporary computations.
 
