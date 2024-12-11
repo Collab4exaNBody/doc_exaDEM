@@ -7,6 +7,8 @@ You can explore various basic test cases located in the `example` directory. The
 Example Using Spheres
 ---------------------
 
+All examples with spheres can be found in the directory: ``exaDEM/example/spheres/``.
+
 Example 1: Rotating drum
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -23,6 +25,9 @@ A DEM simulation of a set of spheres in a periodic rotating drum. Through this s
 
 .. |ex1npend| image:: ../_static/ExaDEM/rotating_drum_no_periodic_end.png
    :width: 300pt
+
+- First test case: ``exaDEM/example/spheres/rotating-drum/rotating-drum-full.msp``
+- Second test case: ``exaDEM/example/spheres/rotating-drum/rotating-no-periodic.msp``
 
 +--------------------------+--------------------------+
 | .. centered:: Rotating Drum                         |
@@ -53,12 +58,12 @@ In a DEM simulation under radial stress, particles are exposed to an attractive 
 | |ex3start|               | |ex3end|                 |
 +--------------------------+--------------------------+
 
-.. warning:: This example is currently disabled. 
+.. warning:: This example is currently disabled.
 
 Example 3: Rigid surface
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-A DEM simulation involving spherical particles falling onto a rigid surface offers a virtual exploration of particle dynamics in a gravity-driven scenario. This simulation captures the behavior of individual spherical particles as they fall and interact with a solid surface below.
+A DEM simulation involving spherical particles falling onto a rigid surface offers a virtual exploration of particle dynamics in a gravity-driven scenario. This simulation captures the behavior of individual spherical particles as they fall and interact with a solid surface below. This example is available here: ``example/spheres/rigid-surface/rigid_surface_full.msp``
 
 .. |ex4start| image:: ../_static/rigid_surface_start.png
    :width: 300pt
@@ -78,6 +83,9 @@ Example 4: Impose Velocity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In this DEM simulation, a scenario is simulated where a group of particles with imposed velocity occupies a defined area. As other particles fall into this region, they interact with the moving particles, impacting their trajectories. The simulation provides insights into how moving driver-particles influence the behavior of surrounding particles. Example: ``impose_velocity_hole``, credit: ``lafourcadp``.  
+
+- The first test case: ``exaDEM/example/spheres/impose_velocity/impose_velocity_full.msp``
+- The second test case: ``exaDEM/example/spheres/impose_velocity/impose_velocity_hole.msp``
 
 .. |ex5start| image:: ../_static/impose_velocity_start.png
    :width: 300pt
@@ -104,7 +112,7 @@ In this DEM simulation, a scenario is simulated where a group of particles with 
 Example 5: Movable wall
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, a cluster of spherical particles is compacted against a rigid surface. A piston is introduced to apply a steadily increasing stress that linearly evolves over time. This simulation captures the dynamics as the piston's force gradually grows. As the piston imparts its stress, the particle block undergoes deformation and stress propagation. 
+In this DEM simulation, a cluster of spherical particles is compacted against a rigid surface. A piston is introduced to apply a steadily increasing stress that linearly evolves over time. This simulation captures the dynamics as the piston's force gradually grows. As the piston imparts its stress, the particle block undergoes deformation and stress propagation. This example is available here: ``exaDEM/example/spheres/movable-wall/movable_wall.msp`` 
 
 .. |ex6start| image:: ../_static/movable_wall_start.png
    :width: 300pt
@@ -123,7 +131,7 @@ In this DEM simulation, a cluster of spherical particles is compacted against a 
 Example 6: Using a STL Mesh
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, a cluster of spherical particles falls onto an .stl mesh and into a box. This case study highlights the use of meshes containing numerous facets and allows to compute simulation from all geometries coming from CAD or graphic design.
+In this DEM simulation, a cluster of spherical particles falls onto an .stl mesh and into a box. This case study highlights the use of meshes containing numerous facets and allows to compute simulation from all geometries coming from CAD or graphic design. Available here: ``example/spheres/mesh-stl/mesh_stl_full.msp``
 
 .. |ex7start| image:: ../_static/mesh_stl_start.png
    :width: 300pt
@@ -162,8 +170,7 @@ In this DEM simulation, a cluster of 287,642 spherical particles has been genera
 Example 8: Jet
 ^^^^^^^^^^^^^^
 
-
-This example demonstrates the application of a velocity field to spheres based on a Cartesian grid projection. Although it does not represent a physical scenario, a geyser-like effect has been simulated using a cylindrical shape, directing the particle velocities towards a specified speed. Future developments will involve applying non-uniform velocity fields to simulate more complex fluid configurations.
+This example demonstrates the application of a velocity field to spheres based on a Cartesian grid projection. Although it does not represent a physical scenario, a geyser-like effect has been simulated using a cylindrical shape, directing the particle velocities towards a specified speed. Future developments will involve applying non-uniform velocity fields to simulate more complex fluid configurations. Input files are available here: ``exaDEM/example/spheres/jet/step1.msp and step2.msp`` but doesn't correspond to the picture (less particles)
 
 .. |ex10starthalf| image:: ../_static/ExaDEM/jet_half_start.png
    :width: 250pt
@@ -191,7 +198,7 @@ This example demonstrates the application of a velocity field to spheres based o
 Example 9: Mirror Boundary Conditions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This example tests the mirror conditions available in exaNBody. Although these conditions are not directly applicable (" not physics "), because all fields are copied identically (without processing/filtering) at each time step in the ghost cells (e.g. velocity, moments), except for positions (axial symmetry). This example highlights this functionality, and could potentially be coupled with other operators to develop new boundary conditions (e.g. resetting velocities to 0 to model a rigid surface). This example involves dropping 33120 spheres, adding mirror boundary conditions in all directions and letting them fall by gravity. 
+This example tests the mirror conditions available in exaNBody. Although these conditions are not directly applicable (" not physics "), because all fields are copied identically (without processing/filtering) at each time step in the ghost cells (e.g. velocity, moments), except for positions (axial symmetry). This example highlights this functionality, and could potentially be coupled with other operators to develop new boundary conditions (e.g. resetting velocities to 0 to model a rigid surface). This example involves dropping 33120 spheres, adding mirror boundary conditions in all directions and letting them fall by gravity. This input file is located: ``exaDEM/example/spheres/mirror/mirror.msp``. 
 
 
 .. |ex11start| image:: ../_static/ExaDEM/mirror_start.png
@@ -212,9 +219,10 @@ This example tests the mirror conditions available in exaNBody. Although these c
 Examples Using Polyhedra
 ------------------------
 
+All examples with polyhedra can be found in the directory: ``exaDEM/example/polyhedra/``.
+
 Example 1: Polyhedra Generation Frequency
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 
 In this example, we simulate the generation of 100 new polyhedra at every 45000 time steps, representing their descent into a void environment. The primary objective is to illustrate the process of generating a lattice of polyhedra within a confined area. Additionally, we demonstrate the application of a series of operators to initialize various fields associated with the newly generated polyhedra. This example serves as a practical guide for setting up and executing simulations involving dynamic polyhedra generation and manipulation within defined spatial boundaries.
 
@@ -352,13 +360,13 @@ Show-cases
 On a laptop or single node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Simulation of 48,000 spheres on rotating drum after reading an .stl file. This simulation takes around two hours on a laptop of 12 cores.
+Simulation of 48,000 spheres on rotating drum after reading an .stl file. This simulation takes around one hour and 10 minutes on a laptop of 12 cores with openmp. The input files are available here: `exaDEM/example/cylinder_stl/cylinder_stl.msp`
 
 .. image:: ../_static/cyl_stl.gif
    :align: center
 
 
-Simulation of 140,000 spheres falling into a cell. A blade is then activated with rotational and translational motion. A This simulation takes around 4-5 days on a single node of 32 cores.
+Simulation of 140,000 spheres falling into a cell. A blade is then activated with rotational and translational motion. A This simulation takes around 4-5 days on a single node of 32 cores. A tutorial is available with polyhedra into the tutorial section.
 
 .. image:: ../_static/pale-0.5.gif
    :align: center
