@@ -335,7 +335,7 @@ This simulation example illustrates the use of stl file with polyhedra. In this 
 - Input files:
 
   - First example: ``example/polyhedra/stl_mesh/stl_mesh_box_hexapod.msp``
-  - Second example:``example/polyhedra/stl_mesh/stl_mesh_box_octahedron.msp ``
+  - Second example:``example/polyhedra/stl_mesh/stl_mesh_box_octahedron.msp``
   - Third example: ``example/polyhedra/stl_mesh/stl_mesh_box_mixte.msp``
 
 
