@@ -84,8 +84,11 @@ Rotating Drum - CPU (Sphere)
 .. |bench1-graph2| image:: ../_static/drum_dem_100M_comp.png
 .. |bench1-graph3| image:: ../_static/drum_dem_100M_comp_pourcentage.png
 
-This benchmark has been presented in 2023 within the paper :cite:`Carrard_2024` : "ExaNBody : a HPC framework for N-Body applications"
+This benchmark has been presented in 2023 within the paper :cite:`Carrard_2024` : "ExaNBody : a HPC framework for N-Body applications". 
 
+.. note::
+
+  We are no longer able to reproduce this performance as the code has changed (hopefully for the better), but it shows the performance of the first prototype. The input files are no longer available either, as the operators have changed and the data structures have changed, notably with the improvements for interaction and parallelization per interaction instead of per particle in `OpenMP`/`gpu`. 
 
 Description:
 
@@ -155,6 +158,3 @@ This example is defined in the repository: https://github.com/Collab4exaNBody/ex
    * - master (05/12/24)
      - 6.38(2.61/2.49)
      - 17.6(11.65/4.3)
-
-Polyhedra Into A Box
---------------------
