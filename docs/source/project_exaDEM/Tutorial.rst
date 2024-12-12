@@ -1,6 +1,8 @@
 Tutorials
 =========
 
+The tutorial files can be found in the ``example/tutorial`` folder.
+
 Polyhedra tutorials
 -------------------
 
