@@ -238,11 +238,6 @@ Output file: [mean_r_v.pdf]
 
 
 
-Analysis
---------
-
-In this section, we will describe the operators related to the usage of polyhedra or spheres.
-
 Dump Paraview For Polyhedra
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -315,6 +310,11 @@ Example with 850,000 octahedra:
 .. note::
 	This operator is rather limited in terms of visualization, so we now advise you to use option 1, which offers more possibilities (field display) and less memory-intensive files. 
 
+
+Analysis
+--------
+
+In this section, we will describe the operators related to the usage of polyhedra or spheres.
 
 Dump Paraview With OBBs
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -581,4 +581,59 @@ A gnuplot script is available at `scripts/post_processing/avg_stress.gnu` to qui
 .. image:: ../_static/Analyses/avgStress.png
    :width: 400pt
    :align: center
+
+
+Particle Counter
+^^^^^^^^^^^^^^^^
+
+The purpose of this operator is to count the number of particles per type in a particular region. 
+
+Operator:
+
+* Name: ``particle_counter``
+* Parameters:
+
+  * `name`: Filename. Default is: ParticleCounter.txt 
+  * `types`: List of particle types (required, [0,1,2, ...])
+  * `region`: Choose the region, default is the domain simulation
+
+To use this operator, the simplest way is to define the analysis frequency (all) in the global operator (``simulation_analyses_frequency``) and add the ``particle_count`` operator to the opertor ``analyses``, as in the following example (see ``example/polyhedron/analysis/particle_counter.msp``: 	
+
+.. code-block:: yaml
+
+  global:
+    simulation_analyses_frequency: 10000
+
+  analyses:
+    - particle_counter:
+       name: "ParticleTypes0And1.txt"
+       types: [0,1]
+       region: BOX
+
+
+One possibility for post-processing is to use gnuplot with the following commands: 
+
+.. code-block:: bash
+
+  set key autotitle columnheade
+  set style data lines
+  plot for [i=2:3] 'ExaDEMOutputDir/ExaDEMAnalyses/ParticleTypes0And1.txt' using 1:i smooth mcsplines
+
+
+.. |countergif| image:: ../_static/particle_counter.gif
+   :width: 300pt
+
+.. |counterplot| image:: ../_static/particle_counter_plot.png
+   :width: 300pt
+
+
+Results:
+
++--------------------------+--------------------------+
+| .. centered:: Particle Counter Output               |
++--------------------------+--------------------------+
+| .. centered:: Simulation | .. centered:: Plot       |
++==========================+==========================+
+| |countergif|             | |counterplot|            |
++--------------------------+--------------------------+
 
