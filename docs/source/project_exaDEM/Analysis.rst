@@ -15,9 +15,9 @@ This operator is used to define the tree structure of output files. By default, 
 - Name: `io_config`
 - Description: This operator defines the tree structure of output files.
 - Parameters:
-   * `avg_stress_tensor_name` : Write an Output file containing stress tensors.
+   * `avg_stress_tensor_name` : Write an output file containing stress tensors.
    * `dir_name` : Main output directory.
-   * `interaction_basename` : Write an Output file containing interactions.
+   * `interaction_basename` : Write an output file containing interactions.
    * `log_name` : Write an Output file containing log lines.
 
 YAML example:
@@ -39,10 +39,10 @@ Reader Of xyz File
 - Name: `read_xyz`
 - Description: This operator reads a file written according to the xyz format.
 - Parameters:
-   * `bounds_mode` : default mode corresponde to ReadBoundsSelectionMode.
+   * `bounds_mode` : default mode corresponds to ReadBoundsSelectionMode.
    * `enlarge_bounds` : Define a layer around the volume size in the xyz file. Default size is 0.
    * `file` : File name, this parameter is required.
-   * `pbc_adjust_xform` : Ajust the form.
+   * `pbc_adjust_xform` : Adjust the form.
 
 YAML example: 
 
@@ -79,15 +79,15 @@ Reader Of MPIIO File
 ^^^^^^^^^^^^^^^^^^^^
 
 - Name: `read_dump_particles`
-- Description: This operator readz a dump file with all particles information required to restart the simulation. See operator : @write_dump_particles
+- Description: This operator reads a dump file with all particle information required to restart the simulation. See operator: @write_dump_particles
 - Parameters:
    * `enable_friction` : Enable to write friction information. By default this option is activated.
    * `filename` : Dump file name to read.
-   * `bounds` : If set, override domain's bounds, filtering out particle outside of overriden bounds (AABB = [[infx, infy, infz],[supx, supy, supz]]).
+   * `bounds` : If set, override the domain's bounds, filtering out particles outside of overriden bounds (AABB = [[infx, infy, infz],[supx, supy, supz]]).
    * `expandable` : If set, override domain expandability stored in file
-   * `periodicity` : If set, overrides domain's periodicity stored in file with this value (ex: [false,true,false]).
-   * `scale_cell_size` : If set, this opetion rescale cell size. Due to friction storage per cell, ou can only multiply this size by an integer (1,2,4, 8, ...) or divide it by a power of 1/(2^n) (0.5,0.25 ...).
-   * `shrink_to_fit` : If set to true and bounds was wpecified, try to reduce domain's grid size to the minimum size enclosing fixed bounds.
+   * `periodicity` : If set, overrides the domain's periodicity stored in a file with this value (ex: [false,true,false]).
+   * `scale_cell_size` : If set, this option rescales cell size. Due to friction storage per cell, ou can only multiply this size by an integer (1,2,4, 8, ...) or divide it by a power of 1/(2^n) (0.5,0.25 ...).
+   * `shrink_to_fit` : If set to true and bounds were specified, try to reduce the domain's grid size to the minimum size enclosing fixed bounds.
 
 YAML example:
 
@@ -97,7 +97,7 @@ YAML example:
       filename: last.dump
 
 .. note::
-  This operator is used for spheres and not polyhedra because we need a special reader to read current interactions values containing the friction and moment. Show `read_dump_particle_interaction`.
+  This operator is used for spheres and not polyhedra because we need a special reader to read current interaction values containing the friction and moment. Show `read_dump_particle_interaction`.
 
 
 
@@ -182,14 +182,11 @@ Example of `Octahedron.vtk` with paraview:
    :width: 300pt
    :align: center
 
-
-
-
 Writer Of MPIIO Files
 ^^^^^^^^^^^^^^^^^^^^^
 
 - Name: `write_dump_particles`
-- Description: This operator writes a dump file with all particles information required to restart the simulation. See operator : @read_dump_particles.
+- Description: This operator writes a dump file with all particle information required to restart the simulation. See operator: @read_dump_particles.
 - Parameters:
    * `compression_level` Zlib compression level.
    * `filename` Dump output file name.
@@ -211,7 +208,7 @@ Writer Of XYZ Files
 .. note:: 
   The first line of the output file contains the number of particles. The second line contains the “lattice” description, useful when using ovito.
 
-YAML example: Replaces MPIIO Output files with xyz files. 
+YAML example: Replaces MPIIO output files with xyz files. 
 
 .. code-block:: yaml
 
@@ -228,7 +225,7 @@ YAML example: Replaces MPIIO Output files with xyz files.
     simulation_dump_frequency: 500
 
 
-To process these files, a sample script is provided in ``scripts/post_processing/profile_pos_vel.py``. This is a minimal, easily modifiable post-processing file, that calculates the averages of all position and velocity components.
+To process these files, a sample script is provided in ``scripts/post_processing/profile_pos_vel.py``. This is a minimal, easily modifiable post-processing file that calculates the averages of all position and velocity components.
 
 Output file: [mean_r_v.pdf]
 
@@ -246,7 +243,7 @@ In exaDEM, there are two ways to display polyhedra with Paraview:
    * The second solution is to use the generic Paraview output of `exaDEM` by adding the orientation field and the homethety field (optional). Then, it's possible to associate a mesh with each point, such as an `octahedron.vtk` file generated by `read_shape_file`, to each point by associating it with a size (`field::homothety`) and a quaternion (`field::orient`).
 
 .. note::
-  Only the default behavior when the `config_polyhedra.msp file` is used, is the option 2 that offers more possibilities. In addition, it is important to note that paraview does not include the layer of shape->radius size, i.e. faces are displayed according to the vertex centers.
+  Only the default behavior when the `config_polyhedra.msp file` is used is the option 2 that offers more possibilities. In addition, it is important to note that paraview does not include the layer of shape->radius size, i.e. faces are displayed according to the vertex centers.
 
 
 * Option 1: `write_paraview_generic`
@@ -277,20 +274,20 @@ How to use it with Paraview:
    :width: 250pt
    :align: center
 
-- Fourthly, in the Glyph Parameters section, choose "Orient" withi the Orientation Mode "Quaternion" and as Orientation Vectors: "orient". To change the size, you can check Scaling and add the Scale Array you wish. Finally, in the Glyph Type dropdown menu, select "Pipeline Connection" and in Input, choose "Octahedron.vtk".
+- Fourthly, in the Glyph Parameters section, choose "Orient" with the orientation mode "Quaternion" and as orientation vectors: "orient". To change the size, you can check Scaling and add the Scale Array you wish. Finally, in the Glyph Type dropdown menu, select "Pipeline Connection" and in Input, choose "Octahedron.vtk".
 
 .. image:: ../_static/tuto2_dump_polyhedra.png
    :width: 250pt
    :align: center
 
-Result for a simulation of 1000 Octahedra falling in a cylinder coloried by their id:
+Result for a simulation of 1000 Octahedra falling in a cylinder colored by their ID:
 
 .. image:: ../_static/tuto3_dump_polyhedra.png
    :width: 500pt
    :align: center
 
 * Option 2: write_paraview_polyhedra
-   * `filename` : Name of paraview file, there is no default name. Note that in `ExaDEM`, filename is defined into the default execution stream.
+   * `filename` : Name of paraview file, there is no default name. Note that in `ExaDEM`, filename is defined in the default execution stream.
 
 YAML example:
 
@@ -319,15 +316,15 @@ In this section, we will describe the operators related to the usage of polyhedr
 Dump Paraview With OBBs
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-This operator allows you to display OBBs around polyhedra in paraview. These files are stored in different files from those used to store polyhedron information. By default, these files are available in the directory: `ExaDEMOutputDir/ParaviewOutputFiles/` under the format `obb_%010d.pvtp`. The fields associated with OBBs are the polyhedron id and type.
+This operator allows you to display OBBs around polyhedra in paraview. These files are stored in different files from those used to store polyhedron information. By default, these files are available in the directory `ExaDEMOutputDir/ParaviewOutputFiles/` under the format `obb_%010d.pvtp`. The fields associated with OBBs are the polyhedron ID and type.
 
 * `write_paraview_obb_particle`:
    * `basedir` : Name of the directory where paraview files will be written
    * `basename` : Name of paraview file, there is no default name. Default is "obb".
-   * `timestep` : Current simulation time, is defined.
+   * `timestep` : Current simulation time is defined.
 
 .. note::
-  This operator is called after `write_paraview_generic` and is trigerred by `simulation_paraview_frequency` called into the global operator.
+  This operator is called after `write_paraview_generic` and is triggered by `simulation_paraview_frequency` called into the global operator.
 
 .. warning::
   This operator doesn't work for simulations with spheres.
@@ -355,8 +352,8 @@ Dump Contact Network
 This operator is used to visualize the contact network between polyhedra using ParaView. For each active contact/interaction, we assign the value of the normal force calculated in Contact's law. You can enable this option, which will be automatically triggered at the same time as the other paraview files, with the option ``enable_contact_network: true`` in global.
 
 * `dump_contact_network`:
-   * `filename` : Name of paraview file, there is no default name.  
-   * `timestep` : Current simulation time, is defined.
+   * `filename` : Name of the paraview file, there is no default name.  
+   * `timestep` : Current simulation time is defined.
 
 YAML example:
 
@@ -371,7 +368,7 @@ YAML example:
     enable_contact_network: true
 
 
-Here is an example for 216 polyhedra after a fall into a cylinder, left the simulation and right the contact network:
+Here is an example of 216 polyhedra after a fall into a cylinder, left the simulation and right the contact network:
 
 .. image:: ../_static/contact_network_example.png
    :width: 500pt
@@ -387,7 +384,7 @@ Dump Interaction Data
 ^^^^^^^^^^^^^^^^^^^^^
 
 This feature outputs the main information for each interaction. This feature has been implemented to enable post-simulation analysis.  
-An option has been added to the contact_polyhedron and contact_sphere operators to output interaction data as a csv file. To activate it, simply modify the value of ``analysis_interaction_dump_frequency`` in the operator block ``global``. 
+An option has been added to the contact_polyhedron and contact_sphere operators to output interaction data as a CSV file. To activate it, simply modify the value of ``analysis_interaction_dump_frequency`` in the operator block ``global``. 
 
 Output files are located in the `ExaDEMOutputDir/ExaDEMAnalysis` folder. For each iteration (XXX) with file writing, a folder containing an interaction file is created, such as:  `Interaction_XXX/Interaction_XXX_MPIRANK.txt`.
 
@@ -406,7 +403,7 @@ For each interaction, we write:
 
 .. warning::
 
-  Inactive interactions have been filtered out when writing output files. In addition, symetrized interactions are stored one time. 
+  Inactive interactions have been filtered out when writing output files. In addition, symmetrized interactions are stored one time. 
 
 .. note::
 
@@ -416,8 +413,8 @@ For each interaction, we write:
 ``ExaDEM`` also offers post-processing scripts for basic interaction analyses. The scripts can be used as a basis for developing other analyses according to need. The first available script is `interaction_summary.py` : 
 
 - Read all interaction files
-- Plot the number of interactions per types in function of the timestep (`types.pdf`)
-- Plot the number of interactions in function of the timestep (`count.pdf`)
+- Plot the number of interactions per type as a	 function of the timestep (`types.pdf`)
+- Plot the number of interactions as a function of the timestep (`count.pdf`)
 
 How to run this script:
 
@@ -426,7 +423,7 @@ How to run this script:
   cd ExaDEMOutputDir/ExaDEMAnalyses
   python3 PATH_TO_ExaDEM/scripts/post_processing/interaction_summary.py
 
-Output file exemples:
+Output file examples:
 
 Simulation: near 104,000 octahedral particles over 200,000 timesteps of 5.10^{-5} s falling into a cylinder.
 
@@ -443,7 +440,7 @@ Simulation: near 104,000 octahedral particles over 200,000 timesteps of 5.10^{-5
 
 .. note::
 
-  Symetrized interaction are counted twice within the ``interaction_summary.py`` python script.
+  Symmetrized interactions are counted twice within the ``interaction_summary.py`` python script.
 
 - count.pdf
 
@@ -454,7 +451,7 @@ Simulation: near 104,000 octahedral particles over 200,000 timesteps of 5.10^{-5
 Interaction Summary
 ^^^^^^^^^^^^^^^^^^^^
 
-This operator allows displaying the total number of interactions, both total and active. An interaction is considered active if there is contact, and consequently, if the cumulative friction is different from Vec3d{0,0,0}. It also enables the separation of different types of interactions: Vertex-Vertex, Vertex-Edge, Vertex-Face, and Edge-Edge.
+This operator allows displaying the total number of interactions, both total and active. An interaction is considered active if there is contact ands consequently, if the cumulative friction is different from Vec3d{0,0,0}. It also enables the separation of different types of interactions: Vertex-Vertex, Vertex-Edge, Vertex-Face, and Edge-Edge.
 
 - Name: `stats_interactions`
 - No parameter.
@@ -503,7 +500,7 @@ With ``I`` the active interactions, :math:`f_{ij} = (fx_{ij},fy_{ij},fz_{ij})` t
 And the total stress of the system : :math:`\sigma =  \frac{1}{V} \sum_{loc} [\sigma_{loc}]`, with ``V`` the volume.
 
 
-Stress tensor calculation is performed by the ``stress_tensor`` operator, and writing to a .txt output file is performed by the ``write_stres_tensor`` operator. To trigger the writing of the stress tensor, simply declare the ``analysis_dump_stress_tensor_frequency`` variable to frequency chosen in the global operator of your yaml file (`.msp`), which by default is set to -1.
+Stress tensor calculation is performed by the ``stress_tensor`` operator, and writing to a .txt output file is performed by the ``write_stres_tensor`` operator. To trigger the writing of the stress tensor, simply declare the ``analysis_dump_stress_tensor_frequency`` variable to the frequency chosen in the global operator of your YAML file (`.msp`), which by default is set to -1.
 
 YAML example:
 
@@ -517,7 +514,7 @@ YAML example:
 
 **For further information**
 
-This frequency triggers several things. When passing through the ``Contact Force`` operator, the list of interactions / normal force / tangential force are stored in the classifier. The stress tensor is then calculated in ``stress_tensor`` and written in ``write_stress_tensor``. By default, volume is calculated from the simulation volume using the ``compute_volume`` operator. So, by default, the frequency will trigger the chaining of these three operators: 
+This frequency triggers several things. When passing through the ``Contact Force`` operator, the list of interactions / normal force / tangential force iq stored in the classifier. The stress tensor is then calculated in ``stress_tensor`` and written in ``write_stress_tensor``. By default, volume is calculated from the simulation volume using the ``compute_volume`` operator. So, by default, the frequency will trigger the chaining of these three operators: 
 
 .. code-block:: yaml
 
@@ -593,11 +590,11 @@ Operator:
 * Name: ``particle_counter``
 * Parameters:
 
-  * `name`: Filename. Default is: ParticleCounter.txt 
-  * `types`: List of particle types (required, [0,1,2, ...])
-  * `region`: Choose the region, default is the domain simulation
+  * `name`: Filename. Default is: ParticleCounter.txt,
+  * `types`: List of particle types (required, [0,1,2, ...]),
+  * `region`: Choose the region, default is the domain simulation.
 
-To use this operator, the simplest way is to define the analysis frequency (all) in the global operator (``simulation_analyses_frequency``) and add the ``particle_count`` operator to the opertor ``analyses``, as in the following example (see ``example/polyhedron/analysis/particle_counter.msp``: 	
+To use this operator, the simplest way is to define the analysis frequency (all) in the global operator (``simulation_analyses_frequency``) and add the ``particle_count`` operator to the operator ``analyses``, as in the following example (see ``example/polyhedron/analysis/particle_counter.msp``: 	
 
 .. code-block:: yaml
 
