@@ -1,14 +1,14 @@
 Particle Fields
 ===============
 
-In this section, we provide an overview of ``ExaDEM`` operators associated with ``field`` mutation. This section is divided into two subsections: ``field`` operators applicable to particles of any type, and ``field`` operators specifically designed for polyhedra.
+In this section, we provide an overview of ``ExaDEM`` operators associated with ``field`` mutation. This section is divided into two subsections: ``field`` operators applicable to particles of any type and ``field`` operators specifically designed for polyhedra.
 
 
 Field Operators For All Particles
 ---------------------------------
 
 
-This repertory plugin only provides operators for modifying fields, especially at initialization. The following operators are based on the functor `set` and initialize one ore more fields: 
+This repertory plugin only provides operators for modifying fields, especially at initialization. The following operators are based on the functor `set` and initialize one or more fields: 
 
 * ``set_densities_multiple_materials``: 
    * [std::vector<double>] `densities`
@@ -30,7 +30,7 @@ This repertory plugin only provides operators for modifying fields, especially a
 * ``set_radius``:
    * [double] `rad`
 * ``set_radius_multiple_materials``:
-   * [std::vector<double>]` radius` (list of radius according to types)
+   * [std::vector<double>]` radius` (list of radii according to types)
 * ``set_rand_vrot_arot``:
    * [double] `var_vrot` (variance), default = 0
    * [double] `var_arot` (variance), default = 0
@@ -71,8 +71,8 @@ In this section, we briefly describe ``field`` mutator operators that relate to 
 
 * ``density_from_shape`` : This operator deduces the particle mass from the shape volume and the particle density.
    * [double] `density`
-* ``inertia_from_shape`` : This operator deduces the particle intertia from the shape constant I/M and the particle mass.
-* ``radius_from_shape`` : This operator computes the maximum radius cutoff in function of shape types and stores the radius cutoff for every particles corresponding to their shape types.
+* ``inertia_from_shape`` : This operator deduces the particle inertia from the shape constant I/M and the particle mass.
+* ``radius_from_shape`` : This operator computes the maximum radius cutoff in function of shape types and stores the radius cutoff for every particle corresponding to their shape types.
 
 .. note::
 
