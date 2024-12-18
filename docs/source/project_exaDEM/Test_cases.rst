@@ -86,7 +86,7 @@ A DEM simulation involving spherical particles falling onto a rigid surface offe
 Example 4: Impose Velocity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, a scenario is simulated where a group of particles with imposed velocity occupies a defined area. As other particles fall into this region, they interact with the moving particles, impacting their trajectories. The simulation provides insights into how moving driver-particles influence the behavior of surrounding particles. Example: ``impose_velocity_hole``, credit: ``lafourcadp``.  
+In this DEM simulation, a scenario is simulated where a group of particles with imposed velocity occupies a defined area. As other particles fall into this region, they interact with the moving particles, impacting their trajectories. The simulation provides insights into how moving driver particles influence the behavior of surrounding particles. Example: ``impose_velocity_hole``, credit: ``lafourcadp``.  
 
 - Input files:
 
@@ -106,7 +106,7 @@ In this DEM simulation, a scenario is simulated where a group of particles with 
    :width: 300pt
 
 +--------------------------+--------------------------+
-| .. centered:: Impose Veclocity                      |
+| .. centered:: Impose Velocity                       |
 +--------------------------+--------------------------+
 | .. centered:: Start      | .. centered:: End        |
 +==========================+==========================+
@@ -136,10 +136,10 @@ In this DEM simulation, a cluster of spherical particles is compacted against a 
 | |ex6start|               | |ex6end|                 |
 +--------------------------+--------------------------+
 
-Example 6: Using a STL Mesh
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Example 6: Using an STL Mesh
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this DEM simulation, a cluster of spherical particles falls onto an .stl mesh and into a box. This case study highlights the use of meshes containing numerous facets and allows to compute simulation from all geometries coming from CAD or graphic design. 
+In this DEM simulation, a cluster of spherical particles falls onto an .stl mesh and into a box. This case study highlights the use of meshes containing numerous facets and allows adding all geometries coming from CAD or graphic design. 
 
 - Input file: ``example/spheres/mesh-stl/mesh_stl_full.msp``
 
@@ -180,7 +180,7 @@ In this DEM simulation, a cluster of 287,642 spherical particles has been genera
 Example 8: Jet
 ^^^^^^^^^^^^^^
 
-This example demonstrates the application of a velocity field to spheres based on a Cartesian grid projection. Although it does not represent a physical scenario, a geyser-like effect has been simulated using a cylindrical shape, directing the particle velocities towards a specified speed. Future developments will involve applying non-uniform velocity fields to simulate more complex fluid configurations. Input files are available here: ``exaDEM/example/spheres/jet/step1.msp and step2.msp`` but doesn't correspond to the picture (less particles).
+This example demonstrates the application of a velocity field to spheres based on a Cartesian grid projection. Although it does not represent a physical scenario, a geyser-like effect has been simulated using a cylindrical shape, directing the particle velocities towards a specified speed. Future developments will involve applying non-uniform velocity fields to simulate more complex fluid configurations. Input files are available here: ``exaDEM/example/spheres/jet/step1.msp and step2.msp`` but they don't correspond exactly to the pictures (fewer particles).
 
 .. |ex10starthalf| image:: ../_static/ExaDEM/jet_half_start.png
    :width: 250pt
@@ -208,7 +208,7 @@ This example demonstrates the application of a velocity field to spheres based o
 Example 9: Mirror Boundary Conditions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This example tests the mirror conditions available in exaNBody. Although these conditions are not directly applicable (" not physics "), because all fields are copied identically (without processing/filtering) at each time step in the ghost cells (e.g. velocity, moments), except for positions (axial symmetry). This example highlights this functionality, and could potentially be coupled with other operators to develop new boundary conditions (e.g. resetting velocities to 0 to model a rigid surface). This example involves dropping 33120 spheres, adding mirror boundary conditions in all directions and letting them fall by gravity. 
+This example tests the mirror conditions available in exaNBody. Although these conditions are not directly applicable (" not physics "), because all fields are copied identically (without processing/filtering) at each time step in the ghost cells (e.g. velocity, moments), except for positions (axial symmetry). This example highlights this functionality and could potentially be coupled with other operators to develop new boundary conditions (e.g. resetting velocities to 0 to model a rigid surface). This example involves dropping 33,120 spheres, adding mirror boundary conditions in all directions, and letting them fall by gravity. 
 
 - Input file: ``exaDEM/example/spheres/mirror/mirror.msp``. 
 
@@ -254,7 +254,7 @@ In this example, we simulate the generation of 100 new polyhedra at every 45000 
 | |ex1pstart|              | |ex1pend|                    |
 +--------------------------+------------------------------+
 
-Example 2: Octahedra in Rotating Drum
+Example 2: Octahedra in a Rotating Drum
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In this DEM simulation, we observe the dynamics of 125 octahedra as they descend into a rotating drum. The second test case contains 27,000 octahedra (yellow) and 27,000 hexapods (blue).
@@ -286,11 +286,10 @@ In this DEM simulation, we observe the dynamics of 125 octahedra as they descend
 | |ex2pmixtestart|         | |ex2pmixteend|           |
 +--------------------------+--------------------------+
 
+Example 3: Hexapods in a Ball 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Example 3: Hexapods in Ball 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This DEM simulation example illustrates the gravitational descent of 64 hexapods within a large sphere. The primary environment consists of a spherical enclosure with a radius of 20 units and centered at (2, 2, 0). As the hexapods descend under gravity within this enclosure, they encounter two additional spherical obstacles. The first obstacle (ballà, represented as a small yellow ball with a radius of 3 units and centererd at (2,2,-5). The second ball centered at (2,2,-20) with a radius of 7 units, depicted as a large orange ball, intersects the surface of the primary blue sphere, adding complexity to the obstacle configuration. Through this simulation, exaDEM code shows its capability to manage particle interactions with various obstacles (balls). Additionally, it showcases the versatility of drivers within the code, which can be employed to define both simulation boundary conditions and obstacles.
+This DEM simulation example illustrates the gravitational descent of 64 hexapods within a large sphere. The primary environment consists of a spherical enclosure with a radius of 20 units and is centered at (2, 2, 0). As the hexapods descend under gravity within this enclosure, they encounter two additional spherical obstacles. The first obstacle (ball, represented as a small yellow ball with a radius of 3 units and centered at (2,2,-5). The second ball, centered at (2,2,-20) with a radius of 7 units, depicted as a large orange ball, intersects the surface of the primary blue sphere, adding complexity to the obstacle configuration. Through this simulation, exaDEM shows its capability to manage particle interactions with various obstacles (balls). Additionally, it showcases the versatility of drivers within the code, which can be employed to define both simulation boundary conditions and obstacles.
 
 - Input file: ``example/polyhedra/balls/balls_full.msp``
 
@@ -308,11 +307,10 @@ This DEM simulation example illustrates the gravitational descent of 64 hexapods
 | |ex3pstart|              | |ex3pend|                |
 +--------------------------+--------------------------+
 
-
-Example 4: Polyhedra Wth STL Mesh (Box)
+Example 4: Polyhedra With STL Mesh (Box)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This simulation example illustrates the use of stl file with polyhedra. In this simulation, we drop a set of polyhedra (hexapods, octahedra, or both) by gravity into an open box to fill it completely. 
+This simulation example illustrates the use of STL files with polyhedra. In this simulation, we drop a set of polyhedra (hexapods, octahedra, or both) by gravity into an open box to fill it completely. 
 
 .. |ex4pstarthexa| image:: ../_static/ExaDEM/stl_hexa_start.png
    :width: 250pt
@@ -351,7 +349,6 @@ This simulation example illustrates the use of stl file with polyhedra. In this 
 | |ex4pstartmixte|         | |ex4pendmixte|           |
 +--------------------------+--------------------------+
 
-
 Example 5: Funnel
 ^^^^^^^^^^^^^^^^^
 
@@ -389,13 +386,13 @@ Show-cases
 On a laptop or single node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Simulation of 48,000 spheres on rotating drum after reading an .stl file. This simulation takes around one hour and 10 minutes on a laptop of 12 cores with openmp. The input files are available here: ``exaDEM/example/cylinder_stl/cylinder_stl.msp``
+Simulation of 48,000 spheres on a rotating drum after reading an .stl file. This simulation takes around one hour and 10 minutes on a laptop with 12 cores with OpenMP. The input files are available here: ``exaDEM/example/cylinder_stl/cylinder_stl.msp``
 
 .. image:: ../_static/cyl_stl.gif
    :align: center
 
 
-Simulation of 140,000 spheres falling into a cell. A blade is then activated with rotational and translational motion. A This simulation takes around 4-5 days on a single node of 32 cores. A tutorial is available with polyhedra into the tutorial section.
+Simulation of 140,000 spheres falling into a cell. A blade is then activated with rotational and translational motion. A This simulation takes around 4-5 days on a single node of 32 cores. A tutorial is available with polyhedra in the tutorial section.
 
 .. image:: ../_static/pale-0.5.gif
    :align: center
