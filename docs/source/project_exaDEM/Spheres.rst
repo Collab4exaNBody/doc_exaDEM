@@ -1,12 +1,12 @@
 Spherical Particle
 ==================
 
-In this section, we will describe the various information used to build simulations with spheres particles. Note that ``exaDEM::Interaction`` and ``Shape`` are describe in the section : Polyhedron.
+In this section, we will describe the various information used to build simulations with sphererical particles. Note that ``exaDEM::Interaction`` and ``Shape`` are described in the section: Polyhedron.
 
 Interaction / Contact
 ^^^^^^^^^^^^^^^^^^^^^
 
-The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types of interactions between sphres and between spheres and ``drivers``. This class serves as a crucial component for identifying two elements within the data grid and characterizing the type of interaction between them. Note that, for the sake of consistency between the sphere and sphere sections, we use the same interaction structure, and that the type field that qualifies the nature of the interaction has the same values as for polyhedra. 
+The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types of interactions between spheres themselves and between spheres and ``drivers``. This class serves as a crucial component for identifying two elements within the data grid and characterizing the type of interaction between them. Note that, for the sake of consistency between the sphere and sphere sections, we use the same interaction structure, and that the type field that qualifies the nature of the interaction has the same values as for polyhedra. 
 
 **Interaction Class Attributes:**
 
@@ -43,17 +43,17 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
      - Contact between a vertex of a sphere and a ball / sphere
    * - 7
      - Sphere - Vertex (STL)
-     - Contact between a vertex of a sphere and a vertex of a stl mesh
+     - Contact between a vertex of a sphere and a vertex of an STL mesh
    * - 8
      - Sphere - Edge (STL)
-     - Contact between a vertex of a sphere and an edge of a stl mesh
+     - Contact between a vertex of a sphere and an edge of an STL mesh
    * - 9
      - Sphere - Face (STL)
-     - Contact between a vertex of a sphere and a face of a stl mesh
+     - Contact between a vertex of a sphere and a face of an STL mesh
 
 **Interaction Class Usage With Spheres:**
 
-To retrieve data associated with a specific interaction between two spheres, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. Theses informations are then utilized within simulation computations to accurately model interactions between spheres, considering the interaction type.
+To retrieve data associated with a specific interaction between two spheres, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. These informations are then utilized within simulation computations to accurately model interactions between spheres, considering the interaction type.
 
 These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_sphere`` operator and subsequently processed in the ``contact_sphere`` operator.
 
