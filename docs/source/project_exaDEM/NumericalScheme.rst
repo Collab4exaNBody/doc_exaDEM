@@ -8,22 +8,22 @@ Velocity Verlet Scheme
 
 The time integration in ``exaDEM`` is performed using the velocity form of the Störmer-Verlet time integration algorithm, well-known as the `velocity-Verlet` algorithm. It is advantageous for DEM simulations due to its simplicity, stability, and accuracy. It provides a straightforward method for integrating Newton's equations of motion, efficiently calculating both positions and velocities. The `velocity-verlet` algorithm is integrated using the following scheme at each time step:
 
-1. Calculate position vector at full time-step:
+1. Calculate the position vector at full timestep:
 
 .. math::
 
     \mathbf{x} \left( t + \Delta t \right) = \mathbf{x} \left( t \right) + \mathbf{v} \left( t \right) \Delta t + \mathbf{a} \left(t\right)\frac{\Delta t}{2}
 
-2. Calculate velocity vector at half time-step:
+2. Calculate the velocity vector at half timestep:
 
 .. math::
 
     \mathbf{v} \left( t + \frac{\Delta t}{2} \right) = \mathbf{v} \left( t \right) + \mathbf{a} \left( t \right) \frac{\Delta t}{2}
    
 
-3. Compute the acceleration vector at full time-step \\( \\mathbf{a} \\left( t + \\Delta t\\right) \\) from the interatomic potential using the position at full time-step \\( \\mathbf{x} \\left( t + \\Delta t\\right) \\)
+3. Compute the acceleration vector at full time-step \\( \\mathbf{a} \\left( t + \\Delta t\\right) \\) from the interatomic potential using the position at full timestep \\( \\mathbf{x} \\left( t + \\Delta t\\right) \\)
 
-4. Finally, calculate the velocity vector at full time-step:
+4. Finally, calculate the velocity vector at full timestep:
    
 .. math::
 
@@ -57,14 +57,13 @@ The ``exaNBody`` code provides a generic operator for 1st order time-integration
 
 - ``push_v_r`` : for updating positions from velocities
 - ``push_f_v`` : for updating velocities from forces (i.e. acceleration)
-- ``push_f_r`` : for udpdating positions from forces (i.e. acceleration)
+- ``push_f_r`` : for updating positions from forces (i.e. acceleration)
 
 In addition, the ``exaNBody`` code also provides a generic operator for 2nd order time-integration purposes. For example, the file ``exaNBody/src/exanb/push_vec3_2nd_order_xform.cpp`` provides the following variant:
 
 - ``push_f_v_r`` : for updating positions from both velocities and forces (i.e. accelerations)
 
 Since in ``exaDEM`` positions are expressed in a reduced frame, the argument ``xform_mode: INV_XFORM`` is mandatory when using any operator that updates the particles positions. The operators are described in detail in the following section.
-
 
 Operators
 ^^^^^^^^^
@@ -76,9 +75,9 @@ Reset Forces and Moments
 ------------------------
 
 * Operator Name: ``reset_force_moment``
-* Description: This operator resets two grid fields : moments and forces.
+* Description: This operator resets two grid fields: moments and forces.
 
-Here a YAML example:
+Here is a YAML example:
 
 .. code-block:: yaml
 
@@ -98,12 +97,11 @@ Formula:
 
 with **f** the sum of forces applied to the particle, **a** the acceleration of the particle, and m its mass. 
 
-Here a YAML example:
+Here is a YAML example:
 
 .. code-block:: yaml
 
   - force_to_accel
-
 
 Update Particle Orientation
 ---------------------------
@@ -130,7 +128,7 @@ Formula:
 
 with **aa** the angular acceleration, **av** the angular velocity, and Q the particle orientation. 
 
-Here a YAML example:
+Here is a YAML example:
 
 .. code-block:: yaml
 
@@ -141,7 +139,7 @@ Update Angular Velocity
 -----------------------
 
 * Operator Name: ``push_to_angular_velocity``
-* Description: This operator computes particle angular velocitiy values from angular velocities and angular accelerations. 
+* Description: This operator computes particle angular velocity values from angular velocities and angular accelerations. 
 * Parameter:
 
   * ``dt_scale``: Coefficient applied to the increment time (|dt|) 
@@ -154,7 +152,7 @@ Formula:
 
 with **aa** the angular acceleration, **av** the angular velocity, and Q the particle orientation. 
 
-Here a YAML example:
+Here is a YAML example:
 
 .. code-block:: yaml
 
@@ -187,7 +185,7 @@ Formula:
 
 with **aa** the angular acceleration, **av** the angular velocity, I the particle inertia, and Q the particle orientation (and |bq| its conjugate). To compute |do|, we need the particle moment and the particle inertia values. 
 
-Here a YAML example:
+Here is a YAML example:
 
 .. code-block:: yaml
 
@@ -211,7 +209,7 @@ Combined Prolog
 
   * ``dt_scale``: Coefficient applied to the increment time (|dt|) 
 
-Here a YAML example:
+Here is a YAML example:
 
 .. code-block:: yaml
 
@@ -223,11 +221,11 @@ Combined Epilog
 * Operator Name: ``combined_compute_epilog``
 * Description: This is an operator that combined 3 operators:
 
-  * push_to_angular_accelartion
+  * push_to_angular_accelaration
   * push_angular_velocity
   * push_f_v
 
-Here a YAML example:
+Here is a YAML example:
 
 .. code-block:: yaml
 
