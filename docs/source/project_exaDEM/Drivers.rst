@@ -39,7 +39,7 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
      - no operator
 
 .. note::
- When adding a ``driver`` to the simulation in ``ExaDEM``, it is essential to define a Contact parameter list specific to the ``driver`` within the `compute_contact_interaction` operator.
+ When adding a ``driver`` to the simulation in ``ExaDEM``, it is essential to define a contact parameter list specific to the ``driver`` within the `compute_contact_interaction` operator.
 
 
 Add a Driver To Your Simulation
@@ -68,7 +68,7 @@ The rotating drum or cylinder driver represents an infinite cylinder rotating al
 |ex1end|
 
 * Operator name: ``add_cylinder``
-* Description: This operator add a cylinder to the drivers list.
+* Description: This operator adds a cylinder to the drivers list.
 * Parameters:
 
   * *id*: Driver index
@@ -101,13 +101,13 @@ The wall or surface driver represents an infinite wall within the simulation env
 |ex4end|
 
 * Operator name: ``add_surface``
-* Description: This operator add a surface/wall to the drivers list.
+* Description: This operator adds a surface/wall to the drivers list.
 * Parameters:
 
   * *id*: Driver index
   * *center*: Center of the surface (used for rotation when the angular velocity is defined)
   * *normal*: Normal vector of the rigid surface
-  * *offset*: ffset from the origin (0,0,0) of the rigid surface
+  * *offset*: Offset from the origin (0,0,0) of the rigid surface
   * *velocity*: Wall/Surface velocity, default is [0,0,0]
   * *vrot*: Angular velocity of the surface, default is 0 m.s-1
 
@@ -132,7 +132,7 @@ The ball or sphere driver represents a spherical object within the simulation en
 |ex3pend|
 
 * Operator name: ``add_ball``
-* Description: This operator add a ball / sphere (boundary condition or obstacle) to the drivers list.
+* Description: This operator adds a ball / sphere (boundary condition or obstacle) to the drivers list.
 * Parameters:
 
   * *center*: Center of the ball / sphere
@@ -162,7 +162,7 @@ The STL Mesh driver is constructed from an .STL (Stereolithography) file to crea
 |ex4pendmixte|
 
 * Operator name: ``add_stl_mesh``    
-* Description: This operator add a stl mesh to the drivers list.
+* Description: This operator adds an "STL mesh" to the drivers list.
 * Parameters:
 
   * *id*: Driver index
@@ -174,7 +174,7 @@ The STL Mesh driver is constructed from an .STL (Stereolithography) file to crea
   * *orientation*: Orientation of the mesh.
 
 * Operator name: ``update_grid_stl_mesh``
-* Description: Update the grid of lists of {vertices / edges / faces} in contact for every cells. The aim is to predefine a list of possible contacts with a cell for a stl mesh. These lists must be updated each time the grid changes. 
+* Description: Update the grid of lists of {vertices / edges / faces} in contact for every cell. The aim is to predefine a list of possible contacts with a cell for an STL mesh. These lists must be updated each time the grid changes. 
 * Parameters: No parameter
 
 YAML example:
@@ -190,7 +190,6 @@ I/O Drivers
 ^^^^^^^^^^^
 
 An input/output system has been implemented primarily for drivers performing movements, such as a rigid surface compressing a sample or a blade rotating around an axis.
-
 
 The drivers' output is automatically triggered when the user sets the global variable: ``simulation_dump_frequency``. This command also allows particles and interactions to be stored in a separate file. The drivers are then saved in a file located at ``ExaDEMOutputDir/CheckpointFiles/driver_%010d.msp``, containing the drivers' information. In the case of an ``STL mesh`` driver, a shp file is added to the ``ExaDEMOutputDir/CheckpointFiles/`` directory, which contains the geometry of the ``STL mesh``.To restart the driver along with your simulation, simply include the ``.msp`` file containing the ``setup_driver`` operator block at the beginning of your restart file.
 
@@ -266,21 +265,21 @@ Output example:
 Advanced Operators
 ^^^^^^^^^^^^^^^^^^
 
-Updage Grid For Stl Mesh
+Update Grid For STL Mesh
 ------------------------
 
-The purpose of this operator is to project the stl mesh onto the cells making up the exaDEM grid in order to speed up the search for interactions. Each grid cell is then assigned a set of vertices, edges and faces that are potentially in contact with the cell's particles.
+The purpose of this operator is to project the STL mesh onto the cells making up the exaDEM grid in order to speed up the search for interactions. Each grid cell is then assigned a set of vertices, edges, and faces that are potentially in contact with the cell's particles.
 
 * Operator name: ``grid_stl_mesh``    
 * Description: Update the list of information for each cell regarding the vertex, edge, and face indices in contact with the cell in an STL mesh.
 * Parameters:
 
-  * *force_reset*: Force to rebuild grid for stl meshes
+  * *force_reset*: Force to rebuild grid for STL meshes
 
 .. note::
 
-  [1] This operator only projects the stl mesh onto the grid making up the MPI process sub-domain. If the sub-domain changes, the update must be forced (force_reset=0). 
-  [2] If the stl mesh is stationary (v= null, vrot=null), the grid is not updated. This speeds up calculations when the stl mesh has many elements.
+  [1] This operator only projects the STL mesh onto the grid making up the MPI process subdomain. If the subdomain changes, the update must be forced (force_reset=0). 
+  [2] If the stl mesh is stationary (v= null, vrot=null), the grid is not updated. This speeds up calculations when the STL mesh has many elements.
 
 YAML example: 
 
@@ -292,7 +291,7 @@ YAML example:
 Compute Driver Vertices
 -----------------------
 
-This operator is used to update the vertex positions of operators with vertices. For the moment, this operator is only used for stl meshes and to fill in the `vertices` field.
+This operator is used to update the vertex positions of operators with vertices. For the moment, this operator is only used for STL meshes and to fill in the `vertices` field.
 
 * Operator name: ``compute_driver_vertices``    
 * Description: This operator calculates new vertex positions.
@@ -317,14 +316,14 @@ Check Driver Displacement
 This operator detects if a driver has moved more than 1/2 of the Verlet radius. This operator works in combination with the backup_driver operator to store driver data at the iteration when the interaction lists have been recalculated. 
 
 * In the case of a sphere, we test the distance between the two centers.
-* In the case of an stl mesh, we check the displacement of all vertices.
+* In the case of an STL mesh, we check the displacement of all vertices.
 * In the case of a cylinder, this option is disabled.
 * In the case of a wall, we look at the difference between the offset values.
 
 Currently, for the GPU version, these tests are carried out on the CPU, except for the detection of stl meshes, which requires a reduction operation. Operator characteristic: 
 
 * Operator name: ``driver_displ_over``
-* Description: It compute the distance between each particle in grid input and it's backup position in backup_dem input. It sets result output to true if at least one particle has moved further than threshold.
+* Description: It computes the distance between each particle in grid input and its backup position in backup_dem input. It sets result output to true if at least one particle has moved further than threshold.
 * Parameters: 
 
   * threshold: Defined by the simulation (deduced from `rcut_inc`)
