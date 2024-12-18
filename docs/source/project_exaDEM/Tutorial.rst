@@ -12,7 +12,7 @@ Build Your Rotating Drum Simulation With Hexapods And A Particle Generator
 
 .. warning::
 
-  The tutorial does not work correctly with the example files in exaDEM version `1.0.2`. Please go to the master or manually change the AREA of the generator.msp to : ``bounds: [ [ 0 , 0 , 18 ] , [ 20 , 7.5 , 20 ] ]``
+  The tutorial does not work correctly with the example files in exaDEM version `1.0.2`. Please go to the master or manually change the AREA of the generator.msp to: ``bounds: [ [ 0 , 0 , 18 ] , [ 20 , 7.5 , 20 ] ]``
 
 In this section, we will outline the steps to generate a set of hexapods in a rotating drum and then initiate the simulation. The simulation will proceed in three steps: 
 
@@ -34,7 +34,7 @@ The ingredients for generating the hexapods are:
 - initializing the generated polyhedra
 
 
-The chosen shape file is an hexapods in the input file, as follows:
+The chosen shape file is a hexapod in the input file, as follows:
 
 .. code-block:: bash
 
@@ -63,7 +63,7 @@ The chosen shape file is an hexapods in the input file, as follows:
  I/m 0.13266 0.13266 0.13266
  >
 
-We add a paraview polydata created for this shape (exaDEM doesn't display correclty without face as hexapods, otherwise during the init step, a `your_shape`.vtk is written).
+We add a paraview polydata created for this shape (exaDEM doesn't display correctly without face as hexapods, otherwise, during the init step, a `your_shape`.vtk is written).
 
 .. image:: ../_static/ExaDEM/tuto_alpha3.png
    :width: 300pt
@@ -85,7 +85,7 @@ For this simulation, we choose to fill an infinite cylinder centered at (10,3.75
 .. note::
 	`setup_drivers` is a default operator integrated in the default execution graph of exaDEM. By default, this operator is set to nop for `no operator`.
 
-We use the Contact's law to compute contact force between the polyhedra/polyhedra and cylinder/polyhedra. Gravity is applied everywhere.
+We use the contact's law to compute contact force between the polyhedra/polyhedra and cylinder/polyhedra. Gravity is applied everywhere.
 
 .. code-block:: yaml
 
@@ -156,7 +156,7 @@ Now, we can define our `input_data` operator:
    - add_particles
    - init_new_particles
 
-The following block consists in the overload of `add_generated_particles` operator that is set to `nop` by default. Note that this operator is triggered by the frequency `simulation_generator_frequency: 40000` defined in the global operator, default is `-1`.
+The following block consists of the overload of the `add_generated_particles` operator that is set to `nop` by default. Note that this operator is triggered by the frequency `simulation_generator_frequency: 40000` defined in the global operator, default is `-1`.
 
 
 .. code-block:: yaml
@@ -185,9 +185,9 @@ Picture at the end of the first step:
    :width: 600pt
 
 
-The step 2 consists in waiting that the deposit is finished from timestep 1,200,000 (12s) to 1,400,000 (14s). 
+The step 2 consists of waiting for the deposit to be finished from timestep 1,200,000 (12s) to 1,400,000 (14s). 
 
-First, load the snapshot at time step 1,200,000 and disable generation. It's important not to forget to define the cutoff radius for the hexapods used with the operator `polyhedra_define_radius` for building the Verlet lists
+First, load the snapshot at time step 1,200,000 and disable generation. It's important not to forget to define the cutoff radius for the hexapods used with the operator `polyhedra_define_radius` for building the Verlet lists.
 
 .. code-block:: yaml
 
@@ -210,14 +210,14 @@ Step two corresponds to the `wait.msp` file. To run this simulation, use the fol
 
 	mpirun -n 2 ./exaDEM wait.msp --omp-num-threads 2
 
-Picture at the end of the second step, the desposit is stable (i.e. no velocity):
+Picture at the end of the second step, the deposit is stable (i.e. no velocity):
 
 .. image:: ../_static/ExaDEM/step2-end.png
    :width: 600pt
 
-The step 3 consists in running the rotating drum simulation from timestep 1,400,000 (14s) to 5,000,000 (50s). 
+Step 3 consists og running the rotating drum simulation from timestep 1,400,000 (14s) to 5,000,000 (50s). 
 
-Initiate motion of your drum. You can determine the angular velocity using the Froude number and deduce the angular velocity from it. Fr = w^2 * R / g or w = sqrt(Fr * g / R). In our case, we desire a cascading behavior with a Froude number of 0.2, w = sqrt( 0.2 * 9.81 / 16 ) = 0.350178526 ~= 0.35 rad.s-1 . 
+Initiate motion of your drum. You can determine the angular velocity using the Froude number and deduce the angular velocity from it. Fr = w^2 * R / g or w = sqrt(Fr * g / R). In our case, we desire a cascading behavior with a Froude number of 0.2, w = sqrt( 0.2 * 9.81 / 16 ) = 0.350178526 ~= 0.35 rad.s-1. 
 
 .. code-block:: yaml
 
@@ -260,10 +260,10 @@ As in the previous example, this simulation is carried out in 3 stages, correspo
 - Waiting for the deposit to stabilize [wait.msp]
 - Adding the blade and setting it in motion [run.msp]
 
-The files are available in the exaDEM/tutorial/blade folder. The stl files are available in the following git: https://github.com/Collab4exaNBody/exaDEM-Data.git . 
-Note that msp files are set to fetch stl / shp files directly from the exaDEM-Data folder if it has been copied to your blade repository.
+The files are available in the exaDEM/tutorial/blade folder. The STL files are available in the following git: https://github.com/Collab4exaNBody/exaDEM-Data.git . 
+Note that msp files are set to fetch STL/SHP files directly from the exaDEM-Data folder if it has been copied to your blade repository.
 
-Step 1 consists in generating particles in a cylinder whose main axis is Oz and with a base to stop it. To do this, add them to the list of drivers by defining the `setup_drivers` operator.
+Step 1 consists of generating particles in a cylinder whose main axis is Oz and with a base to stop it. To do this, add them to the list of drivers by defining the `setup_drivers` operator.
 
 .. code-block:: yaml
 
@@ -307,7 +307,7 @@ To add it, define it in the `input_data` operator. We also add particles using t
         region: CYL1 and BOX 
     - init_fields:
 
-In simulations with exaDEM, you need to define a simulation domain, which can be expanded later if necessary if you specify expandable: true and the boundary condition is not periodic. It is very important that cell size, grid dimensions and simulation box are consistent.
+In simulations with exaDEM, you need to define a simulation domain, which can be expanded later if necessary if you specify expandable: true and the boundary condition is not periodic. It is very important that cell size, grid dimensions, and simulation box are consistent.
 
 .. code-block:: yaml
 
@@ -319,7 +319,7 @@ In simulations with exaDEM, you need to define a simulation domain, which can be
     expandable: true
 
 
-For this example, we have decided to define a zone / area that fits to the shape of the cylinder to generate the particles. To do this, we need to define the different regions: 
+For this example, we have decided to define a zone/area that fits the shape of the cylinder to generate the particles. To do this, we need to define the different regions: 
 
 .. code-block:: yaml
 
@@ -334,7 +334,7 @@ For this example, we have decided to define a zone / area that fits to the shape
         bounds: [ [ -25 , -25 , 35 m ] , [ 25 m , 25 m, 40 m] ]
 
 
-To generate new polyhedra every 25,000 time steps, you need to define two points: the generation frequency, and the operator that will create and initialize the particle. The frequency must be specified in the global operator:  
+To generate new polyhedra every 25,000 time steps, you need to define two points: the generation frequency and the operator that will create and initialize the particle. The frequency must be specified in the global operator:  
 
 .. code-block:: yaml
 
@@ -387,7 +387,7 @@ Next, define the parameters of the contact law and add gravity for gravity depos
 
   During deposition, friction is set to 0. It will be changed when the blade is set in motion in step 3. 
 
-Finally, we now define the general parameters of the simulation, i.e. the time step value (dt), the number of time steps, the Verlet radius (rcut_inc), and the frequencies of the stop/restart and paraview outputs.
+Finally, we now define the general parameters of the simulation, i.e. the time step value (dt), the number of time steps, the Verlet radius (rcut_inc), and the frequencies of the stop/restart and Paraview outputs.
 
 .. code-block:: yaml
 
@@ -404,7 +404,7 @@ Finally, we now define the general parameters of the simulation, i.e. the time s
 
 .. note::
 
-  For the sake of performance, it's important to understand that a larger Verlet radius means less frequent updating of interaction lists, but more frequent updating of interaction lists. It's very important to find a good trade-off between these two factors.
+  For the sake of performance, it's important to understand that a larger Verlet radius means less frequent updating of interaction lists but more frequent updating of interaction lists. It's very important to find a good trade-off between these two factors.
 
 Step one is the `generator.msp` file. To run the simulation, use the following command.
 
@@ -419,7 +419,7 @@ After 1,400,000 time steps, you should reach the following configuration. To com
    :width: 300pt
 
 
-Step 2, in this step, we restart the simulation where we stopped it, while disabling the polyhedron generator. To do this, load all stored elements (drivers, shapes, and particles) into the ExaDEMOutputDIR/CheckpointFiles/ folder. For drivers, you can simply include the .msp files created for this purpose. For particles, you need to specify in the input_data operator the shape file created and the file containing the particle data and active interactions.
+Step 2, in this step, we restart the simulation where we stopped it while disabling the polyhedron generator. To do this, load all stored elements (drivers, shapes, and particles) into the ExaDEMOutputDIR/CheckpointFiles/ folder. For drivers, you can simply include the `.msp` files created for this purpose. For particles, you need to specify in the input_data operator the shape file created and the file containing the particle data and active interactions.
 
 
 .. code-block:: yaml
