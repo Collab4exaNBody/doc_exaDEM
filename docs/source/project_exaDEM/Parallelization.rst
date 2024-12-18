@@ -16,7 +16,7 @@ The weight associated with each cell used for load distribution using the RCB me
 
    W_i=1+3.P_i+\sum_{j \in {0,...,N_i}}[F(I_i[j].type)]
 
-with :math:`W_i` the array of weights, ``i`` is the cell id, :math:`I_i` the interactions into the cell ``i`` , :math:`P_i` the number of particle into the cell ``i``, :math:`N_i` is number of interactions and ``F`` is the cost function associated to the interaction type.
+with :math:`W_i` the array of weights, ``i`` is the cell id, :math:`I_i` the interactions into the cell ``i`` , :math:`P_i` the number of particles into the cell ``i``, :math:`N_i` is the number of interactions, and ``F`` is the cost function associated to the interaction type.
 
 .. list-table:: F values
    :widths: 20 25 20
@@ -103,21 +103,21 @@ The performance of ``ExaDEM`` was evaluated using up to 256 cluster nodes, built
    Dem simulation of 100 million spheres in a rotating drum.
 
 
-ExaDEM's performance is evaluated with a simulation of a rotating drum containing 100 million spherical particles, see Figure below. 
-This setup is a tough benchmark as particles are rapidly moving all around the heterogeneously dense domain, due to gravity. 
-Additionally, the employed contact force model has a low arithmetic intensity, and ``exaDEM`` must handle pairwise friction information, that is updated by kernel and must migrate between ``mpi`` processes when subdomains are redistributed. 
+ExaDEM's performance is evaluated with a simulation of a rotating drum containing 100 million spherical particles, see the figure below. 
+This setup is a tough benchmark as particles are rapidly moving all around the heterogeneously dense domain due to gravity. 
+Additionally, the employed contact force model has a low arithmetic intensity, and ``exaDEM`` must handle pairwise friction information that is updated by kernel and must migrate between ``mpi`` processes when subdomains are redistributed. 
 
 .. figure:: ../_static/mpi-dem-example-100M-mpi.png
    :scale: 90%
    :align: center
 
-   Domain decomposition of 100 000 of spheres into a rotating drum
+   Domain decomposition of 100,000 spheres into a rotating drum
 
 .. figure:: ../_static/drum_dem_100M.png
    :scale: 70%
    :align: center
 
-   Speedup for different OpenMP/Mpi configurations. ExaDEM simulation with 1, 8, and 128 threads per ``mpi`` process.
+   Speedup for different OpenMP/MPI configurations. ExaDEM simulation with 1, 8, and 128 threads per ``mpi`` process.
 
 .. note::
 
@@ -134,7 +134,7 @@ Additionally, the employed contact force model has a low arithmetic intensity, a
    :scale: 70%
    :align: center
 
-   Operator time ratios at different paralellization scales.
+   Operator time ratios at different parallelization scales.
 
 
 Rotating Drum - GPU (Polyhedron)
