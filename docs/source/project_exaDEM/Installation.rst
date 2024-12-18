@@ -46,7 +46,7 @@ Alternatives:
   cd ${CURRENT_HOME}
   export PATH_TO_YAML=$PWD/install-yaml-cpp
 
-Please, ensure to remove `yaml-cpp` and `build-yaml-cpp`. 
+Please ensure to remove `yaml-cpp` and `build-yaml-cpp`. 
 
 When installing exaDEM, remember to add the following to your cmake command: ``-DCMAKE_PREFIX_PATH=${PATH_TO_YAML}``.
 
@@ -86,7 +86,7 @@ Run CMake to configure the ExaDEM build, specifying that ``CUDA`` support should
   To install with CUDA with ``sm_80``: ``cmake ../exaDEM -DXNB_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80``
 
 .. warning::
-  It's important to note that the maximum number of vertices per particle shape is set to 8 by default. To change this value to , you can specify this number by adding : ``-DEXADEM_MAX_VERTICES=N``.
+  It's important to note that the maximum number of vertices per particle shape is set to 8 by default. To change this value, you can specify this number by adding: ``-DEXADEM_MAX_VERTICES=N``.
 
 Build ``ExaDEM`` using the make command with a specified number of parallel jobs (e.g., -j 4 for 4 parallel jobs):
 
@@ -114,8 +114,6 @@ This command will display all plugins and related operators. Example:
    operator    read_xyz
    operator    read_dump_particles
 
-
-
 Installation With Spack
 ^^^^^^^^^^^^^^^^^^^^^^^
 Installation with ``spack`` is preferable for people who don't want to develop in ``exaDEM``. Only stable versions are added when you install ``ExaDEM`` with ``Spack``.
@@ -135,7 +133,7 @@ Installing Spack
 Installing ExaDEM
 -----------------
 
-First get the ``spack`` repository in exaDEM directory and it to spack. It contains two packages: ``exanbody`` and ``exadem``:
+First get the ``spack`` repository in exaDEM directory and add it to spack. It contains two packages: ``exanbody`` and ``exadem``:
 
 .. code-block:: bash
 		
@@ -149,8 +147,6 @@ Second install ``ExaDEM`` (this command will install ``cmake``, ``yaml-cpp`` and
 .. code-block:: bash
 
   spack install exadem
-
-
 
 Running your simulation
 ^^^^^^^^^^^^^^^^^^^^^^^
