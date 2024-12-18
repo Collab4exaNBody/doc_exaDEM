@@ -6,19 +6,19 @@ The force field encompasses a broader set of operators and mechanisms responsibl
 Contact Force Laws
 ------------------
 
-In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variable. The total contact force between particle :math:`i` and particle :math:`j` is given by 
+In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variables. The total contact force between particle :math:`i` and particle :math:`j` is given by 
 
 .. math::
 
  \textbf{f}_{ij} = f_n \textbf{n}  +  \textbf{f}_t
 
-Twhere :math:`f_n` the normal component of the contact force and :math:`\textbf{f}_t` is the tangential force vector. These forces are expressed in the local contact frame :math:`(\textbf{n},\textbf{t},\textbf{s})` as a function of the overlaps and tangential displacements. They are calculated from force laws which generally describe frictional contact interactions. An important feature of DEM is to allow the particles to overlap. This overlap :math:`\delta_n` represents a normal strain localized in the vicinity of the contact point. A simple linear relation is assumed between normal contact force and :math:`\delta_n` . This is consistent with the fact that the overlaps allow for a penalty-based explicit formulation of particle motions, i.e. the elastic repulsion force is mobilized to prevent two penalize the overlap. The condition of particle undeformability implies that the overlaps must stay small compared to particle size. In this linear approximation, the normal component of the contact force is given by 
+Twhere :math:`f_n` the normal component of the contact force and :math:`\textbf{f}_t` is the tangential force vector. These forces are expressed in the local contact frame :math:`(\textbf{n},\textbf{t},\textbf{s})` as a function of the overlaps and tangential displacements. They are calculated from force laws that generally describe frictional contact interactions. An important feature of DEM is to allow the particles to overlap. This overlap :math:`\delta_n` represents a normal strain localized in the vicinity of the contact point. A simple linear relation is assumed between normal contact force and :math:`\delta_n` . This is consistent with the fact that the overlaps allow for a penalty-based explicit formulation of particle motions, i.e., the elastic repulsion force is mobilized to prevent penalizing the overlap. The condition of particle undeformability implies that the overlaps must stay small compared to particle size. In this linear approximation, the normal component of the contact force is given by 
 
 .. math::
 
   f_n =  - k_n \delta_n + \nu_n v_n
 
-where :math:`k_n` is the normal stiffness coefficient, :math:`v_n` the normal component of the relative velocity (between particle :math:`i` and particle :math:`j`) and :math:`\nu_n` is the viscous damping coefficient. 
+where :math:`k_n` is the normal stiffness coefficient, :math:`v_n` the normal component of the relative velocity (between particle :math:`i` and particle :math:`j`), and :math:`\nu_n` is the viscous damping coefficient. 
 :math:`\nu_n` is related to the restitution coefficient :math:`e_n` by 
 
 .. math::
@@ -66,11 +66,9 @@ The friction force is reset to zero as soon as contact is lost.
 Contact's Law Operators
 -----------------------
 
-``Contact's Law`` in the context of Discrete Element Method (DEM) refers to the principle used to calculate forces between particles based on their relative displacements. In DEM simulations, ``Contact's Law`` is applied to model ``interactions`` between particles, enabling the simulation of elastic deformation and linear force behaviors within particle-based systems.
-
+``Contact's Law`` in the context of the Discrete Element Method (DEM) refers to the principle used to calculate forces between particles based on their relative displacements. In DEM simulations, ``Contact's Law`` is applied to model ``interactions`` between particles, enabling the simulation of elastic deformation and linear force behaviors within particle-based systems.
 
 Variables:
-
 
 +--------------+-----------------------------------------+
 | Variable     | Description                             |
@@ -164,7 +162,6 @@ with:
    \end{array} 
    \right.
 
-
 **Formula between particle i and particle j if \\( 0 < d_n < dncut \\) :**
 
 .. math::
@@ -174,12 +171,11 @@ with:
 with **n** normalized vector from particle i to particle j
 
 * Name: ``contact_sphere`` or ``contact_polyehdron``
-* Description: These operators compute forces between particles and particles/drivers using the Contact's law.
-* Paremeter:
-
+* Description: These operators compute forces between particles and particles/drivers using the contact's law.
+* Parameter:
 
 +---------------------+------------------------------------------------------------------------------+
-| `symetric`          | Activate or disable symetric updates (do not disable it with polyhedron).    |
+| `symetric`          | Activate or disable symmetric updates (do not disable it with polyhedron).    |
 +---------------------+------------------------------------------------------------------------------+
 | `config`            | Data structure that contains contact force parameters (rcut, dncut, kn, kt,  | 
 |                     | kr, fc, mu, damp_rate). Type = exaDEM::ContactParams. No default parameter.  |
@@ -191,7 +187,7 @@ with **n** normalized vector from particle i to particle j
 | `save_interactions` | Store interactions into the classifier data structure. Default is false.     |
 +---------------------+------------------------------------------------------------------------------+
 
-Here two examples with YAML:
+Here are two examples with YAML:
 
 .. code-block:: yaml
 
@@ -214,7 +210,7 @@ Here two examples with YAML:
 
 .. note::
 
-  - rcut is not used in the contexte of simulations with polyhedra.
+  - rcut is not used in the context of simulations with polyhedra.
   - This operator is designed to process interactions built in ``nbh_polyhedron`` (spheropolyhedra).
 
 External Forces
@@ -272,7 +268,7 @@ With **f** the particle forces, cx the aerodynamic coefficient, and \\(\\mu\\) t
 +------+------------------------------------------------------------+
 
 
-``YAML`` example:  see example `quadratic-force-test/QuadraticForceInput.msp`
+``YAML`` example: see example `quadratic-force-test/QuadraticForceInput.msp`
 
 .. code-block:: yaml
 
@@ -294,9 +290,9 @@ Fluid Grid Force
 
   f = cx . dv . ||dv|| . \pi . r . r.
 
-With `fv` the fuild velocity, `pv` the particle velocity, `r` the particle radius and `cx` a coefficient set to 1 by default.
+With `fv` the fluid velocity, `pv` the particle velocity, `r` the particle radius, and `cx` a coefficient set to 1 by default.
 
 .. note::
 
-  The fluid velocity `fv` for each point of the grid has been defined by the operator `set_cell_values` (pure exaNBody operator)
+  The fluid velocity `fv` for each point of the grid has been defined by the operator `set_cell_values` (pure exaNBody operator).
 
