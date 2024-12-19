@@ -114,6 +114,16 @@ This command will display all plugins and related operators. Example:
    operator    read_xyz
    operator    read_dump_particles
 
+
+Launch examples / ctest
+-----------------------
+
+A set of minimal test cases can be run using the following command (non-regression test)
+
+.. code-block:: bash
+
+  ctest --test-dir example
+
 Installation With Spack
 ^^^^^^^^^^^^^^^^^^^^^^^
 Installation with ``spack`` is preferable for people who don't want to develop in ``exaDEM``. Only stable versions are added when you install ``ExaDEM`` with ``Spack``.
