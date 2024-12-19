@@ -193,3 +193,19 @@ The ``ExaDEM`` executable has been created in the spack directory. You can run y
 
   spack load exadem
   exaDEM your_input_file.msp
+
+
+Adding Optional Packages:
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+RSA
+---
+
+This external library is available here: ``https://github.com/MarcJos/RSA_MPI``
+
+You can install it with the following commands:
+
+.. code-block:: bash
+
+  export rsa_mpi_DIR=$DIR
+  cmake ../exaDEM -DUSE_RSA=ON
