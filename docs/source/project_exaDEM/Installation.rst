@@ -124,6 +124,17 @@ A set of minimal test cases can be run using the following command (non-regressi
 
   ctest --test-dir example
 
+You can also add exaDEM to your bashrc by adding an alias (please, replace YOURDIR by your build directory): 
+
+.. code-block:: bash
+
+  vi ~/.bashrc
+  alias exaDEM='~/YOURDIR/build/exaDEM'
+
+Or just on your local environment:
+
+  alias exaDEM=$PWD/exaDEM
+
 Installation With Spack
 ^^^^^^^^^^^^^^^^^^^^^^^
 Installation with ``spack`` is preferable for people who don't want to develop in ``exaDEM``. Only stable versions are added when you install ``ExaDEM`` with ``Spack``.
