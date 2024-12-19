@@ -118,7 +118,7 @@ This command will display all plugins and related operators. Example:
 Launch examples / ctest
 -----------------------
 
-A set of minimal test cases can be run using the following command (non-regression test)
+A set of minimal test cases can be run using the following command (non-regression test) in your `build` repository:
 
 .. code-block:: bash
 
