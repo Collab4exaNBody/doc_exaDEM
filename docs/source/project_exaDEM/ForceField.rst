@@ -175,7 +175,7 @@ with **n** normalized vector from particle i to particle j
 * Parameter:
 
 +---------------------+------------------------------------------------------------------------------+
-| `symetric`          | Activate or disable symmetric updates (do not disable it with polyhedron).    |
+| `symetric`          | Activate or disable symmetric updates (do not disable it with polyhedron).   |
 +---------------------+------------------------------------------------------------------------------+
 | `config`            | Data structure that contains contact force parameters (rcut, dncut, kn, kt,  | 
 |                     | kr, fc, mu, damp_rate). Type = exaDEM::ContactParams. No default parameter.  |
