@@ -12,9 +12,9 @@ If you would like to view your test cases with paraview, here are some instructi
 
 - For polyhedra: 
 
-  - `"Paraview For Polyhedra" <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-paraview-for-polyhedra>`_
-  - `"Paraview With OBBs" <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-paraview-with-obbs>`_
-  - `"Contact Network" <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-contact-network>`_
+  - `Paraview For Polyhedra <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-paraview-for-polyhedra>`_
+  - `Paraview With OBBs <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-paraview-with-obbs>`_
+  - `Contact Network <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-contact-network>`_
 
 - Drivers:
 
@@ -61,27 +61,6 @@ A DEM simulation of a set of spheres in a periodic rotating drum. Through this s
 +--------------------------+--------------------------+
 | |ex1npstart|             | |ex1npend|               |
 +--------------------------+--------------------------+
-
-Example 2: Rigid stress
-^^^^^^^^^^^^^^^^^^^^^^^
-
-In a DEM simulation under radial stress, particles are exposed to an attractive force from a central point. This scenario allows us to analyze how particles within a system react to the applied radial stress. The simulation offers insights into particle rearrangements, contact forces, and structural changes, giving us a deeper understanding of granular material behavior under radial loading conditions.
-
-.. |ex3start| image:: ../_static/radial_stress_start.png
-   :width: 300pt
-
-.. |ex3end| image:: ../_static/radial_stress_end.png
-   :width: 300pt
-
-+--------------------------+--------------------------+
-| .. centered:: Radial Stress                         |
-+--------------------------+--------------------------+
-| .. centered:: Start      | .. centered:: End        |
-+==========================+==========================+
-| |ex3start|               | |ex3end|                 |
-+--------------------------+--------------------------+
-
-.. warning:: This example is currently disabled.
 
 Example 3: Rigid surface
 ^^^^^^^^^^^^^^^^^^^^^^^^
