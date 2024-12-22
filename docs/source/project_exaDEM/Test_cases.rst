@@ -3,6 +3,27 @@ Test cases
 
 You can explore various basic test cases located in the `example` directory. These test cases serve as illustrative examples of ExaDEM's functionality and can assist you in understanding its behavior and capabilities.
 
+If you would like to view your test cases with paraview, here are some instructions:
+
+- For spheres, please use one of this two options:
+
+  - "Point Gaussian" and adjust the radius (one type)
+  - Select "Use Scale Array" and select radius as "Gaussian Scale Array" while unselect "Use Scale Transfert Function" and put the field "Gaussian Radius" to 1.
+
+- For polyhedra: 
+
+  - `"Paraview For Polyhedra" <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-paraview-for-polyhedra>`_
+  - `"Paraview With OBBs" <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-paraview-with-obbs>`_
+  - `"Contact Network" <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-contact-network>`_
+
+- Drivers:
+
+  - Only stl meshes have paraview outputs
+  - For cylinder/surface/sphere, use "Sources" -> "Geometric Shapes" -> "Cylinder" / "Plane" / "Sphere"
+
+.. note::
+
+  Most of these examples have a "minimal version", mainly used for testing.
 
 Example Using Spheres
 ---------------------
