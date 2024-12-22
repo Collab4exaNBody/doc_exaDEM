@@ -49,7 +49,7 @@ A DEM simulation of a set of spheres in a periodic rotating drum. Through this s
 
 - Input files:
 
-  - First test case: ``example/spheres/rotating-drum/rotating-drum-full.msp``
+  - First test case: ``example/spheres/rotating-drum/rotating-drum-periodic.msp``
   - Second test case: ``example/spheres/rotating-drum/rotating-no-periodic.msp``
 
 +--------------------------+--------------------------+
@@ -67,7 +67,7 @@ Example 2: Rigid surface
 
 A DEM simulation involving spherical particles falling onto a rigid surface offers a virtual exploration of particle dynamics in a gravity-driven scenario. This simulation captures the behavior of individual spherical particles as they fall and interact with a solid surface below. 
 
-- Input file: ``example/spheres/rigid-surface/rigid_surface_full.msp``
+- Input file: ``example/spheres/rigid-surface/rigid_surface.msp``
 
 .. |ex4start| image:: ../_static/rigid_surface_start.png
    :width: 300pt
@@ -296,7 +296,7 @@ Example 3: Hexapods in a Ball
 
 This DEM simulation example illustrates the gravitational descent of 64 hexapods within a large sphere. The primary environment consists of a spherical enclosure with a radius of 20 units and is centered at (2, 2, 0). As the hexapods descend under gravity within this enclosure, they encounter two additional spherical obstacles. The first obstacle (ball, represented as a small yellow ball with a radius of 3 units and centered at (2,2,-5). The second ball, centered at (2,2,-20) with a radius of 7 units, depicted as a large orange ball, intersects the surface of the primary blue sphere, adding complexity to the obstacle configuration. Through this simulation, exaDEM shows its capability to manage particle interactions with various obstacles (balls). Additionally, it showcases the versatility of drivers within the code, which can be employed to define both simulation boundary conditions and obstacles.
 
-- Input file: ``example/polyhedra/balls/balls_full.msp``
+- Input file: ``example/polyhedra/balls/balls.msp``
 
 .. |ex3pstart| image:: ../_static/ExaDEM/polyhedra_ball_start.png
    :width: 250pt
