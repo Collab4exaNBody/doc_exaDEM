@@ -59,7 +59,7 @@ A DEM simulation of a set of spheres in a periodic rotating drum. Through this s
 
     - 27,000 particles
     - 20,000 timesteps
-    - 1 minutes and 13 seconds on 8 cores (OpenMP)
+    - 1 minute and 13 seconds on 8 cores (OpenMP)
 
 +--------------------------+--------------------------+
 | .. centered:: Rotating Drum                         |
