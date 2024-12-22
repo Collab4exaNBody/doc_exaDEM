@@ -50,10 +50,13 @@ A DEM simulation of a set of spheres in a periodic rotating drum. Through this s
 - Input files:
 
   - First test case: ``example/spheres/rotating-drum/rotating-drum-periodic.msp``
+
     - 5520 spheres
     - 20,000 timesteps
     - 15.4 seconds on 8 cores (OpenMP)
+
   - Second test case: ``example/spheres/rotating-drum/rotating-no-periodic.msp``
+
     - 27,000 particles
     - 20,000 timesteps
     - 1 minutes and 13 seconds on 8 cores (OpenMP)
