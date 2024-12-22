@@ -51,7 +51,7 @@ A DEM simulation of a set of spheres in a periodic rotating drum. Through this s
 
   - First test case: ``example/spheres/rotating-drum/rotating-drum-periodic.msp``
 
-    - 5520 spheres
+    - 5,520 spheres
     - 20,000 timesteps
     - 15.4 seconds on 8 cores (OpenMP)
 
@@ -78,6 +78,10 @@ A DEM simulation involving spherical particles falling onto a rigid surface offe
 
 - Input file: ``example/spheres/rigid-surface/rigid_surface.msp``
 
+  - 7,360 particles
+  - 10,000 timesteps
+  - 6.6 seconds on 8 cores
+
 .. |ex4start| image:: ../_static/rigid_surface_start.png
    :width: 300pt
 
@@ -100,7 +104,16 @@ In this DEM simulation, a scenario is simulated where a group of particles with 
 - Input files:
 
   - The first test case: ``example/spheres/impose_velocity/impose_velocity_full.msp``
+
+    - 55,200 particles
+    - 10,000 timesteps
+    - 1 minute and 40 seconds on 8 cores (OpenMP)
+
   - The second test case: ``example/spheres/impose_velocity/impose_velocity_hole.msp``
+
+    - 2,865 particles
+    - 2,000 timesteps
+    - 1.3 seconds on 8 cores (OpenMP)
 
 .. |ex5start| image:: ../_static/impose_velocity_start.png
    :width: 300pt
@@ -131,6 +144,10 @@ In this DEM simulation, a cluster of spherical particles is compacted against a 
 
 - Input file: ``example/spheres/movable-wall/movable_wall.msp`` 
 
+  - 736 particles
+  - 30,000 timesteps
+  - 4.1 seconds
+
 .. |ex6start| image:: ../_static/movable_wall_start.png
    :width: 300pt
 
@@ -150,7 +167,11 @@ Example 5: Using an STL Mesh
 
 In this DEM simulation, a cluster of spherical particles falls onto an .stl mesh and into a box. This case study highlights the use of meshes containing numerous facets and allows adding all geometries coming from CAD or graphic design. 
 
-- Input file: ``example/spheres/mesh-stl/mesh_stl_full.msp``
+- Input file: ``example/spheres/mesh-stl/mesh_stl.msp``
+
+  - 5,000 particles
+  - 20,000 timesteps
+  - 36.4 seconds on 8 cores (OpenMP)
 
 .. |ex7start| image:: ../_static/mesh_stl_start.png
    :width: 300pt
@@ -226,6 +247,9 @@ This example tests the mirror conditions available in exaNBody. Although these c
 
 - Input file: ``example/spheres/mirror/mirror.msp``. 
 
+  - 33,120 particles
+  - 5,000 timesteps
+  - 21.8 seconds on 8 core (OpenMP)
 
 .. |ex11start| image:: ../_static/ExaDEM/mirror_start.png
    :width: 250pt
@@ -240,7 +264,6 @@ This example tests the mirror conditions available in exaNBody. Although these c
 +==========================+==========================+
 | |ex11start|              | |ex11end|                |
 +--------------------------+--------------------------+
-
 
 Examples Using Polyhedra
 ------------------------
