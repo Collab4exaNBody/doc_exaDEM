@@ -23,7 +23,7 @@ If you would like to view your test cases with paraview, here are some instructi
 
 .. note::
 
-  Most of these examples have a "minimal version", mainly used for testing.
+  Some examples can take a long time to run, that's why most of these examples have a "minimal version", mainly used for testing (CI). 
 
 Example Using Spheres
 ---------------------
