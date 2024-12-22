@@ -1,1 +1,22 @@
  
+
+Example 2: Rigid stress
+^^^^^^^^^^^^^^^^^^^^^^^
+
+In a DEM simulation under radial stress, particles are exposed to an attractive force from a central point. This scenario allows us to analyze how particles within a system react to the applied radial stress. The simulation offers insights into particle rearrangements, contact forces, and structural changes, giving us a deeper understanding of granular material behavior under radial loading conditions.
+
+.. |ex3start| image:: ../_static/radial_stress_start.png
+   :width: 300pt
+
+.. |ex3end| image:: ../_static/radial_stress_end.png
+   :width: 300pt
+
++--------------------------+--------------------------+
+| .. centered:: Radial Stress                         |
++--------------------------+--------------------------+
+| .. centered:: Start      | .. centered:: End        |
++==========================+==========================+
+| |ex3start|               | |ex3end|                 |
++--------------------------+--------------------------+
+
+.. warning:: This example is currently disabled.
