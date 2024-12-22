@@ -6,13 +6,12 @@ In this section, we will describe the various information used to build simulati
 Overview
 ^^^^^^^^
 
-The polyhedra implemented in ``ExaDEM`` are sphero-polyhedra, i.e. the vertices of the polyhedra are considered as spheres and the edges as cylinders. To achieve this, ``ExaDEM`` incorporates many of the features of the ``Rockable`` DEM code developed at CNRS (https://github.com/richefeu/rockable, https://richefeu.github.io/rockable/quickStart.html). ``ExaDEM`` relies in particular on a ``Shape`` class containing information about the polyhedron (vertex, edge, face, and Minskowski radius) and an interaction class used to qualify a contact between polyhedra.
-
+The polyhedra implemented in ``ExaDEM`` are sphero-polyhedra, i.e. the vertices of the polyhedra are considered as spheres and the edges as cylinders. To achieve this, ``ExaDEM`` incorporates many of the features of the ``Rockable`` DEM code developed at CNRS (https://github.com/richefeu/rockable, https://richefeu.github.io/rockable/quickStart.html). ``ExaDEM`` relies in particular on a ``Shape`` class containing information about the polyhedron (vertex, edge, face, and Minskowski radius) and an interaction class used to qualify a contact between polyhedra. It's important to note that the spheropolyhedron approach can be used to simulate complex non-convex particles such as hexapods.
 
 Shape
 ^^^^^
 
-The ``Shape`` class provides all the information on vertices, edges, and faces, but it also provides other support to speed up calculations, such as ``OBB`` sets for each type of information. ``ExaDEM`` provides many features linked to the ``Shape`` class, such as reading ``.shp`` files (the format used by ``Rockable``), as well as other functions such as outputting a ``.vtk`` file of the shape.
+The ``Shape`` class provides all the information on vertices, edges, and faces, but it also provides other support to speed up calculations, such as ``OBB`` sets for each type of information. ``ExaDEM`` provides many features linked to the ``Shape`` class, such as reading ``.shp`` files (the format used by ``Rockable``), as well as other functions such as outputting a ``.vtk`` file of the shape. 
 
 This class is defined by its:
 
