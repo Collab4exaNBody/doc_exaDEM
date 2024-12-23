@@ -464,7 +464,7 @@ This simulation example illustrates the gravitational drop of a set of 1.3 milli
 
 .. note::
 
-  This example is designed to run on a supercomputer, so don't run it on a laptop.
+  This example is designed to run on a supercomputer or recent GPUs, so don't run it on a laptop.
 
 +--------------------------+--------------------------+
 | .. centered:: Polyhedra With a Funnel               |
