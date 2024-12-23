@@ -277,6 +277,10 @@ In this example, we simulate the generation of 100 new polyhedra at every 45000 
 
 - Input file: ``example/polyhedra/generator/generator.msp``
 
+  - 100 then 200 and 300 Octahedra
+  - 10,000 timesteps
+  - 9.7 seconds on 8 cores (OpenMP)
+
 .. |ex1pstart| image:: ../_static/generator_start.png
    :width: 250pt
 
@@ -354,6 +358,16 @@ This DEM simulation example illustrates the gravitational descent of 64 hexapods
 
 - Input file: ``example/polyhedra/balls/balls.msp``
 
+  - 64 Hexapods
+  - 150,000 timesteps
+  - 14.3 seconds on 8 cores (OpenMP)
+
+- Other example: ``example/polyhedra/balls/balls.msp``
+
+  - 64 Hexapods
+  - 25,000 timesteps
+  - 2.7 seconds on 8 cores (OpenMP)
+
 .. |ex3pstart| image:: ../_static/ExaDEM/polyhedra_ball_start.png
    :width: 250pt
 
@@ -394,9 +408,27 @@ This simulation example illustrates the use of STL files with polyhedra. In this
 - Input files:
 
   - First example: ``example/polyhedra/stl_mesh/stl_mesh_box_hexapod.msp``
+
+    - 7,344 Hexapods
+    - 50,000 timesteps
+    - 2 mintes and 19 seconds on 8 cores (OpenMP)
+
   - Second example:``example/polyhedra/stl_mesh/stl_mesh_box_octahedron.msp``
+
+    - 2,430 Octahedra
+    - 50,000 timesteps
+    - 1 minute and 6 seconds on 8 cores (OpenMP)
+
   - Third example: ``example/polyhedra/stl_mesh/stl_mesh_box_mixte.msp``
 
+    - 5760 Octahedra and 5760 Hexapods
+    - 100,000 timesteps
+    - 8 minutes and 36 seconds on 8 cores (OpenMP)
+    - 2 minutes and 34 seconds on a GPU a100 (`rcut_inc = 0.2`, `cell_size = 6`, and `grid_dims = [3,3,10]`) 
+
+.. note::
+
+  These examples have minimal test cases (`_mini.msp`).
 
 +--------------------------+--------------------------+
 | .. centered:: Polyhedra With STL Mesh               |
@@ -429,6 +461,10 @@ This simulation example illustrates the gravitational drop of a set of 1.3 milli
    :width: 250pt
 
 - Input file: ``example/polyhedra/funnel/funnel.msp``
+
+.. note::
+
+  This example is designed to run on a supercomputer, so don't run it on a laptop.
 
 +--------------------------+--------------------------+
 | .. centered:: Polyhedra With a Funnel               |
