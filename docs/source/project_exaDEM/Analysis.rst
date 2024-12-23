@@ -682,7 +682,7 @@ One possibility for post-processing is to use gnuplot with the following command
 .. |barycentergif| image:: ../_static/particle_barycenter.gif
    :width: 300pt
 
-.. |counterplot| image:: ../_static/barycenter_plot.png
+.. |barycenterplot| image:: ../_static/barycenter_plot.png
    :width: 300pt
 
 +--------------------------+--------------------------+
