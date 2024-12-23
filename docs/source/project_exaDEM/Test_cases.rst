@@ -298,8 +298,32 @@ In this DEM simulation, we observe the dynamics of 125 octahedra as they descend
 
 - Input files:
 
-  - The first example: ``example/polyhedra/rotating_drum/rotating-drum.msp``
+  - The first example: ``example/polyhedra/rotating_drum/rotating-drum-mini.msp``
+
+    - 125 Octahedra
+    - 10,000 timesteps
+    - 1 second on 8 core (OpenMP)
+
   - The second example: ``example/polyhedra/rotating_drum/rotating-drum-mixte.msp``
+
+    - 27,000 Octahedra and 27,000 Hexapods
+    - 100,000 timesteps
+    - 41 minutes and 36 on 8 cores (OpenMP)
+    - 6 minutes and 31 seconds on a100 (100,000 timesteps) with `rcut_inc = 0.4`
+    - 11 minutes and 24 seconds on a100 (200,000 timesteps) with `rcut_inc = 0.4` (The stage where the particles fall is costly, as the particles are quickly moved from one cell to another, and the reconstruction of neighbor lists (on the CPU) is also costly.)
+    - The pictures corespond to the simulation after 1,000,000 timesteps
+
+  - Other example: ``example/polyhedra/rotating_drum/rotating-drum.msp``
+
+    - 5520 Octahedra
+    - 150,000 timesteps
+    - 2 minutes and 19 seconds on 8 cores (OpenMP)
+
+  - Other example: ``example/polyhedra/rotating_drum/rotating-drum-mixte-mini.msp``
+
+    - 125 Octahedra and 125 Hexapods
+    - 20,000 timesteps
+    - 2.5 seconds on 8 cores (OpenMP)
 
 .. |ex2pstart| image:: ../_static/octahedra_rotating_drum_start.png
    :width: 250pt
