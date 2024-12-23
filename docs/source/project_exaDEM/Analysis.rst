@@ -634,3 +634,62 @@ Results:
 | |countergif|             | |counterplot|            |
 +--------------------------+--------------------------+
 
+Barycenter
+^^^^^^^^^^
+
+The purpose of this operator is to count the number of particles per type in a particular region. 
+
+Operator:
+
+* Name: ``particle_barycenter``
+* Parameters:
+
+  * `name`: Filename. Default is: ParticleBarycenter.txt,
+  * `types`: List of particle types (required, [0,1,2, ...]),
+  * `region`: Choose the region, default is the domain simulation.
+
+To use this operator, the simplest way is to define the analysis frequency (all) in the global operator (``simulation_analyses_frequency``) and add the ``particle_count`` operator to the operator ``analyses``, as in the following example (see ``example/polyhedron/analysis/particle_barycenter.msp``: 	
+
+.. code-block:: yaml
+
+  global:
+    simulation_analyses_frequency: 10000
+
+  analyses:
+    - particle_barycenter:
+       name: BaraycenterBox.txt
+       types: [0,1]
+       region: BOX
+    - particle_barycenter:
+       name: Baraycenter.txt
+       types: [0,1]
+
+One possibility for post-processing is to use gnuplot with the following commands: 
+
+.. code-block:: bash
+
+  set key autotitle columnheade
+  set style data lines
+  set title font "Barycenter per particle type" 
+  set xlabel "Position X" 
+  set ylabel "Position Z"
+  plot "PolyhedraAnalysisBarycenterDir/ExaDEMAnalyses/Baraycenter.txt" u 2:4 w l title "Poly"
+  replot "PolyhedraAnalysisBarycenterDir/ExaDEMAnalyses/Baraycenter.txt" u 5:7 w l title "Octahedron"
+  set terminal png
+  set output "barycenter_plot.png"
+  replot
+
+.. |barycentergif| image:: ../_static/particle_barycenter.gif
+   :width: 300pt
+
+.. |counterplot| image:: ../_static/barycenter_plot.png
+   :width: 300pt
+
++--------------------------+--------------------------+
+| .. centered:: Particle Counter Output               |
++--------------------------+--------------------------+
+| .. centered:: Simulation | .. centered:: Plot       |
++==========================+==========================+
+| |barycentergif|          | |barycenterplot|         |
++--------------------------+--------------------------+
+  
