@@ -349,7 +349,7 @@ Output example:
 Dump Contact Network
 ^^^^^^^^^^^^^^^^^^^^
 
-This operator is used to visualize the contact network between polyhedra using ParaView. For each active contact/interaction, we assign the value of the normal force calculated in Contact's law. You can enable this option, which will be automatically triggered at the same time as the other paraview files, with the option ``enable_contact_network: true`` in global.
+This operator is used to visualize the contact network between polyhedra using ParaView. For each active contact/interaction, we assign the value of the normal force calculated in Contact's law. You can enable this option, which will be automatically triggered at the same time as the other paraview files, with the option ``enable_contact_network: true`` in global. See examples: "Polyhedra/Example 2: Octahedra in a Rotating Drum" and "Spheres/Example 1: Rotating drum".
 
 * `dump_contact_network`:
    * `filename` : Name of the paraview file, there is no default name.  
