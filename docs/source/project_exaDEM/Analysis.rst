@@ -567,8 +567,8 @@ A gnuplot script is available at `scripts/post_processing/avg_stress.gnu` to qui
 .. code-block:: bash
 
 	set key autotitle columnhead
-	N = system("awk 'NR==1{print NF}' AvgStresTensor.txt")
-	plot for [i=2:N] "AvgStresTensor.txt" u 1:i w l
+	N = system("awk 'NR==1{print NF}' AvgStressTensor.txt")
+	plot for [i=2:N] "AvgStressTensor.txt" u 1:i w l
 	set key autotitle columnhead
 	set term png
 	set output "avgStress.png"
