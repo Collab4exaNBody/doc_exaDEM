@@ -514,21 +514,21 @@ YAML example:
 
 **For further information**
 
-This frequency triggers several things. When passing through the ``Contact Force`` operator, the list of interactions / normal force / tangential force iq stored in the classifier. The stress tensor is then calculated in ``stress_tensor`` and written in ``write_stress_tensor``. By default, volume is calculated from the simulation volume using the ``compute_volume`` operator. So, by default, the frequency will trigger the chaining of these three operators: 
+This frequency triggers several things. When passing through the ``Contact Force`` operator, the list of interactions / normal force / tangential force iq stored in the classifier. The stress tensor is then calculated in ``global_stress_tensor`` and written in ``write_stress_tensor``. By default, volume is calculated from the simulation volume using the ``compute_volume`` operator. So, by default, the frequency will trigger the chaining of these three operators: 
 
 .. code-block:: yaml
 
   compute_volume:
     - domain_volume
   
-  compute_stress_tensor:
-    - stress_tensor
+  global_stress_tensor:
+    - average_stress_tensor
   
   dump_stress_tensor_if_triggered:
     condition: trigger_write_stress_tensor
     body:
       - compute_volume
-      - compute_stress_tensor
+      - global_stress_tensor
       - write_stress_tensor
 
 In the case of a particle deposit or other simulation where the simulation domain does not correspond to the simulation volume, you can either implement your ``my_volume`` operator and replace the ``compute_volume`` operator block such as:
@@ -547,8 +547,8 @@ If you want to directly assign the value of a fixed-size volume, we advise you t
 
 	compute_volume: nop
 
-	compute_stress_tensor:
-		- stress_tensor:
+	global_stress_tensor:
+		- average_stress_tensor:
 			 volume: 21952
 
 A usage example is available at the following address: `example/polyhedra/analyses/write_avg_stress.msp`. It involves dropping a set of hexapods into a box and watching the stress tensor evolve over time.
