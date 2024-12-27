@@ -67,7 +67,7 @@ Drivers share common parameters contained in the Driver_params class. These para
 
 
 .. list-table:: Glossary Of Motion Types per Driver
-   :widths: 25 25
+   :widths: 40 10 10 10 10 10 10
    :header-rows: 1
 
    * - Motions
