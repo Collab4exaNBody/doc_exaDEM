@@ -52,17 +52,17 @@ Drivers share common parameters contained in the Driver_params class. These para
 
    * - Motion type
      - Description
-   * - STATIONARY
+   * - ``STATIONARY``
      - Stationary state, with no motion.
-   * - LINEAR_MOTION
+   * - ``LINEAR_MOTION``
      - Linear movement type, straight-line motion at constant velocity
-   * - COMPRESSIVE_FORCE
+   * - ``COMPRESSIVE_FORCE``
      - Movement influenced by compressive forces, depending on driver type.
-   * - LINEAR_FORCED_MOTION
+   * - ``LINEAR_FORCE_MOTION``
      - Linear motion type influenced by applied forces.
-   * - FORCED_MOTION
+   * - ``FORCE_MOTION``
      - General movement caused by applied forces
-   * - LINEAR_COMPRESSIVE_MOTION
+   * - ``LINEAR_COMPRESSIVE_MOTION``
      - Linear movement combined with compressive forces. 
 
 
@@ -71,13 +71,13 @@ Drivers share common parameters contained in the Driver_params class. These para
    :header-rows: 1
 
    * - Motions
-     - STATIONARY
-     - LINEAR_MOTION
-     - COMPRESSIVE_FORCE
-     - LINEAR_FORCED_MOTION
-     - FORCED_MOTION
-     - LINEAR_COMPRESSIVE_MOTION
-   * - Cylinder:
+     - ``STATIONARY``
+     - ``LINEAR_MOTION``
+     - ``COMPRESSIVE_FORCE``
+     - ``LINEAR_FORCE_MOTION``
+     - ``FORCE_MOTION``
+     - ``LINEAR_COMPRESSIVE_MOTION``
+   * - Cylinder
      - :octicon:`check-circle`
      - :octicon:`x-circle-fill`
      - :octicon:`x-circle-fill`
