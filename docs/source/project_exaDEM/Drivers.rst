@@ -50,40 +50,40 @@ Drivers share common parameters contained in the Driver_params class. These para
    :widths: 25 25
    :header-rows: 1
 
-  * - Motion type
-    - Description
-  * - STATIONARY
-    - Stationary state, with no motion.
-  * - LINEAR_MOTION
-    - Linear movement type, straight-line motion at constant velocity
-  * - COMPRESSIVE_FORCE
-    - Movement influenced by compressive forces, depending on driver type.
-  * - LINEAR_FORCED_MOTION
-    - Linear motion type influenced by applied forces.
-  * - FORCED_MOTION
-    - General movement caused by applied forces
-  * - LINEAR_COMPRESSIVE_MOTION
-    - Linear movement combined with compressive forces.
+   * - Motion type
+     - Description
+   * - STATIONARY
+     - Stationary state, with no motion.
+   * - LINEAR_MOTION
+     - Linear movement type, straight-line motion at constant velocity
+   * - COMPRESSIVE_FORCE
+     - Movement influenced by compressive forces, depending on driver type.
+   * - LINEAR_FORCED_MOTION
+     - Linear motion type influenced by applied forces.
+   * - FORCED_MOTION
+     - General movement caused by applied forces
+   * - LINEAR_COMPRESSIVE_MOTION
+     - Linear movement combined with compressive forces. 
 
 
 .. list-table:: Glossary Of Drivers
    :widths: 25 25
    :header-rows: 1
 
-  * - Motions
-    - STATIONARY
-    - LINEAR_MOTION
-    - COMPRESSIVE_FORCE
-    - LINEAR_FORCED_MOTION
-    - FORCED_MOTION
-    - LINEAR_COMPRESSIVE_MOTION
-  * - Cylinder:
-    - :octicon:`check-circle`
-    - :octicon:`x-circle-fill`
-    - :octicon:`x-circle-fill`
-    - :octicon:`x-circle-fill`
-    - :octicon:`x-circle-fill`
-    - :octicon:`x-circle-fill`
+   * - Motions
+     - STATIONARY
+     - LINEAR_MOTION
+     - COMPRESSIVE_FORCE
+     - LINEAR_FORCED_MOTION
+     - FORCED_MOTION
+     - LINEAR_COMPRESSIVE_MOTION
+   * - Cylinder:
+     - :octicon:`check-circle`
+     - :octicon:`x-circle-fill`
+     - :octicon:`x-circle-fill`
+     - :octicon:`x-circle-fill`
+     - :octicon:`x-circle-fill`
+     - :octicon:`x-circle-fill`
 
 Add a Driver To Your Simulation
 -------------------------------
