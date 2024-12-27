@@ -84,7 +84,27 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
      - ✘
-
+   * - Surface
+     - ✔
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+   * - Ball
+     - ✔
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+   * - Stl Mesh
+     - ✔
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+     - ✘
 
 Add a Driver To Your Simulation
 -------------------------------
