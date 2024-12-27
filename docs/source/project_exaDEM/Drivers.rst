@@ -23,19 +23,19 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
      - Driver Type 
      - Operator Name
    * - Cylinder
-     - CYLINDER 
-     - add_cylinder
+     - ``CYLINDER`` 
+     - ``add_cylinder``
    * - Wall / Surface 
-     - SURFACE 
-     - add_ball
+     - ``SURFACE`` 
+     - ``add_surface``
    * - Ball / Sphere  
-     - BALL       
-     - add_surface
+     - ``BALL``       
+     - ``add_ball``
    * - STL Mesh 
-     - STL_Mesh 
-     - add_stl_mesh
+     - ``STL_Mesh`` 
+     - ``add_stl_mesh``
    * - Undefined
-     - UNDEFINED 
+     - ``UNDEFINED`` 
      - no operator
 
 .. note::
@@ -70,7 +70,7 @@ Drivers share common parameters contained in the Driver_params class. These para
    :widths: 40 10 10 10 10 10 10
    :header-rows: 1
 
-   * - Motions
+   * - Motion Type
      - ``STATIONARY``
      - ``LINEAR_MOTION``
      - ``COMPRESSIVE_FORCE``
@@ -78,12 +78,12 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ``FORCE_MOTION``
      - ``LINEAR_COMPRESSIVE_MOTION``
    * - Cylinder
-     - :octicon:`check-circle`
-     - :octicon:`x-circle-fill`
-     - :octicon:`x-circle-fill`
-     - :octicon:`x-circle-fill`
-     - :octicon:`x-circle-fill`
-     - :octicon:`x-circle-fill`
+     - :octicon:`check-circle;1em;sd-text-info`
+     - :octicon:`x-circle-fill;1em;sd-text-info`
+     - :octicon:`x-circle-fill;1em;sd-text-info`
+     - :octicon:`x-circle-fill;1em;sd-text-info`
+     - :octicon:`x-circle-fill;1em;sd-text-info`
+     - :octicon:`x-circle-fill;1em;sd-text-info`
 
 Add a Driver To Your Simulation
 -------------------------------
