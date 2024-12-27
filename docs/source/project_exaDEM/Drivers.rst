@@ -41,6 +41,49 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
 .. note::
  When adding a ``driver`` to the simulation in ``ExaDEM``, it is essential to define a contact parameter list specific to the ``driver`` within the `compute_contact_interaction` operator.
 
+Common Driver Parameters
+------------------------
+
+Drivers share common parameters contained in the Driver_params class. These parameters are mainly used in the time integration scheme to detect the type of displacement. In the tables below, we describe the types of motion available by drivers and as well as a list of motions available on the driver:
+
+.. list-table:: Glossary Of Drivers
+   :widths: 25 25
+   :header-rows: 1
+
+  * - Motion type
+    - Description
+  * - STATIONARY
+    - Stationary state, with no motion.
+  * - LINEAR_MOTION
+    - Linear movement type, straight-line motion at constant velocity
+  * - COMPRESSIVE_FORCE
+    - Movement influenced by compressive forces, depending on driver type.
+  * - LINEAR_FORCED_MOTION
+    - Linear motion type influenced by applied forces.
+  * - FORCED_MOTION
+    - General movement caused by applied forces
+  * - LINEAR_COMPRESSIVE_MOTION
+    - Linear movement combined with compressive forces.
+
+
+.. list-table:: Glossary Of Drivers
+   :widths: 25 25
+   :header-rows: 1
+
+  * - Motions
+    - STATIONARY
+    - LINEAR_MOTION
+    - COMPRESSIVE_FORCE
+    - LINEAR_FORCED_MOTION
+    - FORCED_MOTION
+    - LINEAR_COMPRESSIVE_MOTION
+  * - Cylinder:
+    - :octicon:`check-circle`
+    - :octicon:`x-circle-fill`
+    - :octicon:`x-circle-fill`
+    - :octicon:`x-circle-fill`
+    - :octicon:`x-circle-fill`
+    - :octicon:`x-circle-fill`
 
 Add a Driver To Your Simulation
 -------------------------------
