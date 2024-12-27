@@ -78,12 +78,13 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ``FORCE_MOTION``
      - ``LINEAR_COMPRESSIVE_MOTION``
    * - Cylinder
-     - :octicon:`check-circle;1em;sd-text-info`
-     - :octicon:`x-circle-fill;1em;sd-text-info`
-     - :octicon:`x-circle-fill;1em;sd-text-info`
-     - :octicon:`x-circle-fill;1em;sd-text-info`
-     - :octicon:`x-circle-fill;1em;sd-text-info`
-     - :octicon:`x-circle-fill;1em;sd-text-info`
+     - ✔
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+
 
 Add a Driver To Your Simulation
 -------------------------------
