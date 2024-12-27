@@ -46,7 +46,7 @@ Common Driver Parameters
 
 Drivers share common parameters contained in the Driver_params class. These parameters are mainly used in the time integration scheme to detect the type of displacement. In the tables below, we describe the types of motion available by drivers and as well as a list of motions available on the driver:
 
-.. list-table:: Glossary Of Drivers
+.. list-table:: Glossary Of Motion Types
    :widths: 25 25
    :header-rows: 1
 
@@ -66,7 +66,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - Linear movement combined with compressive forces. 
 
 
-.. list-table:: Glossary Of Drivers
+.. list-table:: Glossary Of Motion Types per Driver
    :widths: 25 25
    :header-rows: 1
 
