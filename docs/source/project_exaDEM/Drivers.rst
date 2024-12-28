@@ -78,14 +78,14 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ``FORCE_MOTION``
      - ``LINEAR_COMPRESSIVE_MOTION``
    * - Cylinder
-     - ✔
+     - ✘
      - ✘
      - ✘
      - ✘
      - ✘
      - ✘
    * - Surface
-     - ✔
+     - ✘
      - ✘
      - ✘
      - ✘
@@ -93,13 +93,13 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
    * - Ball
      - ✔
-     - ✘
+     - ✔
      - ✘
      - ✘
      - ✘
      - ✘
    * - Stl Mesh
-     - ✔
+     - ✘
      - ✘
      - ✘
      - ✘
