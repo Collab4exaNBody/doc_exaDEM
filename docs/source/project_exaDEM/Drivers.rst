@@ -30,7 +30,7 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
      - ``add_surface``
    * - Ball / Sphere  
      - ``BALL``       
-     - ``add_ball``
+     - ``register_ball``
    * - STL Mesh 
      - ``STL_Mesh`` 
      - ``add_stl_mesh``
@@ -195,24 +195,45 @@ The ball or sphere driver represents a spherical object within the simulation en
 
 |ex3pend|
 
-* Operator name: ``add_ball``
+* Operator name: ``register_ball``
 * Description: This operator adds a ball / sphere (boundary condition or obstacle) to the drivers list.
 * Parameters:
 
-  * *center*: Center of the ball / sphere
-  * *radius*: Radius of the ball / sphere
-  * *velocity*: Velocity of the ball / sphere
-  * *vrot*: Angular velocity of the ball, default is 0 m.s-1
+  * *id*: Driver index
+  * *state*: Current ball state, default is {radius: REQUIRED, center: REQUIRED, vel: [0,0,0], vrot: [0,0,0], rv: 0, ra: 0}. You need to specify the radius and center. 
+  * *params*: List of params, motion type, motion vectors .... Default is { motion_type: STATIONARY}.
 
+.. note::
 
-YAML example:
+   - `ra` is the "radius acceleration" and `rv` the "radius velocity" used during the radial compression, i.e. shrinking or stretching the radius of a ball until the desired pressure is reached between the ball and the particles inside. This requires the motion type ``COMPRESSIVE_FORCE``.
+
+   - If the motion type is ``LINEAR_MOTION``, the velocity (`vel`) is computed from `motion_vector` and `const_vel`.
+
+   - If the motion type is ``COMPRESSIVE_FORCE``, the velocity (`vel`) is set to 0.
+
+YAML examples:
+
+Motion type: Stationay
 
 .. code:: yaml
 
-  - add_ball:
-     id: 0
-     center: [2, 2, 0]
-     radius: 20
+  - register_ball:
+     id: 2
+     state: {center: [2,2,-20], radius: 7}
+     params: { motion_type: STATIONARY }
+
+Motion type: linear motion
+
+.. code:: yaml
+
+  - register_ball:
+     id: 1
+     state: {center: [30,2,-10], radius: 8}
+     params: { motion_type: LINEAR_MOTION , motion_vector: [-1,0,0], const_vel: 0.5}
+
+Motion type: Compressive
+
+.. code:: yaml
 
 STL Mesh
 --------
