@@ -78,7 +78,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ``FORCE_MOTION``
      - ``LINEAR_COMPRESSIVE_MOTION``
    * - Cylinder
-     - ✘
+     - ✔
      - ✘
      - ✘
      - ✘
@@ -136,22 +136,17 @@ The rotating drum or cylinder driver represents an infinite cylinder rotating al
 * Parameters:
 
   * *id*: Driver index
-  * *radius*: Cylinder radius
-  * *axis*: Define the plan of the cylinder
-  * *velocity*: Cylinder velocity, default is [0,0,0]
-  * *angular_velocity*: Angular velocity of the cylinder, default is 0 m.s-1
-  * *center*: Center of the cylinder
+  * *state*: Current cylinder state, default is {radius: REQUIRED, axis: REQUIRED, center: REQUIRED, vel: [0,0,0], vrot: [0,0,0], rv: 0, ra: 0}. You need to specify the radius and center.
+  * *params*: List of params, motion type, motion vectors .... Default is { motion_type: STATIONARY}.
 
 YAML example:
 
 .. code:: yaml
 
-  - add_cylinder:
+  - register_cylinder:
      id: 0
-     center: [2.5, 2.5, 2.5]
-     axis: [1, 0, 1]
-     radius: 4
-     angular_velocity: [0,0,0]
+     state: {center: [2.5, 2.5, 2.5], axis: [1, 0, 1], radius: 4}
+     params: { motion_type: STATIONARY }
 
 Wall / Surface
 --------------
