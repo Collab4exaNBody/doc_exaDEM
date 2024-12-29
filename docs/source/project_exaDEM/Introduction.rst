@@ -27,85 +27,85 @@ The following table provides a glossary of features supported by ``ExaDEM``, cat
     - Polyhedron(CPU)
     - Polyhedron(GPU)
   * - Field Set Plugin
-    - YES
-    - YES
-    - YES
-    - YES
+    - ✔
+    - ✔
+    - ✔
+    - ✔
   * - I/O Files
-    - YES
-    - X
-    - YES
-    - X
+    - ✔
+    - ✘
+    - ✔
+    - ✘
   * - Paraview Files
-    - YES
-    - X
-    - YES
-    - X
+    - ✔
+    - ✘
+    - ✔
+    - ✘
   * - Particle Migration (MPI)
-    - YES
-    - X
-    - YES
-    - X
+    - ✔
+    - ✘
+    - ✔
+    - ✘
   * - Load Balancing (RCB)
-    - YES
-    - X
-    - YES
-    - X
+    - ✔
+    - ✘
+    - ✔
+    - ✘
   * - Numerical Scheme Plugin
-    - YES
-    - YES
-    - YES
-    - YES
+    - ✔
+    - ✔
+    - ✔
+    - ✔
   * - Regions
-    - YES
-    - YES
-    - YES
-    - YES
+    - ✔
+    - ✔
+    - ✔
+    - ✔
   * - Particles Generator
-    - YES
-    - X
-    - YES
-    - X
+    - ✔
+    - ✘
+    - ✔
+    - ✘
   * - Contact Law
-    - YES
-    - YES
-    - YES
-    - YES
+    - ✔
+    - ✔
+    - ✔
+    - ✔
   * - Gravity Force
-    - YES
-    - YES
-    - YES
-    - YES
+    - ✔
+    - ✔
+    - ✔
+    - ✔
   * - Quadratic Drag Force
-    - YES
-    - YES
-    - YES
-    - YES
+    - ✔
+    - ✔
+    - ✔
+    - ✔
   * - Driver Cylinder
-    - YES
-    - YES
-    - YES
-    - YES
+    - ✔
+    - ✔
+    - ✔
+    - ✔
   * - Driver Wall/Surface
-    - YES
-    - YES
-    - YES
-    - YES
+    - ✔
+    - ✔
+    - ✔
+    - ✔
   * - Driver type Ball/Sphere
-    - YES
-    - YES
-    - YES
-    - YES
+    - ✔
+    - ✔
+    - ✔
+    - ✔
   * - Driver type STL Mesh
-    - YES
-    - YES
-    - YES
-    - YES
+    - ✔
+    - ✔
+    - ✔
+    - ✔
   * - Contact Network File
-    - NO
-    - X
-    - YES
-    - X
+    - ✔
+    - ✘
+    - ✔
+    - ✘
 
 .. note::
 

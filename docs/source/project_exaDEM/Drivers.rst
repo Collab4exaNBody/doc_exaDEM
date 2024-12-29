@@ -23,24 +23,88 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
      - Driver Type 
      - Operator Name
    * - Cylinder
-     - CYLINDER 
-     - add_cylinder
+     - ``CYLINDER`` 
+     - ``add_cylinder``
    * - Wall / Surface 
-     - SURFACE 
-     - add_ball
+     - ``SURFACE`` 
+     - ``add_surface``
    * - Ball / Sphere  
-     - BALL       
-     - add_surface
+     - ``BALL``       
+     - ``register_ball``
    * - STL Mesh 
-     - STL_Mesh 
-     - add_stl_mesh
+     - ``STL_Mesh`` 
+     - ``add_stl_mesh``
    * - Undefined
-     - UNDEFINED 
+     - ``UNDEFINED`` 
      - no operator
 
 .. note::
  When adding a ``driver`` to the simulation in ``ExaDEM``, it is essential to define a contact parameter list specific to the ``driver`` within the `compute_contact_interaction` operator.
 
+Common Driver Parameters
+------------------------
+
+Drivers share common parameters contained in the Driver_params class. These parameters are mainly used in the time integration scheme to detect the type of displacement. In the tables below, we describe the types of motion available by drivers and as well as a list of motions available on the driver:
+
+.. list-table:: Glossary Of Motion Types
+   :widths: 25 25
+   :header-rows: 1
+
+   * - Motion type
+     - Description
+   * - ``STATIONARY``
+     - Stationary state, with no motion.
+   * - ``LINEAR_MOTION``
+     - Linear movement type, straight-line motion at constant velocity
+   * - ``COMPRESSIVE_FORCE``
+     - Movement influenced by compressive forces, depending on driver type.
+   * - ``LINEAR_FORCE_MOTION``
+     - Linear motion type influenced by applied forces.
+   * - ``FORCE_MOTION``
+     - General movement caused by applied forces
+   * - ``LINEAR_COMPRESSIVE_MOTION``
+     - Linear movement combined with compressive forces. 
+
+
+.. list-table:: Glossary Of Motion Types per Driver
+   :widths: 40 10 10 10 10 10 10
+   :header-rows: 1
+
+   * - Motion Type
+     - ``STATIONARY``
+     - ``LINEAR_MOTION``
+     - ``COMPRESSIVE_FORCE``
+     - ``LINEAR_FORCE_MOTION``
+     - ``FORCE_MOTION``
+     - ``LINEAR_COMPRESSIVE_MOTION``
+   * - Cylinder
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+   * - Surface
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+   * - Ball
+     - ✔
+     - ✔
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+   * - Stl Mesh
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+     - ✘
+     - ✘
 
 Add a Driver To Your Simulation
 -------------------------------
@@ -131,24 +195,45 @@ The ball or sphere driver represents a spherical object within the simulation en
 
 |ex3pend|
 
-* Operator name: ``add_ball``
+* Operator name: ``register_ball``
 * Description: This operator adds a ball / sphere (boundary condition or obstacle) to the drivers list.
 * Parameters:
 
-  * *center*: Center of the ball / sphere
-  * *radius*: Radius of the ball / sphere
-  * *velocity*: Velocity of the ball / sphere
-  * *vrot*: Angular velocity of the ball, default is 0 m.s-1
+  * *id*: Driver index
+  * *state*: Current ball state, default is {radius: REQUIRED, center: REQUIRED, vel: [0,0,0], vrot: [0,0,0], rv: 0, ra: 0}. You need to specify the radius and center. 
+  * *params*: List of params, motion type, motion vectors .... Default is { motion_type: STATIONARY}.
 
+.. note::
 
-YAML example:
+   - `ra` is the "radius acceleration" and `rv` the "radius velocity" used during the radial compression, i.e. shrinking or stretching the radius of a ball until the desired pressure is reached between the ball and the particles inside. This requires the motion type ``COMPRESSIVE_FORCE``.
+
+   - If the motion type is ``LINEAR_MOTION``, the velocity (`vel`) is computed from `motion_vector` and `const_vel`.
+
+   - If the motion type is ``COMPRESSIVE_FORCE``, the velocity (`vel`) is set to 0.
+
+YAML examples:
+
+Motion type: Stationay
 
 .. code:: yaml
 
-  - add_ball:
-     id: 0
-     center: [2, 2, 0]
-     radius: 20
+  - register_ball:
+     id: 2
+     state: {center: [2,2,-20], radius: 7}
+     params: { motion_type: STATIONARY }
+
+Motion type: linear motion
+
+.. code:: yaml
+
+  - register_ball:
+     id: 1
+     state: {center: [30,2,-10], radius: 8}
+     params: { motion_type: LINEAR_MOTION , motion_vector: [-1,0,0], const_vel: 0.5}
+
+Motion type: Compressive
+
+.. code:: yaml
 
 STL Mesh
 --------
