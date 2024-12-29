@@ -94,7 +94,7 @@ Drivers share common parameters contained in the Driver_params class. These para
    * - Ball
      - ✔
      - ✔
-     - ✘
+     - ✔
      - ✘
      - ✘
      - ✘
@@ -231,9 +231,18 @@ Motion type: linear motion
      state: {center: [30,2,-10], radius: 8}
      params: { motion_type: LINEAR_MOTION , motion_vector: [-1,0,0], const_vel: 0.5}
 
+.. image:: ../_static/ball_linear_motion.gif
+
 Motion type: Compressive
 
 .. code:: yaml
+
+  - register_ball:
+     id: 0
+     state: {center: [0,0,0], radius: 11}
+     params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0}
+
+.. image:: ../_static/radial_stress.gif
 
 STL Mesh
 --------
