@@ -85,8 +85,8 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
    * - Surface
-     - ✘
-     - ✘
+     - ✔
+     - ✔
      - ✘
      - ✘
      - ✘
@@ -159,25 +159,41 @@ The wall or surface driver represents an infinite wall within the simulation env
 
 |ex4end|
 
-* Operator name: ``add_surface``
+* Operator name: ``register_surface``
 * Description: This operator adds a surface/wall to the drivers list.
 * Parameters:
 
   * *id*: Driver index
-  * *center*: Center of the surface (used for rotation when the angular velocity is defined)
-  * *normal*: Normal vector of the rigid surface
-  * *offset*: Offset from the origin (0,0,0) of the rigid surface
-  * *velocity*: Wall/Surface velocity, default is [0,0,0]
-  * *vrot*: Angular velocity of the surface, default is 0 m.s-1
+  * *state*: 
+  * *params*: 
 
-YAML example:
+
+YAML examples:
 
 .. code:: yaml
 
-  - add_surface:
+  - register_surface:
      id: 0
-     normal: [0,0,1]
-     offset: -0.5
+     state: {normal: [0,0,1], offset: -0.5}
+     params: { motion_type: STATIONARY }
+
+.. code:: yaml
+
+  - register_surface:
+     id: 4
+     state: { normal: [1,0,0], offset: 11}
+     params: { motion_type: LINEAR_MOTION, motion_vector: [1,0,0], const_vel: -4 }
+
+.. code:: yaml
+
+  - register_surface:
+     id: 4
+     state: { normal: [1,0,0], offset: 11, surface: 144}
+     params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5 }
+
+.. note:: 
+
+  If you have chosen the “LINEAR_COMPRESSIVE_MOTION” mode, you will need to define the value of the wall surface.  
 
 Ball / Sphere
 --------------
