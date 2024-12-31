@@ -306,7 +306,7 @@ Staionary mode:
      minskowski: 0.001 m
      params: {motion_type: STATIONARY}
 
-.. |ex4stationary| image:: ../_static/ExaDEM/stl_stationary.gif
+.. |ex4stationary| image:: ../_static/stl_stationary.gif
    :align: middle
    :width: 300pt
 
@@ -314,7 +314,7 @@ Staionary mode:
 
 Linear motion mode:
 
-.. |ex4linear| image:: ../_static/ExaDEM/stl_linear_motion.gif
+.. |ex4linear| image:: ../_static/stl_linear_motion.gif
    :align: middle
    :width: 300pt
 
