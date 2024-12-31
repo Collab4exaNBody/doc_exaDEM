@@ -99,8 +99,8 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
    * - Stl Mesh
-     - ✘
-     - ✘
+     - ✔
+     - ✔
      - ✘
      - ✘
      - ✘
@@ -287,23 +287,45 @@ The STL Mesh driver is constructed from an .STL (Stereolithography) file to crea
   * *id*: Driver index
   * *filename*: Input filename (.stl or .shp)
   * *minskowski*: Minskowski radius value
-  * *center*: Center is defined but not used
-  * *velocity* : Velocity is defined but not used
-  * *angular_velocity*: Angular_velocity of the mesh
-  * *orientation*: Orientation of the mesh.
+  * *state*: Define the center, velocity, angular velocity and the orientatation. Default is: state: {center: [0,0,0], vel: [0,0,0], vrot: [0,0,0], quat: [1,0,0,0]}.
+  * *params*: List of params, motion type, motion vectors .... Default is { motion_type: STATIONARY}.
 
 * Operator name: ``update_grid_stl_mesh``
 * Description: Update the grid of lists of {vertices / edges / faces} in contact for every cell. The aim is to predefine a list of possible contacts with a cell for an STL mesh. These lists must be updated each time the grid changes. 
 * Parameters: No parameter
 
-YAML example:
+YAML examples:
+
+Staionary mode:
 
 .. code:: yaml
 
-  - add_stl_mesh:
+  - register_stl_mesh:
      id: 0
-     filename: box_for_octa.stl
-     minskowski: 0.01
+     filename: mesh.stl
+     minskowski: 0.001 m
+     params: {motion_type: STATIONARY}
+
+.. |ex4stationary| image:: ../_static/ExaDEM/stl_stationary.gif
+   :align: middle
+   :width: 300pt
+
+|ex4stationary| 
+
+Linear motion mode:
+
+.. |ex4linear| image:: ../_static/ExaDEM/stl_linear_motion.gif
+   :align: middle
+   :width: 300pt
+
+  - register_stl_mesh:
+     id: 0
+     state: {center: [0.4,0,0]}
+     params: { motion_type: LINEAR_MOTION, motion_vector: [-1,0,0], const_vel: 0.5 }
+     filename: mesh.stl
+     minskowski: 0.001 m
+
+|ex4linear|
 
 I/O Drivers
 ^^^^^^^^^^^
