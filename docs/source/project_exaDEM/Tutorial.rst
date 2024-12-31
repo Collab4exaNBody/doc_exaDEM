@@ -74,13 +74,10 @@ For this simulation, we choose to fill an infinite cylinder centered at (10,3.75
 .. code-block:: yaml
 
   setup_drivers:
-    - add_cylinder:
+    - register_cylinder:
        id: 0
-       center: [10 m, 3.75 m, 10 m]
-       axis: [1, 0, 1]
-       radius: 16 m
-       angular_velocity: [0,0,0]
-
+       state: {center: [10, 3.75, 10], axis: [1, 0, 1], radius: 16}
+       params: { motion_type: STATIONARY }
 
 .. note::
 	`setup_drivers` is a default operator integrated in the default execution graph of exaDEM. By default, this operator is set to nop for `no operator`.
@@ -221,7 +218,7 @@ Initiate motion of your drum. You can determine the angular velocity using the F
 
 .. code-block:: yaml
 
-      angular_velocity: [0,0.35,0]
+      vrot: [0,0.35,0]
 
 In addition, we display the contact network (normal force) between the hexapods.
 
@@ -273,12 +270,11 @@ Step 1 consists of generating particles in a cylinder whose main axis is Oz and 
        filename: exaDEM-Data/stl_files/mod_base.shp
        center: [0,0,-20] 
        minskowski: 0.01
-    - add_cylinder:
+    - register_cylinder:
        id: 1
-       radius: 25
-       center: [0,0,0] 
-       axis: [1,1,0]
-       angular_velocity: [0,0,0]
+       state: {radius: 25, center: [0,0,0], axis: [1,1,0]}
+       params: { motion_type: STATIONARY }
+
 
 With mod_base, a large shape in the image is just below: 
 

@@ -78,15 +78,15 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ``FORCE_MOTION``
      - ``LINEAR_COMPRESSIVE_MOTION``
    * - Cylinder
-     - ✘
+     - ✔
      - ✘
      - ✘
      - ✘
      - ✘
      - ✘
    * - Surface
-     - ✘
-     - ✘
+     - ✔
+     - ✔
      - ✘
      - ✘
      - ✘
@@ -136,22 +136,17 @@ The rotating drum or cylinder driver represents an infinite cylinder rotating al
 * Parameters:
 
   * *id*: Driver index
-  * *radius*: Cylinder radius
-  * *axis*: Define the plan of the cylinder
-  * *velocity*: Cylinder velocity, default is [0,0,0]
-  * *angular_velocity*: Angular velocity of the cylinder, default is 0 m.s-1
-  * *center*: Center of the cylinder
+  * *state*: Current cylinder state, default is {radius: REQUIRED, axis: REQUIRED, center: REQUIRED, vel: [0,0,0], vrot: [0,0,0], rv: 0, ra: 0}. You need to specify the radius and center.
+  * *params*: List of params, motion type, motion vectors .... Default is { motion_type: STATIONARY}.
 
 YAML example:
 
 .. code:: yaml
 
-  - add_cylinder:
+  - register_cylinder:
      id: 0
-     center: [2.5, 2.5, 2.5]
-     axis: [1, 0, 1]
-     radius: 4
-     angular_velocity: [0,0,0]
+     state: {center: [2.5, 2.5, 2.5], axis: [1, 0, 1], radius: 4}
+     params: { motion_type: STATIONARY }
 
 Wall / Surface
 --------------
@@ -164,25 +159,41 @@ The wall or surface driver represents an infinite wall within the simulation env
 
 |ex4end|
 
-* Operator name: ``add_surface``
+* Operator name: ``register_surface``
 * Description: This operator adds a surface/wall to the drivers list.
 * Parameters:
 
   * *id*: Driver index
-  * *center*: Center of the surface (used for rotation when the angular velocity is defined)
-  * *normal*: Normal vector of the rigid surface
-  * *offset*: Offset from the origin (0,0,0) of the rigid surface
-  * *velocity*: Wall/Surface velocity, default is [0,0,0]
-  * *vrot*: Angular velocity of the surface, default is 0 m.s-1
+  * *state*: 
+  * *params*: 
 
-YAML example:
+
+YAML examples:
 
 .. code:: yaml
 
-  - add_surface:
+  - register_surface:
      id: 0
-     normal: [0,0,1]
-     offset: -0.5
+     state: {normal: [0,0,1], offset: -0.5}
+     params: { motion_type: STATIONARY }
+
+.. code:: yaml
+
+  - register_surface:
+     id: 4
+     state: { normal: [1,0,0], offset: 11}
+     params: { motion_type: LINEAR_MOTION, motion_vector: [1,0,0], const_vel: -4 }
+
+.. code:: yaml
+
+  - register_surface:
+     id: 4
+     state: { normal: [1,0,0], offset: 11, surface: 144}
+     params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5 }
+
+.. note:: 
+
+  If you have chosen the “LINEAR_COMPRESSIVE_MOTION” mode, you will need to define the value of the wall surface.  
 
 Ball / Sphere
 --------------
