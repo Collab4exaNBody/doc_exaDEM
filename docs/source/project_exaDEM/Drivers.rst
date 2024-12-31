@@ -191,9 +191,11 @@ YAML examples:
      state: { normal: [1,0,0], offset: 11, surface: 144}
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5, damprate: 0.999 }
 
-.. image:: ../_static/radial_stress.gif
+.. |surface_radial_stress| image:: ../_static/radial_stress.gif
    :align: middle
    :width: 300pt
+
+|surface_radial_stress|
 
 .. note:: 
 
@@ -246,9 +248,11 @@ Motion type: linear motion
      state: {center: [30,2,-10], radius: 8}
      params: { motion_type: LINEAR_MOTION , motion_vector: [-1,0,0], const_vel: 0.5}
 
-.. image:: ../_static/ball_linear_motion.gif
+.. |ball_linear_motion| image:: ../_static/ball_linear_motion.gif
    :align: middle
    :width: 300pt
+
+|ball_linear_motion|
 
 Motion type: Compressive
 
@@ -259,9 +263,11 @@ Motion type: Compressive
      state: {middle: [0,0,0], radius: 11}
      params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0, damprate: 0.999}
 
-.. image:: ../_static/radial_stress.gif
+.. |radial_stress| image:: ../_static/radial_stress.gif
    :align: middle
    :width: 300pt
+
+|radial_stress|
 
 STL Mesh
 --------
