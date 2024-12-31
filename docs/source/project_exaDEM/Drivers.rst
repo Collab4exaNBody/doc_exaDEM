@@ -314,6 +314,8 @@ Staionary mode:
 
 Linear motion mode:
 
+.. code:: yaml
+
   - register_stl_mesh:
      id: 0
      state: {center: [0.4,0,0]}
