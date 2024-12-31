@@ -24,16 +24,16 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
      - Operator Name
    * - Cylinder
      - ``CYLINDER`` 
-     - ``add_cylinder``
+     - ``register_cylinder``
    * - Wall / Surface 
      - ``SURFACE`` 
-     - ``add_surface``
+     - ``register_surface``
    * - Ball / Sphere  
      - ``BALL``       
      - ``register_ball``
    * - STL Mesh 
      - ``STL_Mesh`` 
-     - ``add_stl_mesh``
+     - ``register_stl_mesh``
    * - Undefined
      - ``UNDEFINED`` 
      - no operator
@@ -131,7 +131,7 @@ The rotating drum or cylinder driver represents an infinite cylinder rotating al
 
 |ex1end|
 
-* Operator name: ``add_cylinder``
+* Operator name: ``register_cylinder``
 * Description: This operator adds a cylinder to the drivers list.
 * Parameters:
 
@@ -280,7 +280,7 @@ The STL Mesh driver is constructed from an .STL (Stereolithography) file to crea
 
 |ex4pendmixte|
 
-* Operator name: ``add_stl_mesh``    
+* Operator name: ``register_stl_mesh``    
 * Description: This operator adds an "STL mesh" to the drivers list.
 * Parameters:
 

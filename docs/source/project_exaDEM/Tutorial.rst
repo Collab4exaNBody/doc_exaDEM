@@ -265,10 +265,11 @@ Step 1 consists of generating particles in a cylinder whose main axis is Oz and 
 .. code-block:: yaml
 
   setup_drivers:
-    - add_stl_mesh:
+    - register_stl_mesh:
        id: 0
        filename: exaDEM-Data/stl_files/mod_base.shp
-       center: [0,0,-20] 
+       state: {center: [0,0,-20]} 
+       params: { motion_type: STATIONARY }
        minskowski: 0.01
     - register_cylinder:
        id: 1
