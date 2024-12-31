@@ -191,7 +191,7 @@ YAML examples:
      state: { normal: [1,0,0], offset: 11, surface: 144}
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5, damprate: 0.999 }
 
-.. |surface_radial_stress| image:: ../_static/radial_stress.gif
+.. |surface_radial_stress| image:: ../_static/compression_wall.gif
    :align: middle
    :width: 300pt
 
