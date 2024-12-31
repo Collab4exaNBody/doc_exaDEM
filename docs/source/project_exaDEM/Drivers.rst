@@ -123,10 +123,10 @@ In this section, we provide brief descriptions of available ``drivers``. Please 
 Rotating Drum / Cylinder
 -------------------------
 
-The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its center, velocity, axis, and angular velocity.
+The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its middle, velocity, axis, and angular velocity.
 
 .. |ex1end| image:: ../_static/rotating_drum_end.png
-   :align: center
+   :align: middle
    :width: 300pt
 
 |ex1end|
@@ -154,7 +154,7 @@ Wall / Surface
 The wall or surface driver represents an infinite wall within the simulation environment. It is defined by parameters including its normal vector, offset, and velocity. Please note that currently, no angular velocity is defined for this driver. 
 
 .. |ex4end| image:: ../_static/rigid_surface_end.png
-   :align: center
+   :align: middle
    :width: 300pt
 
 |ex4end|
@@ -192,7 +192,7 @@ YAML examples:
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5, damprate: 0.999 }
 
 .. image:: ../_static/radial_stress.gif
-   :align: center
+   :align: middle
    :width: 300pt
 
 .. note:: 
@@ -205,7 +205,7 @@ Ball / Sphere
 The ball or sphere driver represents a spherical object within the simulation environment. It is defined by parameters including its center, velocity, and angular velocity. This driver can be utilized as a boundary condition or obstacle in the simulation.
 
 .. |ex3pend| image:: ../_static/ExaDEM/polyhedra_ball_end.png
-   :align: center
+   :align: middle
    :width: 300pt
 
 |ex3pend|
@@ -247,7 +247,7 @@ Motion type: linear motion
      params: { motion_type: LINEAR_MOTION , motion_vector: [-1,0,0], const_vel: 0.5}
 
 .. image:: ../_static/ball_linear_motion.gif
-   :align: center
+   :align: middle
    :width: 300pt
 
 Motion type: Compressive
@@ -256,11 +256,11 @@ Motion type: Compressive
 
   - register_ball:
      id: 0
-     state: {center: [0,0,0], radius: 11}
+     state: {middle: [0,0,0], radius: 11}
      params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0, damprate: 0.999}
 
 .. image:: ../_static/radial_stress.gif
-   :align: center
+   :align: middle
    :width: 300pt
 
 STL Mesh
@@ -269,7 +269,7 @@ STL Mesh
 The STL Mesh driver is constructed from an .STL (Stereolithography) file to create a mesh of faces. This approach enables the rapid setup of complex geometries within the simulation environment. It's important to note that faces in an STL mesh are processed as a sphere polyhedron, meaning a small layer is added around each face.
 
 .. |ex4pendmixte| image:: ../_static/ExaDEM/stl_mixte_end.png
-   :align: center
+   :align: middle
    :width: 300pt
 
 |ex4pendmixte|
