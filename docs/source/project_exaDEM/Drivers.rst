@@ -53,13 +53,13 @@ Drivers share common parameters contained in the Driver_params class. These para
    * - Motion type
      - Description
    * - ``STATIONARY``
-     - Stationary state, with no motion.
+     - Stationary state with no translational motion, allowing rotations of Drivers.
    * - ``LINEAR_MOTION``
      - Linear movement type, straight-line motion at constant velocity
    * - ``COMPRESSIVE_FORCE``
      - Movement influenced by compressive forces, depending on driver type.
    * - ``LINEAR_FORCE_MOTION``
-     - Linear motion type influenced by applied forces.
+     - Linear motion driven by constant acceleration, incorporating the effects of the sample's resultant force.
    * - ``FORCE_MOTION``
      - General movement caused by applied forces
    * - ``LINEAR_COMPRESSIVE_MOTION``
