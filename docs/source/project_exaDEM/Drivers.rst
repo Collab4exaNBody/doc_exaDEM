@@ -90,7 +90,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
      - ✘
-     - ✘
+     - ✔
    * - Ball
      - ✔
      - ✔
@@ -123,7 +123,7 @@ In this section, we provide brief descriptions of available ``drivers``. Please 
 Rotating Drum / Cylinder
 -------------------------
 
-The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its center, velocity, axis, and angular velocity.
+The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its middle, velocity, axis, and angular velocity.
 
 .. |ex1end| image:: ../_static/rotating_drum_end.png
    :align: middle
@@ -189,7 +189,13 @@ YAML examples:
   - register_surface:
      id: 4
      state: { normal: [1,0,0], offset: 11, surface: 144}
-     params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5 }
+     params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5, damprate: 0.999 }
+
+.. |surface_radial_stress| image:: ../_static/compression_wall.gif
+   :align: middle
+   :width: 300pt
+
+|surface_radial_stress|
 
 .. note:: 
 
@@ -242,7 +248,11 @@ Motion type: linear motion
      state: {center: [30,2,-10], radius: 8}
      params: { motion_type: LINEAR_MOTION , motion_vector: [-1,0,0], const_vel: 0.5}
 
-.. image:: ../_static/ball_linear_motion.gif
+.. |ball_linear_motion| image:: ../_static/ball_linear_motion.gif
+   :align: middle
+   :width: 300pt
+
+|ball_linear_motion|
 
 Motion type: Compressive
 
@@ -250,10 +260,14 @@ Motion type: Compressive
 
   - register_ball:
      id: 0
-     state: {center: [0,0,0], radius: 11}
-     params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0}
+     state: {middle: [0,0,0], radius: 11}
+     params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0, damprate: 0.999}
 
-.. image:: ../_static/radial_stress.gif
+.. |radial_stress| image:: ../_static/radial_stress.gif
+   :align: middle
+   :width: 300pt
+
+|radial_stress|
 
 STL Mesh
 --------
