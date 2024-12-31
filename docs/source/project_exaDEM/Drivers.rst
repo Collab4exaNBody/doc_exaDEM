@@ -90,7 +90,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
      - ✘
-     - ✘
+     - ✔
    * - Ball
      - ✔
      - ✔
@@ -189,7 +189,11 @@ YAML examples:
   - register_surface:
      id: 4
      state: { normal: [1,0,0], offset: 11, surface: 144}
-     params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5 }
+     params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5, damprate: 0.999 }
+
+.. image:: ../_static/radial_stress.gif
+   :align: middle
+   :width: 300pt
 
 .. note:: 
 
@@ -243,6 +247,8 @@ Motion type: linear motion
      params: { motion_type: LINEAR_MOTION , motion_vector: [-1,0,0], const_vel: 0.5}
 
 .. image:: ../_static/ball_linear_motion.gif
+   :align: middle
+   :width: 300pt
 
 Motion type: Compressive
 
@@ -251,9 +257,11 @@ Motion type: Compressive
   - register_ball:
      id: 0
      state: {center: [0,0,0], radius: 11}
-     params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0}
+     params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0, damprate: 0.999}
 
 .. image:: ../_static/radial_stress.gif
+   :align: middle
+   :width: 300pt
 
 STL Mesh
 --------
