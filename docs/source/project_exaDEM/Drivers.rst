@@ -308,15 +308,11 @@ Staionary mode:
 
 .. |ex4stationary| image:: ../_static/stl_stationary.gif
    :align: middle
-   :width: 300pt
+   :width: 450pt
 
 |ex4stationary| 
 
 Linear motion mode:
-
-.. |ex4linear| image:: ../_static/stl_linear_motion.gif
-   :align: middle
-   :width: 300pt
 
   - register_stl_mesh:
      id: 0
@@ -325,7 +321,11 @@ Linear motion mode:
      filename: mesh.stl
      minskowski: 0.001 m
 
-|ex4linear|
+.. |ex4linearmotion| image:: ../_static/stl_linear_motion.gif
+   :align: middle
+   :width: 450pt
+
+|ex4linearmotion|
 
 I/O Drivers
 ^^^^^^^^^^^
