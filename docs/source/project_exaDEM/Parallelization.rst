@@ -85,12 +85,12 @@ Information:
 - Number of polyhedra: 1,651,637
 - This benchmark is achieved by reproducing the tutorial simulation (Blade) with polyhedra 5 times smaller. See images below.
 
-.. figure:: ../_static/Bench/tranche.0031.png
-   :scale: 90%
+.. figure:: ../_static/Bench/full.0031.png
+   :scale: 80%
    :align: center
 
-.. figure:: ../_static/Bench/half.0031.png
-   :scale: 90%
+.. figure:: ../_static/Bench/tranche.0031.png
+   :scale: 80%
    :align: center
 
 .. figure:: ../_static/Bench/exadem-blade.png
