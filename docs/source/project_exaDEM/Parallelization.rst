@@ -75,6 +75,29 @@ GPU Support
 Benchmarks
 ^^^^^^^^^^
 
+Balde - CPU (Polyhedron)
+------------------------
+
+Information:
+
+- Balde: {25,952 faces, 77,856 edges, 28,497 vertices}
+- Number of timesteps: 10,000
+- Number of polyhedra: 1,651,637
+- This benchmark is achieved by reproducing the tutorial simulation (Blade) with polyhedra 5 times smaller. See images below.
+
+.. figure:: ../_static/bench/tranche.0031.png
+   :scale: 90%
+   :align: center
+
+.. figure:: ../_static/bench/half.0031.png
+   :scale: 90%
+   :align: center
+
+.. figure:: ../_static/bench/exadem-blade.png
+   :scale: 90%
+   :align: center
+
+
 Rotating Drum - CPU (Sphere)
 ----------------------------
 
