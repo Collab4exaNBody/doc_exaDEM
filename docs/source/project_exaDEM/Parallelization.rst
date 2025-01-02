@@ -101,7 +101,7 @@ Information:
    :align: center
 
 .. figure:: ../_static/Bench/exadem-blade.png
-   :scale: 90%
+   :scale: 60%
    :align: center
 
 Some remarks:
