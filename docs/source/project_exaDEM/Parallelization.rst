@@ -84,19 +84,30 @@ Information:
 - Number of timesteps: 10,000
 - Number of polyhedra: 1,651,637
 - This benchmark is achieved by reproducing the tutorial simulation (Blade) with polyhedra 5 times smaller. See images below.
+- Test the hybrid parallelization ``MPI + OpenMP``  
+- Machine used: CCRT-IRENE with:
 
-.. figure:: ../_static/Bench/tranche.0031.png
-   :scale: 90%
+   - Node: bi-processor of skylake
+   - Each processor has 24 cores 
+   - Frequency: 2.7GHz
+   - until 16,384 core
+
+.. figure:: ../_static/Bench/full.0031.png
+   :scale: 70%
    :align: center
 
-.. figure:: ../_static/Bench/half.0031.png
-   :scale: 90%
+.. figure:: ../_static/Bench/tranche.0031.png
+   :scale: 50%
    :align: center
 
 .. figure:: ../_static/Bench/exadem-blade.png
    :scale: 90%
    :align: center
 
+Some remarks:
+
+- For this test, the simulation domain is split into 39,000 cells and then distributed among the MPI processes. Some configurations fail because there are not enough cells per ``MPI`` process. 
+- Best results are obtained with 24 ``OMP`` threads per MPI process. This corresponds to the number of cores per socket. NUMA effects are likely to reduce performance beyond this.
 
 Rotating Drum - CPU (Sphere)
 ----------------------------
