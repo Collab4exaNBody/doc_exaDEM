@@ -100,6 +100,37 @@ YAML example:
   This operator is used for spheres and not polyhedra because we need a special reader to read current interaction values containing the friction and moment. Show `read_dump_particle_interaction`.
 
 
+Restart file script
+^^^^^^^^^^^^^^^^^^^
+
+In the `scripts` folder, you have the option of using a script ``restart_template.py`` that will enable you to quickly write the restart section of your simulation by directly retrieving the path to any saved files. This script directly includes whether the simulation mode is spherical or polyhedral. If the mode is polyhedral, the shape file will also be loaded automatically. The script will also check for a file containing driver data and include it. Finally, it will also include the last dump file (highest iteration). 
+
+Option:
+
+* `directory`: Output file path, the default path is `ExaDEMOutputDir`. Note that it should contains a subdirectory named: `CheckpointFiles` and this output file path is defined into the operator ``io_tree``.
+
+Example: 
+
+.. code-block:: bash
+
+   python3 ~/exaDEM/scripts/restart_template.py --directory SpheresMovableWallDir
+
+Output:
+
+.. code-block:: bash
+
+   Restart directory: SpheresMovableWallDir
+   Particle mode: Spheres 
+   Last iteration identified: 29000
+   Here s a template for restarting your simulation at the last saved iteration: 
+   
+   includes:
+     - config_spheres.msp
+     - SpheresMovableWallDir/CheckpointFiles/driver_0000029000.msp
+   
+   input_data:
+     - read_dump_particle_interaction:
+        filename: SpheresMovableWallDir/CheckpointFiles/exadem_0000029000.dump
 
 Read Shape File
 ^^^^^^^^^^^^^^^
