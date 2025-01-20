@@ -24,6 +24,7 @@ RSA_MPI package
 YAML examples:
 
 .. code:: yaml
+
   - rsa_rnd_rad:
      bounds: [[ -4.97 , -4.97 , 1 ] , [ 4.97 , 4.97 , 150 ] ]
      r_min: 0.04
