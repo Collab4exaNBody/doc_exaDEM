@@ -19,6 +19,7 @@ ExaDEM & ExaNBody Documentation
    project_exaDEM/ForceField.rst
    project_exaDEM/NumericalScheme.rst
    project_exaDEM/Drivers.rst
+   project_exaDEM/Packages.rst
    project_exaDEM/Analysis.rst
    project_exaDEM/Parallelization.rst
    project_exaDEM/Tutorial.rst
