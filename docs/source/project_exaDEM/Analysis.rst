@@ -319,14 +319,15 @@ Result for a simulation of 1000 Octahedra falling in a cylinder colored by their
 
 * Option 2: write_paraview_polyhedra
    * `filename` : Name of paraview file, there is no default name. Note that in `ExaDEM`, filename is defined in the default execution stream.
+   * `mpi_rank` : Add a field containing the mpi rank. [optional]
 
 YAML example:
 
 .. code-block:: yaml
 
   particle_write_paraview_generic:
-    - write_paraview_polyhedra
-    - write_paraview_obb_particles
+    - write_paraview_polyhedra:
+       mpi_rank: true
 
 
 Example with 850,000 octahedra:
