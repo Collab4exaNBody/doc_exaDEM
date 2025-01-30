@@ -5,10 +5,10 @@ ExaDEM & ExaNBody Documentation
 .. _exdem:
 
 .. toctree::
-   :name: exdem_variant
+   :name: exadem_variant
    :numbered:
    :maxdepth: 2      
-   :caption: ExDEM Variant
+   :caption: ExaDEM Variant
 
    project_exaDEM/Introduction.rst
    project_exaDEM/Installation.rst
