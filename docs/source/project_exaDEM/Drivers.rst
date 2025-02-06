@@ -102,9 +102,10 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✔
      - ✔
      - ✘
+     - ✔
      - ✘
-     - ✘
-     - ✘
+     - ✔
+
 
 Add a Driver To Your Simulation
 -------------------------------
@@ -328,6 +329,52 @@ Linear motion mode:
    :width: 450pt
 
 |ex4linearmotion|
+
+Linear force motion mode:
+
+.. code:: yaml
+
+  - register_stl_mesh:
+     id: 1
+     filename: piston_haut.stl
+     scale: 0.5002
+     minskowski: 0.001
+     state: { center: [0.0, 0.0, 9.], vel: [0,0,-0.025], quat: [1,0,0,0], mass: 1}
+     params: { motion_type: LINEAR_FORCE_MOTION, motion_vector: [0,0,-1], const_force: 100 }
+
+.. |ex4linearforcemotion| image:: ../_static/stl_force_motion.gif
+   :align: middle
+   :width: 450pt
+
+|ex4linearforcemotion|
+
+.. note::
+
+  You need to define the mass of your driver.  
+
+Linear compression motion mode:
+
+.. code:: yaml
+
+  - register_stl_mesh: 
+     id: 1 
+     filename: piston_haut.stl 
+     scale: 0.5002 
+     minskowski: 0.001 
+     state: { center: [0.0, 0.0, 9.], vel: [0,0,-0.025], quat: [1,0,0,0], mass: 1, surface: 1.6146970415e+02} 
+     params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [0,0,-1], sigma: 0.5, damprate: 0.5 } 
+
+
+.. |ex4linearcompressionmotion| image:: ../_static/stl_compression.gif
+   :align: middle
+   :width: 450pt
+
+|ex4linearcompressionmotion|
+
+.. note::
+
+  You will need to define the mass and the surface of your driver. If you don't specify a surface, `exaDEM` will propose to you a value corresponding to the sum of the face surfaces composing the stl mesh. 
+
 
 I/O Drivers
 ^^^^^^^^^^^
