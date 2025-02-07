@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'ExaDEM & ExaNBody'
-copyright = '2023-2024, Thierry Carrard, Raphaël Prat, Jean-Philippe Perlat, Paul Lafourcade'
-author = 'Thierry Carrard, Raphaël Prat, Jean-Philippe Perlat, Paul Lafourcade'
+copyright = '2023-2025, , Raphaël Prat, Thierry Carrard, Paul Lafourcade'
+author = 'Raphaël Prat, Thierry Carrard, Paul Lafourcade'
 
 # -- General configuration ---------------------------------------------------
 
