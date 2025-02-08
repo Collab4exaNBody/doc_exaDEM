@@ -106,6 +106,77 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✔
 
+For all these types of movement, the drivers adopt velocity Verlet integration time scheme. Below is a summary table showing how positions, forces or velocities are calculated according to the type of movement.
+
+
+
+.. tabs::
+
+   .. tab:: ``STATIONARY``
+
+      .. math::
+      
+        P = P
+
+      .. math::
+        
+        V = 0
+
+      with :math:`P` the driver position, :math:`V` the driver velocity.
+
+   .. tab:: ``LINEAR_MOTION``
+
+      .. math::
+
+        V = M_{vector} . C_{velocity}
+
+      .. math::
+
+        V = 0
+
+      with :math:`P` the driver position, :math:`V` the driver velocity, :math:`M_{vector}` the motion vector, and :math:`C_{velocity}` the value of the [constant] velocity.
+
+   .. tab:: ``COMPRESSIVE_FORCE``
+
+      For spheres (or Ball), we adapte the scalar adius value (radius (:math:`R`),  :math:`R_{velocity}`, :math:`R_{acceleration}`):
+
+      .. math::
+
+         R_{acceleration} = \frac{F_{driver} - \sigma . S - damprate . R_{velocity}}{0.5 . m_{system}}
+ 
+
+      with :math:`S`, the driver surface, :math:`m_{system}` the mass of the system, and math:`damprate` the damprate (TODO complete).
+
+   .. tab:: ``LINEAR_FORCE_MOTION``
+
+      .. math::
+
+         F = ( dot(F_{driver}, M_{vector}) + C_F) . M_{vector}
+ 
+      with :math:`F` the driver forces, :math:`F_{driver}` the sum of the forces applied to the driver by the particles, :math:`C_F` the value of the [constant] force, and :math:`M_{vector}` the motion vector.
+
+   .. tab:: ``FORCE_MOTION``
+
+      .. math::
+
+         F = F_{driver}
+
+      with :math:`F` the driver forces and :math:`F_{driver}` the sum of the forces applied to the driver by the particles.
+
+   .. tab:: ``LINEAR_COMPRESSIVE_MOTION``
+
+      .. math::
+
+         F = (dot(M_{vector}, F_{driver}) - \sigma . S - damprate . V) . M_{vector}
+
+      with :math:`F` the driver forces, :math:`V` the driver velocity, :math:`S`, the driver surface, :math:`damprate` the damprate (TODO complete), and :math:`M_{vector}` the motion vector. 
+
+And keywords:
+
+	- ``motion_vector``: :math:`M_{vector}`, slot ``params``
+	- ``const_vel``: :math:`C_{velocity}`, slot ``params``
+	- ``const_f``: :math:`C_F`, slot ``params``
+	- ``damprate``: :math:`damprate`, slot ``params``
 
 Add a Driver To Your Simulation
 -------------------------------
