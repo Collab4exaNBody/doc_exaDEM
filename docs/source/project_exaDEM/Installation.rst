@@ -49,9 +49,7 @@ The next step involves the installation of ``yaml-cpp``, which can be achieved u
          cd ${CURRENT_HOME}
          export PATH_TO_YAML=$PWD/install-yaml-cpp
 
-Please ensure to remove `yaml-cpp` and `build-yaml-cpp`. 
-
-When installing exaDEM, remember to add the following to your cmake command: ``-DCMAKE_PREFIX_PATH=${PATH_TO_YAML}``.
+Please ensure to remove `yaml-cpp` and `build-yaml-cpp`. When installing exaDEM, remember to add the following to your cmake command: ``-DCMAKE_PREFIX_PATH=${PATH_TO_YAML}``.
 
 Optional Dependencies
 ---------------------
@@ -60,7 +58,7 @@ Before proceeding further, you have the option to consider the following depende
 
 - ``CUDA``
 - ``HIP``
-- ``MPI``
+- ``RSA_MPI``
 
 ExaDEM Installation
 -------------------
@@ -81,27 +79,45 @@ Create a directory named build-exaDEM and navigate into it:
 
 Run CMake to configure the ExaDEM build, specifying that ``CUDA`` support should be turned off:
 
-.. code-block:: bash
-		
-   cmake ../exaDEM -DXNB_BUILD_CUDA=OFF
+.. tabs::
 
-.. note::
-  To install with CUDA with ``sm_80``: ``cmake ../exaDEM -DXNB_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80``
+   .. tab:: cmake Minimal
+
+      .. code-block:: bash
+		
+         cmake ../exaDEM -DXNB_BUILD_CUDA=OFF
+         make -j 4
+         make UpdatePluginDataBase
+
+   .. tab:: cmake GPU (a100)
+
+      .. code-block:: bash
+
+         cmake ../exaDEM -DXNB_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80
+         make -j 4
+         make UpdatePluginDataBase
+
+   .. tab:: Specify EXADEM_MAX_VERTICES
+
+      .. code-block:: bash
+
+         cmake ../exaDEM -DEXADEM_MAX_VERTICES=36
+         make -j 4
+         make UpdatePluginDataBase
+
+   .. tab:: Spack
+
+      See the spack section if you need to install spack.
+ 
+      The ``spack_repo`` directory is in the exaDEM repository, you need to ``git clone`` exaDEM.
+
+      .. code-block:: bash
+
+         spack repo add spack_repo
+         spack install exadem
 
 .. warning::
   It's important to note that the maximum number of vertices per particle shape is set to 8 by default. To change this value, you can specify this number by adding: ``-DEXADEM_MAX_VERTICES=N``.
-
-Build ``ExaDEM`` using the make command with a specified number of parallel jobs (e.g., -j 4 for 4 parallel jobs):
-
-.. code-block:: bash
-		
-   make -j 4
-
-Build Plugins
-
-.. code-block:: bash
-		
-   make UpdatePluginDataBase
 
 This command will display all plugins and related operators. Example: 
 
@@ -117,6 +133,37 @@ This command will display all plugins and related operators. Example:
    operator    read_xyz
    operator    read_dump_particles
 
+
+Here are a few examples on ``CEA`` supercomputers:
+
+.. tabs::
+
+   .. tab:: CCRT Topaze Milan
+
+      You need to specify "export exaNBody_DIR=${path_to_exaNBody}"
+
+      .. code-block:: bash
+
+         module load yaml-cpp/0.6.3 gnu/13.2.0 mpi/openmpi/4.1.6 
+         cmake ${path_to_exaDEM}
+
+   .. tab:: CCRT Topaze a100
+
+      You need to specify "export exaNBody_DIR=${path_to_exaNBody}"
+
+      .. code-block:: bash
+
+         module load yaml-cpp/0.6.3 gnu/11.1.0 mpi/openmpi/4.1.6 cuda/12.3
+         cmake ${path_to_exaDEM} -DXNB_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80
+
+   .. tab:: CCRT Irene Skylake and Rome
+
+      You need to specify "export exaNBody_DIR=${path_to_exaNBody}"
+
+      .. code-block:: bash
+
+         module load yaml-cpp/0.6.3 gnu/13.2.0 mpi/openmpi/4.1.6
+         cmake ${path_to_exaDEM}
 
 Launch examples / ctest
 -----------------------
