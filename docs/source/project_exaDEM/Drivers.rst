@@ -194,11 +194,9 @@ Rotating Drum / Cylinder
 
 The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its middle, velocity, axis, and angular velocity.
 
-.. |ex1end| image:: ../_static/rotating_drum_end.png
-   :align: middle
+.. image:: ../_static/rotating_drum_end.png
+   :align: center
    :width: 300pt
-
-|ex1end|
 
 * Operator name: ``register_cylinder``
 * Description: This operator adds a cylinder to the drivers list.
@@ -222,11 +220,9 @@ Wall / Surface
 
 The wall or surface driver represents an infinite wall within the simulation environment. It is defined by parameters including its normal vector, offset, and velocity. Please note that currently, no angular velocity is defined for this driver. 
 
-.. |ex4end| image:: ../_static/rigid_surface_end.png
-   :align: middle
+.. image:: ../_static/rigid_surface_end.png
+   :align: center
    :width: 300pt
-
-|ex4end|
 
 * Operator name: ``register_surface``
 * Description: This operator adds a surface/wall to the drivers list.
@@ -260,11 +256,9 @@ YAML examples:
      state: { normal: [1,0,0], offset: 11, surface: 144}
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5, damprate: 0.999 }
 
-.. |surface_radial_stress| image:: ../_static/compression_wall.gif
-   :align: middle
+.. image:: ../_static/compression_wall.gif
+   :align: center
    :width: 300pt
-
-|surface_radial_stress|
 
 .. note:: 
 
@@ -275,11 +269,10 @@ Ball / Sphere
 
 The ball or sphere driver represents a spherical object within the simulation environment. It is defined by parameters including its center, velocity, and angular velocity. This driver can be utilized as a boundary condition or obstacle in the simulation.
 
-.. |ex3pend| image:: ../_static/ExaDEM/polyhedra_ball_end.png
-   :align: middle
+.. image:: ../_static/ExaDEM/polyhedra_ball_end.png
+   :align: center
    :width: 300pt
 
-|ex3pend|
 
 * Operator name: ``register_ball``
 * Description: This operator adds a ball / sphere (boundary condition or obstacle) to the drivers list.
@@ -317,11 +310,9 @@ Motion type: linear motion
      state: {center: [30,2,-10], radius: 8}
      params: { motion_type: LINEAR_MOTION , motion_vector: [-1,0,0], const_vel: 0.5}
 
-.. |ball_linear_motion| image:: ../_static/ball_linear_motion.gif
-   :align: middle
+.. image:: ../_static/ball_linear_motion.gif
+   :align: center
    :width: 300pt
-
-|ball_linear_motion|
 
 Motion type: Compressive
 
@@ -332,22 +323,18 @@ Motion type: Compressive
      state: {middle: [0,0,0], radius: 11}
      params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0, damprate: 0.999}
 
-.. |radial_stress| image:: ../_static/radial_stress.gif
-   :align: middle
+.. image:: ../_static/radial_stress.gif
+   :align: center
    :width: 300pt
-
-|radial_stress|
 
 STL Mesh
 --------
 
 The STL Mesh driver is constructed from an .STL (Stereolithography) file to create a mesh of faces. This approach enables the rapid setup of complex geometries within the simulation environment. It's important to note that faces in an STL mesh are processed as a sphere polyhedron, meaning a small layer is added around each face.
 
-.. |ex4pendmixte| image:: ../_static/ExaDEM/stl_mixte_end.png
-   :align: middle
+.. image:: ../_static/ExaDEM/stl_mixte_end.png
+   :align: center
    :width: 300pt
-
-|ex4pendmixte|
 
 * Operator name: ``register_stl_mesh``    
 * Description: This operator adds an "STL mesh" to the drivers list.
@@ -375,11 +362,9 @@ Staionary mode:
      minskowski: 0.001 m
      params: {motion_type: STATIONARY}
 
-.. |ex4stationary| image:: ../_static/stl_stationary.gif
-   :align: middle
+.. image:: ../_static/stl_stationary.gif
+   :align: center
    :width: 450pt
-
-|ex4stationary| 
 
 Linear motion mode:
 
@@ -392,11 +377,9 @@ Linear motion mode:
      filename: mesh.stl
      minskowski: 0.001 m
 
-.. |ex4linearmotion| image:: ../_static/stl_linear_motion.gif
-   :align: middle
+.. image:: ../_static/stl_linear_motion.gif
+   :align: center
    :width: 450pt
-
-|ex4linearmotion|
 
 Linear force motion mode:
 
@@ -410,11 +393,9 @@ Linear force motion mode:
      state: { center: [0.0, 0.0, 9.], vel: [0,0,-0.025], quat: [1,0,0,0], mass: 1}
      params: { motion_type: LINEAR_FORCE_MOTION, motion_vector: [0,0,-1], const_force: 100 }
 
-.. |ex4linearforcemotion| image:: ../_static/stl_force_motion.gif
-   :align: middle
+.. image:: ../_static/stl_force_motion.gif
+   :align: center
    :width: 450pt
-
-|ex4linearforcemotion|
 
 .. note::
 
@@ -433,11 +414,9 @@ Linear compression motion mode:
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [0,0,-1], sigma: 0.5, damprate: 0.5 } 
 
 
-.. |ex4linearcompressionmotion| image:: ../_static/stl_compression.gif
-   :align: middle
+.. image:: ../_static/stl_compression.gif
+   :align: center
    :width: 450pt
-
-|ex4linearcompressionmotion|
 
 .. note::
 
