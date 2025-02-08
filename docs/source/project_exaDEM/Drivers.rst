@@ -130,11 +130,8 @@ For all these types of movement, the drivers adopt velocity Verlet integration t
 
         V = M_{vector} . C_{velocity}
 
-      .. math::
 
-        V = 0
-
-      with :math:`P` the driver position, :math:`V` the driver velocity, :math:`M_{vector}` the motion vector, and :math:`C_{velocity}` the value of the [constant] velocity.
+      with :math:`V` the driver velocity, :math:`M_{vector}` the motion vector, and :math:`C_{velocity}` the value of the [constant] velocity.
 
    .. tab:: ``COMPRESSIVE_FORCE``
 
