@@ -102,9 +102,78 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✔
      - ✔
      - ✘
+     - ✔
      - ✘
-     - ✘
-     - ✘
+     - ✔
+
+For all these types of movement, the drivers adopt velocity Verlet integration time scheme. Below is a summary table showing how positions, forces or velocities are calculated according to the type of movement.
+
+
+
+.. tabs::
+
+   .. tab:: ``STATIONARY``
+
+      .. math::
+      
+        P = P
+
+      .. math::
+        
+        V = 0
+
+      with :math:`P` the driver position, :math:`V` the driver velocity.
+
+   .. tab:: ``LINEAR_MOTION``
+
+      .. math::
+
+        V = M_{vector} . C_{velocity}
+
+
+      with :math:`V` the driver velocity, :math:`M_{vector}` the motion vector, and :math:`C_{velocity}` the value of the [constant] velocity.
+
+   .. tab:: ``COMPRESSIVE_FORCE``
+
+      For spheres (or Ball), we adapte the scalar adius value (radius (:math:`R`),  :math:`R_{velocity}`, :math:`R_{acceleration}`):
+
+      .. math::
+
+         R_{acceleration} = \frac{F_{driver} - \sigma . S - damprate . R_{velocity}}{0.5 . m_{system}}
+ 
+
+      with :math:`S`, the driver surface, :math:`m_{system}` the mass of the system, and math:`damprate` the damprate (TODO complete).
+
+   .. tab:: ``LINEAR_FORCE_MOTION``
+
+      .. math::
+
+         F = ( dot(F_{driver}, M_{vector}) + C_F) . M_{vector}
+ 
+      with :math:`F` the driver forces, :math:`F_{driver}` the sum of the forces applied to the driver by the particles, :math:`C_F` the value of the [constant] force, and :math:`M_{vector}` the motion vector.
+
+   .. tab:: ``FORCE_MOTION``
+
+      .. math::
+
+         F = F_{driver}
+
+      with :math:`F` the driver forces and :math:`F_{driver}` the sum of the forces applied to the driver by the particles.
+
+   .. tab:: ``LINEAR_COMPRESSIVE_MOTION``
+
+      .. math::
+
+         F = (dot(M_{vector}, F_{driver}) - \sigma . S - damprate . V) . M_{vector}
+
+      with :math:`F` the driver forces, :math:`V` the driver velocity, :math:`S`, the driver surface, :math:`damprate` the damprate (TODO complete), and :math:`M_{vector}` the motion vector. 
+
+And keywords:
+
+	- ``motion_vector``: :math:`M_{vector}`, slot ``params``
+	- ``const_vel``: :math:`C_{velocity}`, slot ``params``
+	- ``const_f``: :math:`C_F`, slot ``params``
+	- ``damprate``: :math:`damprate`, slot ``params``
 
 Add a Driver To Your Simulation
 -------------------------------
@@ -125,11 +194,9 @@ Rotating Drum / Cylinder
 
 The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its middle, velocity, axis, and angular velocity.
 
-.. |ex1end| image:: ../_static/rotating_drum_end.png
-   :align: middle
+.. image:: ../_static/rotating_drum_end.png
+   :align: center
    :width: 300pt
-
-|ex1end|
 
 * Operator name: ``register_cylinder``
 * Description: This operator adds a cylinder to the drivers list.
@@ -153,11 +220,9 @@ Wall / Surface
 
 The wall or surface driver represents an infinite wall within the simulation environment. It is defined by parameters including its normal vector, offset, and velocity. Please note that currently, no angular velocity is defined for this driver. 
 
-.. |ex4end| image:: ../_static/rigid_surface_end.png
-   :align: middle
+.. image:: ../_static/rigid_surface_end.png
+   :align: center
    :width: 300pt
-
-|ex4end|
 
 * Operator name: ``register_surface``
 * Description: This operator adds a surface/wall to the drivers list.
@@ -191,11 +256,9 @@ YAML examples:
      state: { normal: [1,0,0], offset: 11, surface: 144}
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5, damprate: 0.999 }
 
-.. |surface_radial_stress| image:: ../_static/compression_wall.gif
-   :align: middle
+.. image:: ../_static/compression_wall.gif
+   :align: center
    :width: 300pt
-
-|surface_radial_stress|
 
 .. note:: 
 
@@ -206,11 +269,10 @@ Ball / Sphere
 
 The ball or sphere driver represents a spherical object within the simulation environment. It is defined by parameters including its center, velocity, and angular velocity. This driver can be utilized as a boundary condition or obstacle in the simulation.
 
-.. |ex3pend| image:: ../_static/ExaDEM/polyhedra_ball_end.png
-   :align: middle
+.. image:: ../_static/ExaDEM/polyhedra_ball_end.png
+   :align: center
    :width: 300pt
 
-|ex3pend|
 
 * Operator name: ``register_ball``
 * Description: This operator adds a ball / sphere (boundary condition or obstacle) to the drivers list.
@@ -248,11 +310,9 @@ Motion type: linear motion
      state: {center: [30,2,-10], radius: 8}
      params: { motion_type: LINEAR_MOTION , motion_vector: [-1,0,0], const_vel: 0.5}
 
-.. |ball_linear_motion| image:: ../_static/ball_linear_motion.gif
-   :align: middle
+.. image:: ../_static/ball_linear_motion.gif
+   :align: center
    :width: 300pt
-
-|ball_linear_motion|
 
 Motion type: Compressive
 
@@ -263,22 +323,18 @@ Motion type: Compressive
      state: {middle: [0,0,0], radius: 11}
      params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0, damprate: 0.999}
 
-.. |radial_stress| image:: ../_static/radial_stress.gif
-   :align: middle
+.. image:: ../_static/radial_stress.gif
+   :align: center
    :width: 300pt
-
-|radial_stress|
 
 STL Mesh
 --------
 
 The STL Mesh driver is constructed from an .STL (Stereolithography) file to create a mesh of faces. This approach enables the rapid setup of complex geometries within the simulation environment. It's important to note that faces in an STL mesh are processed as a sphere polyhedron, meaning a small layer is added around each face.
 
-.. |ex4pendmixte| image:: ../_static/ExaDEM/stl_mixte_end.png
-   :align: middle
+.. image:: ../_static/ExaDEM/stl_mixte_end.png
+   :align: center
    :width: 300pt
-
-|ex4pendmixte|
 
 * Operator name: ``register_stl_mesh``    
 * Description: This operator adds an "STL mesh" to the drivers list.
@@ -306,11 +362,9 @@ Staionary mode:
      minskowski: 0.001 m
      params: {motion_type: STATIONARY}
 
-.. |ex4stationary| image:: ../_static/stl_stationary.gif
-   :align: middle
+.. image:: ../_static/stl_stationary.gif
+   :align: center
    :width: 450pt
-
-|ex4stationary| 
 
 Linear motion mode:
 
@@ -323,11 +377,51 @@ Linear motion mode:
      filename: mesh.stl
      minskowski: 0.001 m
 
-.. |ex4linearmotion| image:: ../_static/stl_linear_motion.gif
-   :align: middle
+.. image:: ../_static/stl_linear_motion.gif
+   :align: center
    :width: 450pt
 
-|ex4linearmotion|
+Linear force motion mode:
+
+.. code:: yaml
+
+  - register_stl_mesh:
+     id: 1
+     filename: piston_haut.stl
+     scale: 0.5002
+     minskowski: 0.001
+     state: { center: [0.0, 0.0, 9.], vel: [0,0,-0.025], quat: [1,0,0,0], mass: 1}
+     params: { motion_type: LINEAR_FORCE_MOTION, motion_vector: [0,0,-1], const_force: 100 }
+
+.. image:: ../_static/stl_force_motion.gif
+   :align: center
+   :width: 450pt
+
+.. note::
+
+  You need to define the mass of your driver.  
+
+Linear compression motion mode:
+
+.. code:: yaml
+
+  - register_stl_mesh: 
+     id: 1 
+     filename: piston_haut.stl 
+     scale: 0.5002 
+     minskowski: 0.001 
+     state: { center: [0.0, 0.0, 9.], vel: [0,0,-0.025], quat: [1,0,0,0], mass: 1, surface: 1.6146970415e+02} 
+     params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [0,0,-1], sigma: 0.5, damprate: 0.5 } 
+
+
+.. image:: ../_static/stl_compression.gif
+   :align: center
+   :width: 450pt
+
+.. note::
+
+  You will need to define the mass and the surface of your driver. If you don't specify a surface, `exaDEM` will propose to you a value corresponding to the sum of the face surfaces composing the stl mesh. 
+
 
 I/O Drivers
 ^^^^^^^^^^^

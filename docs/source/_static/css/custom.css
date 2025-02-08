@@ -4,3 +4,14 @@
 .eqno {
     float: right;
 }
+p { text-align: justify; }
+table.list-table td {
+    vertical-align: middle;
+}
+.div.code-block .caption {
+    color: blue;
+}
+.wy-nav-content {
+    max-width: 1200px !important;
+}
+
