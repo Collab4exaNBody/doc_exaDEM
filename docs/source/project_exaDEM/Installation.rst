@@ -21,30 +21,33 @@ To proceed with the installation, your system must meet the minimum prerequisite
 
 The next step involves the installation of ``yaml-cpp``, which can be achieved using either the ``spack`` package manager or ``cmake``:
 
-.. code-block:: bash
 
-   spack install yaml-cpp@0.6.3
-   spack load yaml-cpp@0.6.3
+.. tabs::
 
-Alternatives:
+   .. tab:: spack
 
-- If you have sudo privileges on your local machine, you can use ``apt-get`` to install the library:
+      .. code-block:: bash
 
-.. code-block:: bash
+         spack install yaml-cpp@0.6.3
+         spack load yaml-cpp@0.6.3
 
-  sudo apt install libyaml-cpp-dev
+   .. tab:: apt-get install
 
-- If you would like to manually install ``yaml-cpp`` on your local machine, here is an example script:
+      .. code-block:: bash
 
-.. code-block:: bash
+         sudo apt install libyaml-cpp-dev
 
-  export CURRENT_HOME=$PWD
-  git clone --depth 1 --branch  yaml-cpp-0.6.3 https://github.com/jbeder/yaml-cpp.git
-  mkdir ${CURRENT_HOME}/build-yaml-cpp && cd ${CURRENT_HOME}/build-yaml-cpp 
-  cmake ../yaml-cpp/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-yaml-cpp -DYAML_BUILD_SHARED_LIBS=ON -DYAML_CPP_BUILD_TESTS=OFF
-  make install -j 4
-  cd ${CURRENT_HOME}
-  export PATH_TO_YAML=$PWD/install-yaml-cpp
+   .. tab:: cmake 
+
+      .. code-block:: bash
+
+         export CURRENT_HOME=$PWD
+         git clone --depth 1 --branch  yaml-cpp-0.6.3 https://github.com/jbeder/yaml-cpp.git
+         mkdir ${CURRENT_HOME}/build-yaml-cpp && cd ${CURRENT_HOME}/build-yaml-cpp 
+         cmake ../yaml-cpp/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-yaml-cpp -DYAML_BUILD_SHARED_LIBS=ON -DYAML_CPP_BUILD_TESTS=OFF
+         make install -j 4
+         cd ${CURRENT_HOME}
+         export PATH_TO_YAML=$PWD/install-yaml-cpp
 
 Please ensure to remove `yaml-cpp` and `build-yaml-cpp`. 
 
