@@ -299,7 +299,7 @@ The ball or sphere driver represents a spherical object within the simulation en
 
 YAML examples:
 
-Motion type: Stationay
+Motion type: ``STATIONARY``
 
 .. code:: yaml
 
@@ -308,7 +308,7 @@ Motion type: Stationay
      state: {center: [2,2,-20], radius: 7}
      params: { motion_type: STATIONARY }
 
-Motion type: Linear motion
+Motion type: ``LINEAR MOTION``
 
 .. code:: yaml
 
@@ -321,7 +321,7 @@ Motion type: Linear motion
    :align: center
    :width: 300pt
 
-Motion type: Compressive
+Motion type: ``COMPRESSIVE_FORCE``
 
 .. code:: yaml
 
@@ -334,7 +334,7 @@ Motion type: Compressive
    :align: center
    :width: 300pt
 
-Motion type: Tabulated
+Motion type: ``TABULATED``
 
 .. code:: yaml
 
@@ -375,7 +375,7 @@ The STL Mesh driver is constructed from an .STL (Stereolithography) file to crea
 
 YAML examples:
 
-Staionary mode:
+``STATIONARY`` mode:
 
 .. code:: yaml
 
@@ -389,7 +389,7 @@ Staionary mode:
    :align: center
    :width: 450pt
 
-Linear motion mode:
+``LINEAR_MOTION`` mode:
 
 .. code:: yaml
 
@@ -405,7 +405,7 @@ Linear motion mode:
    :width: 450pt
 
 
-``Tabulated`` motion mode:
+``TABULATED`` mode:
 
 .. code:: yaml
 
@@ -423,7 +423,7 @@ Linear motion mode:
    :align: center
    :width: 450pt
 
-Linear force motion mode:
+``LINEAR_FORCE_MOTION`` mode:
 
 .. code:: yaml
 
@@ -443,7 +443,7 @@ Linear force motion mode:
 
   You need to define the mass of your driver.  
 
-Linear compression motion mode:
+``LINEAR_COMPRESSIVE_MOTION`` mode:
 
 .. code:: yaml
 
