@@ -404,6 +404,25 @@ Linear motion mode:
    :align: center
    :width: 450pt
 
+
+``Tabulated`` motion mode:
+
+.. code:: yaml
+
+  - register_stl_mesh:
+     id: 0
+     state: {}
+     params:
+        motion_type: TABULATED
+        time: [0, 1, 1.5, 2]
+        positions: [[0.4, 0, 0], [-1, 0, 0], [0.4, 0, 0], [0.4, 0, 0]]
+     filename: mesh.stl
+     minskowski: 0.001 m
+
+.. image:: ../_static/mesh_stl_tabulated.gif
+   :align: center
+   :width: 450pt
+
 Linear force motion mode:
 
 .. code:: yaml
@@ -444,7 +463,6 @@ Linear compression motion mode:
 .. note::
 
   You will need to define the mass and the surface of your driver. If you don't specify a surface, `exaDEM` will propose to you a value corresponding to the sum of the face surfaces composing the stl mesh. 
-
 
 I/O Drivers
 ^^^^^^^^^^^
