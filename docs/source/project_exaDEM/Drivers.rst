@@ -64,10 +64,12 @@ Drivers share common parameters contained in the Driver_params class. These para
      - General movement caused by applied forces
    * - ``LINEAR_COMPRESSIVE_MOTION``
      - Linear movement combined with compressive forces. 
+   * - ``TABULATED``
+     - Motion defined by precomputed or tabulated data. 
 
 
 .. list-table:: Glossary Of Motion Types per Driver
-   :widths: 40 10 10 10 10 10 10
+   :widths: 30 10 10 10 10 10 10 10
    :header-rows: 1
 
    * - Motion Type
@@ -77,8 +79,10 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ``LINEAR_FORCE_MOTION``
      - ``FORCE_MOTION``
      - ``LINEAR_COMPRESSIVE_MOTION``
+     - ``TABULATED``
    * - Cylinder
      - ✔
+     - ✘
      - ✘
      - ✘
      - ✘
@@ -91,6 +95,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
      - ✔
+     - ✘
    * - Ball
      - ✔
      - ✔
@@ -98,6 +103,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
      - ✘
+     - ✔
    * - Stl Mesh
      - ✔
      - ✔
@@ -105,6 +111,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✔
      - ✘
      - ✔
+     - ✘
 
 For all these types of movement, the drivers adopt velocity Verlet integration time scheme. Below is a summary table showing how positions, forces or velocities are calculated according to the type of movement.
 
@@ -301,7 +308,7 @@ Motion type: Stationay
      state: {center: [2,2,-20], radius: 7}
      params: { motion_type: STATIONARY }
 
-Motion type: linear motion
+Motion type: Linear motion
 
 .. code:: yaml
 
@@ -320,10 +327,26 @@ Motion type: Compressive
 
   - register_ball:
      id: 0
-     state: {middle: [0,0,0], radius: 11}
+     state: {center: [0,0,0], radius: 11}
      params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0, damprate: 0.999}
 
 .. image:: ../_static/radial_stress.gif
+   :align: center
+   :width: 300pt
+
+Motion type: Tabulated
+
+.. code:: yaml
+
+  - register_ball:
+     id: 0
+     state: {center: [0,0,0], radius: 7}
+     params: 
+        motion_type: TABULATED
+        time: [0, 25, 50, 75]
+        positions: [[-20,0,-20], [20,0,-20], [20, 0, -15], [-20, 0, -15]]
+
+.. image:: ../_static/ball_tab.gif
    :align: center
    :width: 300pt
 
