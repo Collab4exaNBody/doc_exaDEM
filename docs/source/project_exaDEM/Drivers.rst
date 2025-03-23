@@ -111,7 +111,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✔
      - ✘
      - ✔
-     - ✘
+     - ✔
 
 For all these types of movement, the drivers adopt velocity Verlet integration time scheme. Below is a summary table showing how positions, forces or velocities are calculated according to the type of movement.
 
