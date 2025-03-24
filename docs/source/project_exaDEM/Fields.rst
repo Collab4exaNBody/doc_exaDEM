@@ -13,17 +13,17 @@ Unified Field Operators
 
 * Operator name: ``set_fields``:
 * Parameters ``REQUIRED``:
-  * [bool] `polyhedra`: Define if the kind of particles is polyhedron or sphere.
-  * [std::vector<string>] `type`: Particle type names.
+   * [bool] `polyhedra`: Define if the kind of particles is polyhedron or sphere.
+   * [std::vector<string>] `type`: Particle type names.
 * Paramters ``OPTIONAL``:
-  * [std::vector<double>] `density`: List of density values. If not defined, density is 1.
-  * [std::vector<double>] `radius`: List of radius values. If not defined, radius is 0.5 for spheres, do not define it for polyhedra.
-  * [std::vector<Vec3d>] `velocity`: List of velocity values. If not defined, velocity is [0,0,0].
-  * [std::vector<double>] `sigma_velocity`: Standard deviation (sigma). If not defined, the normal distribution is not applied.
-  * [std::vector<Vec3d>] `angular_velocity`: List of angular velocity values. If not defined, angular velocity is [0,0,0].
-  * [std::vector<double>] `sigma_angular_velocity`: Standard deviation (sigma). If not defined, the normal distribution is not applied.
-  * [std::vector<Quaternion>] `quaternion`: List of orientations. If not defined, quaternion is [w = 1,0,0,0].
-  * [std::vector<bool>] `random_quaternion`: Choice if the orientation is random or not. If not defined, random is false.
+   * [std::vector<double>] `density`: List of density values. If not defined, density is 1.
+   * [std::vector<double>] `radius`: List of radius values. If not defined, radius is 0.5 for spheres, do not define it for polyhedra.
+   * [std::vector<Vec3d>] `velocity`: List of velocity values. If not defined, velocity is [0,0,0].
+   * [std::vector<double>] `sigma_velocity`: Standard deviation (sigma). If not defined, the normal distribution is not applied.
+   * [std::vector<Vec3d>] `angular_velocity`: List of angular velocity values. If not defined, angular velocity is [0,0,0].
+   * [std::vector<double>] `sigma_angular_velocity`: Standard deviation (sigma). If not defined, the normal distribution is not applied.
+   * [std::vector<Quaternion>] `quaternion`: List of orientations. If not defined, quaternion is [w = 1,0,0,0].
+   * [std::vector<bool>] `random_quaternion`: Choice if the orientation is random or not. If not defined, random is false.
 
 .. note::
 
