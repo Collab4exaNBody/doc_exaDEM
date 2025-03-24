@@ -29,6 +29,37 @@ Unified Field Operators
 
   For spheres, you need to call particle_type operator to create the particle map required by ``set_fields``.
 
+YAML example (Spheres):
+
+.. code-block:: yaml
+
+  - particle_type:
+     type: [ Sphere1 , Sphere2 ]
+  - lattice:
+      structure: SC
+      types: [ Sphere1 ]
+      size: [ 1.0 , 1.0 , 1.0 ]
+      region: Region
+  - set_fields:
+     polyhedra: false
+     radius: [0.5]
+     density: [0.02]
+     type: [ Sphere1 ]
+     velocity: [[0,0,0]]
+     sigma_velocity: [0.1]
+     region: Region
+
+YAML example (Polyhedra):
+
+.. code-block:: yaml
+
+  - set_fields:
+     polyhedra: true
+     type:              [ alpha3, Octahedron]
+     velocity:          [[0,0,0],    [0,0,0]]
+     sigma_velocity:    [    0.1,        0.1]
+     random_quaternion: [   true,       true]
+
 Field Operators For All Particles
 ---------------------------------
 
