@@ -12,13 +12,6 @@ Installation With CMake
 Minimal Requirements
 --------------------
 
-To proceed with the installation, your system must meet the minimum prerequisites. The first step involves the installation of ``exaNBody``:
-
-.. code-block:: bash
-
-   git clone https://github.com/Collab4exaNBody/exaNBody.git
-   export exaNBody_DIR=${PWD}/exaNBody 
-
 The next step involves the installation of ``yaml-cpp``, which can be achieved using either the ``spack`` package manager or ``cmake``:
 
 
@@ -49,7 +42,74 @@ The next step involves the installation of ``yaml-cpp``, which can be achieved u
          cd ${CURRENT_HOME}
          export PATH_TO_YAML=$PWD/install-yaml-cpp
 
-Please ensure to remove `yaml-cpp` and `build-yaml-cpp`. When installing exaDEM, remember to add the following to your cmake command: ``-DCMAKE_PREFIX_PATH=${PATH_TO_YAML}``.
+Please ensure to remove `yaml-cpp` and `build-yaml-cpp`. When installing ``Onika``, ``exaNBody``, and ``exaDEM``, remember to add the following to your cmake command: ``-DCMAKE_PREFIX_PATH=${PATH_TO_YAML}``.
+
+To proceed with the installation, your system must meet the minimum prerequisites (``MPI``, ``Onika``, and ``ExaNBody``). The first step involves the installation of ``Onika`` and ``ExaNBody``:
+
+.. tabs::
+
+   .. tab:: Ubuntu CPU
+
+      .. code-block:: bash
+
+         export CURRENT_HOME=$PWD
+         git clone https://github.com/Collab4exaNBody/onika.git
+         git clone https://github.com/Collab4exaNBody/exaNBody.git
+         mkdir ${CURRENT_HOME}/build-onika && cd ${CURRENT_HOME}/build-onika
+         cmake ${CURRENT_HOME}/onika -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-onika -DONIKA_BUILD_CUDA=OFF
+         make install -j 10
+         mkdir ${CURRENT_HOME}/build-exanb && cd ${CURRENT_HOME}/build-exanb
+         cmake ${CURRENT_HOME}/exaNBody -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-exanb
+         make install -j 10
+         export onika_DIR=${CURRENT_HOME}/install-onika
+         export exaNBody_DIR=${CURRENT_HOME}/install-exanb
+         rm -rf ${CURRENT_HOME}/build-onika
+         rm -rf ${CURRENT_HOME}/build-exanb
+
+   .. tab:: Ubuntu GPU
+
+      Please, select the correct compute capability for your ``GPU`` for ``DCMAKE_CUDA_ARCHITECTURES`` instead of 86 in this example.
+
+      .. code-block:: bash
+
+         module load gnu/13.2.0 cuda/12.4 mpi/openmpi/5.0.5 cmake/3.29.6
+         cd $CCCSCRATCHDIR
+         export CURRENT_HOME=$PWD
+         git clone https://github.com/Collab4exaNBody/onika.git
+         git clone https://github.com/Collab4exaNBody/exaNBody.git
+         mkdir ${CURRENT_HOME}/build-onika && cd ${CURRENT_HOME}/build-onika
+         cmake ${CURRENT_HOME}/onika -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-onika -DONIKA_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=86
+         make install -j 10
+         mkdir ${CURRENT_HOME}/build-exanb && cd ${CURRENT_HOME}/build-exanb
+         cmake ${CURRENT_HOME}/exaNBody -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-exanb
+         make install -j 10
+         export onika_DIR=${CURRENT_HOME}/install-onika
+         export exaNBody_DIR=${CURRENT_HOME}/install-exanb
+         rm -rf ${CURRENT_HOME}/build-onika
+         rm -rf ${CURRENT_HOME}/build-exanb  
+
+   .. tab:: TOPAZE GPU
+
+      Please, note that you need copy on topaze onika and exaNBody repository
+
+      .. code-block:: bash
+
+         module load gnu/13.2.0 cuda/12.4 mpi/openmpi/5.0.5 cmake/3.29.6
+         cd $CCCSCRATCHDIR
+         export CURRENT_HOME=$PWD
+         // copy onika
+         // copy exaNBody
+         mkdir ${CURRENT_HOME}/build-onika && cd ${CURRENT_HOME}/build-onika
+         cmake ${CURRENT_HOME}/onika -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-onika -DONIKA_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80
+         make install -j 10
+         mkdir ${CURRENT_HOME}/build-exanb && cd ${CURRENT_HOME}/build-exanb
+         cmake ${CURRENT_HOME}/exaNBody -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-exanb
+         make install -j 10
+         export onika_DIR=${CURRENT_HOME}/install-onika
+         export exaNBody_DIR=${CURRENT_HOME}/install-exanb
+         rm -rf ${CURRENT_HOME}/build-onika
+         rm -rf ${CURRENT_HOME}/build-exanb          
+
 
 Optional Dependencies
 ---------------------
@@ -77,7 +137,7 @@ Create a directory named build-exaDEM and navigate into it:
 		
    mkdir build-exaDEM && cd build-exaDEM
 
-Run CMake to configure the ExaDEM build, specifying that ``CUDA`` support should be turned off:
+Run CMake to configure the ExaDEM build:
 
 .. tabs::
 
@@ -85,25 +145,27 @@ Run CMake to configure the ExaDEM build, specifying that ``CUDA`` support should
 
       .. code-block:: bash
 		
-         cmake ../exaDEM -DXNB_BUILD_CUDA=OFF
+         cmake ../exaDEM -DCMAKE_BUILD_TYPE=Release 
          make -j 4
-         make UpdatePluginDataBase
+         source bin/setup-env.sh
 
    .. tab:: cmake GPU (a100)
 
+      The gpu installation depends on onika.
+
       .. code-block:: bash
 
-         cmake ../exaDEM -DXNB_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80
+         cmake ../exaDEM -DCMAKE_BUILD_TYPE=Release 
          make -j 4
-         make UpdatePluginDataBase
+         source bin/setup-env.sh
 
    .. tab:: Specify EXADEM_MAX_VERTICES
 
       .. code-block:: bash
 
-         cmake ../exaDEM -DEXADEM_MAX_VERTICES=36
+         cmake ../exaDEM -DEXADEM_MAX_VERTICES=36 -DCMAKE_BUILD_TYPE=Release 
          make -j 4
-         make UpdatePluginDataBase
+         source bin/setup-env.sh
 
    .. tab:: Spack
 
@@ -118,6 +180,10 @@ Run CMake to configure the ExaDEM build, specifying that ``CUDA`` support should
 
 .. warning::
   It's important to note that the maximum number of vertices per particle shape is set to 8 by default. To change this value, you can specify this number by adding: ``-DEXADEM_MAX_VERTICES=N``.
+
+.. warning::
+
+    Please, do not forget to load the ``exaDEM`` environnement before running a job: `source bin/setup-env.sh`.
 
 This command will display all plugins and related operators. Example: 
 
@@ -140,30 +206,30 @@ Here are a few examples on ``CEA`` supercomputers:
 
    .. tab:: CCRT Topaze Milan
 
-      You need to specify "export exaNBody_DIR=${path_to_exaNBody}"
+      You need to specify "export exaNBody_DIR=${path_to_exaNBody}" and "export onika_DIR=${path_to_onika}"
 
       .. code-block:: bash
 
          module load yaml-cpp/0.6.3 gnu/13.2.0 mpi/openmpi/4.1.6 
-         cmake ${path_to_exaDEM}
+         cmake ${path_to_exaDEM} -DCMAKE_BUILD_TYPE=Release 
 
    .. tab:: CCRT Topaze a100
 
-      You need to specify "export exaNBody_DIR=${path_to_exaNBody}"
+      You need to specify "export exaNBody_DIR=${path_to_exaNBody}" and "export onika_DIR=${path_to_onika}"
 
       .. code-block:: bash
 
-         module load yaml-cpp/0.6.3 gnu/11.1.0 mpi/openmpi/4.1.6 cuda/12.3
-         cmake ${path_to_exaDEM} -DXNB_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80
+         module load gnu/13.2.0 cuda/12.4 mpi/openmpi/5.0.5 cmake/3.29.6
+         cmake ${path_to_exaDEM} -DCMAKE_BUILD_TYPE=Release 
 
    .. tab:: CCRT Irene Skylake and Rome
 
-      You need to specify "export exaNBody_DIR=${path_to_exaNBody}"
+      You need to specify "export exaNBody_DIR=${path_to_exaNBody}" and "export onika_DIR=${path_to_onika}"
 
       .. code-block:: bash
 
          module load yaml-cpp/0.6.3 gnu/13.2.0 mpi/openmpi/4.1.6
-         cmake ${path_to_exaDEM}
+         cmake ${path_to_exaDEM} -DCMAKE_BUILD_TYPE=Release 
 
 Launch examples / ctest
 -----------------------
