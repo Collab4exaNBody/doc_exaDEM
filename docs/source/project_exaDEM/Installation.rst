@@ -12,7 +12,7 @@ Installation With CMake
 Minimal Requirements
 --------------------
 
-The next step involves the installation of ``yaml-cpp``, which can be achieved using either the ``spack`` package manager or ``cmake``:
+The first step involves the installation of ``yaml-cpp``, which can be achieved using either the ``spack`` package manager or ``cmake``:
 
 
 .. tabs::
@@ -44,7 +44,7 @@ The next step involves the installation of ``yaml-cpp``, which can be achieved u
 
 Please ensure to remove `yaml-cpp` and `build-yaml-cpp`. When installing ``Onika``, ``exaNBody``, and ``exaDEM``, remember to add the following to your cmake command: ``-DCMAKE_PREFIX_PATH=${PATH_TO_YAML}``.
 
-To proceed with the installation, your system must meet the minimum prerequisites (``MPI``, ``Onika``, and ``ExaNBody``). The first step involves the installation of ``Onika`` and ``ExaNBody``:
+To proceed with the installation, your system must meet the minimum prerequisites (``MPI``, ``Onika``, and ``ExaNBody``). The next step involves the installation of ``Onika`` and ``ExaNBody``:
 
 .. tabs::
 
@@ -88,7 +88,7 @@ To proceed with the installation, your system must meet the minimum prerequisite
 
    .. tab:: TOPAZE GPU
 
-      Please, note that you need copy on topaze onika and exaNBody repository
+      Please, note that you need copy on topaze onika and exaNBody repository. You can load the ``YAML`` module such as ``module load yaml-cpp/`` and add this option to the ``cmake`` command: ``-DCMAKE_PREFIX_PATH=/ccc/products/yaml-cpp-0.6.3/system/default/``
 
       .. code-block:: bash
 
