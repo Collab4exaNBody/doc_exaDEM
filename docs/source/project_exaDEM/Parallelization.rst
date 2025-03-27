@@ -192,3 +192,6 @@ This example is defined in the repository: https://github.com/Collab4exaNBody/ex
    * - master (05/12/24)
      - 6.38(2.61/2.49)
      - 17.6(11.65/4.3)
+   * - v1.1.0 (27/03/25)
+     - 6.99(2.43/2.56)
+     - 17.3(10.94/4.4)
