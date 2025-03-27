@@ -72,8 +72,6 @@ To proceed with the installation, your system must meet the minimum prerequisite
 
       .. code-block:: bash
 
-         module load gnu/13.2.0 cuda/12.4 mpi/openmpi/5.0.5 cmake/3.29.6
-         cd $CCCSCRATCHDIR
          export CURRENT_HOME=$PWD
          git clone https://github.com/Collab4exaNBody/onika.git
          git clone https://github.com/Collab4exaNBody/exaNBody.git
