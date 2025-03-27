@@ -279,7 +279,7 @@ First get the ``spack`` repository in exaDEM directory and add it to spack. It c
    spack repo add spack_repo
 
 
-Second install ``ExaDEM`` (this command will install ``cmake``, ``yaml-cpp`` and ``exanbody``).
+Second install ``ExaDEM`` (this command will install ``cmake``, ``yaml-cpp``, ``onika`` and ``exanbody``).
 
 .. code-block:: bash
 
