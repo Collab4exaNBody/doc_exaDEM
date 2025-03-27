@@ -92,7 +92,7 @@ To proceed with the installation, your system must meet the minimum prerequisite
 
       .. code-block:: bash
 
-         module load gnu/13.2.0 cuda/12.4 mpi/openmpi/5.0.5 cmake/3.29.6
+         module load gnu/13.2.0 cuda/12.4 mpi/openmpi/4.1.6 cmake/3.29.6
          cd $CCCSCRATCHDIR
          export CURRENT_HOME=$PWD
          // copy onika
@@ -217,7 +217,7 @@ Here are a few examples on ``CEA`` supercomputers:
 
       .. code-block:: bash
 
-         module load gnu/13.2.0 cuda/12.4 mpi/openmpi/5.0.5 cmake/3.29.6
+         module load gnu/13.2.0 cuda/12.4 mpi/openmpi/4.1.6 cmake/3.29.6
          cmake ${path_to_exaDEM} -DCMAKE_BUILD_TYPE=Release 
 
    .. tab:: CCRT Irene Skylake and Rome
