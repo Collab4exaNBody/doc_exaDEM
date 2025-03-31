@@ -366,6 +366,8 @@ The STL Mesh driver is constructed from an .STL (Stereolithography) file to crea
   * *id*: Driver index
   * *filename*: Input filename (.stl or .shp)
   * *minskowski*: Minskowski radius value
+  * *binary*: Define if the stl file is ascii or binary, default is false.
+  * *scale*: Define the scale factor of applied to the shape, default is 1. 
   * *state*: Define the center, velocity, angular velocity and the orientatation. Default is: state: {center: [0,0,0], vel: [0,0,0], vrot: [0,0,0], quat: [1,0,0,0]}.
   * *params*: List of params, motion type, motion vectors .... Default is { motion_type: STATIONARY}.
 
@@ -381,6 +383,7 @@ YAML examples:
 
   - register_stl_mesh:
      id: 0
+     binary: false
      filename: mesh.stl
      minskowski: 0.001 m
      params: {motion_type: STATIONARY}
