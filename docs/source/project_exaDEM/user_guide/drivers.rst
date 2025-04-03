@@ -201,7 +201,7 @@ Rotating Drum / Cylinder
 
 The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its middle, velocity, axis, and angular velocity.
 
-.. image:: ../_static/rotating_drum_end.png
+.. image:: ../../_static/rotating_drum_end.png
    :align: center
    :width: 300pt
 
@@ -227,7 +227,7 @@ Wall / Surface
 
 The wall or surface driver represents an infinite wall within the simulation environment. It is defined by parameters including its normal vector, offset, and velocity. Please note that currently, no angular velocity is defined for this driver. 
 
-.. image:: ../_static/rigid_surface_end.png
+.. image:: ../../_static/rigid_surface_end.png
    :align: center
    :width: 300pt
 
@@ -263,7 +263,7 @@ YAML examples:
      state: { normal: [1,0,0], offset: 11, surface: 144}
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5, damprate: 0.999 }
 
-.. image:: ../_static/compression_wall.gif
+.. image:: ../../_static/compression_wall.gif
    :align: center
    :width: 300pt
 
@@ -276,7 +276,7 @@ Ball / Sphere
 
 The ball or sphere driver represents a spherical object within the simulation environment. It is defined by parameters including its center, velocity, and angular velocity. This driver can be utilized as a boundary condition or obstacle in the simulation.
 
-.. image:: ../_static/ExaDEM/polyhedra_ball_end.png
+.. image:: ../../_static/ExaDEM/polyhedra_ball_end.png
    :align: center
    :width: 300pt
 
@@ -317,7 +317,7 @@ Motion type: ``LINEAR MOTION``
      state: {center: [30,2,-10], radius: 8}
      params: { motion_type: LINEAR_MOTION , motion_vector: [-1,0,0], const_vel: 0.5}
 
-.. image:: ../_static/ball_linear_motion.gif
+.. image:: ../../_static/ball_linear_motion.gif
    :align: center
    :width: 300pt
 
@@ -330,7 +330,7 @@ Motion type: ``COMPRESSIVE_FORCE``
      state: {center: [0,0,0], radius: 11}
      params: {motion_type: COMPRESSIVE_FORCE , sigma: 1.0, damprate: 0.999}
 
-.. image:: ../_static/radial_stress.gif
+.. image:: ../../_static/radial_stress.gif
    :align: center
    :width: 300pt
 
@@ -346,7 +346,7 @@ Motion type: ``TABULATED``
         time: [0, 25, 50, 75]
         positions: [[-20,0,-20], [20,0,-20], [20, 0, -15], [-20, 0, -15]]
 
-.. image:: ../_static/ball_tab.gif
+.. image:: ../../_static/ball_tab.gif
    :align: center
    :width: 300pt
 
@@ -355,7 +355,7 @@ STL Mesh
 
 The STL Mesh driver is constructed from an .STL (Stereolithography) file to create a mesh of faces. This approach enables the rapid setup of complex geometries within the simulation environment. It's important to note that faces in an STL mesh are processed as a sphere polyhedron, meaning a small layer is added around each face.
 
-.. image:: ../_static/ExaDEM/stl_mixte_end.png
+.. image:: ../../_static/ExaDEM/stl_mixte_end.png
    :align: center
    :width: 300pt
 
@@ -388,7 +388,7 @@ YAML examples:
      minskowski: 0.001 m
      params: {motion_type: STATIONARY}
 
-.. image:: ../_static/stl_stationary.gif
+.. image:: ../../_static/stl_stationary.gif
    :align: center
    :width: 450pt
 
@@ -403,7 +403,7 @@ YAML examples:
      filename: mesh.stl
      minskowski: 0.001 m
 
-.. image:: ../_static/stl_linear_motion.gif
+.. image:: ../../_static/stl_linear_motion.gif
    :align: center
    :width: 450pt
 
@@ -422,7 +422,7 @@ YAML examples:
      filename: mesh.stl
      minskowski: 0.001 m
 
-.. image:: ../_static/mesh_stl_tabulated.gif
+.. image:: ../../_static/mesh_stl_tabulated.gif
    :align: center
    :width: 450pt
 
@@ -438,7 +438,7 @@ YAML examples:
      state: { center: [0.0, 0.0, 9.], vel: [0,0,-0.025], quat: [1,0,0,0], mass: 1}
      params: { motion_type: LINEAR_FORCE_MOTION, motion_vector: [0,0,-1], const_force: 100 }
 
-.. image:: ../_static/stl_force_motion.gif
+.. image:: ../../_static/stl_force_motion.gif
    :align: center
    :width: 450pt
 
@@ -459,7 +459,7 @@ YAML examples:
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [0,0,-1], sigma: 0.5, damprate: 0.5 } 
 
 
-.. image:: ../_static/stl_compression.gif
+.. image:: ../../_static/stl_compression.gif
    :align: center
    :width: 450pt
 

@@ -383,7 +383,7 @@ This DEM simulation example illustrates the gravitational descent of 64 hexapods
 +--------------------------+--------------------------+
 
 Example 4: Polyhedra With STL Mesh (Box)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This simulation example illustrates the use of STL files with polyhedra. In this simulation, we drop a set of polyhedra (hexapods, octahedra, or both) by gravity into an open box to fill it completely. 
 
