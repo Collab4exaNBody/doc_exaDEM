@@ -223,12 +223,12 @@ Here are 4 examples with YAML:
 
 .. note::
 
-  ``Contact force`` operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
+  ``Contact Force With Cohesion`` operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
 
 .. note::
 
-  - rcut is not used in the context of simulations with polyhedra.
-  - This operator is designed to process interactions built in ``nbh_polyhedron`` (spheropolyhedra).
+  - The ``contact_sphere`` and ``contact_sphere_with_cohesion``operators are designed to process interactions built in ``nbh_sphere`` (please, include the config_spheres.msp file).
+  - The ``contact_polyhedron`` and ``contact_polyhedron_with_cohesion``operators are designed to process interactions built in ``nbh_polyhedron`` (please, include the config_polyhedra.msp file).
 
 External Forces
 ---------------
