@@ -227,8 +227,8 @@ Here are 4 examples with YAML:
 
 .. note::
 
-  - The ``contact_sphere`` and ``contact_sphere_with_cohesion``operators are designed to process interactions built in ``nbh_sphere`` (please, include the config_spheres.msp file).
-  - The ``contact_polyhedron`` and ``contact_polyhedron_with_cohesion``operators are designed to process interactions built in ``nbh_polyhedron`` (please, include the config_polyhedra.msp file).
+  - The ``contact_sphere`` and ``contact_sphere_with_cohesion`` operators are designed to process interactions built in ``nbh_sphere`` (please, include the config_spheres.msp file).
+  - The ``contact_polyhedron`` and ``contact_polyhedron_with_cohesion`` operators are designed to process interactions built in ``nbh_polyhedron`` (please, include the config_polyhedra.msp file).
 
 External Forces
 ---------------
