@@ -170,35 +170,48 @@ with:
 
 with **n** normalized vector from particle i to particle j
 
-* Name: ``contact_sphere`` or ``contact_polyehdron``
+* Name: ``contact_sphere``, ``contact_polyehdron``, ``contact_sphere_with_cohesion``, or ``contact_polyehdron_with_cohesion``
 * Description: These operators compute forces between particles and particles/drivers using the contact's law.
 * Parameter:
 
 +---------------------+------------------------------------------------------------------------------+
 | `symetric`          | Activate or disable symmetric updates (do not disable it with polyhedron).   |
 +---------------------+------------------------------------------------------------------------------+
-| `config`            | Data structure that contains contact force parameters (rcut, dncut, kn, kt,  | 
+| `config`            | Data structure that contains contact force parameters (dncut, kn, kt,  | 
 |                     | kr, fc, mu, damp_rate). Type = exaDEM::ContactParams. No default parameter.  |
 +---------------------+------------------------------------------------------------------------------+
-| `config_driver`     | Data structure that contains contact force parameters (rcut, dncut, kn, kt,  |
+| `config_driver`     | Data structure that contains contact force parameters (dncut, kn, kt,  |
 |                     | kr, fc, mu, damp_rate). Type = exaDEM::ContactParams.                        |
 |                     | This parameter is optional.                                                  |
 +---------------------+------------------------------------------------------------------------------+
 | `save_interactions` | Store interactions into the classifier data structure. Default is false.     |
 +---------------------+------------------------------------------------------------------------------+
 
-Here are two examples with YAML:
+Here are 4 examples with YAML:
 
 .. code-block:: yaml
 
    - contact_sphere:
-      config: { rcut: 1.1 m , dncut: 1.1 m, kn: 100000, kt: 100000, kr: 0.1, fc: 0.05, mu: 0.9, damp_rate: 0.9}
+      symetric: true
+      config: { kn: 100000, kt: 100000, kr: 0.1, mu: 0.9, damp_rate: 0.9}
 
 .. code-block:: yaml
 
    - contact_polyhedron:
-      config: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.1, damp_rate: 0.9}
-      config_driver: { rcut: 0.0 m , dncut: 0.0 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
+      config: { kn: 10000, kt: 10000, kr: 0.1, mu: 0.1, damp_rate: 0.9}
+      config_driver: { kn: 10000, kt: 10000, kr: 0.1, mu: 0.3, damp_rate: 0.9}
+
+.. code-block:: yaml
+
+   - contact_sphere:
+      symetric: true
+      config: { dncut: 0.1 m, kn: 100000, kt: 100000, kr: 0.1, fc: 0.05, mu: 0.9, damp_rate: 0.9}
+
+.. code-block:: yaml
+
+   - contact_polyhedron:
+      config: { dncut: 0.1 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.1, damp_rate: 0.9}
+      config_driver: { dncut: 0.1 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
 
 .. note::
 
