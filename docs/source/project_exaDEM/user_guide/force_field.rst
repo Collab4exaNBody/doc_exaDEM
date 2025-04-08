@@ -207,13 +207,13 @@ Here are 4 examples with YAML:
 
 .. code-block:: yaml
 
-   - contact_sphere:
+   - contact_sphere_with_cohesion:
       symetric: true
       config: { dncut: 0.1 m, kn: 100000, kt: 100000, kr: 0.1, fc: 0.05, mu: 0.9, damp_rate: 0.9}
 
 .. code-block:: yaml
 
-   - contact_polyhedron:
+   - contact_polyhedron_with_cohesion:
       config: { dncut: 0.1 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.1, damp_rate: 0.9}
       config_driver: { dncut: 0.1 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
 
