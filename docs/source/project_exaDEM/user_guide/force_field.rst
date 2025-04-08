@@ -125,6 +125,10 @@ Three possibilities depending on the value of the interpenetration between \\(d_
 *  \\( -dncut < d_n < 0 \\)
 *  \\( 0 < d_n < dncut \\)
 
+.. warning::
+
+  Cohesive forces (`dncut`) are only applied if you use the operators: ``contact_sphere_with_cohesion`` or ``contact_polyhedron_with_cohesion``. Otherwise we only consider the case ::math`d_n < 0.0`.
+
 **Formula between particle i and particle j if \\( d_n < -dncut \\) :**
 
 
