@@ -47,6 +47,12 @@ A DEM simulation of a set of spheres in a periodic rotating drum. Through this s
 .. |ex1npend| image:: ../_static/ExaDEM/rotating_drum_no_periodic_end.png
    :width: 300pt
 
+.. |ex1cohesionstart| image:: ../_static/rotating_drum_cohesion_start.png
+   :width: 300pt
+
+.. |ex1cohesionend| image:: ../_static/rotating_drum_cohesion_end.png
+   :width: 300pt
+
 - Input files:
 
   - First test case: ``example/spheres/rotating-drum/rotating-drum-periodic.msp``
@@ -61,6 +67,13 @@ A DEM simulation of a set of spheres in a periodic rotating drum. Through this s
     - 20,000 timesteps
     - 1 minute and 13 seconds on 8 cores (OpenMP)
 
+
+  - third test case: ``example/spheres/rotating-drum/rotating-periodic-cohesion.msp``
+
+    - 1,200 particles
+    - 30,000 timesteps
+    - 8 seconds on 12 cores (OpenMP)
+
 +--------------------------+--------------------------+
 | .. centered:: Rotating Drum                         |
 +--------------------------+--------------------------+
@@ -69,6 +82,8 @@ A DEM simulation of a set of spheres in a periodic rotating drum. Through this s
 | |ex1start|               | |ex1end|                 |
 +--------------------------+--------------------------+
 | |ex1npstart|             | |ex1npend|               |
++--------------------------+--------------------------+
+| |ex1cohesionstart|       | |ex1cohesionend|         |
 +--------------------------+--------------------------+
 
 Example 2: Rigid surface

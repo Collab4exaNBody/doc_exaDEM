@@ -66,10 +66,12 @@ Drivers share common parameters contained in the Driver_params class. These para
      - Linear movement combined with compressive forces. 
    * - ``TABULATED``
      - Motion defined by precomputed or tabulated data. 
+   * - ``SHAKER``
+     - Oscillatory or vibratory motion, typically mimicking a shaking mechanism.
 
 
 .. list-table:: Glossary Of Motion Types per Driver
-   :widths: 30 10 10 10 10 10 10 10
+   :widths: 30 10 10 10 10 10 10 10 10
    :header-rows: 1
 
    * - Motion Type
@@ -80,8 +82,10 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ``FORCE_MOTION``
      - ``LINEAR_COMPRESSIVE_MOTION``
      - ``TABULATED``
+     - ``SHAKER``
    * - Cylinder
      - ✔
+     - ✘
      - ✘
      - ✘
      - ✘
@@ -96,6 +100,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✔
      - ✘
+     - ✔
    * - Ball
      - ✔
      - ✔
@@ -104,6 +109,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
      - ✔
+     - ✘
    * - Stl Mesh
      - ✔
      - ✔
@@ -112,6 +118,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✔
      - ✔
+     - ✘
 
 For all these types of movement, the drivers adopt velocity Verlet integration time scheme. Below is a summary table showing how positions, forces or velocities are calculated according to the type of movement.
 
@@ -175,12 +182,25 @@ For all these types of movement, the drivers adopt velocity Verlet integration t
 
       with :math:`F` the driver forces, :math:`V` the driver velocity, :math:`S`, the driver surface, :math:`damprate` the damprate (TODO complete), and :math:`M_{vector}` the motion vector. 
 
+   .. tab:: ``SHAKER``
+
+      .. math::
+
+         C = A . sin(\omega T) . N_{shaker} + C_{initial},
+
+         V = 0,
+
+      with :math:`C` the driver center, :math:`C{initial}` the initial driver center,  math:`N_{shaker}` the shaker normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, :math:`\omega`, the signal frequency, and :math:`T`, the physical simulation time. 
+
 And keywords:
 
 	- ``motion_vector``: :math:`M_{vector}`, slot ``params``
 	- ``const_vel``: :math:`C_{velocity}`, slot ``params``
 	- ``const_f``: :math:`C_F`, slot ``params``
 	- ``damprate``: :math:`damprate`, slot ``params``
+	- ``amplitude``: :math:`A`, slot ``params``
+	- ``omega``: :math:`\omega`, slot ``params``
+	- ``shaker_dir``: :math:`N_{shaker}`, slot ``params``
 
 Add a Driver To Your Simulation
 -------------------------------
@@ -270,6 +290,24 @@ YAML examples:
 .. note:: 
 
   If you have chosen the “LINEAR_COMPRESSIVE_MOTION” mode, you will need to define the value of the wall surface.  
+
+Motion type: ``SHAKER``
+
+.. code:: yaml
+
+  - register_surface:
+     id: 2
+     state: {normal: [0,0,1], offset: -1}
+     params:
+        motion_type: SHAKER
+        amplitude: 0.5
+        omega: 1e1
+        motion_start_threshold: 3.0
+        motion_end_threshold: 8.0
+
+.. image:: ../../_static/shaker_surface.gif
+   :align: center
+   :width: 300pt
 
 Ball / Sphere
 --------------
