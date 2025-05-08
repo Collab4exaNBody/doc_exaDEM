@@ -209,15 +209,24 @@ In this DEM simulation, a cluster of 287,642 spherical particles has been genera
 
 Input file: ``example/spheres/rsa/rsa-full.msp``
 
+A second example, available in ``example/spheres/rsa/rsa_vol_frac.msp``, demonstrates how to define different volume fractions for particles of varying sizes.
+
 .. |ex8start| image:: ../_static/rsa_start.png
    :width: 300pt
 
 .. |ex8end| image:: ../_static/rsa_end.png
    :width: 300pt
 
+.. |ex8bisstart| image:: ../_static/rsa_vol_frac_start.png
+   :width: 300pt
+
+.. |ex8bisend| image:: ../_static/rsa_vol_frac_end.png
+   :width: 300pt
+
 .. note::
 
   ``rsa`` is an optional package, please see installation guildelines to add it.
+
 
 +--------------------------+--------------------------+
 | .. centered:: RSA                                   |
@@ -225,6 +234,8 @@ Input file: ``example/spheres/rsa/rsa-full.msp``
 | .. centered:: Start      | .. centered:: End        |
 +==========================+==========================+
 | |ex8start|               | |ex8end|                 |
++--------------------------+--------------------------+
+| |ex8bisstart|            | |ex8bisend|              |
 +--------------------------+--------------------------+
 
 Example 7: Jet
