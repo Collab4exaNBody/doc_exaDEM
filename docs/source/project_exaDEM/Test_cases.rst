@@ -12,9 +12,9 @@ If you would like to view your test cases with paraview, here are some instructi
 
 - For polyhedra: 
 
-  - `Paraview For Polyhedra <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-paraview-for-polyhedra>`_
-  - `Paraview With OBBs <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-paraview-with-obbs>`_
-  - `Contact Network <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/Analysis.html#dump-contact-network>`_
+  - `Paraview For Polyhedra <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/user_guide/post_processings.html#dump-paraview-for-polyhedra>`_
+  - `Paraview With OBBs <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM/user_guide/post_processings.html#dump-paraview-with-obbs>`_
+  - `Contact Network <https://collab4exanbody.github.io/doc_exaDEM/project_exaDEM//user_guide/post_processings.html#dump-contact-network>`_
 
 - Drivers:
 
