@@ -53,8 +53,8 @@ To proceed with the installation, your system must meet the minimum prerequisite
       .. code-block:: bash
 
          export CURRENT_HOME=$PWD
-         git clone --branch v1.0.0 https://github.com/Collab4exaNBody/onika.git
-         git clone --branch v2.0.0 https://github.com/Collab4exaNBody/exaNBody.git
+         git clone --branch v1.0.2 https://github.com/Collab4exaNBody/onika.git
+         git clone --branch v2.0.2 https://github.com/Collab4exaNBody/exaNBody.git
          mkdir ${CURRENT_HOME}/build-onika && cd ${CURRENT_HOME}/build-onika
          cmake ${CURRENT_HOME}/onika -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-onika -DONIKA_BUILD_CUDA=OFF
          make install -j 10
@@ -73,8 +73,8 @@ To proceed with the installation, your system must meet the minimum prerequisite
       .. code-block:: bash
 
          export CURRENT_HOME=$PWD
-         git clone --branch v1.0.0 https://github.com/Collab4exaNBody/onika.git
-         git clone --branch v2.0.0 https://github.com/Collab4exaNBody/exaNBody.git
+         git clone --branch v1.0.2 https://github.com/Collab4exaNBody/onika.git
+         git clone --branch v2.0.2 https://github.com/Collab4exaNBody/exaNBody.git
          mkdir ${CURRENT_HOME}/build-onika && cd ${CURRENT_HOME}/build-onika
          cmake ${CURRENT_HOME}/onika -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-onika -DONIKA_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=86
          make install -j 10
@@ -95,8 +95,8 @@ To proceed with the installation, your system must meet the minimum prerequisite
          module load gnu/13.2.0 cuda/12.4 mpi/openmpi/4.1.6 cmake/3.29.6
          cd $CCCSCRATCHDIR
          export CURRENT_HOME=$PWD
-         // copy onika v1.0.0
-         // copy exaNBody v2.0.0
+         // copy onika v1.0.2
+         // copy exaNBody v2.0.2
          mkdir ${CURRENT_HOME}/build-onika && cd ${CURRENT_HOME}/build-onika
          cmake ${CURRENT_HOME}/onika -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-onika -DONIKA_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80
          make install -j 10
