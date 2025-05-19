@@ -261,7 +261,7 @@ Installing Spack
 
 .. code-block:: bash
 
-  git clone https://github.com/spack/spack.git
+  git clone --depth=2 --branch=v0.23.0 https://github.com/spack/spack.git
   export SPACK_ROOT=$PWD/spack
   source ${SPACK_ROOT}/share/spack/setup-env.sh
 
@@ -272,9 +272,8 @@ First get the ``spack`` repository in exaDEM directory and add it to spack. It c
 
 .. code-block:: bash
 		
-   git clone https://github.com/Collab4exaNBody/exaDEM.git
-   cd exaDEM
-   spack repo add spack_repo
+   git clone https://github.com/Collab4exaNBody/spack-repos.git
+   spack repo add spack-repos
 
 
 Second install ``ExaDEM`` (this command will install ``cmake``, ``yaml-cpp``, ``onika`` and ``exanbody``).
