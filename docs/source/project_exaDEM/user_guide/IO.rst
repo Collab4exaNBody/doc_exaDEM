@@ -279,6 +279,24 @@ Writer Of MPIIO Files
 .. note::
   This operator is defined in the default `ExaDEM` operator named `dump_data_particles`. 
 
+Writer Of Rockable Files
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Name: `write_conf_rockable`
+- Description: This operator writes a minimal rockable output file to use the rockable tool `see`.
+- No parameter
+
+YAML example:
+
+.. code-block:: yaml
+
+   iteration_dump_writer:
+     - write_conf_rockable
+
+.. note::
+
+  Only particles data are writen to use the rockable tool `see`.
+
 Writer Of XYZ Files
 ^^^^^^^^^^^^^^^^^^^
 
