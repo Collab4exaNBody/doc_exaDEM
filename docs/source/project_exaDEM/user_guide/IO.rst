@@ -81,7 +81,6 @@ Reader Of MPIIO File
 - Name: `read_dump_particles`
 - Description: This operator reads a dump file with all particle information required to restart the simulation. See operator: @write_dump_particles
 - Parameters:
-   * `enable_friction` : Enable to write friction information. By default this option is activated.
    * `filename` : Dump file name to read.
    * `bounds` : If set, override the domain's bounds, filtering out particles outside of overriden bounds (AABB = [[infx, infy, infz],[supx, supy, supz]]).
    * `expandable` : If set, override domain expandability stored in file
@@ -98,6 +97,7 @@ YAML example:
 
 .. note::
   This operator is used for spheres and not polyhedra because we need a special reader to read current interaction values containing the friction and moment. Show `read_dump_particle_interaction`.
+
 
 
 Restart file script
@@ -131,6 +131,59 @@ Output:
    input_data:
      - read_dump_particle_interaction:
         filename: SpheresMovableWallDir/CheckpointFiles/exadem_0000029000.dump
+
+Reader Of Rockable Files
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Name: `read_conf_rockable`
+- Description: This operator reads a rockable output file. However, some lines are not processed by the reader, such as the contact law type or its parameters.
+- Paramters:
+   * `bounds` This option defines the simulation domain. If not specified, the domain size is determined by the particle positions. Ex: [[0,0,0],[1,1,1]].
+   * `filename` Dump file name to read.
+   * `enlarge_bounds` Define a layer around the volume size. Default size is 0.
+
+Yaml Example:
+
+.. code-block:: yaml
+
+  input_data:
+    - read_conf_rockable:
+       filename: input_file/518_poly.conf
+
+What is read:
+
+- t
+- dt
+- density
+- periodicity
+- nDriven
+- shapeFile
+- precision
+- Particles
+- Interactions (read but NOT used)
+
+What is not read:
+
+- Interactions (read but NOT used)
+- Interfaces
+- gravity
+- AddOrRemoveInteractions
+- UpdateNL
+- forceLaw
+- Contact law parameters
+- interVerlet
+- interConf
+- tmax
+- DVerlet
+- dVerlet
+- gravity
+- ParamsInInterfaces
+- dynamicUpdateNL
+- ContactPartnership
+- cellMinSizes
+- iconf
+- boxForLinkCellsOpt
+
 
 Read Shape File
 ^^^^^^^^^^^^^^^
@@ -263,4 +316,6 @@ Output file: [mean_r_v.pdf]
 .. image:: ../../_static/Analyses/mean_r_v.png
    :width: 500pt
    :align: center
+
+
 
