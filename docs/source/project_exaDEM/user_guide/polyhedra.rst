@@ -27,7 +27,9 @@ This class is defined by its:
 * m_obb_edges: List of ``OBB`` for each edge
 * m_obb_faces: List of ``OBB`` for each face
 
-It's important to note that the maximum number of vertices per particle shape is set to 8 by default. This is because the vertex positions for each particle are stored in an exaDEM “Array Of Vec3d” field, which is why the size is set at compile time. To change this value, you can specify this number by adding it at compile time: ``-DEXADEM_MAX_VERTICES=N``.
+.. warning::
+
+  Old version (<= 1.1.1) : It's important to note that the maximum number of vertices per particle shape is set to 8 by default. This is because the vertex positions for each particle are stored in an exaDEM “Array Of Vec3d” field, which is why the size is set at compile time. To change this value, you can specify this number by adding it at compile time: ``-DEXADEM_MAX_VERTICES=N``.
 
 	.. note::
 		OBB (Oriented Bounded Boxes) are enlarged of the Minskowki radius.
@@ -200,3 +202,30 @@ To improve the implementation of kernels linked to ``GPU`` interactions, ``exaDE
 It's important to point out that this data structure complements the interaction grid. The main idea is to classify and unclassify interaction information as long as the data has not changed (``cell migration``, ``move particle``, ``IO``). To achieve this, we use two operators: ``classify`` and ``unclassify``.
 
 Using the classifier is currently the default strategy in exaDEM for spheres and polyhedra.
+
+
+Data layout: Particle Vertices
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The vertices of the polyhedra are stored in a different grid structure called ``CellVertexField``. It is composed as a grid of VertexFields and is reallocated by the ``compute_vertices`` operator.
+The following image illustrates the memory layout of the vertices:
+
+.. figure:: ../../_static/structure_vertices.png
+
+* Operator name: ``compute_vertices``
+* Description: This operator computes the vertices for every polyhedron.
+* Parameters:
+
+  * *resize_vertex*: enable to resize the data storage used for vertices, default is true
+  * *minimize_memory_footprint* enable to resize the data storage using only the maximum of vertices according to the particle shapes into a cell. This option is useful if there are some particles with a very high number of particles, default is false.
+
+YAML examples:
+
+.. code:: yaml
+
+  compute_new_vertices:
+    - compute_vertices:
+       resize_vertex: true
+  compute_fast_vertices:
+    - compute_vertices:
+       resize_vertex: false

@@ -157,14 +157,6 @@ Run CMake to configure the ExaDEM build:
          make -j 4
          source bin/setup-env.sh
 
-   .. tab:: Specify EXADEM_MAX_VERTICES
-
-      .. code-block:: bash
-
-         cmake ../exaDEM -DEXADEM_MAX_VERTICES=36 -DCMAKE_BUILD_TYPE=Release 
-         make -j 4
-         source bin/setup-env.sh
-
    .. tab:: Spack
 
       See the spack section if you need to install spack.
@@ -177,7 +169,8 @@ Run CMake to configure the ExaDEM build:
          spack install exadem
 
 .. warning::
-  It's important to note that the maximum number of vertices per particle shape is set to 8 by default. To change this value, you can specify this number by adding: ``-DEXADEM_MAX_VERTICES=N``.
+
+  Old version (<= 1.1.1) It's important to note that the maximum number of vertices per particle shape is set to 8 by default. To change this value, you can specify this number by adding: ``-DEXADEM_MAX_VERTICES=N``.
 
 .. warning::
 
