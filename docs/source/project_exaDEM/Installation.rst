@@ -309,6 +309,22 @@ RSA
 
 This external library is available here: ``https://github.com/MarcJos/RSA_MPI``
 
+Installation of `RSA_MPI`
+
+
+.. code-block:: bash
+
+  export MY_ROOT_DIR=$PWD
+  # module load gnu/13.2.0 cuda/12.4 mpi/openmpi/4.1.6 cmake/3.29.6 # Topaze
+  git clone https://github.com/MarcJos/RSA_MPI.git
+  mkdir ${MY_ROOT_DIR}/build-rsampi && cd ${MY_ROOT_DIR}/build-rsampi
+  cmake ${MY_ROOT_DIR}/RSA_MPI/ -DINTERFACE_PYTHON=OFF -DCMAKE_INSTALL_PREFIX=${MY_ROOT_DIR}/install-rsampi
+  make install -j 10
+  export MATools_DIR=${MY_ROOT_DIR}/install-rsampi
+  cd ${MY_ROOT_DIR}
+  rm -r ${MY_ROOT_DIR}/RSA_MPI
+  rm -r ${MY_ROOT_DIR}/${MY_ROOT_DIR}/build-rsampi
+
 You can install it with the following commands:
 
 .. code-block:: bash
