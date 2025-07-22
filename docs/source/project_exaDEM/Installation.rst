@@ -320,7 +320,7 @@ Installation of `RSA_MPI`
   mkdir ${MY_ROOT_DIR}/build-rsampi && cd ${MY_ROOT_DIR}/build-rsampi
   cmake ${MY_ROOT_DIR}/RSA_MPI/ -DINTERFACE_PYTHON=OFF -DCMAKE_INSTALL_PREFIX=${MY_ROOT_DIR}/install-rsampi
   make install -j 10
-  export MATools_DIR=${MY_ROOT_DIR}/install-rsampi
+  export rsa_mpi_DIR=${MY_ROOT_DIR}/install-rsampi
   cd ${MY_ROOT_DIR}
   rm -r ${MY_ROOT_DIR}/RSA_MPI
   rm -r ${MY_ROOT_DIR}/${MY_ROOT_DIR}/build-rsampi
