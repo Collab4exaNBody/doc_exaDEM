@@ -309,7 +309,7 @@ RSA
 
 This external library is available here: ``https://github.com/MarcJos/RSA_MPI``
 
-Installation of `RSA_MPI`
+Installation of `RSA_MPI` via `cmake`:
 
 
 .. code-block:: bash
@@ -331,3 +331,46 @@ You can install it with the following commands:
 
   export rsa_mpi_DIR=$DIR
   cmake ../exaDEM -DUSE_RSA=ON
+
+Installation of `RSA_MPI` via `spack`:
+
+.. code-block:: bash
+
+  git clone git clone --depth=2 --branch=v0.23.0 https://github.com/spack/spack.git
+  source spack/share/spack/setup-env.sh
+  git clone https://github.com/Collab4exaNBody/spack-repos.git
+  spack repo add spack-repos
+  spack external find openmpi
+  spack install rsampi
+
+You can use this option with the following commands:
+
+.. code-block:: bash
+
+  export rsa_mpi_DIR=`spack location -i rsampi`
+  cmake ../exaDEM -DUSE_RSA=ON
+
+Rockable
+--------
+
+This external library is available here: https://github.com/richefeu/rockable
+
+Installation of `Rockable` via `spack`:
+
+.. code-block:: bash
+  
+  git clone git clone --depth=2 --branch=v0.23.0 https://github.com/spack/spack.git
+  source spack/share/spack/setup-env.sh
+  git clone https://github.com/Collab4exaNBody/spack-repos.git
+  spack repo add spack-repos
+  spack external find opengl
+  spack install rockable+see
+
+
+Use `Rockable`:
+
+.. code-block:: bash
+
+  spack load rockable
+  rockable file.conf -j 10
+  see conf0
