@@ -118,7 +118,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✔
      - ✔
-     - ✘
+     - ✔
 
 For all these types of movement, the drivers adopt velocity Verlet integration time scheme. Below is a summary table showing how positions, forces or velocities are calculated according to the type of movement.
 
@@ -190,7 +190,7 @@ For all these types of movement, the drivers adopt velocity Verlet integration t
 
          V = 0,
 
-      with :math:`C` the driver center, :math:`C{initial}` the initial driver center,  math:`N_{shaker}` the shaker normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, :math:`\omega`, the signal frequency, and :math:`T`, the physical simulation time. 
+      with :math:`C` the driver center, :math:`C_{initial}` the initial driver center at :math:`T` = ``motion_start_threshold``,  math:`N_{shaker}` the shaker normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, :math:`\omega`, the signal frequency, and :math:`T`, the physical simulation time. 
 
 And keywords:
 
@@ -504,6 +504,27 @@ YAML examples:
 .. note::
 
   You will need to define the mass and the surface of your driver. If you don't specify a surface, `exaDEM` will propose to you a value corresponding to the sum of the face surfaces composing the stl mesh. 
+
+
+``SHAKER`` mode:
+
+
+.. code:: yaml
+
+  - register_stl_mesh:
+     id: 0
+     minskowski: 0.1
+     filename: shaker.stl
+     binary: true
+     state: {center: [0,0,0] }
+     params: { motion_type: SHAKER, amplitude: 5, omega: 2 , shaker_dir: [0,1,0] , motion_start_threshold: 10 }
+
+This example is available here: ``exaDEM/example/spheres/shaker/shaker_stl.msp``
+
+.. image:: ../../_static/shaker_stl_low.gif
+   :align: center
+   :width: 450pt
+
 
 I/O Drivers
 ^^^^^^^^^^^
