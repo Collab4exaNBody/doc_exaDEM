@@ -525,4 +525,25 @@ TODO: Add input files
 On a supercomputer
 ^^^^^^^^^^^^^^^^^^
 
-TODO
+Mixer simulation
+++++++++++++++++
+
+.. image:: ../_static/mixer_low.gif
+   :align: center
+
+
+Simulation of a mixer into which spherical particles are falling. The simulation consists of rotating a propeller at 0.25 rad/s while using progressively smaller grains. This simulation is based on an example provided in the ``chronoDEM::gpu`` code and described in the following paper: "Chrono::GPU: An open-source simulation package for granular dynamics using the discrete element method" :cite:`fang2021chrono`.
+To accelerate simulation time, the time step was increased to 1×10⁻³, and the contact law parameters were adjusted accordingly.
+
+The input files for the different scenarios are available in: `exaDEM/example/spheres/mixer`
+
+- mixer_57k_sph.msp
+- mixer_3M_sph.msp
+- mixer_29M_sph.msp
+
+
+Below is an image showing the different scenarios based on the number of particles:
+
+.. image:: ../_static/MIXER_END.png
+   :align: center
+

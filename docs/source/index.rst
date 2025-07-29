@@ -7,7 +7,7 @@ ExaDEM & ExaNBody Documentation
 .. toctree::
    :name: exadem_variant
    :numbered:
-   :maxdepth: 3      
+   :maxdepth: 4      
    :caption: ExaDEM Variant
 
    project_exaDEM/Overview.rst
