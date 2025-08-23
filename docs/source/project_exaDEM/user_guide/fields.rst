@@ -34,25 +34,33 @@ YAML example (Spheres):
 .. code-block:: yaml
 
   - particle_type:
-     type: [ Sphere1 , Sphere2 ]
+     type: [  Sphere1,  Sphere2 ]
   - lattice:
-      structure: SC
-      types: [ Sphere1 ]
-      size: [ 1.0 , 1.0 , 1.0 ]
-      region: Region
+     structure: BCC
+     types: [ Sphere1,  Sphere2 ]
+     size: [ 1.0 , 1.0 , 1.0 ]
   - set_fields:
      polyhedra: false
-     radius: [0.5]
-     density: [0.02]
-     type: [ Sphere1 ]
-     velocity: [[0,0,0]]
-     sigma_velocity: [0.1]
-     region: Region
+     type:           [ Sphere1, Sphere2 ]
+     radius:         [     0.5,    0.25 ]
+     density:        [    0.02,    0.01 ]
+     velocity:       [ [0,0,0], [0,0,0] ]
+     sigma_velocity: [    0.01,    0.01 ]
 
 YAML example (Polyhedra):
 
 .. code-block:: yaml
 
+  - read_shape_file:
+     filename: alpha3.shp
+  - read_shape_file:
+     filename: octahedron.shp
+  - lattice:
+      structure: BCC
+      types: [alpha3,Octahedron ]
+      size: [ 1.5 , 1.5 , 1.5 ]
+      repeats: [ 30 , 30 , 30 ]
+      enlarge_bounds: 0.0 m
   - set_fields:
      polyhedra: true
      type:              [ alpha3, Octahedron]
