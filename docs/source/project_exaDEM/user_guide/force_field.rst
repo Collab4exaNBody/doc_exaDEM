@@ -230,6 +230,146 @@ Here are 4 examples with YAML:
   - The ``contact_sphere`` and ``contact_sphere_with_cohesion`` operators are designed to process interactions built in ``nbh_sphere`` (please, include the config_spheres.msp file).
   - The ``contact_polyhedron`` and ``contact_polyhedron_with_cohesion`` operators are designed to process interactions built in ``nbh_polyhedron`` (please, include the config_polyhedra.msp file).
 
+
+Multi-Material
+--------------
+
+In the previous section, the contact law used the same parameters for all interactions.  
+It is also possible to specify the contact law depending on the type of interaction.  
+In this section, we introduce how to define the values of the contact law between particles,  
+as well as between particles and drivers.
+
+.. note::
+
+   Unlike in some other DEM codes, the coefficients are **not** derived from the material 
+   properties (such as Poisson’s ratio and Young’s modulus).  
+
+To handle multiple particle types, you must use either the ``contact_sphere_multimat`` 
+or the ``contact_polyhedron_multimat`` operator, as illustrated below.
+
+* **YAML example for polyhedra:**
+
+.. code-block:: yaml
+
+   compute_force:
+     - gravity_force
+     - contact_polyhedron_multimat
+
+* **YAML example for spheres:**
+
+.. code-block:: yaml
+
+   compute_force:
+     - gravity_force
+     - contact_sphere_multimat:
+        symetric: true
+
+The following examples illustrate the definition of contact parameters for two particle 
+types (**Type1**, **Type2**) and a driver identified by **0**.
+
+Particle-Particle
+^^^^^^^^^^^^^^^^^
+
+* **Operator Name:** ``multimat_contact_params``
+* **Description:** This operator defines the contact law parameters between different particle types.
+
++--------------------+---------------------------------------------------------------+
+| **Parameter**      | **Description**                                               |
++====================+===============================================================+
+| ``mat1``           | List of the first particle type(s).                           |
++--------------------+---------------------------------------------------------------+
+| ``mat2``           | List of the second particle type(s).                          |
++--------------------+---------------------------------------------------------------+
+| ``kn``             | Normal force coefficient for the specified interaction type.  |
++--------------------+---------------------------------------------------------------+
+| ``kt``             | Tangential force coefficient for the specified interaction    |
+|                    | type.                                                         |
++--------------------+---------------------------------------------------------------+
+| ``kr``             | Rolling resistance coefficient for the specified              |
+|                    | interaction type.                                             |
++--------------------+---------------------------------------------------------------+
+| ``mu``             | Friction coefficient for the specified interaction type.      |
++--------------------+---------------------------------------------------------------+
+| ``damprate``       | Damping rate coefficient for the specified interaction type.  |
++--------------------+---------------------------------------------------------------+
+| ``default_config`` | Applies the same parameter set to all undefined               |
+|                    | interaction configurations.                                   |
++--------------------+---------------------------------------------------------------+
+
+YAML example:
+
+.. code-block:: yaml
+
+  - multimat_contact_params:
+     mat1:      [  Type1, Type1, Type2 ]
+     mat2:      [  Type1, Type2, Type2 ]
+     kn:        [   5000, 10000, 15000 ]
+     kt:        [   4000,  8000, 12000 ]
+     kr:        [    0.0,   0.0,   0.0 ]
+     mu:        [    0.1,   0.2,   0.3 ]
+     damprate:  [  0.999, 0.999, 0.999 ]
+
+
+With `default_config`:
+
+.. code-block:: yaml
+
+  - multimat_contact_params:
+     mat1:      [  Type1 ]
+     mat2:      [  Type1 ]
+     kn:        [   5000 ]
+     kt:        [   4000 ]
+     kr:        [    0.0 ]
+     mu:        [    0.1 ]
+     damprate:  [  0.999 ]
+     default_config: { kn: 15000, kt: 12000, kr: 0.0, mu: 0.3, damp_rate: 0.999 }
+
+A complete example is available (please report if the link does not work): `rotating-multimat.msp <https://github.com/Collab4exaNBody/exaDEM/blob/main/example/polyhedra/multimat/rotating-multimat.msp>`_
+
+Particle-Driver
+^^^^^^^^^^^^^^^
+
+* **Operator Name:** ``drivers_contact_params``
+* **Description:** This operator defines the contact law parameters between particles and drivers.
+
+* **Parameters:**
+
++--------------------+---------------------------------------------------------------+
+| **Parameter**      | **Description**                                               |
++====================+===============================================================+
+| ``mat``            | List of particle type(s) concerned by the interaction.        |
++--------------------+---------------------------------------------------------------+
+| ``driver_id``      | Identifier(s) of the driver(s) interacting with the particles.|
++--------------------+---------------------------------------------------------------+
+| ``kn``             | Normal force coefficient for the specified interaction type.  |
++--------------------+---------------------------------------------------------------+
+| ``kt``             | Tangential force coefficient for the specified interaction    |
+|                    | type.                                                         |
++--------------------+---------------------------------------------------------------+
+| ``kr``             | Rolling resistance coefficient for the specified              |
+|                    | interaction type.                                             |
++--------------------+---------------------------------------------------------------+
+| ``mu``             | Friction coefficient for the specified interaction type.      |
++--------------------+---------------------------------------------------------------+
+| ``damprate``       | Damping rate coefficient for the specified interaction type.  |
++--------------------+---------------------------------------------------------------+
+| ``default_config`` | Applies the same parameter set to all undefined               |
+|                    | interaction configurations.                                   |
++--------------------+---------------------------------------------------------------+
+
+.. code-block:: yaml
+
+  - drivers_contact_params:
+     mat:       [  Type1, Type2 ]
+     driver_id: [      0,     0 ]
+     kn:        [  10000, 15000 ]
+     kt:        [   8000, 12000 ]
+     kr:        [    0.0,   0.1 ]
+     mu:        [    0.5,   0.5 ]
+     damprate:  [  0.999, 0.999 ]
+
+A complete example is available (please report if the link does not work): `rotating-multimat.msp <https://github.com/Collab4exaNBody/exaDEM/blob/main/example/polyhedra/multimat/rotating-multimat.msp>`_
+
 External Forces
 ---------------
 
