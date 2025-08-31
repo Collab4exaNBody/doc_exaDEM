@@ -114,6 +114,22 @@ It's important to note that using a shape of a spherical particle with a polyhed
 * Parameter:
 
   * filename: Input file name (.shp)
+  * scale: rescale all shapes. Optional parameter.
+  * rename: rename all shapes. Optional parameter
+
+YAML example:
+
+.. code-block:: yaml
+
+    - read_shape_file:
+       filename: shapes.shp
+       rename: [PolyR, Octahedron]
+    - read_shape_file:
+       filename: shapes.shp
+       rename: [ PolyRSize2, OctahedronSize2]
+       scale:  [        2.0,             2.0]
+
+Example: See :ref:`test_case_rescale_shape` . 
 
 
 Interaction / Contact

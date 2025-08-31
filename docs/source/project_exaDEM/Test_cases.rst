@@ -502,6 +502,50 @@ This simulation example illustrates the gravitational drop of a set of 1.3 milli
 | |ex5pstartfull|          | |ex5pendfull|            |
 +--------------------------+--------------------------+
 
+.. _test_case_rescale_shape:
+
+Example 6: Rescale shape 
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+In this simulation, two shapes are selected: PolyR and Octahedron. Each shape is then duplicated with its size doubled, resulting in PolyRSize2 and OctahedronSize2. The setup is a rotating drum, where particles are generated using two different methods: FCC and RSA. The simulation runs for 1,000,000 time steps with a time step size of dt = 5e-5.
+
+- Input files:
+
+  - FCC: ``example/polyhedra/rescale_shape/scale_2_shapes_fcc.msp``
+
+    - 2,144 polyhedra or 536 polyhedra of each types
+    - 1,000,000 timesteps
+    - 1 hour and 23 minutes on 12 cores (OpenMP)
+
+  - RSA: ``example/polyhedra/rescale_shape/scale_2_shapes_fcc.msp``
+
+    - 3,698 polyhedra, the volume fraction used for every types is 0.055
+    - 1,000,000 timesteps
+    - 38 minutes on 12 cores (OpenMP)
+
+
+.. |ex6pstartfcc| image:: ../_static/ExaDEM/rescale_fcc_start.png
+   :width: 250pt
+
+.. |ex6pendfcc| image:: ../_static/ExaDEM/rescale_fcc_end.png
+   :width: 250pt
+
+
+.. |ex6pstartrsa| image:: ../_static/ExaDEM/rescale_rsa_start.png
+   :width: 250pt
+
+.. |ex6pendrsa| image:: ../_static/ExaDEM/rescale_rsa_end.png
+   :width: 250pt
+
++--------------------------+--------------------------+
+| .. centered:: Polyhedra With a Funnel               |
++--------------------------+--------------------------+
+| .. centered:: Start      | .. centered:: End        |
++==========================+==========================+
+| |ex6pstartfcc|           | |ex6pendfcc|             |
++--------------------------+--------------------------+
+| |ex6pstartrsa|           | |ex6pendrsa|             |
++--------------------------+--------------------------+
 
 Show-cases
 ----------

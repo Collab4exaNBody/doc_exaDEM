@@ -46,9 +46,11 @@ YAML examples:
     * *bounds*: Override domain bounds. Particles outside of these bounds will be filtered out.
     * *params*: List of RSA particle parameters. Each entry defines [radius, volume fraction, type name].
     * *region*: Optional Constructive Solid Geometry (CSG) region used to restrict particle placement.
-
+    * *use_shape*: This option uses the shape data to fill informations like the 'radius'. Please, do not use it with spheres.
 
 YAML examples:
+
+For spheres:
 
 .. code:: yaml
 
@@ -67,9 +69,35 @@ YAML examples:
      density:           [    0.02 ,    0.02 ,    0.02 ]
 
 
+.. image:: ../../_static/rsa_vol_frac.gif
+
+For polyhedra:
+
+.. code:: yaml
+
+  - read_shape_file:
+     filename: shapes.shp
+     rename: [PolyR, Octahedron]
+  - rsa_vol_frac:
+     bounds: [ [0 ,0 , 0 ], [40 , 10 , 40 ] ]
+     params: [ {vf: 0.055,      type: PolyR},
+               {vf: 0.055, type: Octahedron}]
+     use_shape: true
+  - set_fields:
+     polyhedra: true
+     type:              [  PolyR, Octahedron ]
+     velocity:          [[0,0,0],   [ 0,0,0] ]
+     sigma_velocity:    [    0.1,        0.1 ]
+     random_quaternion: [   true,       true ]
+
+.. image:: ../../_static/rescale_shape.gif
+   :width: 600pt
+
+
 .. note::
 
   The domain defined by bounds must match a multiple of the cell size defined in the domain operator. This operator does not require init_rcb_grid to be set.
 
 
-.. image:: ../../_static/rsa_vol_frac.gif
+
+See :ref:`test_case_rescale_shape` .
