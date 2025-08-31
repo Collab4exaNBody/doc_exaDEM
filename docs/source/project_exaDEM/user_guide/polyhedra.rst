@@ -1,7 +1,7 @@
-Polyhedron
-==========
+R-Shape / Polyhedron
+====================
 
-In this section, we will describe the various information used to build simulations with polyhedron particles.
+In this section, we will describe the various information used to build simulations with R-shape or sphero-polyhedron particles.
 
 Overview
 ^^^^^^^^
