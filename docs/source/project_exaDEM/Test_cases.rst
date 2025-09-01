@@ -517,7 +517,7 @@ In this simulation, two shapes are selected: PolyR and Octahedron. Each shape is
     - 1,000,000 timesteps
     - 1 hour and 23 minutes on 12 cores (OpenMP)
 
-  - RSA: ``example/polyhedra/rescale_shape/scale_2_shapes_fcc.msp``
+  - RSA: ``example/polyhedra/rescale_shape/scale_2_shapes_rsa.msp``
 
     - 3,698 polyhedra, the volume fraction used for every types is 0.055
     - 1,000,000 timesteps
@@ -538,7 +538,7 @@ In this simulation, two shapes are selected: PolyR and Octahedron. Each shape is
    :width: 250pt
 
 +--------------------------+--------------------------+
-| .. centered:: Polyhedra With a Funnel               |
+| .. centered:: Rescale Shapes                        |
 +--------------------------+--------------------------+
 | .. centered:: Start      | .. centered:: End        |
 +==========================+==========================+
