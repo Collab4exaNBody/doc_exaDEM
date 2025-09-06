@@ -346,6 +346,8 @@ Motion type: ``STATIONARY``
      state: {center: [2,2,-20], radius: 7}
      params: { motion_type: STATIONARY }
 
+See: ``exaDEM/example/spheres/ball/driver-ball-stationary.msp``
+
 Motion type: ``LINEAR MOTION``
 
 .. code:: yaml
@@ -359,6 +361,8 @@ Motion type: ``LINEAR MOTION``
    :align: center
    :width: 300pt
 
+See: ``exaDEM/example/spheres/ball/driver-ball-linear.msp``
+
 Motion type: ``COMPRESSIVE_FORCE``
 
 .. code:: yaml
@@ -371,6 +375,8 @@ Motion type: ``COMPRESSIVE_FORCE``
 .. image:: ../../_static/radial_stress.gif
    :align: center
    :width: 300pt
+
+See: ``exaDEM/example/spheres/ball/driver-ball-radial-stress.msp``
 
 Motion type: ``TABULATED``
 
@@ -387,6 +393,8 @@ Motion type: ``TABULATED``
 .. image:: ../../_static/ball_tab.gif
    :align: center
    :width: 300pt
+
+See: ``exaDEM/example/spheres/ball/driver-ball-tabulated.msp``
 
 STL Mesh
 --------
