@@ -196,6 +196,10 @@ The purpose of this operator is to add shapes to a collection of shapes. This op
 
 * `read_shape_file` :
    * `filename`: Input file name, no default name.
+   * `scale_factor`: This option 'scale_factor' the input shapes. OBB, volume, vertices, and intertia are recomputed. Note that a vector of double should be provided. Example: scale_factor: [1.2,1,5.2].
+   * `rename`: This option renames the input shapes. Note that a vector of string should be provided. Example: rename: [Shape1, Shape2, Shape3].
+   * `rescale_minskowski`: This option disable the rescaling of the minskowski radius.
+   * `verbosity`: It displays the typename and typeid.
 
 Warnings:
 
@@ -211,6 +215,15 @@ YAML example:
 
   - read_shape_file:
      filename: shapes.shp
+
+  - read_shape_file:
+     filename: shapes.shp
+     rename: [PolyR, Octahedron]
+
+  - read_shape_file:
+     filename: shapes.shp
+     rename:       [ PolyRSize2, OctahedronSize2]
+     scale_facton: [        2.0,             2.0]
 
 Example of a shape:
 
