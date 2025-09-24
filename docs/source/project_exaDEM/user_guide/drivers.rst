@@ -68,10 +68,11 @@ Drivers share common parameters contained in the Driver_params class. These para
      - Motion defined by precomputed or tabulated data. 
    * - ``SHAKER``
      - Oscillatory or vibratory motion, typically mimicking a shaking mechanism.
-
+   * - ``PENDULUM_MOTION``
+     - Oscillatory swinging around a suspension point (pendulum-like). 
 
 .. list-table:: Glossary Of Motion Types per Driver
-   :widths: 30 10 10 10 10 10 10 10 10
+   :widths: 30 10 10 10 10 10 10 10 10 10
    :header-rows: 1
 
    * - Motion Type
@@ -83,8 +84,10 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ``LINEAR_COMPRESSIVE_MOTION``
      - ``TABULATED``
      - ``SHAKER``
+     - ``PENDULUM_MOTION``
    * - Cylinder
      - ✔
+     - ✘
      - ✘
      - ✘
      - ✘
@@ -101,6 +104,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✔
      - ✘
      - ✔
+     - ✔
    * - Ball
      - ✔
      - ✔
@@ -109,6 +113,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
      - ✔
+     - ✘
      - ✘
    * - Stl Mesh
      - ✔
@@ -119,6 +124,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✔
      - ✔
      - ✔
+     - ✘
 
 For all these types of movement, the drivers adopt velocity Verlet integration time scheme. Below is a summary table showing how positions, forces or velocities are calculated according to the type of movement.
 
@@ -188,9 +194,22 @@ For all these types of movement, the drivers adopt velocity Verlet integration t
 
          C = A . sin(\omega T) . N_{shaker} + C_{initial},
 
-         V = 0,
+         V = \omega . A . cos(\omega T) . N_{shaker},
 
-      with :math:`C` the driver center, :math:`C_{initial}` the initial driver center at :math:`T` = ``motion_start_threshold``,  math:`N_{shaker}` the shaker normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, :math:`\omega`, the signal frequency, and :math:`T`, the physical simulation time. 
+      with :math:`C` the driver center, :math:`C_{initial}` the initial driver center at :math:`T` = t - ``motion_start_threshold``,  math:`N_{shaker}` the shaker normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, and :math:`\omega`, the signal frequency. 
+
+   .. tab:: ``PENDULUM_MOTION``
+
+      .. image:: ../../_static/pendulum_scheme.png
+         :align: center
+         :width: 300pt
+
+      .. math::
+
+         B_t = A . sin(\omega T) . D + B_0,
+         V = 0
+
+      with :math:`B_0` the initial position, :math:`B_t` the current position at :math:`T` = t - ``motion_start_threshold``,  math:`D` the swing normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, :math:`\omega`, the signal frequency, :math:`A`, the anchor point (A is invariant and always intersect the surface), math:`N` the normal of the surface (if it's a surface) or the new direction of the object. 
 
 And keywords:
 
@@ -201,6 +220,9 @@ And keywords:
 	- ``amplitude``: :math:`A`, slot ``params``
 	- ``omega``: :math:`\omega`, slot ``params``
 	- ``shaker_dir``: :math:`N_{shaker}`, slot ``params``
+	- ``pendulum_anchor_point``: :math:`Anchor`, slot ``params``
+	- ``pendulum_initial_position``: :math:`B_0`, slot ``params``
+	- ``pendulum_swing_dir``: :math:`D`, slot ``params``
 
 Add a Driver To Your Simulation
 -------------------------------
@@ -308,6 +330,20 @@ Motion type: ``SHAKER``
 .. image:: ../../_static/shaker_surface.gif
    :align: center
    :width: 300pt
+
+Motion type: ``PENDULUM_MOTION``
+
+.. code:: yaml
+
+  - register_surface:
+     id: 3
+     state: { normal: [1,0,0], offset: -1} # ignored
+     params: { motion_type: PENDULUM_MOTION, amplitude: 3, omega: 4, pendulum_anchor_point: [-1,5,-1], pendulum_initial_position: [-1, 5, 11], pendulum_swing_dir: [1, 0, 0] }
+
+.. image:: ../../_static/pendulum_surface.gif
+   :align: center
+   :width: 300pt
+
 
 Ball / Sphere
 --------------
