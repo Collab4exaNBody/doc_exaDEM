@@ -209,7 +209,7 @@ For all these types of movement, the drivers adopt velocity Verlet integration t
          B_t = A . sin(\omega T) . D + B_0,
          V = 0
 
-      with :math:`B_0` the initial position, :math:`B_t` the current position at :math:`T` = t - ``motion_start_threshold``,  math:`D` the swing normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, :math:`\omega`, the signal frequency, :math:`A`, the anchor point (A is invariant and always intersect the surface), math:`N` the normal of the surface (if it's a surface) or the new direction of the object. 
+      with :math:`B_0` the initial position, :math:`B_t` the current position at :math:`T` = t - ``motion_start_threshold``,  math:`D` the swing normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, :math:`\omega`, the signal frequency, :math:`A`, the anchor point (A is invariant and always intersect the surface), :math:`N` the normal of the surface (if it's a surface) or the new direction of the object. 
 
 And keywords:
 
@@ -343,6 +343,8 @@ Motion type: ``PENDULUM_MOTION``
 .. image:: ../../_static/pendulum_surface.gif
    :align: center
    :width: 300pt
+
+See example: ``example/spheres/rigid-surface/rigid_surface_pendulum_motion.msp``
 
 
 Ball / Sphere
