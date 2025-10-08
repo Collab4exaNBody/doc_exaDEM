@@ -322,6 +322,12 @@ This example is available at: ``exaDEM/example/spheres/rigid-surface/compression
    :align: center
    :width: 300pt
 
+This example is available at: ``exaDEM/example/polyhedra/rigid_surface/rigid_surface_compression_motion.msp``
+
+.. image:: ../../_static/rigid_surface_linear_motion_polyhedra.gif
+   :align: center
+   :width: 300pt
+
 .. note:: 
 
   - If you have chosen the “LINEAR_COMPRESSIVE_MOTION” mode, you will need to define the value of the wall surface.  
