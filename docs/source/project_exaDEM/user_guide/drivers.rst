@@ -299,7 +299,7 @@ YAML examples:
      params: { motion_type: LINEAR_MOTION, motion_vector: [-1,0,0], const_vel: 2.5 }
 
 
-This example is available at: `exaDEM/example/spheres/rigid-surface/rigid_surface_linear_motion.msp`
+This example is available at: ``exaDEM/example/spheres/rigid-surface/rigid_surface_linear_motion.msp``
 
 .. note::
 
@@ -316,7 +316,7 @@ This example is available at: `exaDEM/example/spheres/rigid-surface/rigid_surfac
      state: { normal: [1,0,0], offset: 11, surface: 144}
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5, damprate: 0.999 }
 
-This example is available at: `exaDEM/example/spheres/rigid-surface/compression_wall.msp`
+This example is available at: ``exaDEM/example/spheres/rigid-surface/compression_wall.msp``
 
 .. image:: ../../_static/compression_wall.gif
    :align: center
