@@ -296,7 +296,18 @@ YAML examples:
   - register_surface:
      id: 4
      state: { normal: [1,0,0], offset: 11}
-     params: { motion_type: LINEAR_MOTION, motion_vector: [1,0,0], const_vel: -4 }
+     params: { motion_type: LINEAR_MOTION, motion_vector: [-1,0,0], const_vel: 2.5 }
+
+
+This example is available at: `exaDEM/example/spheres/rigid-surface/rigid_surface_linear_motion.msp`
+
+.. note::
+
+   motion vector can only be equal to normal and -normal.
+
+.. image:: ../../_static/rigid_surface_linear_motion.gif
+   :align: center
+   :width: 300pt
 
 .. code:: yaml
 
@@ -305,13 +316,17 @@ YAML examples:
      state: { normal: [1,0,0], offset: 11, surface: 144}
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 0.5, damprate: 0.999 }
 
+This example is available at: `exaDEM/example/spheres/rigid-surface/compression_wall.msp`
+
 .. image:: ../../_static/compression_wall.gif
    :align: center
    :width: 300pt
 
 .. note:: 
 
-  If you have chosen the “LINEAR_COMPRESSIVE_MOTION” mode, you will need to define the value of the wall surface.  
+  - If you have chosen the “LINEAR_COMPRESSIVE_MOTION” mode, you will need to define the value of the wall surface.  
+  - The motion_vector is set to normal.
+  - When σ > 0 and the surface is free of external forces, the wall displaces in the direction opposite to the surface normal.
 
 Motion type: ``SHAKER``
 
