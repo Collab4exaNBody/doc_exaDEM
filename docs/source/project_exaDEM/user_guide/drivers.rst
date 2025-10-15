@@ -70,9 +70,11 @@ Drivers share common parameters contained in the Driver_params class. These para
      - Oscillatory or vibratory motion, typically mimicking a shaking mechanism.
    * - ``PENDULUM_MOTION``
      - Oscillatory swinging around a suspension point (pendulum-like). 
+   * - ``EXPRESSION``
+     - Impose a velocity or angular velocity field defined by a user-specified analytical expression. This option use the library tinyexpr: `Github <https://github.com/codeplea/tinyexpr>`_
 
 .. list-table:: Glossary Of Motion Types per Driver
-   :widths: 30 10 10 10 10 10 10 10 10 10
+   :widths: 30 10 10 10 10 10 10 10 10 10 10
    :header-rows: 1
 
    * - Motion Type
@@ -85,8 +87,10 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ``TABULATED``
      - ``SHAKER``
      - ``PENDULUM_MOTION``
+     - ``EXPRESSION``
    * - Cylinder
      - ✔
+     - ✘
      - ✘
      - ✘
      - ✘
@@ -105,6 +109,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✔
      - ✔
+     - ✘
    * - Ball
      - ✔
      - ✔
@@ -113,6 +118,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
      - ✔
+     - ✘
      - ✘
      - ✘
    * - Stl Mesh
@@ -125,6 +131,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✔
      - ✔
      - ✘
+     - ✔
 
 For all these types of movement, the drivers adopt velocity Verlet integration time scheme. Below is a summary table showing how positions, forces or velocities are calculated according to the type of movement.
 
@@ -210,6 +217,16 @@ For all these types of movement, the drivers adopt velocity Verlet integration t
          V = 0
 
       with :math:`B_0` the initial position, :math:`B_t` the current position at :math:`T` = t - ``motion_start_threshold``,  math:`D` the swing normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, :math:`\omega`, the signal frequency, :math:`A`, the anchor point (A is invariant and always intersect the surface), :math:`N` the normal of the surface (if it's a surface) or the new direction of the object. 
+
+   .. tab:: ``EXPRESSION``
+
+      .. math::
+
+         V = Fomula(t)
+
+         V_{rot} = Formula(t)
+
+     with math:`V` the driver velocity and math:`V_rot` the angular driver velocity. Formula are defined in the struct ``Driver_expr`` (expr) in the slot `params`.
 
 And keywords:
 
@@ -589,6 +606,40 @@ YAML examples:
 This example is available here: ``exaDEM/example/spheres/shaker/shaker_stl.msp``
 
 .. image:: ../../_static/shaker_stl_low.gif
+   :align: center
+   :width: 450pt
+
+``EXPRESSION`` mode:
+
+This example is available here (RSA plugins is required): ``exaDEM/example/spheres/stl-mesh/tore_expression_motion.msp``
+
+.. image:: ../../_static/tore_expr.png
+   :align: center
+   :width: 600pt
+
+.. code:: yaml
+
+  - register_stl_mesh:
+     id: 0
+     filename: tore.stl
+     minskowski: 0.01
+     state: { }
+     params:
+        motion_type: EXPRESSION
+        expr:
+           vz: 2.5 * cos( 10 * t)
+           vrotz:  0.5 * cos(20 * t)
+     binary: true
+
+.. image:: ../../_static/tore_expr.gif
+   :align: center
+   :width: 600pt
+
+
+
+Another example is available at: ``exaDEM/example/spheres/cylinder_stl`` and is funny variant of :ref:`test_case_cylinder_stl` .
+
+.. image:: ../../_static/cylinder_expr.gif
    :align: center
    :width: 450pt
 

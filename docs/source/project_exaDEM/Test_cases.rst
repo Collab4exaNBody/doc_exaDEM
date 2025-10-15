@@ -553,7 +553,14 @@ Show-cases
 On a laptop or single node
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+.. _test_case_cylinder_stl: 
+
+Rotating drum simulation
+++++++++++++++++++++++++
+
 Simulation of 48,000 spheres on a rotating drum after reading an .stl file. This simulation takes around one hour and 10 minutes on a laptop with 12 cores with OpenMP. The input files are available here: ``example/spheres/cylinder_stl/cylinder_stl.msp``
+
+
 
 .. image:: ../_static/cyl_stl.gif
    :align: center
