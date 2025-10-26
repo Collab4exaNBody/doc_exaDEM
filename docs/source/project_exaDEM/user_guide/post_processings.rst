@@ -3,8 +3,8 @@ Post Processings
 
 In this section, we will describe the operators related to the usage of polyhedra or spheres.
 
-Dump Paraview For Polyhedra
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Paraview For Polyhedra
+^^^^^^^^^^^^^^^^^^^^^^
 
 In exaDEM, there are two ways to display polyhedra with Paraview: 
    * The first is to directly display the vertices of the polyhedra and the surfaces in parallel VTP (PolyData). However, no fields associated with the polyhedra are available, such as velocity or density.
@@ -77,8 +77,8 @@ Example with 850,000 octahedra:
 	This operator is rather limited in terms of visualization, so we now advise you to use option 1, which offers more possibilities (field display) and less memory-intensive files. 
 
 
-Dump Paraview With OBBs
-^^^^^^^^^^^^^^^^^^^^^^^
+Paraview With OBB
+^^^^^^^^^^^^^^^^^
 
 This operator allows you to display OBBs around polyhedra in paraview. These files are stored in different files from those used to store polyhedron information. By default, these files are available in the directory `ExaDEMOutputDir/ParaviewOutputFiles/` under the format `obb_%010d.pvtp`. The fields associated with OBBs are the polyhedron ID and type.
 
@@ -110,8 +110,8 @@ Output example:
    :align: center
 
 
-Dump Contact Network
-^^^^^^^^^^^^^^^^^^^^
+Contact Network
+^^^^^^^^^^^^^^^
 
 This operator is used to visualize the contact network between polyhedra using ParaView. For each active contact/interaction, we assign the value of the normal force calculated in Contact's law. You can enable this option, which will be automatically triggered at the same time as the other paraview files, with the option ``enable_contact_network: true`` in global. See examples: "Polyhedra/Example 2: Octahedra in a Rotating Drum" and "Spheres/Example 1: Rotating drum".
 
@@ -143,6 +143,110 @@ Comments / Extensions:
 
 * This operator can be modified to display more values per contact. To achieve this, you need to change the type of `StorageType` in the `NetworkFunctor` structure. Then, you'll need to populate this function in the operator `() (exaDEM::Interaction* I, const size_t offset, const size_t size)`. Finally, you'll need to add a field in write_pvtp and include this field in `write_vtp`.
 * Currently, this operator doesn't take particularly long to execute and isn't called frequently. However, it doesn't benefit from any shared-memory parallelization (OpenMP) because the network storage is implemented using a `std::map`. 
+
+Project Field Quantities onto Cartesian Grid
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This operator projects the sum of one or several field values onto a Cartesian grid corresponding to the grid defined by the cells of the DEM mesh.
+It is then possible to use the write_grid_vtklegacy operator to generate a Paraview output.  
+
+Operator description:
+
+* Name: ``quantities_cell_projection``
+* Parameters:
+
+  * `fields` [list of strings]: List of regular expressions to select fields to project. Example: fields: [vx, ay, stress].
+  * `grid_subdiv` [double]: Number of subdivisions applied to each grid cell. Default is 1, i.e no subdivision.
+  * `splat_size` [int >= 1]: Smoothing factor controlling the spatial influence of each projected value. Default is 1.0.
+
+to use this operator, the simplest way is to define the analysis frequency (all) in the global operator (``simulation_analyses_frequency``) and add the ``quantities_cell_projection`` operator to the operator ``analyses``, as in the following example (see ``example/polyhedron/analysis/particle_cell_projection.msp``:
+
+YAML example: available here ``example/polyhedron/analysis/particle_cell_projection.msp``
+
+.. code-block:: yaml
+
+  global:
+    simulation_analyses_frequency: 1000
+
+  analyses:
+    - timestep_paraview_file: "ParaviewOutputFiles/quantities_%010d.vtk"
+    - message: { mesg: "Write " , endl: false }
+    - print_dump_file:
+        rebind: { mesg: filename }
+        body:
+        - message: { endl: true }
+    - resize_grid_cell_values
+    - quantities_cell_projection:
+       splat_size: 0.99
+       grid_subdiv: 2
+       fields: [count, vnorm, vx, vy, vz, stress]
+    - write_grid_vtklegacy
+
+Paraview output:
+
+In this figure, we show:
+
+* Left: the relative velocity (surface plot),
+* Middle: a glyph representation of the grid using arrows,
+* Right: a zoomed-in view showing the octahedra.
+
+
+.. image:: ../../_static/Analyses/quantities_cell_projection.gif
+   :width: 800pt
+   :align: center
+
+``ExaDEM`` provides several pre-configured cell projection examples in ``data/config/config_cell_projection.msp``:
+
+* ``all_cell_proj``:
+
+  * description: Projects all available fields.
+  * output: ``ParaviewOutputFiles/quantities_XXX.vtk``
+
+* ``vnorm_cell_proj``:
+
+  * description: Projects the sum of particle velocity norms in each cell.
+  * output: ``ParaviewOutputFiles/vnorm_XXX.vtk``
+
+* ``velocity_cell_proj``:
+
+  * description: Projects particle velocity magnitude and components (vx, vy, vz).
+  * output: ``ParaviewOutputFiles/velocity_proj_XXX.vtk``
+
+* ``stress_cell_proj``:
+
+  * description: Projects the stress field.
+  * output: ``ParaviewOutputFiles/stress_proj_XXX.vtk``
+
+* ``count_cell_proj``:
+
+  * description: Counts the number of particles per cell.
+  * output: ``ParaviewOutputFiles/count_proj_%010d.vtk``
+
+.. note::
+   For all of these post-processing operators, the ``count`` output is also added to allow computing averages of projected quantities. 
+   These operators don't use the subgrid option.
+
+YAML example:
+
+Full source code: ``example/polyhedra/analyses/particle_cell_projection_count_vnorm_v_stress.msp``
+
+.. code-block:: yaml
+
+  global:
+    simulation_analyses_frequency: 1000
+
+  analyses:
+    - vnorm_cell_proj
+    - count_cell_proj
+    - stress_cell_proj
+    - velocity_cell_proj
+
+Paraview outputs:
+
+.. image:: ../../_static/Analyses/quantities_cell_projection_v2.gif
+   :width: 600pt
+   :align: center
+
 
 Dump Interaction Data
 ^^^^^^^^^^^^^^^^^^^^^
@@ -213,7 +317,7 @@ Simulation: near 104,000 octahedral particles over 200,000 timesteps of 5.10^{-5
    :align: center
 
 Interaction Summary
-^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^
 
 This operator allows displaying the total number of interactions, both total and active. An interaction is considered active if there is contact ands consequently, if the cumulative friction is different from Vec3d{0,0,0}. It also enables the separation of different types of interactions: Vertex-Vertex, Vertex-Edge, Vertex-Face, and Edge-Edge.
 
@@ -456,4 +560,3 @@ One possibility for post-processing is to use gnuplot with the following command
 +==========================+==========================+
 | |barycentergif|          | |barycenterplot|         |
 +--------------------------+--------------------------+
-  
