@@ -109,6 +109,44 @@ Some remarks:
 - For this test, the simulation domain is split into 39,000 cells and then distributed among the MPI processes. Some configurations fail because there are not enough cells per ``MPI`` process. 
 - Best results are obtained with 24 ``OMP`` threads per MPI process. This corresponds to the number of cores per socket. NUMA effects are likely to reduce performance beyond this.
 
+
+Rotating Drum - GPU (Polyhedron)
+--------------------------------
+
+This example is defined in the repository: https://github.com/Collab4exaNBody/exaDEM-benchmark/tree/main/rotating-drum-poly . This simulation is run on an a100 GPU using 32 cores. Result format: Loop time (Update Particles/Force Field).
+
+.. list-table:: GPU Benchmarks
+   :widths: 20 40 40
+   :header-rows: 1
+
+   * - Version
+     - Case 10k 
+     - Case 80K
+   * - v1.0.1 (06/24)
+     - 28.1   ( 17.1 / 6.8)
+     - 71.6   ( 37.8 / 26.0)
+   * - v1.0.2 (11/24)
+     - 23.3   ( 17.7 / 4.1)
+     - 48.9   ( 33.0 / 13.8)
+   * - master (05/12/24)
+     - 6.38   ( 2.61  / 2.49)
+     - 17.6   ( 11.65 / 4.3)
+   * - v1.1.0 (27/03/25)
+     - 6.99   ( 2.43  / 2.56)
+     - 17.3   ( 10.94 / 4.4)
+   * - v1.1.2 (22/07/25)
+     - 10.4   ( 1.99 / 5.37)
+     - 16.59  ( 9.35 / 4.2)
+   * - v1.1.3 (01/09/25)
+     - 10.77  ( 1.9 / 5.7)
+     - 16.23  ( 9.0 / 4.1)
+   * - v1.1.4 (24/09/25)
+     - 8.36   ( 3.5  / 2.4)
+     - 18.0   ( 10.8 / 4.1)
+   * - v1.1.5 (26/10/25)
+     - 8.44   ( 3.3  / 2.6)
+     - 18.0   ( 10.8 / 4.1)
+
 Rotating Drum - CPU (Sphere)
 ----------------------------
 
@@ -169,32 +207,3 @@ Additionally, the employed contact force model has a low arithmetic intensity, a
    :align: center
 
    Operator time ratios at different parallelization scales.
-
-
-Rotating Drum - GPU (Polyhedron)
---------------------------------
-
-This example is defined in the repository: https://github.com/Collab4exaNBody/exaDEM-benchmark/tree/main/rotating-drum-poly . This simulation is run on an a100 GPU using 32 cores. Result format: Loop time (Update Particles/Force Field).
-
-.. list-table:: GPU Benchmarks
-   :widths: 20 40 40
-   :header-rows: 1
-
-   * - Version
-     - Case 10k 
-     - Case 80K
-   * - v1.0.1 (06/24)
-     - 28.1(17.1/6.8)
-     - 71.6(37.8/26.0)
-   * - v1.0.2 (11/24)
-     - 23.3(17.7/4.1)
-     - 48.9(33.0/13.8)
-   * - master (05/12/24)
-     - 6.38(2.61/2.49)
-     - 17.6(11.65/4.3)
-   * - v1.1.0 (27/03/25)
-     - 6.99(2.43/2.56)
-     - 17.3(10.94/4.4)
-   * - v1.1.2 (22/07/25)
-     - 10.4(1.99/5.37)
-     - 16.59(9.35/4.2)
