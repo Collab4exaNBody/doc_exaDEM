@@ -266,8 +266,9 @@ For each interaction, we write:
 - The deflection / overlap [double <= 0],
 - The contact position [Vec3d], 
 - The normal force [Vec3d], 
-- The tangential force [Vec3d].
-
+- The tangential force [Vec3d],
+- Particle position i [Vec3d],
+- Particle position j [Vec3d], [0,0,0] if it is a driver.
 
 .. warning::
 
