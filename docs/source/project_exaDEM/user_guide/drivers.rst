@@ -643,6 +643,57 @@ Another example is available at: ``exaDEM/example/spheres/cylinder_stl`` and is 
    :align: center
    :width: 450pt
 
+Modification of a Driver's Motion Type
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This feature allows changing the motion type of a driver during a simulation.  
+Each driver is identified by an *id*, assigned when the driver is registered.  
+To enable motion changes, you can add one or more calls to ``modify_motion`` inside the
+``driver_motion_policy`` YAML block (``nop`` by default).
+
+Operator name: ``modify_motion``
+
+Parameters:
+
+- ``id``: Index of the target driver.
+- ``motion``: Dictionary defining the new motion parameters (motion type, motion vectors, etc.).  Example: ``{ motion_type: STATIONARY }``.
+- ``time``:  Simulation time at which the motion type should be changed.
+- ``display``: If ``true``, prints details about the updated motion type (default: ``false``).
+
+YAML Example:
+
+.. code-block:: yaml
+
+    driver_motion_policy:
+      - modify_motion:
+          id: 0
+          time: 0.5
+          motion: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 5, damprate: 0.999 }
+          display: true
+
+      - modify_motion:
+          id: 0
+          time: 1.5
+          motion: { motion_type: STATIONARY }
+
+      - modify_motion:
+          id: 0
+          time: 2.5
+          motion: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [1,0,0], sigma: 5, damprate: 0.999 }
+
+      - modify_motion:
+          id: 0
+          time: 4.0
+          motion: { motion_type: LINEAR_MOTION, motion_vector: [1,0,0], const_vel: 3 }
+
+
+
+.. image:: ../../_static/modify_motion.gif
+   :align: center
+   :width: 450pt
+
+Example available: ``exaDEM/example/polyhedra/rigid_surface/rigid_surface_modify_motion.msp``
+
 
 I/O Drivers
 ^^^^^^^^^^^
