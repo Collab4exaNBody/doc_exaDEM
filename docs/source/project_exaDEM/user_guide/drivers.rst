@@ -250,13 +250,10 @@ In ``ExaDEM``, ``drivers`` are managed differently depending on whether spheres 
   * Using polyhedra, special interactions (described in the Polyhedra section) are added to the interaction lists. Additionally, you need to specify your driver list in the list of operators called ``setup_drivers``, which is integrated into the default ``ExaDEM`` execution. It's crucial to specify an ID for each driver. If you create a second driver with an already used ID, it will overwrite the previous driver configuration.
 
 
-Driver Descriptions
-^^^^^^^^^^^^^^^^^^^
-
-In this section, we provide brief descriptions of available ``drivers``. Please note that a test case is defined for each ``driver`` in the ``example`` directory.
+In the following sections, we provide brief descriptions of available ``drivers``. Please note that a test case is defined for each ``driver`` in the ``example`` directory.
 
 Rotating Drum / Cylinder
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its middle, velocity, axis, and angular velocity.
 
@@ -282,7 +279,7 @@ YAML example:
      params: { motion_type: STATIONARY }
 
 Wall / Surface
---------------
+^^^^^^^^^^^^^^^
 
 The wall or surface driver represents an infinite wall within the simulation environment. It is defined by parameters including its normal vector, offset, and velocity. Please note that currently, no angular velocity is defined for this driver. 
 
@@ -299,7 +296,8 @@ The wall or surface driver represents an infinite wall within the simulation env
   * *params*: 
 
 
-YAML examples:
+``STATIONARY`` mode
+-------------------
 
 .. code:: yaml
 
@@ -307,6 +305,9 @@ YAML examples:
      id: 0
      state: {normal: [0,0,1], offset: -0.5}
      params: { motion_type: STATIONARY }
+
+``LINEAR_MOTION`` mode
+----------------------
 
 .. code:: yaml
 
@@ -325,6 +326,9 @@ This example is available at: ``exaDEM/example/spheres/rigid-surface/rigid_surfa
 .. image:: ../../_static/rigid_surface_linear_motion.gif
    :align: center
    :width: 300pt
+
+``LINEAR_COMPRESSIVE_MOTION`` mode
+----------------------------------
 
 .. code:: yaml
 
@@ -351,7 +355,8 @@ This example is available at: ``exaDEM/example/polyhedra/rigid_surface/rigid_sur
   - The motion_vector is set to normal.
   - When σ > 0 and the surface is free of external forces, the wall displaces in the direction opposite to the surface normal.
 
-Motion type: ``SHAKER``
+``SHAKER`` mode
+---------------
 
 .. code:: yaml
 
@@ -369,7 +374,8 @@ Motion type: ``SHAKER``
    :align: center
    :width: 300pt
 
-Motion type: ``PENDULUM_MOTION``
+``PENDULUM_MOTION`` mode
+------------------------
 
 .. code:: yaml
 
@@ -386,7 +392,7 @@ See example: ``example/spheres/rigid-surface/rigid_surface_pendulum_motion.msp``
 
 
 Ball / Sphere
---------------
+^^^^^^^^^^^^^
 
 The ball or sphere driver represents a spherical object within the simulation environment. It is defined by parameters including its center, velocity, and angular velocity. This driver can be utilized as a boundary condition or obstacle in the simulation.
 
@@ -411,9 +417,11 @@ The ball or sphere driver represents a spherical object within the simulation en
 
    - If the motion type is ``COMPRESSIVE_FORCE``, the velocity (`vel`) is set to 0.
 
-YAML examples:
 
-Motion type: ``STATIONARY``
+``STATIONARY`` mode
+-------------------
+
+YAML example:
 
 .. code:: yaml
 
@@ -424,7 +432,8 @@ Motion type: ``STATIONARY``
 
 See: ``exaDEM/example/spheres/ball/driver-ball-stationary.msp``
 
-Motion type: ``LINEAR MOTION``
+``LINEAR MOTION`` mode
+----------------------
 
 .. code:: yaml
 
@@ -439,7 +448,8 @@ Motion type: ``LINEAR MOTION``
 
 See: ``exaDEM/example/spheres/ball/driver-ball-linear.msp``
 
-Motion type: ``COMPRESSIVE_FORCE``
+``COMPRESSIVE_FORCE`` mode
+--------------------------
 
 .. code:: yaml
 
@@ -454,7 +464,8 @@ Motion type: ``COMPRESSIVE_FORCE``
 
 See: ``exaDEM/example/spheres/ball/driver-ball-radial-stress.msp``
 
-Motion type: ``TABULATED``
+``TABULATED`` mode
+------------------
 
 .. code:: yaml
 
@@ -472,8 +483,8 @@ Motion type: ``TABULATED``
 
 See: ``exaDEM/example/spheres/ball/driver-ball-tabulated.msp``
 
-STL Mesh
---------
+Polyhedron / STL Mesh
+^^^^^^^^^^^^^^^^^^^^^
 
 The STL Mesh driver is constructed from an .STL (Stereolithography) file to create a mesh of faces. This approach enables the rapid setup of complex geometries within the simulation environment. It's important to note that faces in an STL mesh are processed as a sphere polyhedron, meaning a small layer is added around each face.
 
@@ -499,7 +510,8 @@ The STL Mesh driver is constructed from an .STL (Stereolithography) file to crea
 
 YAML examples:
 
-``STATIONARY`` mode:
+``STATIONARY`` mode
+-------------------
 
 .. code:: yaml
 
@@ -514,7 +526,8 @@ YAML examples:
    :align: center
    :width: 450pt
 
-``LINEAR_MOTION`` mode:
+``LINEAR_MOTION`` mode
+----------------------
 
 .. code:: yaml
 
@@ -530,7 +543,8 @@ YAML examples:
    :width: 450pt
 
 
-``TABULATED`` mode:
+``TABULATED`` mode
+------------------
 
 .. code:: yaml
 
@@ -548,7 +562,8 @@ YAML examples:
    :align: center
    :width: 450pt
 
-``LINEAR_FORCE_MOTION`` mode:
+``LINEAR_FORCE_MOTION`` mode
+----------------------------
 
 .. code:: yaml
 
@@ -568,7 +583,8 @@ YAML examples:
 
   You need to define the mass of your driver.  
 
-``LINEAR_COMPRESSIVE_MOTION`` mode:
+``LINEAR_COMPRESSIVE_MOTION`` mode
+----------------------------------
 
 .. code:: yaml
 
@@ -590,8 +606,8 @@ YAML examples:
   You will need to define the mass and the surface of your driver. If you don't specify a surface, `exaDEM` will propose to you a value corresponding to the sum of the face surfaces composing the stl mesh. 
 
 
-``SHAKER`` mode:
-
+``SHAKER`` mode
+---------------
 
 .. code:: yaml
 
@@ -609,7 +625,8 @@ This example is available here: ``exaDEM/example/spheres/shaker/shaker_stl.msp``
    :align: center
    :width: 450pt
 
-``EXPRESSION`` mode:
+``EXPRESSION`` mode
+-------------------
 
 This example is available here (RSA plugins is required): ``exaDEM/example/spheres/stl-mesh/tore_expression_motion.msp``
 
@@ -636,12 +653,54 @@ This example is available here (RSA plugins is required): ``exaDEM/example/spher
    :width: 600pt
 
 
-
 Another example is available at: ``exaDEM/example/spheres/cylinder_stl`` and is funny variant of :ref:`test_case_cylinder_stl` .
 
 .. image:: ../../_static/cylinder_expr.gif
    :align: center
    :width: 450pt
+
+Applying a Constant Moment with Sample Retroaction
+--------------------------------------------------
+
+It is possible to apply a constant moment while accounting for the
+retroaction exerted by the sample onto the driver.  
+To enable this behavior, the driver definition must include the following
+physical properties:
+
+* **center**: The rotation center of the driver.  
+* **inertia**: The rotational inertia of the driver.  
+* **mass**: The mass of the driver.
+
+As with angular velocity control, this mechanism does **not** fall under
+the ``motion_type`` category.
+
+.. note::
+
+  The applied moment is restricted to the direction defined in the
+  ``moment`` slot. Only the component aligned with this direction is applied.
+
+YAML example:
+
+.. code:: yaml
+
+  setup_drivers:
+    - register_stl_mesh:
+       id: 0
+       filename: pale2.stl
+       minskowski: 0.01
+       binary: true
+       state: { vrot: [0,0,0], center: [2.5,2.5,2], quat: [0,-0.707107,-0.707107,0] , mass: 49.0454, inertia: [77.238167282, 388.401803042, 344.515979122], moment: [0,0,1] } # vrot: rad.s-1 normalement 
+       params: { motion_type: STATIONARY }
+
+.. image:: ../../_static/applied_mom.gif
+   :align: center
+   :width: 450pt
+
+These examples are available at: 
+
+* [Right]: ``example/polyhedra/imposed_driver_moment/driver_counter_mom.msp``
+* [Left]: ``example/polyhedra/imposed_driver_moment/driver_applied_mom.msp``
+
 
 Modification of a Driver's Motion Type
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
