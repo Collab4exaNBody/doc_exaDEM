@@ -1,7 +1,7 @@
 Installing ExaDEM
 =================
 
-``ExaDEM`` provides flexible installation methods to meet various user and developer needs. For user usage, the ``Spack`` package manager offers a straightforward installation process, ideal for user-only. 
+``ExaDEM`` provides flexible installation methods to meet various user and developer needs. For user usage, the ``Spack`` (version `1.1.0`) package manager offers a straightforward installation process, ideal for user-only. 
 However, for those who intend to develop or customize ``ExaDEM``, ``CMake`` is recommended, as it supports both `CPU` and `GPU` configurations (`GPU` support is not available with ``Spack``).
 
 Choose the method below that best suits your setup and follow the instructions for a smooth installation experience.
@@ -254,7 +254,7 @@ Installing Spack
 
 .. code-block:: bash
 
-  git clone --depth=2 --branch=v0.23.0 https://github.com/spack/spack.git
+  git clone --depth=2 --branch=v1.1.0 https://github.com/spack/spack.git
   export SPACK_ROOT=$PWD/spack
   source ${SPACK_ROOT}/share/spack/setup-env.sh
 
@@ -336,7 +336,7 @@ Installation of `RSA_MPI` via `spack`:
 
 .. code-block:: bash
 
-  git clone git clone --depth=2 --branch=v0.23.0 https://github.com/spack/spack.git
+  git clone git clone --depth=2 --branch=v1.1.0 https://github.com/spack/spack.git
   source spack/share/spack/setup-env.sh
   git clone https://github.com/Collab4exaNBody/spack-repos.git
   spack repo add spack-repos
@@ -359,7 +359,7 @@ Installation of `Rockable` via `spack`:
 
 .. code-block:: bash
   
-  git clone git clone --depth=2 --branch=v0.23.0 https://github.com/spack/spack.git
+  git clone git clone --depth=2 --branch=v1.1.0 https://github.com/spack/spack.git
   source spack/share/spack/setup-env.sh
   git clone https://github.com/Collab4exaNBody/spack-repos.git
   spack repo add spack-repos
