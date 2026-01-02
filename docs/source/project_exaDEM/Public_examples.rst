@@ -7,6 +7,8 @@ This section lists a set of public examples illustrating some of the possibiliti
 Example 1
 ---------
 
+Repository: https://github.com/Collab4exaNBody/exadem-public-examples/tree/main/ex1
+
 * Version tested: ``v1.1.6``
 * Particle type: cylinder
 * Drvier type: Cylinder
