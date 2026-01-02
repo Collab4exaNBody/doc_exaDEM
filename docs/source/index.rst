@@ -16,6 +16,7 @@ ExaDEM & ExaNBody Documentation
    project_exaDEM/user_guide/user_guide.rst
    project_exaDEM/developer_guide/developer_guide.rst
    project_exaDEM/Tutorial.rst
+   project_exaDEM/Public_examples.rst
 
 .. _exanb:
 
