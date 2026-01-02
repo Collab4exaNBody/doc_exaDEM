@@ -7,7 +7,7 @@ This section lists a set of public examples illustrating some of the possibiliti
 Example 1
 ---------
 
-* Version tested: ``v1.2``
+* Version tested: ``v1.1.6``
 * Particle type: cylinder
 * Drvier type: Cylinder
 * Motion type: ``STATIONNARY`` with Rotation
