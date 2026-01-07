@@ -11,7 +11,7 @@ Repository: https://github.com/Collab4exaNBody/exadem-public-examples/tree/main/
 
 * Version tested: ``v1.1.6``
 * Particle type: cylinder
-* Drvier type: Cylinder
+* Driver type: Cylinder
 * Motion type: ``STATIONNARY`` with Rotation
 
 
@@ -22,3 +22,23 @@ Repository: https://github.com/Collab4exaNBody/exadem-public-examples/tree/main/
 .. figure:: ../_static/ex1_id.gif
    :scale: 70%
    :align: center
+
+Example 2
+---------
+
+Repository: https://github.com/Collab4exaNBody/exadem-public-examples/tree/main/ex2
+
+* Version tested: ``v1.1.6``
+* Particle type: Toupie
+* Drvier type: STL
+* Motion type: ``STATIONNARY``
+
+
+.. figure:: ../_static/ex2_beyblades.gif
+   :scale: 70%
+   :align: center
+
+.. figure:: ../_static/ex2_beyblades_with_edges.gif
+   :scale: 70%
+   :align: center
+
