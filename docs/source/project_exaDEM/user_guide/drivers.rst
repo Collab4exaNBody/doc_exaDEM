@@ -501,6 +501,7 @@ The STL Mesh driver is constructed from an .STL (Stereolithography) file to crea
   * *minskowski*: Minskowski radius value
   * *binary*: Define if the stl file is ascii or binary, default is false.
   * *scale*: Define the scale factor of applied to the shape, default is 1. 
+  * *deform*: Define the non-uniform deformation factors along x, y, and z axes. Format is [x, y, z]. Values must be strictly positive. Default is [1, 1, 1].
   * *state*: Define the center, velocity, angular velocity and the orientatation. Default is: state: {center: [0,0,0], vel: [0,0,0], vrot: [0,0,0], quat: [1,0,0,0]}.
   * *params*: List of params, motion type, motion vectors .... Default is { motion_type: STATIONARY}.
 
