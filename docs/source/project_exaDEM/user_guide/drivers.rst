@@ -653,6 +653,29 @@ This example is available here (RSA plugins is required): ``exaDEM/example/spher
    :align: center
    :width: 600pt
 
+Example to impose moment:
+
+.. code:: yaml
+
+  - register_stl_mesh:
+     id: 0
+     filename: pale2.stl
+     minskowski: 0.01
+     binary: true
+     state:
+        vrot: [0,0,0]
+        center: [2.5,2.5,2]
+        quat: [0,-0.707107,-0.707107,0]
+        mass: 49.0454
+        inertia: [77.238167282, 388.401803042, 344.515979122]
+     params:
+        motion_type: EXPRESSION
+        expr:
+           momx: 0
+           momy: 0
+           momz: 5
+
+This example is available at: ``exaDEM/example/polyhedra/imposed_driver_moment/driver_expr_mom.msp``. It corresponds to the example in the following section.
 
 Another example is available at: ``exaDEM/example/spheres/cylinder_stl`` and is funny variant of :ref:`test_case_cylinder_stl` .
 
