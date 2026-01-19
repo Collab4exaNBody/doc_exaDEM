@@ -24,7 +24,7 @@ jobs:
         git submodule init
         git submodule update
     - id: deployment
-      uses: sphinx-notes/pages@master
+      uses: sphinx-notes/pages@3.3
       with:
         checkout: false 
         documentation_path: docs/source
