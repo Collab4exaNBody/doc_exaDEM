@@ -248,3 +248,8 @@ YAML examples:
   compute_fast_vertices:
     - compute_vertices:
        resize_vertex: false
+
+Fragmentation
+^^^^^^^^^^^^^
+
+The strategy for handling fragmentation in exaDEM consists of pre-cutting the grains into small polyhedrons and adding springs between the opposite vertices for the faces to be bonded. To use these developments, you must include the `config_fragmentation.msp` file instead of `config_polyhedra.msp`. 
