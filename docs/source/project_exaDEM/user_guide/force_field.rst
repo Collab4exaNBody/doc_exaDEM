@@ -453,3 +453,10 @@ With `fv` the fluid velocity, `pv` the particle velocity, `r` the particle radiu
 
   The fluid velocity `fv` for each point of the grid has been defined by the operator `set_cell_values` (pure exaNBody operator).
 
+Inner Bond force
+----------------
+
+Some words:
+
+- Interaction type = 13
+- Parameters: kn, kt, damprate, g
