@@ -197,6 +197,9 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
    * - 12
      - Vertex (STL) - Face
      - Contact between a vertex of an STL and a face of a polyhedron
+   * - 13
+     - Inner Bond
+     - Contact inner a grain composed of fragments (polyhedra)
 
 **Interaction Class Usage:**
 
