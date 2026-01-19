@@ -29,8 +29,6 @@ This class is defined by its:
 
 .. warning::
 
-  Old version (<= 1.1.1) : It's important to note that the maximum number of vertices per particle shape is set to 8 by default. This is because the vertex positions for each particle are stored in an exaDEM “Array Of Vec3d” field, which is why the size is set at compile time. To change this value, you can specify this number by adding it at compile time: ``-DEXADEM_MAX_VERTICES=N``.
-
 	.. note::
 		OBB (Oriented Bounded Boxes) are enlarged of the Minskowki radius.
 	
@@ -249,9 +247,17 @@ YAML examples:
     - compute_vertices:
        resize_vertex: false
 
-Fragmentation
-^^^^^^^^^^^^^
+Fragmentation Feature
+^^^^^^^^^^^^^^^^^^^^^
 
-The strategy for handling fragmentation in ``exaDEM`` consists of pre-cutting the grains into small polyhedrons and adding springs between the opposite vertices for the faces to be bonded. To use these developments, you must include the ``config_fragmentation.msp`` file instead of ``config_polyhedra.msp``. The criterion for sticking particles depends on the distance between opposite vertices based on the distance defined by: ``sticking_threshold: 1.e-04`` to be defined in the ``global`` operator, please also define ``apply_particle_sticking: true``. 
+The strategy for handling fragmentation in ``exaDEM`` consists of pre-cutting the grains into small polyhedrons and adding springs between the opposite vertices for the faces to be bonded. To use these developments, you must include the ``config_fragmentation.msp`` file instead of ``config_polyhedra.msp``.
+
+ .. figure:: ../../_static/fragmentation_pic.png
+
+
+The criterion for sticking particles depends on the distance between opposite vertices based on the distance defined by: ``sticking_threshold: 1.e-04`` to be defined in the ``global`` operator, please also define ``apply_particle_sticking: true``. 
+
+.. figure:: ../../_static/sticking_threshold.png
 
 Finally, ``exaDEM`` will process interfaces that are a set of ``InnerBond`` interactions (typeId = 13) and check at each time step whether the energy released exceeds a certain threshold (depending on the surface area and a parameter g). If an ``Interface`` is broken, the interactions are removed and the interaction lists are reconstructed. Note that if two particles are stuck together by an interface, no other interactions (vertex-vertex, vertex-edge, etc.) are possible.
+
