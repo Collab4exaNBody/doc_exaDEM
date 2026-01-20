@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'ExaDEM & ExaNBody'
-copyright = '2023-2025, , Raphaël Prat, Thierry Carrard, Paul Lafourcade'
+copyright = '2023-2026, , Raphaël Prat, Thierry Carrard, Paul Lafourcade'
 author = 'Raphaël Prat, Thierry Carrard, Paul Lafourcade'
 
 # -- General configuration ---------------------------------------------------
@@ -26,7 +26,7 @@ author = 'Raphaël Prat, Thierry Carrard, Paul Lafourcade'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx_rtd_theme', 'sphinxcontrib.bibtex', 'myst_parser','sphinx_design']
+extensions = ['sphinx_rtd_theme', 'sphinxcontrib.bibtex', 'myst_parser','sphinx_design','sphinx_tabs.tabs']
 
 bibtex_bibfiles= ["../doc_exaNBody/sources/bibliography.bib"]
 
