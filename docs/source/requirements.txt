@@ -9,4 +9,6 @@ nbsphinx
 commonmark
 recommonmark
 sphinx-gallery
-sphinx-tabs
+sphinx<7
+docutils<0.20
+sphinx-tabs<3
