@@ -547,6 +547,41 @@ In this simulation, two shapes are selected: PolyR and Octahedron. Each shape is
 | |ex6pstartrsa|           | |ex6pendrsa|             |
 +--------------------------+--------------------------+
 
+Example 7: Fragmentation with two fragments 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This simulation demonstrates the fragmentation capability. The test case considers a grain composed of two fragments that is rapidly projected onto a rigid surface. Two configurations are compared. In the first one, the grain remains intact because the breakage criterion, governed by the parameter g, is not reached. In the second configuration, a lower value of g leads to the failure of the interface between the two fragments, resulting in fragmentation.
+
+- Input files:
+
+  - With Crakling: ``example/polyhedra/fragmentation/two_fragments_break.msp``
+
+    - 2 fragments
+    - 1,800,000 timesteps
+    - 84 seconds on 1 core
+
+
+  - No Crakling: ``example/polyhedra/fragmentation/two_fragments_unbreak.msp``
+
+    - 2 fragments
+    - 1,800,000 timesteps
+    - 68 seconds on 1 core
+
+.. |ex7pstart| image:: ../_static/two_fragments_start.png
+   :width: 250pt
+
+.. |ex7pend| image:: ../_static/two_fragments_end.png
+   :width: 250pt
+
++--------------------------+--------------------------+
+| .. centered:: Grain composed of two fragments       |
++--------------------------+--------------------------+
+| .. centered:: Start      | .. centered:: End        |
++==========================+==========================+
+| |ex7pstart|              | |ex7pend|                |
++--------------------------+--------------------------+
+
+
 Show-cases
 ----------
 
