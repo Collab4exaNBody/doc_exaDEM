@@ -132,15 +132,12 @@ Then we need to initialize hexapods in this region (AREA). The default density i
 .. code-block:: yaml
 
  init_new_particles:
-   - density_from_shape
-   - set_rand_velocity: 
-      region: AREA
-      var: 0.1
-      mean: [0.0,0.0,-10.0]
-   - inertia_from_shape
-   - set_quaternion:
-      region: AREA
-   - radius_from_shape:
+   - set_fields:
+      polyhedra: true
+      type:           [    alpha3 ]
+      velocity:       [ [0,0,-10] ]
+      sigma_velocity: [       0.1 ]
+      density:        [         1 ]
       region: AREA
 
 Now, we can define our `input_data` operator:
@@ -162,7 +159,8 @@ The following block consists of the overload of the `add_generated_particles` op
    - add_particles
    - init_new_particles
 
-Step one is the `generator.msp` file. To run the simulation, use the following command.
+Step one is the `generator.msp` file. To run the simulation, use the following command (around 11 minutes in 12 cores). 
+
 
 .. code-block:: console
 
@@ -201,7 +199,7 @@ Disable the hexapod generator:
 
  simulation_generator_frequency: -1
 
-Step two corresponds to the `wait.msp` file. To run this simulation, use the following command.
+Step two corresponds to the `wait.msp` file. To run this simulation, use the following command (around 4 minutes in 12 cores).
 
 .. code-block:: console
 
