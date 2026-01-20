@@ -1,4 +1,3 @@
-setuptools
 furo
 sphinxcontrib-gtagjs
 sphinx_rtd_theme
@@ -10,6 +9,4 @@ nbsphinx
 commonmark
 recommonmark
 sphinx-gallery
-sphinx<7
-docutils<0.20
-sphinx-tabs<3
+sphinx-tabs

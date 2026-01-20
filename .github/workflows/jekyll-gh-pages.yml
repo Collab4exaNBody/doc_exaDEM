@@ -14,7 +14,10 @@ jobs:
       pages: write
       id-token: write
     steps:
-    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"    
     - name: test
       uses: actions/checkout@v4
       with:
