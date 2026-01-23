@@ -3,8 +3,77 @@ Force Field
 
 The force field encompasses a broader set of operators and mechanisms responsible for computing forces acting on particles within the particle environment. It includes various types of forces such as gravitational forces, contact forces, and other external influences that affect particle dynamics.
 
+
 Contact Force Laws
 ------------------
+
+``Contact's Law`` in the context of the Discrete Element Method (DEM) refers to the principle used to calculate forces between particles based on their relative displacements. In DEM simulations, ``Contact's Law`` is applied to model ``interactions`` between particles, enabling the simulation of elastic deformation and linear force behaviors within particle-based systems.
+
+We distinguish two kinds of interaction : 
+
+- pure contact interaction
+- cohesive interaction
+
+Here after are given the main laws available in exaDEM :
+
++--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
+| Name         | type           | Description                                                                                                                        |
++==============+================+====================================================================================================================================+
+| ``hooke``    | pure contact   | Default configuration : elastic linear normal force, normal viscosity force, Coulomb friction tangent force and rolling resistance |
++--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
+| ``cohesive`` | Cohesive       | Addition of a normal cohesive force depending on the distance between particules                                                   |
++--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
+| ``dmt``      | Cohesive       | Addition of an adhesive law at contact to model Van der Waals force for hard particles                                             |
++--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
+
+The variables required to describe interactions are:
+
++-----------------+-----------------------------------------+
+| Variable        | Description                             |
++=================+=========================================+
+| \\(cp\\)        | The contact position                    |
++-----------------+-----------------------------------------+
+| \\(r_i\\)       | The position of the particle i          |
++-----------------+-----------------------------------------+
+| \\(r_j\\)       | The position of the particle j          |
++-----------------+-----------------------------------------+
+| \\(v_i\\)       | The velocity of the particle i          |
++-----------------+-----------------------------------------+
+| \\(v_j\\)       | The velocity of the particle j          |
++-----------------+-----------------------------------------+
+| \\(vrot_i\\)    | The angular velocity of the particle i  |
++-----------------+-----------------------------------------+
+| \\(vrot_j\\)    | The angular velocity of the particle j  |
++-----------------+-----------------------------------------+
+| \\(m_i\\)       | The mass of the particle i              |
++-----------------+-----------------------------------------+
+| \\(m_j\\)       | The mass of the particle j              |
++-----------------+-----------------------------------------+
+| \\(\\delta_n\\) | The interpenetration / particle overlap |
++-----------------+-----------------------------------------+
+
+Each kind of interaction also requires additionnal constants, reflecting for most of them mechanical properties:
+
++-----------------+--------------------------------------+
+| Constant        | Description                          |
++=================+======================================+
+| \\(\\Delta_t\\) | The timestep increment               |
++-----------------+--------------------------------------+
+| \\(\\alpha_n\\) | The damping rate                     |
++-----------------+--------------------------------------+
+| \\(k_n\\)       | The normal stiffness coefficient     |
++-----------------+--------------------------------------+
+| \\(k_t\\)       | The tangential stiffness coefficient |
++-----------------+--------------------------------------+
+| \\(v_t\\)       | The relative tangential velocity     |
++-----------------+--------------------------------------+
+| \\(k_r\\)       | The rotational stiffness coefficient |
++-----------------+--------------------------------------+
+| \\(\\mu\\)      | The coefficient of friction          |
++-----------------+--------------------------------------+
+
+Elastic linear force with friction tangent force (``hooke``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variables. The total contact force between particle :math:`i` and particle :math:`j` is given by 
 
@@ -12,7 +81,7 @@ In the Discrete Element Method (DEM), the equations of motion (translations and 
 
  \textbf{f}_{ij} = f_n \textbf{n}  +  \textbf{f}_t
 
-Twhere :math:`f_n` the normal component of the contact force and :math:`\textbf{f}_t` is the tangential force vector. These forces are expressed in the local contact frame :math:`(\textbf{n},\textbf{t},\textbf{s})` as a function of the overlaps and tangential displacements. They are calculated from force laws that generally describe frictional contact interactions. An important feature of DEM is to allow the particles to overlap. This overlap :math:`\delta_n` represents a normal strain localized in the vicinity of the contact point. A simple linear relation is assumed between normal contact force and :math:`\delta_n` . This is consistent with the fact that the overlaps allow for a penalty-based explicit formulation of particle motions, i.e., the elastic repulsion force is mobilized to prevent penalizing the overlap. The condition of particle undeformability implies that the overlaps must stay small compared to particle size. In this linear approximation, the normal component of the contact force is given by 
+where :math:`f_n` the normal component of the contact force and :math:`\textbf{f}_t` is the tangential force vector. These forces are expressed in the local contact frame :math:`(\textbf{n},\textbf{t},\textbf{s})` as a function of the overlaps and tangential displacements. They are calculated from force laws that generally describe frictional contact interactions. An important feature of DEM is to allow the particles to overlap. This overlap :math:`\delta_n` represents a normal strain localized in the vicinity of the contact point. A simple linear relation is assumed between normal contact force and :math:`\delta_n` . This is consistent with the fact that the overlaps allow for a penalty-based explicit formulation of particle motions, i.e., the elastic repulsion force is mobilized to prevent penalizing the overlap. The condition of particle undeformability implies that the overlaps must stay small compared to particle size. In this linear approximation, the normal component of the contact force is given by 
 
 .. math::
 
@@ -38,9 +107,6 @@ where:
  
   The formulas are identical to those used in Rockable (see `Rockable Force Laws <https://richefeu.github.io/rockable/forceLaws.html#default-model-keywork-default>`_) but are implemented differently to align with the `exaDEM` data structure.
 
-Tangential Component
---------------------
-
 The tangential force represents the frictional resistance between particles when they slide against each other. This force is calculated based on the relative tangential velocity (:math:`v_t`) and a tangential stiffness parameter (:math:`k_t`, keyword ``ktContact``). 
 
 The **Coulomb friction model** is used to limit the tangential force, ensuring that it does not exceed the product of the friction coefficient :math:`\mu` and the normal force (:math:`f_n`):
@@ -63,78 +129,35 @@ where:
 
 The friction force is reset to zero as soon as contact is lost.
 
-Contact's Law Operators
------------------------
+``cohesive`` normal law
+~~~~~~~~~~~~~~~~~~~~~~~
+This interaction requires two more parameters that are : 
 
-``Contact's Law`` in the context of the Discrete Element Method (DEM) refers to the principle used to calculate forces between particles based on their relative displacements. In DEM simulations, ``Contact's Law`` is applied to model ``interactions`` between particles, enabling the simulation of elastic deformation and linear force behaviors within particle-based systems.
-
-Variables:
-
-+--------------+-----------------------------------------+
-| Variable     | Description                             |
-+==============+=========================================+
-| \\(cp\\)     | The contact position                    |
-+--------------+-----------------------------------------+
-| \\(r_i\\)    | The position of the particle i          |
-+--------------+-----------------------------------------+
-| \\(r_j\\)    | The position of the particle j          |
-+--------------+-----------------------------------------+
-| \\(v_i\\)    | The velocity of the particle i          |
-+--------------+-----------------------------------------+
-| \\(v_j\\)    | The velocity of the particle j          |
-+--------------+-----------------------------------------+
-| \\(vrot_i\\) | The angular velocity of the particle i  |
-+--------------+-----------------------------------------+
-| \\(vrot_j\\) | The angular velocity of the particle j  |
-+--------------+-----------------------------------------+
-| \\(m_i\\)    | The mass of the particle i              |
-+--------------+-----------------------------------------+
-| \\(m_j\\)    | The mass of the particle j              |
-+--------------+-----------------------------------------+
-| \\(d_n\\)    | The interpenetration / particle overlap |
-+--------------+-----------------------------------------+
-
-And constants:
-
-+-----------------+--------------------------------------+
-| Constant        | Description                          |
-+=================+======================================+
-| \\(\\Delta_t\\) | The timestep increment               |
-+-----------------+--------------------------------------+
-| \\(\\alpha_n\\) | The damping rate                     |
-+-----------------+--------------------------------------+
-| \\(k_n\\)       | The normal stiffness coefficient     |
-+-----------------+--------------------------------------+
-| \\(k_t\\)       | The tangential stiffness coefficient |
-+-----------------+--------------------------------------+
-| \\(v_t\\)       | The relative tangential velocity     |
-+-----------------+--------------------------------------+
-| \\(k_r\\)       | The rotational stiffness coefficient |
-+-----------------+--------------------------------------+
-| \\(\mu\\)       | The coefficient of friction          |
-+-----------------+--------------------------------------+
-| \\(fc\\)        | The cohesive coefficient             |
-+-----------------+--------------------------------------+
-| \\(dncut\\)     | X                                    |
-+-----------------+--------------------------------------+
++-----------------+---------------------------------------------+
+| Constant        | Description                                 |
++=================+=============================================+
+| \\(fc\\)        | Cohesive force threshold                    |
++-----------------+---------------------------------------------+
+| \\(dncut\\)     | Distance cutoff for cohesive interaction    |
++-----------------+---------------------------------------------+
 
 
-Three possibilities depending on the value of the interpenetration between \\(d_n\\) two particles:
+Three possibilities depending on the value of the interpenetration between \\(\\delta_n\\) two particles:
 
-*  \\( d_n < -dncut \\)
-*  \\( -dncut < d_n < 0 \\)
-*  \\( 0 < d_n < dncut \\)
+*  \\( \\delta_n < -dncut \\)
+*  \\( -dncut < \\delta_n < 0 \\)
+*  \\( 0 < \\delta_n < dncut \\)
 
 .. warning::
 
-  Cohesive forces (`dncut`) are only applied if you use the operators: ``contact_sphere_with_cohesion`` or ``contact_polyhedron_with_cohesion``. Otherwise we only consider the case ::math`d_n < 0.0`.
+  Cohesive forces (`dncut`) are only applied if you use the operators ``contact_[*]_[*]_[*]_cohesive``. Otherwise we only consider the case :math:`\\d_n < 0.0`.
 
-**Formula between particle i and particle j if \\( d_n < -dncut \\) :**
+**Formula between particle i and particle j if \\( \\delta_n < -dncut \\) :**
 
 
 .. math::
 
-  \textbf{f}_{ij} =  -k_n . d_n + \alpha_n \sqrt{2.m_{eff}} v_n + k_t . v_t . \Delta_t
+  \textbf{f}_{ij} =  -k_n . \delta_n + \alpha_n \sqrt{2.m_{eff}} v_n + k_t . v_t . \Delta_t
 
 with the effective mass:
 
@@ -148,7 +171,7 @@ and the relative velocity norm:
 
   v_n = (v_i - (cp - r_i) \wedge vrot_i) - (v_j - (cp - r_j) \wedge vrot_j) 
 
-**Formula between particle i and particle j if \\( -dncut < d_n < 0 \\) :**
+**Formula between particle i and particle j if \\( -dncut < \\delta_n < 0 \\) :**
 
 .. math::
 
@@ -160,23 +183,114 @@ with:
 
    f_n =\left \{
    \begin{array}{lcl}
-   -k_n . d_n + \alpha_n \sqrt{2.m_{eff}} v_n  &  if  & -k_n . d_n + \alpha_n \sqrt{2.m_{eff}} v_n >= -fc \\
+   -k_n . \delta_n + \alpha_n \sqrt{2.m_{eff}} v_n  &  if  & -k_n . \delta_n + \alpha_n \sqrt{2.m_{eff}} v_n >= -fc \\
    & & \\
-   -fc & if  & -k_n . d_n + \alpha_n \sqrt{2.m_{eff}} v_n < -fc 
+   -fc & if  & -k_n . \delta_n + \alpha_n \sqrt{2.m_{eff}} v_n < -fc 
    \end{array} 
    \right.
 
-**Formula between particle i and particle j if \\( 0 < d_n < dncut \\) :**
+**Formula between particle i and particle j if \\( 0 < \\delta_n < dncut \\) :**
 
 .. math::
 
-  \textbf{f}_{ij} = (\frac{fc}{dncut} . d_n - fc) . \textbf{n}
+  \textbf{f}_{ij} = (\frac{fc}{dncut} . \delta_n - fc) . \textbf{n}
 
 with **n** normalized vector from particle i to particle j
 
-* Name: ``contact_sphere``, ``contact_polyehdron``, ``contact_sphere_with_cohesion``, or ``contact_polyehdron_with_cohesion``
-* Description: These operators compute forces between particles and particles/drivers using the contact's law.
-* Parameter:
+
+``dmt`` adhesive normal law
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+DMT (Derjaguin–Muller–Toporov) is usually used to compute pull-off forces (force needed to split two rigid objects in contact). It is computed with global energy calculation. 
+To define it, it needs an additional parameter representing an energy : 
+
++-----------------+--------------------------------------+
+| Constant        | Description                          |
++=================+======================================+
+| \\(\\\gamma\\)  | Adhesion energy per unit of surface  |
++-----------------+--------------------------------------+
+
+In case of contact, an additional force :math:`f_{DMT}` is added to the normal force such that :
+
+.. math::
+  f_n =  f_n - f_{DMT}
+
+with:
+
+.. math::
+  f_{DMT} = 2 \pi R_{eff} \gamma
+
+where the effective radius :math:`R_{eff}` is obtained from the respective radii :math:`R_{i}` and :math:`R_{j}` of the particles i and j:
+
+.. math::
+  R_{eff} = \frac{R_i.R_j}{R_i+R_j}
+
+and :math:`\gamma` is the surface energy (linked to Van der Waals forces).
+
+.. note::
+   Since DMT force law is added to the normal force, it requires the definition of a pure contact law, such as ``hooke`` one.
+
+
+Contact Law Operators
+---------------------
+
+Contact Law Operators define the type of contact law and the parameters associated with. 
+
+The operator naming convention follows the rule below:
+
+::
+
+   contact_[material_mode]_[particle_type]_[pure_contact_law]_[cohesion_law]
+
+Where each field is defined as follows:
+
+.. list-table:: Operator name fields
+   :header-rows: 1
+   :widths: 25 25 50
+
+   * - Field
+     - Possible values
+     - Description
+   * - [material_mode]
+     - ``singlemat``, ``multimat``
+     - Material interaction mode
+   * - [particle_type]
+     - ``sphere``, ``polyhedron``
+     - Type of particles
+   * - [pure_contact_law]
+     - ``hooke``
+     - Pure contact law
+   * - [cohesion_law]
+     - ``cohesive``, ``dmt``, ``none``
+     - Cohesion / adhesion law
+
+.. note::
+
+   For convenience, simplified operator names are available.
+   They are strict equivalents of the full naming convention.
+
+   **Sphere operators**
+
+   - ``contact_sphere``  
+     is equivalent to  
+     ``contact_singlemat_sphere_hooke`` or  
+     ``contact_singlemat_sphere_hooke_none``
+
+   - ``contact_multimat_sphere``  
+     is equivalent to  
+     ``contact_multimat_sphere_hooke_none``
+
+   **Polyhedron operators**
+
+   - ``contact_polyhedron``  
+     is equivalent to  
+     ``contact_singlemat_polyhedron_hooke`` or  
+     ``contact_singlemat_polyhedron_hooke_none``
+
+   - ``contact_multimat_polyhedron``  
+     is equivalent to  
+     ``contact_multimat_polyhedron_hooke_none``
+
+In a contact operator, the following parameters can be defined:
 
 +---------------------+------------------------------------------------------------------------------+
 | `symetric`          | Activate or disable symmetric updates (do not disable it with polyhedron).   |
@@ -207,15 +321,21 @@ Here are 4 examples with YAML:
 
 .. code-block:: yaml
 
-   - contact_sphere_with_cohesion:
+   - contact_singlemat_sphere_hooke_cohesive:
       symetric: true
       config: { dncut: 0.1 m, kn: 100000, kt: 100000, kr: 0.1, fc: 0.05, mu: 0.9, damp_rate: 0.9}
 
 .. code-block:: yaml
 
-   - contact_polyhedron_with_cohesion:
+   - contact_singlemat_polyhedron_hooke_cohesive:
       config: { dncut: 0.1 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.1, damp_rate: 0.9}
       config_driver: { dncut: 0.1 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
+
+.. code-block:: yaml
+  - contact_singlemat_sphere_hooke_dmt:
+     config: { kn: 1000, kt: 1000, kr: 0.1,mu: 0.2, damp_rate: 0.9, gamma: 10.}
+     config_driver: { kn: 1000, kt: 800, kr: 0.1,mu: 0.5, damp_rate: 0.9, gamma: 10.}
+
 
 .. note::
 
@@ -223,19 +343,19 @@ Here are 4 examples with YAML:
 
 .. note::
 
-  ``Contact Force With Cohesion`` operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
+  Contact Force With Cohesion ([cohesion_law] = ``cohesive``) operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
 
 .. note::
 
-  - The ``contact_sphere`` and ``contact_sphere_with_cohesion`` operators are designed to process interactions built in ``nbh_sphere`` (please, include the config_spheres.msp file).
-  - The ``contact_polyhedron`` and ``contact_polyhedron_with_cohesion`` operators are designed to process interactions built in ``nbh_polyhedron`` (please, include the config_polyhedra.msp file).
+  - The ``contact_[*]_sphere_[*]_[*]``  operators are designed to process interactions built in ``nbh_sphere`` (please, include the config_spheres.msp file).
+  - The ``contact_[*]_polyhedron_[*]_[*]`` operators are designed to process interactions built in ``nbh_polyhedron`` (please, include the config_polyhedra.msp file).
 
 
 Multi-Material
 --------------
 
-In the previous section, the contact law used the same parameters for all interactions.  
-It is also possible to specify the contact law depending on the type of interaction.  
+In the previous section, the contact law used the same parameters for all interactions ([material_mode] = ``singlemat``). 
+It is also possible to specify the contact law depending on the type of interaction ([material_mode] = ``multimat``) .  
 In this section, we introduce how to define the values of the contact law between particles,  
 as well as between particles and drivers.
 
@@ -244,8 +364,7 @@ as well as between particles and drivers.
    Unlike in some other DEM codes, the coefficients are **not** derived from the material 
    properties (such as Poisson’s ratio and Young’s modulus).  
 
-To handle multiple particle types, you must use either the ``contact_sphere_multimat`` 
-or the ``contact_polyhedron_multimat`` operator, as illustrated below.
+To handle multiple particle types, you must use either the ``contact_multimat_[*]_[*]_[*]`` operators  as illustrated below.
 
 * **YAML example for polyhedra:**
 
@@ -253,7 +372,7 @@ or the ``contact_polyhedron_multimat`` operator, as illustrated below.
 
    compute_force:
      - gravity_force
-     - contact_polyhedron_multimat
+     - contact_multimat_polyhedron
 
 * **YAML example for spheres:**
 
@@ -261,7 +380,7 @@ or the ``contact_polyhedron_multimat`` operator, as illustrated below.
 
    compute_force:
      - gravity_force
-     - contact_sphere_multimat:
+     - contact_multimat_sphere:
         symetric: true
 
 The following examples illustrate the definition of contact parameters for two particle 
