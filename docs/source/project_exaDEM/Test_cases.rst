@@ -581,6 +581,42 @@ This simulation demonstrates the fragmentation capability. The test case conside
 | |ex7pstart|              | |ex7pend|                |
 +--------------------------+--------------------------+
 
+Example 8: Impact of a Sphere
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This simulation reproduces the impact of a high-speed projectile on a wall composed of cubic particles. These particles are linked by cohesive interactions (springs) between the vertices of their faces. The wall is placed on a surface with a high friction coefficient to prevent it from shifting. This simulation also incorporates a periodic boundary condition along the direction of the wall
+
+- Input files: ``exaDEM/example/polyhedra/basic_shape/impact_with_frag.msp``
+
+  - 1,601 particles
+  - 300,000 timesteps
+  - 445 seconds on 12 cores
+
+.. |ex8pstart| image:: ../_static/impact_with_frag_start.png
+   :width: 250pt
+
+.. |ex8pend| image:: ../_static/impact_with_frag_end.png
+   :width: 250pt
+
++--------------------------+--------------------------+
+| .. centered:: Impact                                |
++--------------------------+--------------------------+
+| .. centered:: Start      | .. centered:: End        |
++==========================+==========================+
+| |ex8pstart|              | |ex8pend|                |
++--------------------------+--------------------------+
+
+Front view:
+
+.. image:: ../_static/impact_with_frag_avant.gif
+   :align: center
+   :width: 500pt
+
+Back view:
+
+.. image:: ../_static/impact_with_frag_arriere.gif
+   :align: center
+   :width: 500pt
 
 Show-cases
 ----------
