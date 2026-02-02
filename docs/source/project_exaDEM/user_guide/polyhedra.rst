@@ -189,7 +189,28 @@ YAML Example:
   - add_cube:
      name: MyCube
      length: 0.5
+     minskowki: 0.25
+
+* Operator Name: ``add_rice``
+* Description: Add a rice to the shape lists.
+* Parameters:
+
+  * ``length``: Define rice length.
+  * ``name``: Set Shape name. Default is "rice".
+  * ``minskowski``: Define the Minskowski value.
+
+YAML Example:
+
+.. code-block:: yaml
+
+  - add_rice:
+     name: MyRice
+     length: 0.5
      minskowki: 0.025
+
+.. image:: ../../_static/rice_bowl.gif
+   :align: center
+   :width: 300pt
 
 
 Interaction / Contact
