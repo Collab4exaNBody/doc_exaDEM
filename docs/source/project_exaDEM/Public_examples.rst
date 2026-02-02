@@ -42,3 +42,22 @@ Repository: https://github.com/Collab4exaNBody/exadem-public-examples/tree/main/
    :scale: 70%
    :align: center
 
+Example 3
+---------
+
+Repository: https://github.com/Collab4exaNBody/exadem-public-examples/tree/main/ex3
+
+* Version tested: ``v1.2.0``
+* Particle type: Cube
+* Drvier type: RShape
+* Motion type: ``PARTICLE``
+
+
+.. figure:: ../_static/ex3_view_1.gif
+   :scale: 70%
+   :align: center
+
+.. figure:: ../_static/ex3_view_2.gif
+   :scale: 70%
+   :align: center
+
