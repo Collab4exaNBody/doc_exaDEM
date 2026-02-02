@@ -62,8 +62,7 @@ The ``Shape`` class provides all the information on vertices, edges, and faces, 
 .. note::
 		By default, every shape is stored in a list of shapes, and the maximum cut-off radius is deduced from these shapes. Note that a cut-off radius that is too large can drastically reduce simulation performance. That's why, do not put big shapes using the classical way (i.e. ``read_shape_file``), big shapes should be defined as ``drivers``.
 		
-	
-	Shape example (octahedron, 6 vertices, 12 edges, and 8 faces): 
+Shape example (octahedron, 6 vertices, 12 edges, and 8 faces): 
 	
 .. code-block:: bash
 
