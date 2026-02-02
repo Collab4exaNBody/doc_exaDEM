@@ -60,8 +60,8 @@ Drivers share common parameters contained in the Driver_params class. These para
      - Movement influenced by compressive forces, depending on driver type.
    * - ``LINEAR_FORCE_MOTION``
      - Linear motion driven by constant acceleration, incorporating the effects of the sample's resultant force.
-   * - ``FORCE_MOTION``
-     - General movement caused by applied forces
+   * - ``FORCE``
+     - General movement caused by applied forces. Act likes a particle (R-shape).
    * - ``LINEAR_COMPRESSIVE_MOTION``
      - Linear movement combined with compressive forces. 
    * - ``TABULATED``
@@ -82,7 +82,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ``LINEAR_MOTION``
      - ``COMPRESSIVE_FORCE``
      - ``LINEAR_FORCE_MOTION``
-     - ``FORCE_MOTION``
+     - ``FORCE``
      - ``LINEAR_COMPRESSIVE_MOTION``
      - ``TABULATED``
      - ``SHAKER``
@@ -179,11 +179,11 @@ For all these types of movement, the drivers adopt velocity Verlet integration t
  
       with :math:`F` the driver forces, :math:`F_{driver}` the sum of the forces applied to the driver by the particles, :math:`C_F` the value of the [constant] force, and :math:`M_{vector}` the motion vector.
 
-   .. tab:: ``FORCE_MOTION``
+   .. tab:: ``FORCE``
 
       .. math::
 
-         F = F_{driver}
+         F = F_{driver} + gravity
 
       with :math:`F` the driver forces and :math:`F_{driver}` the sum of the forces applied to the driver by the particles.
 
