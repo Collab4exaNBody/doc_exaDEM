@@ -31,9 +31,9 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
    * - Ball / Sphere  
      - ``BALL``       
      - ``register_ball``
-   * - STL Mesh 
-     - ``STL_Mesh`` 
-     - ``register_stl_mesh``
+   * - RShape 
+     - ``RShapeDriver`` 
+     - ``register_stl_mesh/register_rshape``
    * - Undefined
      - ``UNDEFINED`` 
      - no operator
@@ -483,31 +483,27 @@ See: ``exaDEM/example/spheres/ball/driver-ball-radial-stress.msp``
 
 See: ``exaDEM/example/spheres/ball/driver-ball-tabulated.msp``
 
-Polyhedron / STL Mesh
-^^^^^^^^^^^^^^^^^^^^^
+RShape / Polyhedron
+^^^^^^^^^^^^^^^^^^^
 
-The STL Mesh driver is constructed from an .STL (Stereolithography) file to create a mesh of faces. This approach enables the rapid setup of complex geometries within the simulation environment. It's important to note that faces in an STL mesh are processed as a sphere polyhedron, meaning a small layer is added around each face.
+The RShape driver is constructed from a `.stl` (Stereolithography) or a `.shp` (Shape file) file to create a mesh of faces. This approach enables the rapid setup of complex geometries within the simulation environment. It's important to note that faces in a RShape driver are processed as a sphere polyhedron, meaning a small layer is added around each face.
 
 .. image:: ../../_static/ExaDEM/stl_mixte_end.png
    :align: center
    :width: 300pt
 
-* Operator name: ``register_stl_mesh``    
-* Description: This operator adds an "STL mesh" to the drivers list.
+* Operator name: ``register_stl_mesh/register_rshape``    
+* Description: This operator adds a "RShape" to the drivers list.
 * Parameters:
 
   * *id*: Driver index
   * *filename*: Input filename (.stl or .shp)
   * *minskowski*: Minskowski radius value
-  * *binary*: Define if the stl file is ascii or binary, default is false.
+  * *binary*: Define if the stl file is ascii or binary, default is false. Ignored if the format file is a .shp.
   * *scale*: Define the scale factor of applied to the shape, default is 1. 
   * *deform*: Define the non-uniform deformation factors along x, y, and z axes. Format is [x, y, z]. Values must be strictly positive. Default is [1, 1, 1].
   * *state*: Define the center, velocity, angular velocity and the orientatation. Default is: state: {center: [0,0,0], vel: [0,0,0], vrot: [0,0,0], quat: [1,0,0,0]}.
   * *params*: List of params, motion type, motion vectors .... Default is { motion_type: STATIONARY}.
-
-* Operator name: ``update_grid_stl_mesh``
-* Description: Update the grid of lists of {vertices / edges / faces} in contact for every cell. The aim is to predefine a list of possible contacts with a cell for an STL mesh. These lists must be updated each time the grid changes. 
-* Parameters: No parameter
 
 YAML examples:
 
@@ -532,11 +528,11 @@ YAML examples:
 
 .. code:: yaml
 
-  - register_stl_mesh:
+  - register_rshape:
      id: 0
      state: {center: [0.4,0,0]}
      params: { motion_type: LINEAR_MOTION, motion_vector: [-1,0,0], const_vel: 0.5 }
-     filename: mesh.stl
+     filename: mesh.shp
      minskowski: 0.001 m
 
 .. image:: ../../_static/stl_linear_motion.gif
@@ -604,7 +600,7 @@ YAML examples:
 
 .. note::
 
-  You will need to define the mass and the surface of your driver. If you don't specify a surface, `exaDEM` will propose to you a value corresponding to the sum of the face surfaces composing the stl mesh. 
+  You will need to define the mass and the surface of your driver. If you don't specify a surface, `exaDEM` will propose to you a value corresponding to the sum of the face surfaces composing the RShape driver. 
 
 
 ``SHAKER`` mode
@@ -612,7 +608,7 @@ YAML examples:
 
 .. code:: yaml
 
-  - register_stl_mesh:
+  - register_rshape:
      id: 0
      minskowski: 0.1
      filename: shaker.stl
@@ -783,7 +779,7 @@ I/O Drivers
 
 An input/output system has been implemented primarily for drivers performing movements, such as a rigid surface compressing a sample or a blade rotating around an axis.
 
-The drivers' output is automatically triggered when the user sets the global variable: ``simulation_dump_frequency``. This command also allows particles and interactions to be stored in a separate file. The drivers are then saved in a file located at ``ExaDEMOutputDir/CheckpointFiles/driver_%010d.msp``, containing the drivers' information. In the case of an ``STL mesh`` driver, a shp file is added to the ``ExaDEMOutputDir/CheckpointFiles/`` directory, which contains the geometry of the ``STL mesh``.To restart the driver along with your simulation, simply include the ``.msp`` file containing the ``setup_driver`` operator block at the beginning of your restart file.
+The drivers' output is automatically triggered when the user sets the global variable: ``simulation_dump_frequency``. This command also allows particles and interactions to be stored in a separate file. The drivers are then saved in a file located at ``ExaDEMOutputDir/CheckpointFiles/driver_%010d.msp``, containing the drivers' information. In the case of an ``RShape`` driver, a shp file is added to the ``ExaDEMOutputDir/CheckpointFiles/`` directory, which contains the geometry of the ``RShape``.To restart the driver along with your simulation, simply include the ``.msp`` file containing the ``setup_driver`` operator block at the beginning of your restart file.
 
 YAML example: 
 
@@ -797,7 +793,7 @@ YAML example:
     simulation_dump_frequency: 10000
 
 
-Similarly, ExaDEM saves ``STL meshes`` each time a Paraview output is generated by setting the global variable: ``simulation_paraview_frequency``. The ``STL mesh`` is then translated and oriented correctly in the ``ExaDEMOutputDir/ParaviewOutputFiles/`` directory as ``shape_name_iteration.vtk``.
+Similarly, ExaDEM saves ``RShape`` drivers each time a Paraview output is generated by setting the global variable: ``simulation_paraview_frequency``. The ``RShape`` driver is then translated and oriented correctly in the ``ExaDEMOutputDir/ParaviewOutputFiles/`` directory as ``shape_name_iteration.vtk``.
 
 Another feature displays the driver summary. To do this, use the print_drivers operator, which is called by default when initializing an ``exaDEM`` simulation.
 
@@ -825,7 +821,7 @@ Output example:
   Number of Undefined Drivers: 0
   ===== List Of Drivers
   Driver [0]:
-  Driver Type: MESH STL
+  Driver Type: RSHAPE
   Name   : base
   Center : 0,0,-20
   Vel    : 0,0,0
@@ -842,7 +838,7 @@ Output example:
   Vel   : 0,0,0
   AngVel: 0,0,0
   Driver [2]:
-  Driver Type: MESH STL
+  Driver Type: RSHAPE
   Name   : palefine
   Center : 0,0,1.5
   Vel    : 0,0,-0.0174
@@ -857,21 +853,21 @@ Output example:
 Advanced Operators
 ^^^^^^^^^^^^^^^^^^
 
-Update Grid For STL Mesh
-------------------------
+Update Grid For RShape Driver
+-----------------------------
 
-The purpose of this operator is to project the STL mesh onto the cells making up the exaDEM grid in order to speed up the search for interactions. Each grid cell is then assigned a set of vertices, edges, and faces that are potentially in contact with the cell's particles.
+The purpose of this operator is to project the RShape (vertices, edges, and faces) onto the cells making up the exaDEM grid in order to speed up the search for interactions. Each grid cell is then assigned a set of vertices, edges, and faces that are potentially in contact with the cell's particles.
 
-* Operator name: ``grid_stl_mesh``    
-* Description: Update the list of information for each cell regarding the vertex, edge, and face indices in contact with the cell in an STL mesh.
+* Operator name: ``grid_rshape_driver``    
+* Description: Update the list of information for each cell regarding the vertex, edge, and face indices in contact with the cell in a RShape driver.
 * Parameters:
 
-  * *force_reset*: Force to rebuild grid for STL meshes
+  * *force_reset*: Force to rebuild grid.
 
 .. note::
 
-  [1] This operator only projects the STL mesh onto the grid making up the MPI process subdomain. If the subdomain changes, the update must be forced (force_reset=0). 
-  [2] If the stl mesh is stationary (v= null, vrot=null), the grid is not updated. This speeds up calculations when the STL mesh has many elements.
+  [1] This operator only projects the RShape driver onto the grid making up the MPI process subdomain. If the subdomain changes, the update must be forced (force_reset=0). 
+  [2] If the RShape is stationary (v= null, vrot=null), the grid is not updated. This speeds up calculations when the RShape driver has many elements.
 
 YAML example: 
 
@@ -883,7 +879,7 @@ YAML example:
 Compute Driver Vertices
 -----------------------
 
-This operator is used to update the vertex positions of operators with vertices. For the moment, this operator is only used for STL meshes and to fill in the `vertices` field.
+This operator is used to update the vertex positions of operators with vertices. For the moment, this operator is only used for RShape drivers and to fill in the `vertices` field.
 
 * Operator name: ``compute_driver_vertices``    
 * Description: This operator calculates new vertex positions.
@@ -908,7 +904,7 @@ Check Driver Displacement
 This operator detects if a driver has moved more than 1/2 of the Verlet radius. This operator works in combination with the backup_driver operator to store driver data at the iteration when the interaction lists have been recalculated. 
 
 * In the case of a sphere, we test the distance between the two centers.
-* In the case of an STL mesh, we check the displacement of all vertices.
+* In the case of a RShape, we check the displacement of all vertices.
 * In the case of a cylinder, this option is disabled.
 * In the case of a wall, we look at the difference between the offset values.
 

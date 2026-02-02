@@ -30,7 +30,7 @@ Repository: https://github.com/Collab4exaNBody/exadem-public-examples/tree/main/
 
 * Version tested: ``v1.1.6``
 * Particle type: Toupie
-* Drvier type: STL
+* Drvier type: RShape
 * Motion type: ``STATIONNARY``
 
 

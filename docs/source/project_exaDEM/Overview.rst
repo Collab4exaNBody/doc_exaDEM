@@ -96,7 +96,7 @@ The following table provides a glossary of features supported by ``ExaDEM``, cat
     - ✔
     - ✔
     - ✔
-  * - Driver type STL Mesh
+  * - Driver type RShape
     - ✔
     - ✔
     - ✔

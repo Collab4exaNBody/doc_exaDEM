@@ -47,22 +47,22 @@ with :math:`W_i` the array of weights, ``i`` is the cell id, :math:`I_i` the int
      - Vertex - Ball
      - 1
    * - 7
-     - Vertex - Vertex (STL)
+     - Vertex - Vertex (RShape Driver)
      - 1
    * - 8
-     - Vertex - Edge (STL)
+     - Vertex - Edge (RShape Driver)
      - 3
    * - 9
-     - Vertex - Face (STL)
+     - Vertex - Face (RShape Driver)
      - 5
    * - 10
-     - Edge - Edge (STL)
+     - Edge - Edge (RShape Driver)
      - 4
    * - 11
-     - Vertex (STL) - Edge
+     - Vertex (RShape Driver) - Edge
      - 3
    * - 12
-     - Vertex (STL) - Face
+     - Vertex (RShape Driver) - Face
      - 5
 
 

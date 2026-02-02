@@ -177,8 +177,8 @@ In this DEM simulation, a cluster of spherical particles is compacted against a 
 | |ex6start|               | |ex6end|                 |
 +--------------------------+--------------------------+
 
-Example 5: Using an STL Mesh
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Example 5: Using a RShape Driver (STL)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In this DEM simulation, a cluster of spherical particles falls onto an .stl mesh and into a box. This case study highlights the use of meshes containing numerous facets and allows adding all geometries coming from CAD or graphic design. 
 
@@ -195,7 +195,7 @@ In this DEM simulation, a cluster of spherical particles falls onto an .stl mesh
    :width: 300pt
 
 +--------------------------+--------------------------+
-| .. centered:: Mesh STL                              |
+| .. centered:: RShape Driver                         |
 +--------------------------+--------------------------+
 | .. centered:: Start      | .. centered:: End        |
 +==========================+==========================+
@@ -408,8 +408,8 @@ This DEM simulation example illustrates the gravitational descent of 64 hexapods
 | |ex3pstart|              | |ex3pend|                |
 +--------------------------+--------------------------+
 
-Example 4: Polyhedra With STL Mesh (Box)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Example 4: Polyhedra With a RShape Driver (Box)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This simulation example illustrates the use of STL files with polyhedra. In this simulation, we drop a set of polyhedra (hexapods, octahedra, or both) by gravity into an open box to fill it completely. 
 
@@ -457,7 +457,7 @@ This simulation example illustrates the use of STL files with polyhedra. In this
   These examples have minimal test cases (`_mini.msp`).
 
 +--------------------------+--------------------------+
-| .. centered:: Polyhedra With STL Mesh               |
+| .. centered:: Polyhedra With a RShape Driver        |
 +--------------------------+--------------------------+
 | .. centered:: Start      | .. centered:: End        |
 +==========================+==========================+
@@ -471,7 +471,7 @@ This simulation example illustrates the use of STL files with polyhedra. In this
 Example 5: Funnel
 ^^^^^^^^^^^^^^^^^
 
-This simulation example illustrates the gravitational drop of a set of 1.3 million hexapods into a funnel. The funnel is represented using a mesh of faces (STL mesh).
+This simulation example illustrates the gravitational drop of a set of 1.3 million hexapods into a funnel. The funnel is represented using a mesh of faces (RShape Driver).
 
 .. |ex5pstarthalf| image:: ../_static/ExaDEM/funnel_half_start.png
    :width: 250pt

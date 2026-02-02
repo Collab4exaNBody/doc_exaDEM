@@ -19,7 +19,7 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 
 
 .. note::
-  When the interaction involves a sphere and a ``driver``, particle j is used to locate the ``driver``. In this scenario, cell_j represents the index of the ``driver``. If the ``driver`` utilizes a shape, such as with ``STL meshes``, sub_j is also utilized to store the index of the vertex, edge, or face.
+  When the interaction involves a sphere and a ``driver``, particle j is used to locate the ``driver``. In this scenario, cell_j represents the index of the ``driver``. If the ``driver`` utilizes a shape, such as with ``RShapeDriver``, sub_j is also utilized to store the index of the vertex, edge, or face.
 
 
 .. list-table:: Glossary of ``Interaction`` types for Spheres
@@ -42,14 +42,14 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
      - Sphere - Ball
      - Contact between a vertex of a sphere and a ball / sphere
    * - 7
-     - Sphere - Vertex (STL)
-     - Contact between a vertex of a sphere and a vertex of an STL mesh
+     - Sphere - Vertex (Driver)
+     - Contact between a vertex of a sphere and a vertex of a RShape Driver
    * - 8
-     - Sphere - Edge (STL)
-     - Contact between a vertex of a sphere and an edge of an STL mesh
+     - Sphere - Edge (Driver)
+     - Contact between a vertex of a sphere and an edge of a RShape Driver
    * - 9
-     - Sphere - Face (STL)
-     - Contact between a vertex of a sphere and a face of an STL mesh
+     - Sphere - Face (Driver)
+     - Contact between a vertex of a sphere and a face of a RShape Driver
 
 **Interaction Class Usage With Spheres:**
 

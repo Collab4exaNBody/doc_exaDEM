@@ -337,23 +337,26 @@ Output example:
 
 .. code-block:: bash
 
-  ==================================
-  * Type of interaction    : active / total 
-  * Number of interactions : 42058 / 41943
-  * Vertex - Vertex        : 0 / 0
-  * Vertex - Edge          : 625 / 625
-  * Vertex - Face          : 5546 / 5546
-  * Edge   - Edge          : 31698 / 31698
-  * Vertex - Cylinder      : 0 / 0
-  * Vertex - Surface       : 0 / 0
-  * Vertex - Ball          : 0 / 0
-  * Vertex - Vertex (STL)  : 0 / 0
-  * Vertex - Edge (STL)    : 0 / 0
-  * Vertex - Face (STL)    : 4060 / 4074
-  * Edge   - Edge (STL)    : 0 / 0
-  * Edge (STL) - Vertex    : 0 / 0 
-  * Face (STL) - Vertex    : 0 / 0
-  ==================================
+  =====================================================
+  * Type of interaction      = active / total / ghost
+  * Number of interactions   = 369404 / 369404 / 0
+  * Vertex - Vertex          = 41623 / 41623 / 0
+  * Vertex - Edge            = 85161 / 85161 / 0
+  * Vertex - Face            = 21997 / 21997 / 0
+  * Edge   - Edge            = 23922 / 23922 / 0
+  * Vertex - Cylinder        = 0 / 0 / 0
+  * Vertex - Surface         = 3770 / 3770 / 0
+  * Vertex - Ball            = 0 / 0 / 0
+  * Vertex - Vertex (Driver) = 0 / 0 / 0
+  * Vertex - Edge (Driver)   = 0 / 0 / 0
+  * Vertex - Face (Driver)   = 0 / 0 / 0
+  * Edge   - Edge (Driver)   = 0 / 0 / 0
+  * Edge (Driver) - Vertex   = 0 / 0 / 0
+  * Face (Driver) - Vertex   = 0 / 0 / 0
+  * Vertice - Vertex (Stick) = 192931 / 192931 / 0
+  =====================================================
+
+
 
 Global Stress Tensor
 ^^^^^^^^^^^^^^^^^^^^

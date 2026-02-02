@@ -207,7 +207,7 @@ Warnings:
 
   * This operator takes on ASCII files.
   * This operator is not typo-proof and will ignore problematic values.
-  * Do not define a shape "driven" such as a wall or a cylinder because the cell diameters and the cutoff radius for creating interaction lists are derived from the shapes of the polyhedra. These should be defined in specific operators if they have an analytical shape. If they have particular shapes with many facets, please use the STL mesh reader.
+  * Do not define a shape "driven" such as a wall or a cylinder because the cell diameters and the cutoff radius for creating interaction lists are derived from the shapes of the polyhedra. These should be defined in specific operators if they have an analytical shape. If they have particular shapes with many facets, please use the RShape Driver reader (supported extension: `shp` or `stl`).
 
 YAML example:
 

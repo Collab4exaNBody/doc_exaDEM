@@ -208,7 +208,7 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 
 
 .. note::
-  When the interaction involves a polyhedron and a ``driver``, particle j is used to locate the ``driver``. In this scenario, cell_j represents the index of the ``driver``. If the ``driver`` utilizes a shape, such as with ``STL meshes``, sub_j is also utilized to store the index of the vertex, edge, or face.
+  When the interaction involves a polyhedron and a ``driver``, particle j is used to locate the ``driver``. In this scenario, cell_j represents the index of the ``driver``. If the ``driver`` utilizes a shape, such as with ``RShapeDriver``, sub_j is also utilized to store the index of the vertex, edge, or face.
 
 
 .. list-table:: Glossary of ``Interaction`` types
@@ -240,23 +240,23 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
      - Vertex - Ball
      - Contact between a vertex of a polyhedron and a ball / sphere
    * - 7
-     - Vertex - Vertex (STL)
-     - Contact between a vertex of a polyhedron and a vertex of an STL mesh
+     - Vertex - Vertex (Driver)
+     - Contact between a vertex of a polyhedron and a vertex of a RShape Driver
    * - 8
-     - Vertex - Edge (STL)
-     - Contact between a vertex of a polyhedron and an edge of an STL mesh
+     - Vertex - Edge (Driver)
+     - Contact between a vertex of a polyhedron and an edge of a RShape Driver
    * - 9
-     - Vertex - Face (STL)
-     - Contact between a vertex of a polyhedron and a face of an STL mesh
+     - Vertex - Face (Driver)
+     - Contact between a vertex of a polyhedron and a face of a RShape Driver
    * - 10
-     - Edge - Edge (STL)
-     - Contact between an edge of a polyhedron and a edge of an STL mesh
+     - Edge - Edge (Driver)
+     - Contact between an edge of a polyhedron and a edge of a RShape Driver
    * - 11
-     - Vertex (STL) - Edge
-     - Contact between a vertex of an STL and an edge of a polyhedron
+     - Vertex (Driver) - Edge
+     - Contact between a vertex of a RShape Driver and an edge of a polyhedron
    * - 12
-     - Vertex (STL) - Face
-     - Contact between a vertex of an STL and a face of a polyhedron
+     - Vertex (Driver) - Face
+     - Contact between a vertex of a RShape Driver and a face of a polyhedron
    * - 13
      - Inner Bond
      - Contact inner a grain composed of fragments (polyhedra)
