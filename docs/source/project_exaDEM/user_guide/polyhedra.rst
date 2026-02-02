@@ -11,28 +11,55 @@ The polyhedra implemented in ``ExaDEM`` are sphero-polyhedra, i.e. the vertices 
 Shape
 ^^^^^
 
-The ``Shape`` class provides all the information on vertices, edges, and faces, but it also provides other support to speed up calculations, such as ``OBB`` sets for each type of information. ``ExaDEM`` provides many features linked to the ``Shape`` class, such as reading ``.shp`` files (the format used by ``Rockable``), as well as other functions such as outputting a ``.vtk`` file of the shape. 
+The ``Shape`` class provides all the information on vertices, edges, and faces, but it also provides other support to speed up calculations, such as ``OBB`` sets for each type of information. ``ExaDEM`` provides many features linked to the ``Shape`` class, such as reading ``.shp`` files (the format used by ``Rockable``), as well as other functions such as outputting a ``.vtk`` file of the shape. This class is defined by the following properties:
 
-This class is defined by its:
 
-* m_vertices: List of vertices
-* m_edges: List of edges
-* m_faces: List of faces
-* m_radius: Minskowki radius (radius of the vertices)
-* m_volume: Volume
-* m_inertia_on_mass: Intertia coeff
-* m_name: name, default is undefined
-* obb: Oriented Bounded Box of the polyhedron
-* m_obb_vertices: List of ``OBB`` for each vertex (only for ``STL Mesh``)
-* m_obb_edges: List of ``OBB`` for each edge
-* m_obb_faces: List of ``OBB`` for each face
+.. list-table:: Shape Class Properties
+   :widths: 25 25 50
+   :header-rows: 1
+   :align: center
 
-.. warning::
+   * - Property Name
+     - Attribute Name
+     - Description
+   * - Vertices
+     - ``m_vertices``
+     - List of the polyhedron's vertices.
+   * - Edges
+     - ``m_edges``
+     - List of the polyhedron's edges.
+   * - Faces
+     - ``m_faces``
+     - List of the polyhedron's faces.
+   * - Minkowski Radius
+     - ``m_radius``
+     - Minkowski radius (radius of the vertices).
+   * - Volume
+     - ``m_volume``
+     - Total volume of the polyhedron.
+   * - Inertia Coefficient
+     - ``m_inertia_on_mass``
+     - Inertia coefficient normalized by mass.
+   * - Name
+     - ``m_name``
+     - Name of the object (defaults to "undefined").
+   * - OBB
+     - ``obb``
+     - Oriented Bounding Box of the polyhedron.
+   * - Vertex OBBs
+     - ``m_obb_vertices``
+     - List of ``OBB`` for each vertex (only for ``Big Shape``).
+   * - Edge OBBs
+     - ``m_obb_edges``
+     - List of ``OBB`` for each edge.
+   * - Face OBBs
+     - ``m_obb_faces``
+     - List of ``OBB`` for each face.
 
-	.. note::
+.. note::
 		OBB (Oriented Bounded Boxes) are enlarged of the Minskowki radius.
-	
-	.. note::
+
+.. note::
 		By default, every shape is stored in a list of shapes, and the maximum cut-off radius is deduced from these shapes. Note that a cut-off radius that is too large can drastically reduce simulation performance. That's why, do not put big shapes using the classical way (i.e. ``read_shape_file``), big shapes should be defined as ``drivers``.
 		
 	
@@ -135,7 +162,7 @@ Basic Shapes
 
 ``ExaDEM`` provides some basic shapes without using a shape file.
 
-* Operator Name: ``add_cube```
+* Operator Name: ``add_sphere``
 * Description: Add a sphere to the shape lists.
 * Parameters:
 
@@ -148,7 +175,7 @@ Basic Shapes
      name: MySphere
      minskowski: 1.0
 
-* Operator Name: ``add_cube```
+* Operator Name: ``add_cube``
 * Description: Add a cube to the shape lists.
 * Parameters:
 
