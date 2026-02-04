@@ -60,7 +60,7 @@ To proceed with the installation, your system must meet the minimum prerequisite
          make install -j 10
          export onika_DIR=${CURRENT_HOME}/install-onika
          mkdir ${CURRENT_HOME}/build-exanb && cd ${CURRENT_HOME}/build-exanb
-         cmake ${CURRENT_HOME}/exaNBody -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-exanb
+         cmake ${CURRENT_HOME}/exaNBody -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-exanb -DXNB_PARTICLE_TYPE_INT=uint32_t
          make install -j 10
          export exaNBody_DIR=${CURRENT_HOME}/install-exanb
          rm -rf ${CURRENT_HOME}/build-onika
@@ -80,7 +80,7 @@ To proceed with the installation, your system must meet the minimum prerequisite
          make install -j 10
          export onika_DIR=${CURRENT_HOME}/install-onika
          mkdir ${CURRENT_HOME}/build-exanb && cd ${CURRENT_HOME}/build-exanb
-         cmake ${CURRENT_HOME}/exaNBody -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-exanb
+         cmake ${CURRENT_HOME}/exaNBody -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-exanb -DXNB_PARTICLE_TYPE_INT=uint32_t
          make install -j 10
          export exaNBody_DIR=${CURRENT_HOME}/install-exanb
          rm -rf ${CURRENT_HOME}/build-onika
@@ -102,7 +102,7 @@ To proceed with the installation, your system must meet the minimum prerequisite
          make install -j 10
          export onika_DIR=${CURRENT_HOME}/install-onika
          mkdir ${CURRENT_HOME}/build-exanb && cd ${CURRENT_HOME}/build-exanb
-         cmake ${CURRENT_HOME}/exaNBody -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-exanb
+         cmake ${CURRENT_HOME}/exaNBody -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-exanb -DXNB_PARTICLE_TYPE_INT=uint32_t
          make install -j 10
          export exaNBody_DIR=${CURRENT_HOME}/install-exanb
          rm -rf ${CURRENT_HOME}/build-onika
