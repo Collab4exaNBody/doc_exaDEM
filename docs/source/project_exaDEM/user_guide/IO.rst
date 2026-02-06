@@ -313,7 +313,7 @@ YAML example:
 Writer Of XYZ Files
 ^^^^^^^^^^^^^^^^^^^
 
-- Name: `write_xyz_generic`
+- Name: `write_xyz`
 - Description: This operator writes a txt file (`.xyz`) with all specified fields.
 - Parameters:
   * `fields`: array of fieldsets. Example: ``[ id, velocity, radius ]``
@@ -329,7 +329,7 @@ YAML example: Replaces MPIIO output files with xyz files.
 
   dump_data_xyz:
     - timestep_file: "dem_pos_vel_%09d.xyz"
-    - write_xyz_generic:
+    - write_xyz:
        fields: [ id, velocity, radius ]
        units: { velocity: "m/s", radius: "m" }
 
