@@ -141,6 +141,11 @@ Reader Of Rockable Files
    * `bounds` This option defines the simulation domain. If not specified, the domain size is determined by the particle positions. Ex: [[0,0,0],[1,1,1]].
    * `filename` Dump file name to read.
    * `enlarge_bounds` Define a layer around the volume size. Default size is 0.
+   * `bounds_mode` (*str*) Defines the bounding box calculation mode. 
+      Default is ``COMPUTED_BOUNDS`` (bounds are dynamically calculated from particles and shapes). 
+      An alternative is ``DOMAIN`` (uses predefined global domain limits).
+   * `region` (*Region object*) Filters particles or IDs based on a specified geometric region.
+   * `vtk` (*bool*) If set to ``true``, exports the shape geometry as VTK files for visualization.
 
 Yaml Example:
 
@@ -149,6 +154,14 @@ Yaml Example:
   input_data:
     - read_conf_rockable:
        filename: input_file/518_poly.conf
+
+  input_data:
+    - read_conf_rockable:
+       filename: input_a10.txt
+       verbosity: false
+       vtk: false
+       bounds_mode: DOMAIN
+       region: AREA
 
 What is read:
 
