@@ -78,27 +78,27 @@ This is an example of two particles the same type in a domain [[0,0,0],[10,10,10
 Reader Of MPIIO File
 ^^^^^^^^^^^^^^^^^^^^
 
-- Name: `read_dump_particles`
+- Name: `read_dump_particle_interaction`
 - Description: This operator reads a dump file with all particle information required to restart the simulation. See operator: @write_dump_particles
 - Parameters:
    * `filename` : Dump file name to read.
    * `bounds` : If set, override the domain's bounds, filtering out particles outside of overriden bounds (AABB = [[infx, infy, infz],[supx, supy, supz]]).
    * `expandable` : If set, override domain expandability stored in file
    * `periodicity` : If set, overrides the domain's periodicity stored in a file with this value (ex: [false,true,false]).
+   * `timestep` : If set, overrides the time iteration number.
    * `scale_cell_size` : If set, this option rescales cell size. Due to friction storage per cell, ou can only multiply this size by an integer (1,2,4, 8, ...) or divide it by a power of 1/(2^n) (0.5,0.25 ...).
    * `shrink_to_fit` : If set to true and bounds were specified, try to reduce the domain's grid size to the minimum size enclosing fixed bounds.
+   * `enable_extra_data` : Read Interactions.
 
 YAML example:
 
 .. code-block:: yaml
 
-  - read_dump_particles:
+  - read_dump_particle_interaction:
       filename: last.dump
 
 .. note::
   This operator is used for spheres and not polyhedra because we need a special reader to read current interaction values containing the friction and moment. Show `read_dump_particle_interaction`.
-
-
 
 Restart file script
 ^^^^^^^^^^^^^^^^^^^
@@ -295,7 +295,7 @@ Example of `Octahedron.vtk` with paraview:
 Writer Of MPIIO Files
 ^^^^^^^^^^^^^^^^^^^^^
 
-- Name: `write_dump_particles`
+- Name: `write_dump_particle_interaction`
 - Description: This operator writes a dump file with all particle information required to restart the simulation. See operator: @read_dump_particles.
 - Parameters:
    * `compression_level` Zlib compression level.
