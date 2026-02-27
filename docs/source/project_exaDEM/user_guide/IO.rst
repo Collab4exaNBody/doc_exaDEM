@@ -82,7 +82,7 @@ Reader Of MPIIO File
 - Description: This operator reads a dump file with all particle information required to restart the simulation. See operator: @write_dump_particles
 - Parameters:
    * `filename` : Dump file name to read.
-   * `bounds` : If set, override the domain's bounds, filtering out particles outside of overriden bounds (AABB = [[infx, infy, infz],[supx, supy, supz]]).
+   * `bounds` : If set, override the domain's bounds, filtering out particles outside of overriden bounds (AABB = [[infx, infy, infz],[supx, supy, supz]]). If set to true and shrink_to_fit is true, try to reduce the domain's grid size to the minimum size enclosing fixed bounds.
    * `expandable` : If set, override domain expandability stored in file
    * `periodicity` : If set, overrides the domain's periodicity stored in a file with this value (ex: [false,true,false]).
    * `timestep` : If set, overrides the time iteration number.
