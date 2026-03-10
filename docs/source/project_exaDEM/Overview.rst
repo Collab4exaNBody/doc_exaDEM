@@ -106,6 +106,11 @@ The following table provides a glossary of features supported by ``ExaDEM``, cat
     - ✘
     - ✔
     - ✘
+  * - Fragmentation
+    - ✘
+    - ✘
+    - ✔
+    - ✔
 
 .. note::
 
