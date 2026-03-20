@@ -58,3 +58,70 @@ To retrieve data associated with a specific interaction between two spheres, the
 These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_sphere`` operator and subsequently processed in the ``contact_sphere`` operator.
 
 In summary, the ``exaDEM::Interaction`` class provides a crucial data structure for managing interactions between spheres and drivers within DEM simulations. By storing information such as cell numbers, positions, and interaction types, it enables precise modeling of physical interactions between simulated objects.
+
+Operators
+^^^^^^^^^
+
+randomize_radius
+~~~~~~~~~~~~~~~~
+
+The ``randomize_radius`` operator randomly modifies the radius of spherical
+particles and updates their physical properties accordingly.
+
+For each particle, a new radius is sampled from a Gaussian distribution
+centered on the current radius. The width of the distribution is controlled
+by the ``relative_deviation`` parameter. After the new radius is computed,
+the particle mass and inertia tensor are updated consistently assuming that
+the particle density remains constant.
+
+The radius variation is bounded in order to avoid unrealistic values.
+
+**Parameters**
+
+* ``relative_deviation`` (double, required)
+
+  Relative deviation applied to the particle radius.  
+  For example, ``0.2`` corresponds to a variation of approximately
+  :math:`\pm 20\%` around the current radius.
+
+* ``allow_exceed`` (bool, optional, default = true)
+
+  Controls whether the new radius is allowed to exceed the original radius.
+
+  * ``true``: the radius may increase or decrease within the allowed range.
+  * ``false``: the radius cannot become larger than the initial radius.
+
+* ``region`` (optional)
+
+  A ``ParticleRegionCSG`` definition used to restrict the operation to
+  particles belonging to a specific region.
+
+* ``particle_regions`` (optional)
+
+  Collection of particle regions used to evaluate the ``region`` expression.
+
+**Example**
+
+Basic usage:
+
+.. code-block:: yaml
+
+  - randomize_radius:
+      relative_deviation: 0.2
+
+Allowing the radius to increase beyond its initial value:
+
+.. code-block:: yaml
+
+  - randomize_radius:
+      relative_deviation: 0.2
+      allow_exceed: true
+
+Applying the operator only to a specific particle region:
+
+.. code-block:: yaml
+
+  - randomize_radius:
+      relative_deviation: 0.15
+      allow_exceed: true
+      region: my_region
