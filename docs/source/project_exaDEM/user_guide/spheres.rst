@@ -3,8 +3,10 @@ Spherical Particle
 
 In this section, we will describe the various information used to build simulations with sphererical particles. Note that ``exaDEM::Interaction`` and ``Shape`` are described in the section: Polyhedron.
 
-Interaction / Contact
-^^^^^^^^^^^^^^^^^^^^^
+.. _interaction_type_sphere:
+
+Spheres - Interaction / Contact
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types of interactions between spheres themselves and between spheres and ``drivers``. This class serves as a crucial component for identifying two elements within the data grid and characterizing the type of interaction between them. Note that, for the sake of consistency between the sphere and sphere sections, we use the same interaction structure, and that the type field that qualifies the nature of the interaction has the same values as for polyhedra. 
 

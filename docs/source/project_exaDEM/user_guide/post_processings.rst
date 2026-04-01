@@ -251,7 +251,7 @@ Paraview outputs:
 Dump Interaction Data
 ^^^^^^^^^^^^^^^^^^^^^
 
-This feature outputs the main information for each interaction. This feature has been implemented to enable post-simulation analysis.  
+This feature outputs the main information for each interaction, for more information as interaction type see :ref:`interaction_type_poly` or :ref:`interaction_type_sphere`. This feature has been implemented to enable post-simulation analysis.  
 An option has been added to the contact_polyhedron and contact_sphere operators to output interaction data as a CSV file. To activate it, simply modify the value of ``analysis_interaction_dump_frequency`` in the operator block ``global``. 
 
 Output files are located in the `ExaDEMOutputDir/ExaDEMAnalysis` folder. For each iteration (XXX) with file writing, a folder containing an interaction file is created, such as:  `Interaction_XXX/Interaction_XXX_MPIRANK.txt`.

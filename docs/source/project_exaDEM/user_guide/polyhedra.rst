@@ -212,9 +212,10 @@ YAML Example:
    :align: center
    :width: 300pt
 
+.. _interaction_type_poly:
 
-Interaction / Contact
-^^^^^^^^^^^^^^^^^^^^^
+Polyhedra - Interaction / Contact
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types of interactions between polyhedra and between polyhedra and ``drivers``. This class serves as a crucial component for identifying two elements within the data grid and characterizing the type of interaction between them.
 

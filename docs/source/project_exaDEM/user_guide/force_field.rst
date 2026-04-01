@@ -332,6 +332,7 @@ Here are 4 examples with YAML:
       config_driver: { dncut: 0.1 m, kn: 10000, kt: 10000, kr: 0.1, fc: 0.05, mu: 0.3, damp_rate: 0.9}
 
 .. code-block:: yaml
+
   - contact_singlemat_sphere_hooke_dmt:
      config: { kn: 1000, kt: 1000, kr: 0.1,mu: 0.2, damp_rate: 0.9, gamma: 10.}
      config_driver: { kn: 1000, kt: 800, kr: 0.1,mu: 0.5, damp_rate: 0.9, gamma: 10.}
@@ -387,7 +388,7 @@ The following examples illustrate the definition of contact parameters for two p
 types (**Type1**, **Type2**) and a driver identified by **0**.
 
 Particle-Particle
-^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~
 
 * **Operator Name:** ``multimat_contact_params``
 * **Description:** This operator defines the contact law parameters between different particle types.
@@ -446,7 +447,7 @@ With `default_config`:
 A complete example is available (please report if the link does not work): `rotating-multimat.msp <https://github.com/Collab4exaNBody/exaDEM/blob/main/example/polyhedra/multimat/rotating-multimat.msp>`_
 
 Particle-Driver
-^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~
 
 * **Operator Name:** ``drivers_contact_params``
 * **Description:** This operator defines the contact law parameters between particles and drivers.
@@ -495,7 +496,7 @@ External Forces
 External forces are additional influences acting on particles within the simulation environment, originating from sources outside the particle system itself. These forces can include environmental factors like wind, fluid flow, or magnetic fields, as well as user-defined forces applied to specific particles or regions.
 
 Gravity Operator
-^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~
 
 Formula:
 
@@ -523,7 +524,7 @@ With **f** the forces, m the particle mass, and **g** the gravity constant.
 
 
 Quadratic Drag Force
-^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~
 
 Formula:
 
@@ -553,7 +554,7 @@ With **f** the particle forces, cx the aerodynamic coefficient, and \\(\\mu\\) t
       mu: 0.0000015
 
 Fluid Grid Force
-^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~
 
 * Operator Name: ``sphere_fluid_friction``
 * Description: External forces that model a fluid computed from a grid such as: f = ||fv - pv|| 
