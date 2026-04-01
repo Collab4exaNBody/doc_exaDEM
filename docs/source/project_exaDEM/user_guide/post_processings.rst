@@ -259,11 +259,11 @@ Output files are located in the `ExaDEMOutputDir/ExaDEMAnalysis` folder. For eac
 For each interaction, we write:
 
 - The particle identifier i [uint64_t],
-- The particle identifier j [uint64_t],
+- The particle identifier j or driver identifier [if type in [4,12]]] [uint64_t],
 - The sub-identifier of the particle i [int], 
 - The sub-identifier of the particle j [int],
 - The interaction type [int <= 13],
-- The deflection / overlap [double <= 0],
+- The deflection / overlap [double <= 0, > 0 if contact type = "cohesion"],
 - The contact position [Vec3d], 
 - The normal force [Vec3d], 
 - The tangential force [Vec3d],
