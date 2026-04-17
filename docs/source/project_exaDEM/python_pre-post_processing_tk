@@ -1,6 +1,10 @@
 Python pre/post processing toolkit
 =========
 
+The python scripts files can be found in the ``scripts`` folder.
+
+Overview
+-------------------
 The exaDEM/script folder provides a collection of Python scripts dedicated to pre-processing and post-processing tasks for exaDEM simulations.
 Its goal is to streamline the preparation of input data and the analysis of simulation outputs.
 
