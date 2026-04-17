@@ -135,9 +135,20 @@ Inputs
 - particle files:
   - ``*.xyz`` (DEM snapshots)
   - format: position, velocity, cluster id, etc.
+  - generated in ExaDEM datasets by : 
+  .. code-block::
+     analyses:
+     - timestep_file: "OutputRockableTestDir/ExaDEMAnalyses/dem_pos_vel_%09d.xyz"
+     - write_xyz:
+        fields: [ id, velocity, fx, fy, fz, vrot, arot, cluster, mass ]
 
 - interaction files:
   - ``InteractionOutputDir-*/InteractionOutputDir-*_0.txt``
+  - generated in ExaDEM datasets by : 
+  .. code-block::
+    global:
+      symetric: true
+      analysis_interaction_dump_frequency: 500
 
 Outputs
 ^^^^^^^^
