@@ -136,7 +136,9 @@ Inputs
   - ``*.xyz`` (DEM snapshots)
   - format: position, velocity, cluster id, etc.
   - generated in ExaDEM datasets by : 
-  .. code-block::
+
+  .. code-block:: yaml
+
      analyses:
      - timestep_file: "OutputRockableTestDir/ExaDEMAnalyses/dem_pos_vel_%09d.xyz"
      - write_xyz:
@@ -145,7 +147,9 @@ Inputs
 - interaction files:
   - ``InteractionOutputDir-*/InteractionOutputDir-*_0.txt``
   - generated in ExaDEM datasets by : 
-  .. code-block::
+
+  .. code-block:: yaml
+
     global:
       symetric: true
       analysis_interaction_dump_frequency: 500
