@@ -1,11 +1,12 @@
 Python pre/post processing toolkit
-=========
+==================================
 
 The python scripts files can be found in the ``scripts`` folder.
 
 Overview
--------------------
-The exaDEM/script folder provides a collection of Python scripts dedicated to pre-processing and post-processing tasks for exaDEM simulations.
+--------
+
+The ``exaDEM/script`` folder provides a collection of Python scripts dedicated to pre-processing and post-processing tasks for exaDEM simulations.
 Its goal is to streamline the preparation of input data and the analysis of simulation outputs.
 
 The project is organized into two main components: 
@@ -18,7 +19,7 @@ The command (``source /scripts/setenv.sh``) automatically configures the ``PYTHO
 Once the environment is sourced, users can run the scripts from any location while still accessing the project’s modules.
 
 Pre-processing
------------------
+--------------
 
 The pre-processing tools are responsible for generating simulation-ready input files from geometric or mesh-based representations.
 
@@ -58,13 +59,13 @@ Workflow
    - Rockable configuration file (`_sticked.conf`)
 
 Inputs
-^^^^^^^^
+^^^^^^
 - ``input.tess`` (Neper tessellation file)
 - ``radius`` (float)
   - particle radius used for erosion and stick distance
 
 Outputs
-^^^^^^^^
+^^^^^^^
 - ``output.shp``
 
   - Rockable-compatible geometry file
@@ -81,13 +82,14 @@ Outputs
     - stickVerticesInClusters parameter
 
 Command line usage
-^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 .. code-block:: bash
 
    python tess2rockable.py input.tess 0.1 output.shp
 
 Physical assumptions
-^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
+
 - Cells are assumed to behave as rigid polyhedra
 - Erosion ensures no overlap between particles
 - Contact behavior is governed by Rockable's ``StickedLinks`` law
@@ -95,12 +97,12 @@ Physical assumptions
 
 
 Post-processing
--------------------------------------
+---------------
 
 The post-processing tools are used to analyze DEM simulation outputs and extract physical quantities such as stress tensors, strains, and boundary forces.
 
 compute_clusters_stresses_tensors.py
-~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Overview
 ^^^^^^^^
@@ -143,7 +145,7 @@ For each simulation timestep:
    - strain computed as relative variation
 
 Inputs
-^^^^^^^^
+^^^^^^
 - particle files:
 
   - ``*.xyz`` (DEM snapshots)
@@ -169,7 +171,8 @@ Inputs
       analysis_interaction_dump_frequency: 500
 
 Outputs
-^^^^^^^^
+^^^^^^^
+
 - ``clusters_stresses_tensor.txt``
 
   Time series of stress tensors per cluster:
@@ -187,7 +190,8 @@ Outputs
      time delta_x delta_y delta_z eps_x eps_y eps_z Fx Fy Fz
 
 Command line usage
-^^^^^^^^
+^^^^^^^^^^^^^^^^^^
+
 .. code-block:: bash
 
    python compute_clusters_stresses_tensors.py --dir . --density 2500
@@ -199,7 +203,8 @@ Arguments:
 
 
 Physical meaning
-^^^^^^^^
+^^^^^^^^^^^^^^^^
+
 - Stress tensor:
 
   - computed from contact force moments
@@ -216,9 +221,6 @@ Physical meaning
   - gives global deformation of the granular assembly
 
 Limitations
-^^^^^^^^
+^^^^^^^^^^^
+
 - Assumes correct pairing between `.xyz` and interaction files
-
-
-
-

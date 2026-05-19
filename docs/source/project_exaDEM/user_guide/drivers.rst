@@ -2,6 +2,7 @@ Drivers
 =======
 
 This section provides an overview of the ``drivers`` implemented in ``ExaDEM``, followed by a detailed description of each ``driver`` integrated into the system.
+In addition, this section presents the ``driver-extractor`` tool (see :ref:`driver_extractor_section`), which makes it possible to output field values.
 
 Quick Overview of Drivers
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -849,6 +850,156 @@ Output example:
   Number of vertices : 31647
   =================================================================
 
+.. _driver_extractor_section:
+
+Driver Extractor
+^^^^^^^^^^^^^^^^
+
+The ``driver extractor`` tool is used to retrieve specific quantities related to drivers in an output file. To do so, trackers are added and identified by the driver ID and the field that should be recorded.
+
+The use of this tool is integrated into the default ``exaDEM`` workflow; however, if no tracker has been defined, it remains inactive and performs no operation.
+
+Tracker Dictionnary
+-------------------
+
+The ``driver extractor`` provides a set of predefined trackable fields that can be recorded for each driver during a simulation. These fields correspond to the main kinematic and dynamic quantities associated with the driver state. Each field is identified by a string key and associated with a specific data type.
+
+The full list of available trackable fields is given below:
+
+.. list-table:: Trackable driver fields
+   :header-rows: 1
+   :widths: 20 20 40
+
+   * - Name
+     - Type
+     - Description
+   * - type
+     - int
+     - Driver type identifier
+   * - rx
+     - double
+     - Position component along the x-axis
+   * - ry
+     - double
+     - Position component along the y-axis
+   * - rz
+     - double
+     - Position component along the z-axis
+   * - vx
+     - double
+     - Linear velocity component along the x-axis
+   * - vy
+     - double
+     - Linear velocity component along the y-axis
+   * - vz
+     - double
+     - Linear velocity component along the z-axis
+   * - vrotx
+     - double
+     - Angular velocity component around the x-axis
+   * - vroty
+     - double
+     - Angular velocity component around the y-axis
+   * - vrotz
+     - double
+     - Angular velocity component around the z-axis
+   * - fx
+     - double
+     - Force component along the x-axis
+   * - fy
+     - double
+     - Force component along the y-axis
+   * - fz
+     - double
+     - Force component along the z-axis
+   * - momx
+     - double
+     - Torque component around the x-axis
+   * - momy
+     - double
+     - Torque component around the y-axis
+   * - momz
+     - double
+     - Torque component around the z-axis
+
+Adding a driver tracker
+------------------------
+
+Trackers are used by the driver extractor to record specific fields associated with selected drivers during a simulation. Each tracker is defined by a driver identifier (`id`) and a list of fields to be extracted for that driver.
+
+If no tracker is registered, the driver extractor remains inactive and produces no output.
+
+Configuration is done through the `register_driver_extractor` operator as shown below:
+
+.. code-block:: yaml
+
+   setup_drivers:
+     ...
+     
+   input_data:
+     - register_driver_extractor:
+        trackers:
+          - id: 2
+            fields: [vroty, fx, fy, fz, momy]
+          - id: 0
+            fields: [fy]
+          - id: 1
+            fields: [fy]
+         verbosity: true
+
+The `id` field corresponds to the unique identifier of the driver. The `fields` list specifies which quantities (see Trackable fields section) will be recorded for this driver.
+
+When `verbosity` is enabled, the extractor prints additional information about the registered trackers during initialization, which can be useful for debugging and verification.
+
+In addition, ``exaDEM`` displays the `driver extractor` after the initialization step:
+
+.. code-block:: text
+
+  ======= Driver Extractor ========
+  Tracked Driver Id: 2 | Fields: [ vroty fx fy fz momy ]
+  Tracked Driver Id: 0 | Fields: [ fy ]
+  Tracked Driver Id: 1 | Fields: [ fy ]
+  =================================
+
+
+Output format
+--------------
+
+The driver extractor writes its results to a single text file located at:
+
+``DriverExtractor/data.txt``
+
+This file contains a tabular time history of all requested tracker fields. Each column follows the naming convention:
+
+``field_driverId``
+
+where `field` is the tracked quantity name and `driverId` is the identifier of the corresponding driver.
+
+The first column of the file is always the physical simulation time (`time`), which is included automatically regardless of the registered trackers.
+
+An example of the generated output file is shown below:
+
+.. code-block:: text
+
+   time vroty_2 fx_2 fy_2 fz_2 momy_2 fy_0 fy_1
+   0.000500 0.250000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+   0.005000 0.250000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+   0.010000 0.250000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+   0.015000 0.250000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+   0.020000 0.250000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000
+   ...
+   9.980000 0.250000 -5.379081 -0.862643 -81.987323 -85.784585 19.196276 -17.884607
+   9.985000 0.250000 -8.693555 -0.686199 -81.536812 -70.726712 20.135705 -16.727052
+   9.990000 0.250000 -7.350304 -0.607916 -82.138185 -77.959601 20.321566 -17.626298
+   9.995000 0.250000 -9.204748 -0.436030 -82.881255 -78.163145 21.723900 -17.480386
+   10.000000 0.250000 -10.570360 -0.150192 -83.541703 -75.363659 21.616698 -16.890325
+
+.. note::
+
+  - Each registered tracker contributes one or more columns to the output file.
+  - Columns are ordered according to the registration sequence of trackers and fields.
+  - Missing or inactive drivers will result in zero-valued or unchanged outputs depending on the simulation state.
+  - The time column corresponds to the physical simulation time, not the iteration index.
 
 Advanced Operators
 ^^^^^^^^^^^^^^^^^^
@@ -921,4 +1072,3 @@ YAML example:
 .. code:: yaml
 
   - driver_displ_over
-
