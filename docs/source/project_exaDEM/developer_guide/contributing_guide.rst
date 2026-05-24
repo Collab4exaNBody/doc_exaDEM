@@ -45,7 +45,24 @@ Feature requests are welcome. But take a moment to find out whether your idea fi
 Style
 -----
 
-This project is formatted with clang-format using the style file at the root of the repository. Please run clang-format before sending a pull request.
+This project is formatted with clang-format using the Google style with ColumnLimit: 120 file. Please run clang-format before sending a pull request.
+
+If you use vscode, please add to your settings.json file:
+
+.. code-block:: json
+  
+  {
+      "clang-format.style": "{BasedOnStyle: Google, ColumnLimit: 120}",
+      "C_Cpp.errorSquiggles": "disabled",
+      "files.associations": {
+          "*.cu": "cpp",
+          "*.hpp": "cpp"
+      },
+      "[cpp]": {
+          "editor.defaultFormatter": "xaver.clang-format",
+          "editor.formatOnSave": true
+      },
+  }
 
 Commit messages should be in the imperative mood, as described in the Git contributing file:
 
