@@ -576,7 +576,121 @@ With `fv` the fluid velocity, `pv` the particle velocity, `r` the particle radiu
 Inner Bond Forces
 -----------------
 
-Some words:
+Description
+~~~~~~~~~~~
 
-- Interaction type = 13
-- Parameters: kn, kt, damprate, g
+The ``inner_bond_force`` law models a **cohesive bond** between two contacting
+polyhedron faces, combining a linear elastic + viscous **normal** force, a
+linear elastic **tangential** force accumulated over the contact history, and
+a **fracture criterion** that breaks the bond once the stored elastic energy
+exceeds a material-dependent threshold.
+
+With overlap :math:`\delta = d_n - d_{n0}` and relative normal velocity :math:`v_n`:
+
+.. math::
+
+   f_n &= -k_n\, w\, \delta + \gamma\, v_n \\
+   f_t &= w\, k_t\, \mathbf{t_{ds}}
+
+where :math:`w` is the per-interaction weight and :math:`\gamma` is the
+viscous damping coefficient derived from ``damp_rate``. The stored elastic
+energies (tension only) are:
+
+.. math::
+
+   E_n &= \tfrac12\, w\, k_n\, \delta^2 \\
+   E_t &= \tfrac12\, w\, k_t\, \lVert \mathbf{t_{ds}} \rVert^2
+
+Parameters
+~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 10 78
+
+   * - Name
+     - Unit
+     - Description
+   * - ``kn``
+     - force/length
+     - Normal stiffness coefficient.
+   * - ``kt``
+     - force/length
+     - Tangential stiffness coefficient.
+   * - ``damp_rate``
+     - dimensionless
+     - Normal damping ratio.
+   * - ``g``
+     - energy/area
+     - **MixedMode** fracture energy release rate. Mutually exclusive with
+       ``gn``/``gt``. Breaks when :math:`E_n + E_t > 2\,A\,g`.
+   * - ``gn``
+     - energy/area
+     - **SeparateModes** normal fracture energy release rate (requires ``gt``).
+       Breaks when :math:`E_n > 2\,A\,g_n`.
+   * - ``gt``
+     - energy/area
+     - **SeparateModes** tangential fracture energy release rate (requires ``gn``).
+       Breaks when :math:`E_t > 2\,A\,g_t`.
+
+.. note::
+
+   Exactly one fracture mode must be configured: ``g`` alone (MixedMode), or
+   ``gn`` together with ``gt`` (SeparateModes). Mixing the two, or omitting
+   both, is rejected at parsing time.
+
+Usage
+~~~~~
+
+Single material, mixed-mode fracture:
+
+.. code-block:: yaml
+
+   inner_bond_params:
+     kn: 10000 N/m
+     kt: 8000 N/m
+     damp_rate: 0.1
+     g: 5.0 J/m^2
+
+Single material, separate-mode fracture:
+
+.. code-block:: yaml
+
+   inner_bond_params:
+     kn: 10000 N/m
+     kt: 8000 N/m
+     damp_rate: 0.1
+     gn: 5.0 J/m^2
+     gt: 2.0 J/m^2
+
+Multi-material simulations use the ``inner_bond_params`` operator with one
+entry per ``(mat1[p], mat2[p])`` pair in parallel arrays:
+
+.. code-block:: yaml
+
+   - inner_bond_params:
+      mat1:      [  Type1, Type1, Type2 ]
+      mat2:      [  Type1, Type2, Type2 ]
+      kn:        [   5000, 10000, 15000 ]
+      kt:        [   4000,  8000, 12000 ]
+      damp_rate: [  0.999, 0.999, 0.999 ]
+      gn:        [   1e-5,  1e-5,  1e-5 ]
+      gt:        [   1e-5,  1e-5,  1e-5 ]
+
+   # or, mixed mode for every pair:
+   - inner_bond_params:
+      mat1:      [  Type1, Type2 ]
+      mat2:      [  Type1, Type2 ]
+      kn:        [   5000, 15000 ]
+      kt:        [   4000, 12000 ]
+      damp_rate: [  0.999,  0.999 ]
+      g:         [   1e-5,   1e-5 ]
+
+See also
+~~~~~~~~
+
+- ``stick_polyhedra`` — builds the inner-bond interactions and computes the
+  fracture criterion's area term per bonded face.
+- ``apply_interface_fracture_criterion`` — applies the configured rupture
+  mode (mixed or separate) to decide whether a bonded interface breaks.
+
