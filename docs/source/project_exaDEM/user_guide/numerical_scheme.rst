@@ -199,7 +199,7 @@ Combined Prolog
 ---------------
 
 * Operator Name: ``combined_compute_prolog``
-* Description: This is an operator that combined 3 operators:
+* Description: This is an operator that combines 3 operators:
 
   * push_f_v_r
   * push_f_v
@@ -219,7 +219,7 @@ Combined Epilog
 ---------------
 
 * Operator Name: ``combined_compute_epilog``
-* Description: This is an operator that combined 3 operators:
+* Description: This is an operator that combines 3 operators:
 
   * push_to_angular_accelaration
   * push_angular_velocity

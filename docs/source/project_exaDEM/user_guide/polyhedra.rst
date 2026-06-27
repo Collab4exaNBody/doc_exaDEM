@@ -281,11 +281,11 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
      - Contact between a vertex of a RShape Driver and a face of a polyhedron
    * - 13
      - Inner Bond
-     - Contact inner a grain composed of fragments (polyhedra)
+     - Contact within a grain composed of fragments (polyhedra)
 
 **Interaction Class Usage:**
 
-To retrieve data associated with a specific interaction between two polyhedra, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. These informations are then used within simulation computations to accurately model interactions between polyhedra, considering the interaction type.
+To retrieve data associated with a specific interaction between two polyhedra, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. This information is then used within simulation computations to accurately model interactions between polyhedra, considering the interaction type.
 
 These interactions are used as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_polyhedron`` operator and subsequently processed in the ``contact_polyhedron`` operator.
 

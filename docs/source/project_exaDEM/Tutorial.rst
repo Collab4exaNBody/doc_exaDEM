@@ -180,7 +180,7 @@ Picture at the end of the first step:
    :width: 600pt
 
 
-The step 2 consists of waiting for the deposit to be finished from timestep 1,200,000 (12s) to 1,400,000 (14s). 
+Step 2 consists of waiting for the deposit to be finished from timestep 1,200,000 (12s) to 1,400,000 (14s).
 
 First, load the snapshot at time step 1,200,000 and disable generation. It's important not to forget to define the cutoff radius for the hexapods used with the operator `polyhedra_define_radius` for building the Verlet lists.
 
@@ -210,7 +210,7 @@ Picture at the end of the second step, the deposit is stable (i.e. no velocity):
 .. image:: ../_static/ExaDEM/step2-end.png
    :width: 600pt
 
-Step 3 consists og running the rotating drum simulation from timestep 1,400,000 (14s) to 5,000,000 (50s). 
+Step 3 consists of running the rotating drum simulation from timestep 1,400,000 (14s) to 5,000,000 (50s).
 
 Initiate motion of your drum. You can determine the angular velocity using the Froude number and deduce the angular velocity from it. Fr = w^2 * R / g or w = sqrt(Fr * g / R). In our case, we desire a cascading behavior with a Froude number of 0.2, w = sqrt( 0.2 * 9.81 / 16 ) = 0.350178526 ~= 0.35 rad.s-1. 
 
@@ -302,7 +302,7 @@ To add it, define it in the `input_data` operator. We also add particles using t
         region: CYL1 and BOX 
     - init_fields:
 
-In simulations with exaDEM, you need to define a simulation domain, which can be expanded later if necessary if you specify expandable: true and the boundary condition is not periodic. It is very important that cell size, grid dimensions, and simulation box are consistent.
+In simulations with exaDEM, you need to define a simulation domain, which can be expanded later if necessary, if you specify expandable: true and the boundary condition is not periodic. It is very important that cell size, grid dimensions, and simulation box are consistent.
 
 .. code-block:: yaml
 

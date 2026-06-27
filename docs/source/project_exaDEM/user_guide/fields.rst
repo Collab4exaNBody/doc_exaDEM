@@ -15,7 +15,7 @@ Unified Field Operators
 * Parameters ``REQUIRED``:
    * [bool] `polyhedra`: Define if the kind of particles is polyhedron or sphere.
    * [std::vector<string>] `type`: Particle type names.
-* Paramters ``OPTIONAL``:
+* Parameters ``OPTIONAL``:
    * [std::vector<double>] `density`: List of density values. If not defined, density is 1.
    * [std::vector<double>] `radius`: List of radius values. If not defined, radius is 0.5 for spheres, do not define it for polyhedra.
    * [std::vector<Vec3d>] `velocity`: List of velocity values. If not defined, velocity is [0,0,0].
@@ -100,7 +100,7 @@ This repertory plugin only provides operators for modifying fields, especially a
    * [double] `var_arot` (variance), default = 0
    * [Vec3d] `mean_arot` (mean), default = {0,0,0}
    * [Vec3d] `mean_vrot` (mean), default = {0,0,0}
-   * Comment : This operator set the angular acceleration and velocity using a normal distribution
+   * Comment : This operator sets the angular acceleration and velocity using a normal distribution
 * ``set_rand_velocity``:
    * [double] `var` (variance), default = 0
    * [Vec3d] `mean`, default = {0,0,0}

@@ -5,10 +5,10 @@ You can explore various basic test cases located in the `example` directory. The
 
 If you would like to view your test cases with paraview, here are some instructions:
 
-- For spheres, please use one of this two options:
+- For spheres, please use one of these two options:
 
   - "Point Gaussian" and adjust the radius (one type)
-  - Select "Use Scale Array" and select radius as "Gaussian Scale Array" while unselect "Use Scale Transfert Function" and put the field "Gaussian Radius" to 1.
+  - Select "Use Scale Array" and select radius as "Gaussian Scale Array" while unselecting "Use Scale Transfer Function" and put the field "Gaussian Radius" to 1.
 
 - For polyhedra: 
 
@@ -68,7 +68,7 @@ A DEM simulation of a set of spheres in a periodic rotating drum. Through this s
     - 1 minute and 13 seconds on 8 cores (OpenMP)
 
 
-  - third test case: ``example/spheres/rotating-drum/rotating-periodic-cohesion.msp``
+  - Third test case: ``example/spheres/rotating-drum/rotating-periodic-cohesion.msp``
 
     - 1,200 particles
     - 30,000 timesteps
@@ -225,7 +225,7 @@ A second example, available in ``example/spheres/rsa/rsa_vol_frac.msp``, demonst
 
 .. note::
 
-  ``rsa`` is an optional package, please see installation guildelines to add it.
+  ``rsa`` is an optional package, please see installation guidelines to add it.
 
 
 +--------------------------+--------------------------+
@@ -275,7 +275,7 @@ This example tests the mirror conditions available in exaNBody. Although these c
 
   - 33,120 particles
   - 5,000 timesteps
-  - 21.8 seconds on 8 core (OpenMP)
+  - 21.8 seconds on 8 cores (OpenMP)
 
 .. |ex11start| image:: ../_static/ExaDEM/mirror_start.png
    :width: 250pt
@@ -332,16 +332,16 @@ In this DEM simulation, we observe the dynamics of 125 octahedra as they descend
 
     - 125 Octahedra
     - 10,000 timesteps
-    - 1 second on 8 core (OpenMP)
+    - 1 second on 8 cores (OpenMP)
 
   - The second example: ``example/polyhedra/rotating_drum/rotating-drum-mixte.msp``
 
     - 27,000 Octahedra and 27,000 Hexapods
     - 100,000 timesteps
-    - 41 minutes and 36 on 8 cores (OpenMP)
+    - 41 minutes and 36 seconds on 8 cores (OpenMP)
     - 6 minutes and 31 seconds on a100 (100,000 timesteps) with `rcut_inc = 0.4`
     - 11 minutes and 24 seconds on a100 (200,000 timesteps) with `rcut_inc = 0.4` (The stage where the particles fall is costly, as the particles are quickly moved from one cell to another, and the reconstruction of neighbor lists (on the CPU) is also costly.)
-    - The pictures corespond to the simulation after 1,000,000 timesteps
+    - The pictures correspond to the simulation after 1,000,000 timesteps
 
   - Other example: ``example/polyhedra/rotating_drum/rotating-drum.msp``
 
@@ -437,9 +437,9 @@ This simulation example illustrates the use of STL files with polyhedra. In this
 
     - 7,344 Hexapods
     - 50,000 timesteps
-    - 2 mintes and 19 seconds on 8 cores (OpenMP)
+    - 2 minutes and 19 seconds on 8 cores (OpenMP)
 
-  - Second example:``example/polyhedra/stl_mesh/stl_mesh_box_octahedron.msp``
+  - Second example: ``example/polyhedra/stl_mesh/stl_mesh_box_octahedron.msp``
 
     - 2,430 Octahedra
     - 50,000 timesteps
@@ -513,13 +513,13 @@ In this simulation, two shapes are selected: PolyR and Octahedron. Each shape is
 
   - FCC: ``example/polyhedra/rescale_shape/scale_2_shapes_fcc.msp``
 
-    - 2,144 polyhedra or 536 polyhedra of each types
+    - 2,144 polyhedra or 536 polyhedra of each type
     - 1,000,000 timesteps
     - 1 hour and 23 minutes on 12 cores (OpenMP)
 
   - RSA: ``example/polyhedra/rescale_shape/scale_2_shapes_rsa.msp``
 
-    - 3,698 polyhedra, the volume fraction used for every types is 0.055
+    - 3,698 polyhedra, the volume fraction used for every type is 0.055
     - 1,000,000 timesteps
     - 38 minutes on 12 cores (OpenMP)
 
@@ -554,14 +554,14 @@ This simulation demonstrates the fragmentation capability. The test case conside
 
 - Input files:
 
-  - With Crakling: ``example/polyhedra/fragmentation/two_fragments_break.msp``
+  - With Crackling: ``example/polyhedra/fragmentation/two_fragments_break.msp``
 
     - 2 fragments
     - 1,800,000 timesteps
     - 84 seconds on 1 core
 
 
-  - No Crakling: ``example/polyhedra/fragmentation/two_fragments_unbreak.msp``
+  - No Crackling: ``example/polyhedra/fragmentation/two_fragments_unbreak.msp``
 
     - 2 fragments
     - 1,800,000 timesteps
@@ -584,7 +584,7 @@ This simulation demonstrates the fragmentation capability. The test case conside
 Example 8: Impact of a Sphere
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This simulation reproduces the impact of a high-speed projectile on a wall composed of cubic particles. These particles are linked by cohesive interactions (springs) between the vertices of their faces. The wall is placed on a surface with a high friction coefficient to prevent it from shifting. This simulation also incorporates a periodic boundary condition along the direction of the wall
+This simulation reproduces the impact of a high-speed projectile on a wall composed of cubic particles. These particles are linked by cohesive interactions (springs) between the vertices of their faces. The wall is placed on a surface with a high friction coefficient to prevent it from shifting. This simulation also incorporates a periodic boundary condition along the direction of the wall.
 
 - Input files: ``exaDEM/example/polyhedra/basic_shape/impact_with_frag.msp``
 
@@ -637,7 +637,7 @@ Simulation of 48,000 spheres on a rotating drum after reading an .stl file. This
    :align: center
 
 
-Simulation of 140,000 spheres falling into a cell. A blade is then activated with rotational and translational motion. A This simulation takes around 4-5 days on a single node of 32 cores. A tutorial is available with polyhedra in the tutorial section.
+Simulation of 140,000 spheres falling into a cell. A blade is then activated with rotational and translational motion. This simulation takes around 4-5 days on a single node of 32 cores. A tutorial is available with polyhedra in the tutorial section.
 
 .. image:: ../_static/pale-0.5.gif
    :align: center

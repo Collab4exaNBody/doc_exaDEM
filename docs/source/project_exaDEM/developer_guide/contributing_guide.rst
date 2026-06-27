@@ -11,9 +11,9 @@ Following these guidelines helps to communicate that you respect the time of the
 Using the issue tracker
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-The issue tracker is the preferred channel for bug reports, features requests and submitting pull requests, but please respect the following restrictions:
+The issue tracker is the preferred channel for bug reports, feature requests and submitting pull requests, but please respect the following restrictions:
 
-- Please do not use the issue tracker for personal support requests, open a "discussion" so that others can benefit from the exchanges and answers (or contact directly the authors raphael.prat@cea.fr for very specific personal support requests).
+- Please do not use the issue tracker for personal support requests, open a "discussion" so that others can benefit from the exchanges and answers (or contact the authors directly at raphael.prat@cea.fr for very specific personal support requests).
 
 Bug reports
 ^^^^^^^^^^^
@@ -25,7 +25,7 @@ Guidelines for bug reports:
 
 - Use the GitHub issue search: check if the issue has already been reported.
 - Check if the issue has been fixed: try to reproduce it using the latest master or development branch in the repository.
-- Isolate the problem: ideally create a "[reduced test case].
+- Isolate the problem: ideally create a "[reduced test case]".
 - Tag your new issue with the label "bug".
 
 A good bug report shouldn't leave others needing to chase you up for more information. Please try to be as detailed as possible in your report. What is your environment? What steps will reproduce the issue? What compiler(s) and OS experience the problem? What would you expect to be the outcome? All these details will help people to fix any potential bugs.
@@ -45,7 +45,7 @@ Feature requests are welcome. But take a moment to find out whether your idea fi
 Style
 -----
 
-This project is formatted with clang-format using the Google style with ColumnLimit: 120 file. Please run clang-format before sending a pull request.
+This project is formatted with clang-format using the Google style with a ColumnLimit of 120. Please run clang-format before sending a pull request.
 
 If you use vscode, please add to your settings.json file:
 
@@ -84,7 +84,7 @@ If you are adding functionality, add non-regression tests accordingly.
 Pull request process
 ^^^^^^^^^^^^^^^^^^^^
 
-Given the size of the code, only one reviewer will be assigned to you. If the assignment time exceeds one or two weeks, please tag `rprat-pro` or `carrardt` in the conversion.
+Given the size of the code, only one reviewer will be assigned to you. If the assignment time exceeds one or two weeks, please tag `rprat-pro` or `carrardt` in the conversation.
 
-IMPORTANT: By submitting a patch, you agree to allow the project owners to license your work under the the terms of the Apache2.0 License.
+IMPORTANT: By submitting a patch, you agree to allow the project owners to license your work under the terms of the Apache2.0 License.
 

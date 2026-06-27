@@ -12,7 +12,7 @@ Repository: https://github.com/Collab4exaNBody/exadem-public-examples/tree/main/
 * Version tested: ``v1.1.6``
 * Particle type: cylinder
 * Driver type: Cylinder
-* Motion type: ``STATIONNARY`` with Rotation
+* Motion type: ``STATIONARY`` with Rotation
 
 
 .. figure:: ../_static/ex1_vel.gif
@@ -30,8 +30,8 @@ Repository: https://github.com/Collab4exaNBody/exadem-public-examples/tree/main/
 
 * Version tested: ``v1.1.6``
 * Particle type: Toupie
-* Drvier type: RShape
-* Motion type: ``STATIONNARY``
+* Driver type: RShape
+* Motion type: ``STATIONARY``
 
 
 .. figure:: ../_static/ex2_beyblades.gif
@@ -49,7 +49,7 @@ Repository: https://github.com/Collab4exaNBody/exadem-public-examples/tree/main/
 
 * Version tested: ``v1.2.0``
 * Particle type: Cube
-* Drvier type: RShape
+* Driver type: RShape
 * Motion type: ``PARTICLE``
 
 

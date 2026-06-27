@@ -1,7 +1,7 @@
 Spherical Particle
 ==================
 
-In this section, we will describe the various information used to build simulations with sphererical particles. Note that ``exaDEM::Interaction`` and ``Shape`` are described in the section: Polyhedron.
+In this section, we will describe the various information used to build simulations with spherical particles. Note that ``exaDEM::Interaction`` and ``Shape`` are described in the section: Polyhedron.
 
 .. _interaction_type_sphere:
 
@@ -55,7 +55,7 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 
 **Interaction Class Usage With Spheres:**
 
-To retrieve data associated with a specific interaction between two spheres, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. These informations are then utilized within simulation computations to accurately model interactions between spheres, considering the interaction type.
+To retrieve data associated with a specific interaction between two spheres, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. This information is then utilized within simulation computations to accurately model interactions between spheres, considering the interaction type.
 
 These interactions are utilized as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_sphere`` operator and subsequently processed in the ``contact_sphere`` operator.
 

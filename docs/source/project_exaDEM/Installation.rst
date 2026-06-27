@@ -68,7 +68,7 @@ To proceed with the installation, your system must meet the minimum prerequisite
 
    .. tab:: Ubuntu GPU
 
-      Please, select the correct compute capability for your ``GPU`` for ``DCMAKE_CUDA_ARCHITECTURES`` instead of 86 in this example.
+      Please select the correct compute capability for your ``GPU`` for ``DCMAKE_CUDA_ARCHITECTURES`` instead of 86 in this example.
 
       .. code-block:: bash
 
@@ -88,7 +88,7 @@ To proceed with the installation, your system must meet the minimum prerequisite
 
    .. tab:: TOPAZE GPU
 
-      Please, note that you need copy on topaze onika and exaNBody repository. You can load the ``YAML`` module such as ``module load yaml-cpp/`` and add this option to the ``cmake`` command: ``-DCMAKE_PREFIX_PATH=/ccc/products/yaml-cpp-0.6.3/system/default/``
+      Please note that you need to copy the onika and exaNBody repositories on topaze. You can load the ``YAML`` module such as ``module load yaml-cpp/`` and add this option to the ``cmake`` command: ``-DCMAKE_PREFIX_PATH=/ccc/products/yaml-cpp-0.6.3/system/default/``
 
       .. code-block:: bash
 
@@ -170,11 +170,11 @@ Run CMake to configure the ExaDEM build:
 
 .. warning::
 
-  Old version (<= 1.1.1) It's important to note that the maximum number of vertices per particle shape is set to 8 by default. To change this value, you can specify this number by adding: ``-DEXADEM_MAX_VERTICES=N``.
+  Old version (<= 1.1.1): It's important to note that the maximum number of vertices per particle shape is set to 8 by default. To change this value, you can specify this number by adding: ``-DEXADEM_MAX_VERTICES=N``.
 
 .. warning::
 
-    Please, do not forget to load the ``exaDEM`` environnement before running a job: `source bin/setup-env.sh`.
+    Please do not forget to load the ``exaDEM`` environment before running a job: `source bin/setup-env.sh`.
 
 This command will display all plugins and related operators. Example: 
 
@@ -261,7 +261,7 @@ Installing Spack
 Installing ExaDEM
 -----------------
 
-First get the ``spack`` repository in exaDEM directory and add it to spack. It contains two packages: ``exanbody`` and ``exadem``:
+First get the ``spack`` repository in the exaDEM directory and add it to spack. It contains two packages: ``exanbody`` and ``exadem``:
 
 .. code-block:: bash
 		

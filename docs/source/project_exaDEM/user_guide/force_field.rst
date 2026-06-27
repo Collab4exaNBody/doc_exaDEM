@@ -21,7 +21,7 @@ Here after are given the main laws available in exaDEM :
 +==============+================+====================================================================================================================================+
 | ``hooke``    | pure contact   | Default configuration : elastic linear normal force, normal viscosity force, Coulomb friction tangent force and rolling resistance |
 +--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
-| ``cohesive`` | Cohesive       | Addition of a normal cohesive force depending on the distance between particules                                                   |
+| ``cohesive`` | Cohesive       | Addition of a normal cohesive force depending on the distance between particles                                                    |
 +--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
 | ``dmt``      | Cohesive       | Addition of an adhesive law at contact to model Van der Waals force for hard particles                                             |
 +--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
@@ -52,7 +52,7 @@ The variables required to describe interactions are:
 | \\(\\delta_n\\) | The interpenetration / particle overlap |
 +-----------------+-----------------------------------------+
 
-Each kind of interaction also requires additionnal constants, reflecting for most of them mechanical properties:
+Each kind of interaction also requires additional constants, reflecting for most of them mechanical properties:
 
 +-----------------+--------------------------------------+
 | Constant        | Description                          |

@@ -16,7 +16,7 @@ The weight associated with each cell used for load distribution using the RCB me
 
    W_i=1+3.P_i+\sum_{j \in {0,...,N_i}}[F(I_i[j].type)]
 
-with :math:`W_i` the array of weights, ``i`` is the cell id, :math:`I_i` the interactions into the cell ``i`` , :math:`P_i` the number of particles into the cell ``i``, :math:`N_i` is the number of interactions, and ``F`` is the cost function associated to the interaction type.
+with :math:`W_i` the array of weights, ``i`` is the cell id, :math:`I_i` the interactions in the cell ``i`` , :math:`P_i` the number of particles in the cell ``i``, :math:`N_i` is the number of interactions, and ``F`` is the cost function associated to the interaction type.
 
 .. list-table:: F values
    :widths: 20 25 20
@@ -75,12 +75,12 @@ GPU Support
 Benchmarks
 ^^^^^^^^^^
 
-Balde - CPU (Polyhedron)
+Blade - CPU (Polyhedron)
 ------------------------
 
 Information:
 
-- Balde: {25,952 faces, 77,856 edges, 28,497 vertices}
+- Blade: {25,952 faces, 77,856 edges, 28,497 vertices}
 - Number of timesteps: 10,000
 - Number of polyhedra: 1,651,637
 - This benchmark is achieved by reproducing the tutorial simulation (Blade) with polyhedra 5 times smaller. See images below.
@@ -90,7 +90,7 @@ Information:
    - Node: bi-processor of skylake
    - Each processor has 24 cores 
    - Frequency: 2.7GHz
-   - until 16,384 core
+   - until 16,384 cores
 
 .. figure:: ../../_static/Bench/full.0031.png
    :scale: 70%
@@ -172,7 +172,7 @@ The performance of ``ExaDEM`` was evaluated using up to 256 cluster nodes, built
    :scale: 90%
    :align: center
 
-   Dem simulation of 100 million spheres in a rotating drum.
+   DEM simulation of 100 million spheres in a rotating drum.
 
 
 ExaDEM's performance is evaluated with a simulation of a rotating drum containing 100 million spherical particles, see the figure below. 
@@ -183,7 +183,7 @@ Additionally, the employed contact force model has a low arithmetic intensity, a
    :scale: 90%
    :align: center
 
-   Domain decomposition of 100,000 spheres into a rotating drum
+   Domain decomposition of 100,000 spheres in a rotating drum
 
 .. figure:: ../../_static/drum_dem_100M.png
    :scale: 70%

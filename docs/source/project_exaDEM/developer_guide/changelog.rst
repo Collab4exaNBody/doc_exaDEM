@@ -96,10 +96,10 @@ New Features:
 
    * Classifier for Interactions
 
-        - Introduced a classifier to categorize interactions and enhancing data organization.
+        - Introduced a classifier to categorize interactions and enhance data organization.
         - Provides improved management and processing of interaction data.
 
-   * Mirror Boundary Conditions from ExaNBody Are Availables
+   * Mirror Boundary Conditions from ExaNBody Are Available
 
         - Mirror boundary conditions to simulate reflections at domain boundaries.
 

@@ -45,7 +45,7 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
 Common Driver Parameters
 ------------------------
 
-Drivers share common parameters contained in the Driver_params class. These parameters are mainly used in the time integration scheme to detect the type of displacement. In the tables below, we describe the types of motion available by drivers and as well as a list of motions available on the driver:
+Drivers share common parameters contained in the Driver_params class. These parameters are mainly used in the time integration scheme to detect the type of displacement. In the tables below, we describe the types of motion available by drivers as well as a list of motions available on the driver:
 
 .. list-table:: Glossary Of Motion Types
    :widths: 25 25
@@ -134,7 +134,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✔
 
-For all these types of movement, the drivers adopt velocity Verlet integration time scheme. Below is a summary table showing how positions, forces or velocities are calculated according to the type of movement.
+For all these types of movement, the drivers adopt a velocity Verlet integration time scheme. Below is a summary table showing how positions, forces, or velocities are calculated according to the type of movement.
 
 
 
@@ -163,7 +163,7 @@ For all these types of movement, the drivers adopt velocity Verlet integration t
 
    .. tab:: ``COMPRESSIVE_FORCE``
 
-      For spheres (or Ball), we adapte the scalar adius value (radius (:math:`R`),  :math:`R_{velocity}`, :math:`R_{acceleration}`):
+      For spheres (or Ball), we adapt the scalar radius value (radius (:math:`R`),  :math:`R_{velocity}`, :math:`R_{acceleration}`):
 
       .. math::
 
@@ -674,7 +674,7 @@ Example to impose moment:
 
 This example is available at: ``exaDEM/example/polyhedra/imposed_driver_moment/driver_expr_mom.msp``. It corresponds to the example in the following section.
 
-Another example is available at: ``exaDEM/example/spheres/cylinder_stl`` and is funny variant of :ref:`test_case_cylinder_stl` .
+Another example is available at: ``exaDEM/example/spheres/cylinder_stl`` and is a funny variant of :ref:`test_case_cylinder_stl` .
 
 .. image:: ../../_static/cylinder_expr.gif
    :align: center
@@ -780,7 +780,7 @@ I/O Drivers
 
 An input/output system has been implemented primarily for drivers performing movements, such as a rigid surface compressing a sample or a blade rotating around an axis.
 
-The drivers' output is automatically triggered when the user sets the global variable: ``simulation_dump_frequency``. This command also allows particles and interactions to be stored in a separate file. The drivers are then saved in a file located at ``ExaDEMOutputDir/CheckpointFiles/driver_%010d.msp``, containing the drivers' information. In the case of an ``RShape`` driver, a shp file is added to the ``ExaDEMOutputDir/CheckpointFiles/`` directory, which contains the geometry of the ``RShape``.To restart the driver along with your simulation, simply include the ``.msp`` file containing the ``setup_driver`` operator block at the beginning of your restart file.
+The drivers' output is automatically triggered when the user sets the global variable: ``simulation_dump_frequency``. This command also allows particles and interactions to be stored in a separate file. The drivers are then saved in a file located at ``ExaDEMOutputDir/CheckpointFiles/driver_%010d.msp``, containing the drivers' information. In the case of an ``RShape`` driver, a shp file is added to the ``ExaDEMOutputDir/CheckpointFiles/`` directory, which contains the geometry of the ``RShape``. To restart the driver along with your simulation, simply include the ``.msp`` file containing the ``setup_driver`` operator block at the beginning of your restart file.
 
 YAML example: 
 
@@ -811,7 +811,7 @@ Output example:
 
 .. code-block:: bash
 
-  ==================== Driver Configuraions =======================
+  ==================== Driver Configurations =======================
   ===== Summary
   Drivers Stats
   Number of drivers: 3
@@ -859,7 +859,7 @@ The ``driver extractor`` tool is used to retrieve specific quantities related to
 
 The use of this tool is integrated into the default ``exaDEM`` workflow; however, if no tracker has been defined, it remains inactive and performs no operation.
 
-Tracker Dictionnary
+Tracker Dictionary
 -------------------
 
 The ``driver extractor`` provides a set of predefined trackable fields that can be recorded for each driver during a simulation. These fields correspond to the main kinematic and dynamic quantities associated with the driver state. Each field is identified by a string key and associated with a specific data type.
@@ -1017,7 +1017,7 @@ The purpose of this operator is to project the RShape (vertices, edges, and face
 
 .. note::
 
-  [1] This operator only projects the RShape driver onto the grid making up the MPI process subdomain. If the subdomain changes, the update must be forced (force_reset=0). 
+  [1] This operator only projects the RShape driver onto the grid making up the MPI process subdomain. If the subdomain changes, the update must be forced (force_reset=0).
   [2] If the RShape is stationary (v= null, vrot=null), the grid is not updated. This speeds up calculations when the RShape driver has many elements.
 
 YAML example: 

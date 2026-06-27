@@ -86,7 +86,7 @@ Reader Of MPIIO File
    * `expandable` : If set, override domain expandability stored in file
    * `periodicity` : If set, overrides the domain's periodicity stored in a file with this value (ex: [false,true,false]).
    * `timestep` : If set, overrides the time iteration number.
-   * `scale_cell_size` : If set, this option rescales cell size. Due to friction storage per cell, ou can only multiply this size by an integer (1,2,4, 8, ...) or divide it by a power of 1/(2^n) (0.5,0.25 ...).
+   * `scale_cell_size` : If set, this option rescales cell size. Due to friction storage per cell, you can only multiply this size by an integer (1,2,4, 8, ...) or divide it by a power of 1/(2^n) (0.5,0.25 ...).
    * `shrink_to_fit` : If set to true and bounds were specified, try to reduce the domain's grid size to the minimum size enclosing fixed bounds.
    * `enable_extra_data` : Read Interactions.
 
@@ -107,7 +107,7 @@ In the `scripts` folder, you have the option of using a script ``restart_templat
 
 Option:
 
-* `directory`: Output file path, the default path is `ExaDEMOutputDir`. Note that it should contains a subdirectory named: `CheckpointFiles` and this output file path is defined into the operator ``io_tree``.
+* `directory`: Output file path, the default path is `ExaDEMOutputDir`. Note that it should contain a subdirectory named: `CheckpointFiles` and this output file path is defined into the operator ``io_tree``.
 
 Example: 
 
@@ -137,7 +137,7 @@ Reader Of Rockable Files
 
 - Name: `read_conf_rockable`
 - Description: This operator reads a rockable output file. However, some lines are not processed by the reader, such as the contact law type or its parameters.
-- Paramters:
+- Parameters:
    * `bounds` This option defines the simulation domain. If not specified, the domain size is determined by the particle positions. Ex: [[0,0,0],[1,1,1]].
    * `filename` Dump file name to read.
    * `enlarge_bounds` Define a layer around the volume size. Default size is 0.
@@ -209,9 +209,9 @@ The purpose of this operator is to add shapes to a collection of shapes. This op
 
 * `read_shape_file` :
    * `filename`: Input file name, no default name.
-   * `scale_factor`: This option 'scale_factor' the input shapes. OBB, volume, vertices, and intertia are recomputed. Note that a vector of double should be provided. Example: scale_factor: [1.2,1,5.2].
+   * `scale_factor`: This option 'scale_factor' the input shapes. OBB, volume, vertices, and inertia are recomputed. Note that a vector of double should be provided. Example: scale_factor: [1.2,1,5.2].
    * `rename`: This option renames the input shapes. Note that a vector of string should be provided. Example: rename: [Shape1, Shape2, Shape3].
-   * `rescale_minskowski`: This option disable the rescaling of the minskowski radius.
+   * `rescale_minskowski`: This option disables the rescaling of the minskowski radius.
    * `verbosity`: It displays the typename and typeid.
 
 Warnings:
@@ -321,7 +321,7 @@ YAML example:
 
 .. note::
 
-  Only particles data are writen to use the rockable tool `see`.
+  Only particles data are written to use the rockable tool `see`.
 
 Writer Of XYZ Files
 ^^^^^^^^^^^^^^^^^^^

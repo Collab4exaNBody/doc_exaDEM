@@ -4,15 +4,15 @@ External Packages
 RSA_MPI package
 ---------------
 
-``RSA MPI`` is a HPC library dedicated to generating random configurations non-intersecting balls, with an unbiased the RSA algorithm. The sequential strategy based on Ebeida et al, 2012. This strategy has been extended to the MPI framework, as decribed in this paper "Parallel and bias-free RSA algorithm for~maximal Poisson-sphere sampling, Josien & Prat (in preparation)".
+``RSA MPI`` is an HPC library dedicated to generating random configurations of non-intersecting balls, with an unbiased RSA algorithm. The sequential strategy is based on Ebeida et al, 2012. This strategy has been extended to the MPI framework, as described in this paper "Parallel and bias-free RSA algorithm for~maximal Poisson-sphere sampling, Josien & Prat (in preparation)".
 
 
 * Operator name: ``rsa_rnd_rad``
 * Parameters:
 
   * *enlarge_bounds*: Add an empty layer around your domain. Default is 0.0.
-  * *periodicity*: if set, overrides domain's periodicity. 
-  * *bounds*: Override domain's bounds, filtering out particle outside of overriden bound.
+  * *periodicity*: if set, overrides domain's periodicity.
+  * *bounds*: Override domain's bounds, filtering out particles outside of overridden bounds.
   * *type* : Define particle, default is 0.
   * *expandable* : if set, override domain expandability.
   * *r_min* : Value of the smallest radius possible.
@@ -46,7 +46,7 @@ YAML examples:
     * *bounds*: Override domain bounds. Particles outside of these bounds will be filtered out.
     * *params*: List of RSA particle parameters. Each entry defines [radius, volume fraction, type name].
     * *region*: Optional Constructive Solid Geometry (CSG) region used to restrict particle placement.
-    * *use_shape*: This option uses the shape data to fill informations like the 'radius'. Please, do not use it with spheres.
+    * *use_shape*: This option uses the shape data to fill information like the 'radius'. Please do not use it with spheres.
 
 YAML examples:
 
