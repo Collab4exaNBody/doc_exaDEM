@@ -120,12 +120,21 @@ The following table provides a glossary of features supported by ``ExaDEM``, cat
 Default Execution Graph With ExaDEM
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-``ExaDEM`` is based on the operator execution system implemented by the ``ExaNBody`` framework. In particular, this allows us to define a set of default operators for ``ExaDEM`` to run a ``DEM`` simulation following a default Verlet Vitesse integration scheme. ``ExaDEM`` offers two variants, depending on whether you want to simulate spherical particles only or spheropolyhedron particles. To choose between these two variants, you'll need to include either *config_spheres.msp* or *config_polyhedra.msp* at the beginning of your input file. If neither is defined, the simulation will not work. Including these files allows you to override certain operators left at *nop* (for no operation). The graph below shows the sequence of ``exaDEM``'s main operators. 
+``ExaDEM`` is based on the operator execution system implemented by the ``ExaNBody`` framework. In particular, this allows us to define a set of default operators for ``ExaDEM`` to run a ``DEM`` simulation following a default Verlet Vitesse integration scheme. ``ExaDEM`` offers two variants, depending on whether you want to simulate spherical particles only or spheropolyhedron particles. To choose between these two variants, you'll need to include either *config_spheres.msp* or *config_polyhedra.msp* at the beginning of your input file. If neither is defined, the simulation will not work. Including these files allows you to override certain operators left at *nop* (for no operation). The graph below shows the sequence of ``exaDEM``'s main operators for version 1.2.2.
 
-.. image:: ../_static/ExaDEM/ExaDEM-DAG.png
-   :scale: 100 %
+.. image:: ../_static/ExaDEMGraph.png
+   :scale: 60 %
    :align: center
 
+.. dropdown:: View the previous version of the graph
+   :color: secondary
+   :icon: eye
+
+   This image corresponds to an older version of the execution graph.
+
+   .. image:: ../_static/ExaDEM/ExaDEM-DAG.png
+      :scale: 60 %
+      :align: center
 
 .. note::
   - Violet: These operators are only called with the polyhedra variant.
