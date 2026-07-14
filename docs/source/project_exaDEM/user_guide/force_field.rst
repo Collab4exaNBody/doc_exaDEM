@@ -362,8 +362,12 @@ as well as between particles and drivers.
 
 .. note::
 
-   Unlike in some other DEM codes, the coefficients are **not** derived from the material 
-   properties (such as Poisson’s ratio and Young’s modulus).  
+   Unlike in some other DEM codes, the coefficients are **not** derived from the material
+   properties (such as Poisson’s ratio and Young’s modulus).
+
+.. note::
+
+   Since ``exaDEM-1.2.2``, multi-material contact parameters are indexed by ``group`` (an integer, see the ``group`` particle field in the Particle Fields page) instead of directly by particle ``type``. Before ``1.2.2``, the particle ``type`` was used directly. This decouples the shape/material identity (``type``) from the contact-law identity (``group``): several particle types can share the same group and therefore reuse the same contact parameters. Groups must be assigned beforehand, either with the ``group`` parameter of ``set_fields`` or with the dedicated ``set_group`` operator (see the Particle Fields page).
 
 To handle multiple particle types, you must use either the ``contact_multimat_[*]_[*]_[*]`` operators  as illustrated below.
 
@@ -384,21 +388,21 @@ To handle multiple particle types, you must use either the ``contact_multimat_[*
      - contact_multimat_sphere:
         symetric: true
 
-The following examples illustrate the definition of contact parameters for two particle 
-types (**Type1**, **Type2**) and a driver identified by **0**.
+The following examples illustrate the definition of contact parameters for two particle
+groups (**group 0**, **group 1**) and a driver identified by **0**.
 
 Particle-Particle
 ~~~~~~~~~~~~~~~~~
 
 * **Operator Name:** ``multimat_contact_params``
-* **Description:** This operator defines the contact law parameters between different particle types.
+* **Description:** This operator defines the contact law parameters between different particle groups.
 
 +--------------------+---------------------------------------------------------------+
 | **Parameter**      | **Description**                                               |
 +====================+===============================================================+
-| ``mat1``           | List of the first particle type(s).                           |
+| ``group1``         | List of the first particle group indice(s).                   |
 +--------------------+---------------------------------------------------------------+
-| ``mat2``           | List of the second particle type(s).                          |
+| ``group2``         | List of the second particle group indice(s).                  |
 +--------------------+---------------------------------------------------------------+
 | ``kn``             | Normal force coefficient for the specified interaction type.  |
 +--------------------+---------------------------------------------------------------+
@@ -416,13 +420,17 @@ Particle-Particle
 |                    | interaction configurations.                                   |
 +--------------------+---------------------------------------------------------------+
 
+.. note::
+
+   ``group1``/``group2`` replace the former ``mat1``/``mat2`` parameters (pre-``1.2.2``, which took particle type names directly). Particle groups must be assigned beforehand via the ``group`` parameter of ``set_fields`` or the ``set_group`` operator.
+
 YAML example:
 
 .. code-block:: yaml
 
   - multimat_contact_params:
-     mat1:      [  Type1, Type1, Type2 ]
-     mat2:      [  Type1, Type2, Type2 ]
+     group1:    [      0,     0,     1 ]
+     group2:    [      0,     1,     1 ]
      kn:        [   5000, 10000, 15000 ]
      kt:        [   4000,  8000, 12000 ]
      kr:        [    0.0,   0.0,   0.0 ]
@@ -435,8 +443,8 @@ With `default_config`:
 .. code-block:: yaml
 
   - multimat_contact_params:
-     mat1:      [  Type1 ]
-     mat2:      [  Type1 ]
+     group1:    [      0 ]
+     group2:    [      0 ]
      kn:        [   5000 ]
      kt:        [   4000 ]
      kr:        [    0.0 ]
@@ -457,7 +465,7 @@ Particle-Driver
 +--------------------+---------------------------------------------------------------+
 | **Parameter**      | **Description**                                               |
 +====================+===============================================================+
-| ``mat``            | List of particle type(s) concerned by the interaction.        |
+| ``group``          | List of particle group indice(s) concerned by the interaction.|
 +--------------------+---------------------------------------------------------------+
 | ``driver_id``      | Identifier(s) of the driver(s) interacting with the particles.|
 +--------------------+---------------------------------------------------------------+
@@ -477,10 +485,14 @@ Particle-Driver
 |                    | interaction configurations.                                   |
 +--------------------+---------------------------------------------------------------+
 
+.. note::
+
+   ``group`` replaces the former ``mat`` parameter (pre-``1.2.2``, which took particle type names directly). Particle groups must be assigned beforehand via the ``group`` parameter of ``set_fields`` or the ``set_group`` operator.
+
 .. code-block:: yaml
 
   - drivers_contact_params:
-     mat:       [  Type1, Type2 ]
+     group:     [      0,     1 ]
      driver_id: [      0,     0 ]
      kn:        [  10000, 15000 ]
      kt:        [   8000, 12000 ]
@@ -664,13 +676,17 @@ Single material, separate-mode fracture:
      gt: 2.0 J/m^2
 
 Multi-material simulations use the ``inner_bond_params`` operator with one
-entry per ``(mat1[p], mat2[p])`` pair in parallel arrays:
+entry per ``(group1[p], group2[p])`` pair in parallel arrays:
+
+.. note::
+
+   Since ``exaDEM-1.2.2``, pairs are defined with ``group1``/``group2`` (particle group indices) instead of the former ``mat1``/``mat2`` (particle type names). Particle groups must be assigned beforehand via the ``group`` parameter of ``set_fields`` or the ``set_group`` operator.
 
 .. code-block:: yaml
 
    - inner_bond_params:
-      mat1:      [  Type1, Type1, Type2 ]
-      mat2:      [  Type1, Type2, Type2 ]
+      group1:    [      0,     0,     1 ]
+      group2:    [      0,     1,     1 ]
       kn:        [   5000, 10000, 15000 ]
       kt:        [   4000,  8000, 12000 ]
       damp_rate: [  0.999, 0.999, 0.999 ]
@@ -679,8 +695,8 @@ entry per ``(mat1[p], mat2[p])`` pair in parallel arrays:
 
    # or, mixed mode for every pair:
    - inner_bond_params:
-      mat1:      [  Type1, Type2 ]
-      mat2:      [  Type1, Type2 ]
+      group1:    [      0,     1 ]
+      group2:    [      0,     1 ]
       kn:        [   5000, 15000 ]
       kt:        [   4000, 12000 ]
       damp_rate: [  0.999,  0.999 ]

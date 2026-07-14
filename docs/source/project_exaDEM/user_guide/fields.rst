@@ -24,10 +24,15 @@ Unified Field Operators
    * [std::vector<double>] `sigma_angular_velocity`: Standard deviation (sigma). If not defined, the normal distribution is not applied.
    * [std::vector<Quaternion>] `quaternion`: List of orientations. If not defined, quaternion is [w = 1,0,0,0].
    * [std::vector<bool>] `random_quaternion`: Choice if the orientation is random or not. If not defined, random is false.
+   * [std::vector<uint32_t>] `group`: Group index associated to each particle type (same order as `type`). If not defined, group is 0 for all particles.
 
 .. note::
 
   For spheres, you need to call particle_type operator to create the particle map required by ``set_fields``.
+
+.. note::
+
+  Since ``exaDEM-1.2.2``, the ``group`` field is used by the multi-material contact operators (``multimat_contact_params``, ``drivers_contact_params``, ``inner_bond_params``) to select which set of contact parameters applies between two particles. Before ``1.2.2``, the particle ``type`` itself was directly used to look up these contact parameters. With ``group``, several particle types can share the same group and therefore reuse the same contact parameters, decoupling the (shape-related) ``type`` from the (contact-law-related) ``group``. See the Multi-Material section of the Force Field page for details. Groups can also be (re)assigned after initialization with the ``set_group`` operator.
 
 YAML example (Spheres):
 
@@ -42,6 +47,7 @@ YAML example (Spheres):
   - set_fields:
      polyhedra: false
      type:           [ Sphere1, Sphere2 ]
+     group:          [       0,       1 ]
      radius:         [     0.5,    0.25 ]
      density:        [    0.02,    0.01 ]
      velocity:       [ [0,0,0], [0,0,0] ]
@@ -63,10 +69,11 @@ YAML example (Polyhedra):
       enlarge_bounds: 0.0 m
   - set_fields:
      polyhedra: true
-     type:              [ alpha3, Octahedron]
-     velocity:          [[0,0,0],    [0,0,0]]
-     sigma_velocity:    [    0.1,        0.1]
-     random_quaternion: [   true,       true]
+     type:              [ alpha3, Octahedron ]
+     group:             [      0,          1 ]
+     velocity:          [ [0,0,0],   [0,0,0] ]
+     sigma_velocity:    [     0.1,       0.1 ]
+     random_quaternion: [    true,      true ]
 
 Field Operators For All Particles
 ---------------------------------
@@ -105,6 +112,10 @@ This repertory plugin only provides operators for modifying fields, especially a
    * [double] `var` (variance), default = 0
    * [Vec3d] `mean`, default = {0,0,0}
 * ``update_inertia``
+* ``set_group`` (since ``exaDEM-1.2.2``):
+   * [std::vector<string>] `type` ``REQUIRED``: List of particle type names.
+   * [std::vector<uint32_t>] `group` ``REQUIRED``: Group index associated to each type (same order as `type`).
+   * Comment: Assigns the ``group`` field to every particle according to its type. It can be used to (re)define groups after ``set_fields`` has been called, without having to redefine every other field.
 
 .. note::
 
@@ -124,6 +135,20 @@ YAML example:
    - set_density:
       density: 0.02
    - set_rand_vrot_arot
+
+``set_group`` YAML example:
+
+.. code-block:: yaml
+
+   init_polyhedra:
+     - set_group:
+        type:  [ alpha3, Octahedron, Cube ]
+        group: [      0,          1,    0 ]
+
+   init_spheres:
+     - set_group:
+        type:  [ Sphere1, Sphere2, Sphere3 ]
+        group: [       0,       1,       0 ]
 
 Explore a minimal example provided in the "tutorial" section to understand how you can add your own mutator_field operator.
 
