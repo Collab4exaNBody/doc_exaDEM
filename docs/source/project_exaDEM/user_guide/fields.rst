@@ -32,7 +32,7 @@ Unified Field Operators
 
 .. note::
 
-  Since ``exaDEM-1.2.2``, the ``group`` field is used by the multi-material contact operators (``multimat_contact_params``, ``drivers_contact_params``, ``inner_bond_params``) to select which set of contact parameters applies between two particles. Before ``1.2.2``, the particle ``type`` itself was directly used to look up these contact parameters. With ``group``, several particle types can share the same group and therefore reuse the same contact parameters, decoupling the (shape-related) ``type`` from the (contact-law-related) ``group``. See the Multi-Material section of the Force Field page for details. Groups can also be (re)assigned after initialization with the ``set_group`` operator.
+  Since ``exaDEM-1.2.3``, the ``group`` field is used by the multi-material contact operators (``multimat_contact_params``, ``drivers_contact_params``, ``inner_bond_params``) to select which set of contact parameters applies between two particles. Before ``1.2.3``, the particle ``type`` itself was directly used to look up these contact parameters. With ``group``, several particle types can share the same group and therefore reuse the same contact parameters, decoupling the (shape-related) ``type`` from the (contact-law-related) ``group``. See the Multi-Material section of the Force Field page for details. Groups can also be (re)assigned after initialization with the ``set_group`` operator.
 
 YAML example (Spheres):
 
@@ -112,7 +112,7 @@ This repertory plugin only provides operators for modifying fields, especially a
    * [double] `var` (variance), default = 0
    * [Vec3d] `mean`, default = {0,0,0}
 * ``update_inertia``
-* ``set_group`` (since ``exaDEM-1.2.2``):
+* ``set_group`` (since ``exaDEM-1.2.3``):
    * [std::vector<string>] `type` ``REQUIRED``: List of particle type names.
    * [std::vector<uint32_t>] `group` ``REQUIRED``: Group index associated to each type (same order as `type`).
    * Comment: Assigns the ``group`` field to every particle according to its type. It can be used to (re)define groups after ``set_fields`` has been called, without having to redefine every other field.

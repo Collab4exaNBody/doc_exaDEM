@@ -367,7 +367,7 @@ as well as between particles and drivers.
 
 .. note::
 
-   Since ``exaDEM-1.2.2``, multi-material contact parameters are indexed by ``group`` (an integer, see the ``group`` particle field in the Particle Fields page) instead of directly by particle ``type``. Before ``1.2.2``, the particle ``type`` was used directly. This decouples the shape/material identity (``type``) from the contact-law identity (``group``): several particle types can share the same group and therefore reuse the same contact parameters. Groups must be assigned beforehand, either with the ``group`` parameter of ``set_fields`` or with the dedicated ``set_group`` operator (see the Particle Fields page).
+   Since ``exaDEM-1.2.3``, multi-material contact parameters are indexed by ``group`` (an integer, see the ``group`` particle field in the Particle Fields page) instead of directly by particle ``type``. Before ``1.2.3``, the particle ``type`` was used directly. This decouples the shape/material identity (``type``) from the contact-law identity (``group``): several particle types can share the same group and therefore reuse the same contact parameters. Groups must be assigned beforehand, either with the ``group`` parameter of ``set_fields`` or with the dedicated ``set_group`` operator (see the Particle Fields page).
 
 To handle multiple particle types, you must use either the ``contact_multimat_[*]_[*]_[*]`` operators  as illustrated below.
 
@@ -422,7 +422,7 @@ Particle-Particle
 
 .. note::
 
-   ``group1``/``group2`` replace the former ``mat1``/``mat2`` parameters (pre-``1.2.2``, which took particle type names directly). Particle groups must be assigned beforehand via the ``group`` parameter of ``set_fields`` or the ``set_group`` operator.
+   ``group1``/``group2`` replace the former ``mat1``/``mat2`` parameters (pre-``1.2.3``, which took particle type names directly). Particle groups must be assigned beforehand via the ``group`` parameter of ``set_fields`` or the ``set_group`` operator.
 
 YAML example:
 
@@ -487,7 +487,7 @@ Particle-Driver
 
 .. note::
 
-   ``group`` replaces the former ``mat`` parameter (pre-``1.2.2``, which took particle type names directly). Particle groups must be assigned beforehand via the ``group`` parameter of ``set_fields`` or the ``set_group`` operator.
+   ``group`` replaces the former ``mat`` parameter (pre-``1.2.3``, which took particle type names directly). Particle groups must be assigned beforehand via the ``group`` parameter of ``set_fields`` or the ``set_group`` operator.
 
 .. code-block:: yaml
 
@@ -680,7 +680,7 @@ entry per ``(group1[p], group2[p])`` pair in parallel arrays:
 
 .. note::
 
-   Since ``exaDEM-1.2.2``, pairs are defined with ``group1``/``group2`` (particle group indices) instead of the former ``mat1``/``mat2`` (particle type names). Particle groups must be assigned beforehand via the ``group`` parameter of ``set_fields`` or the ``set_group`` operator.
+   Since ``exaDEM-1.2.3``, pairs are defined with ``group1``/``group2`` (particle group indices) instead of the former ``mat1``/``mat2`` (particle type names). Particle groups must be assigned beforehand via the ``group`` parameter of ``set_fields`` or the ``set_group`` operator.
 
 .. code-block:: yaml
 
