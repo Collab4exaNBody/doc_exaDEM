@@ -53,8 +53,8 @@ To proceed with the installation, your system must meet the minimum prerequisite
       .. code-block:: bash
 
          export CURRENT_HOME=$PWD
-         git clone --branch v1.0.5 https://github.com/Collab4exaNBody/onika.git
-         git clone --branch v2.0.7 https://github.com/Collab4exaNBody/exaNBody.git
+         git clone --branch v1.1.0 https://github.com/Collab4exaNBody/onika.git
+         git clone --branch v2.1.0 https://github.com/Collab4exaNBody/exaNBody.git
          mkdir ${CURRENT_HOME}/build-onika && cd ${CURRENT_HOME}/build-onika
          cmake ${CURRENT_HOME}/onika -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-onika -DONIKA_BUILD_CUDA=OFF
          make install -j 10
@@ -73,8 +73,8 @@ To proceed with the installation, your system must meet the minimum prerequisite
       .. code-block:: bash
 
          export CURRENT_HOME=$PWD
-         git clone --branch v1.0.5 https://github.com/Collab4exaNBody/onika.git
-         git clone --branch v2.0.7 https://github.com/Collab4exaNBody/exaNBody.git
+         git clone --branch v1.1.0 https://github.com/Collab4exaNBody/onika.git
+         git clone --branch v2.1.0 https://github.com/Collab4exaNBody/exaNBody.git
          mkdir ${CURRENT_HOME}/build-onika && cd ${CURRENT_HOME}/build-onika
          cmake ${CURRENT_HOME}/onika -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-onika -DONIKA_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=86
          make install -j 10
@@ -95,8 +95,8 @@ To proceed with the installation, your system must meet the minimum prerequisite
          module load gnu/13.2.0 cuda/12.4 mpi/openmpi/4.1.6 cmake/3.29.6
          cd $CCCSCRATCHDIR
          export CURRENT_HOME=$PWD
-         // copy onika v1.0.4
-         // copy exaNBody v2.0.4
+         # copy onika v1.1.0
+         # copy exaNBody v2.1.0
          mkdir ${CURRENT_HOME}/build-onika && cd ${CURRENT_HOME}/build-onika
          cmake ${CURRENT_HOME}/onika -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CURRENT_HOME}/install-onika -DONIKA_BUILD_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=80
          make install -j 10
@@ -149,28 +149,31 @@ Run CMake to configure the ExaDEM build:
 
    .. tab:: cmake GPU (a100)
 
-      The gpu installation depends on onika.
+      ``exaDEM`` itself does not take any GPU-specific ``cmake`` flag: GPU support is entirely
+      inherited from ``onika``/``exaNBody``. Make sure ``onika_DIR`` and ``exaNBody_DIR``
+      point to installations built with ``-DONIKA_BUILD_CUDA=ON`` and the correct
+      ``-DCMAKE_CUDA_ARCHITECTURES`` (see the "Ubuntu GPU" tab above), then the command below
+      is identical to the CPU build.
 
       .. code-block:: bash
 
-         cmake ../exaDEM -DCMAKE_BUILD_TYPE=Release 
+         cmake ../exaDEM -DCMAKE_BUILD_TYPE=Release
          make -j 4
          source bin/setup-env.sh
 
    .. tab:: Spack
 
-      See the spack section if you need to install spack.
- 
-      The ``spack_repo`` directory is in the exaDEM repository, you need to ``git clone`` exaDEM.
+      See the "Installation With Spack" section below if you need to install ``spack`` itself.
 
       .. code-block:: bash
 
-         spack repo add spack_repo
+         git clone https://github.com/Collab4exaNBody/spack-repos.git
+         spack repo add spack-repos
          spack install exadem
 
-.. warning::
+.. note::
 
-  Old version (<= 1.1.1): It's important to note that the maximum number of vertices per particle shape is set to 8 by default. To change this value, you can specify this number by adding: ``-DEXADEM_MAX_VERTICES=N``.
+  Historical note (versions <= 1.1.1 only): in these old releases, the maximum number of vertices per particle shape was set to 8 by default and could be changed by adding ``-DEXADEM_MAX_VERTICES=N`` to the ``cmake`` command. This option no longer exists in current versions of ``ExaDEM``.
 
 .. warning::
 
@@ -239,6 +242,8 @@ You can also add exaDEM to your bashrc by adding an alias (please, replace YOURD
   alias exaDEM='~/YOURDIR/build/exaDEM'
 
 Or just on your local environment:
+
+.. code-block:: bash
 
   alias exaDEM=$PWD/exaDEM
 
@@ -336,7 +341,7 @@ Installation of `RSA_MPI` via `spack`:
 
 .. code-block:: bash
 
-  git clone git clone --depth=2 --branch=v1.1.0 https://github.com/spack/spack.git
+  git clone --depth=2 --branch=v1.1.0 https://github.com/spack/spack.git
   source spack/share/spack/setup-env.sh
   git clone https://github.com/Collab4exaNBody/spack-repos.git
   spack repo add spack-repos
@@ -359,7 +364,7 @@ Installation of `Rockable` via `spack`:
 
 .. code-block:: bash
   
-  git clone git clone --depth=2 --branch=v1.1.0 https://github.com/spack/spack.git
+  git clone --depth=2 --branch=v1.1.0 https://github.com/spack/spack.git
   source spack/share/spack/setup-env.sh
   git clone https://github.com/Collab4exaNBody/spack-repos.git
   spack repo add spack-repos
