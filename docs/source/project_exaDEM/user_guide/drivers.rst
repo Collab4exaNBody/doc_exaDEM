@@ -97,7 +97,7 @@ Drivers share common parameters contained in the Driver_params class. These para
      - ✘
      - ✘
      - ✘
-     - ✘
+     - ✔
      - ✘
      - ✘
    * - Surface
@@ -278,6 +278,18 @@ YAML example:
      id: 0
      state: {center: [2.5, 2.5, 2.5], axis: [1, 0, 1], radius: 4}
      params: { motion_type: STATIONARY }
+
+``SHAKER`` mode
+---------------
+
+.. code:: yaml
+
+  - register_cylinder:
+     id: 0
+     state: {center: [25, 25, 25], axis: [1, 0, 1], radius: 25}
+     params: { motion_type: SHAKER, amplitude: 0.5, omega: 1., shaker_dir: [0, 0, 1] }
+
+This example is available at: ``exaDEM/example/spheres/shaker_cylinder/shaker_cylinder.msp``
 
 Wall / Surface
 ^^^^^^^^^^^^^^^

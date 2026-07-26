@@ -115,6 +115,7 @@ This repertory plugin only provides operators for modifying fields, especially a
 * ``set_group`` (since ``exaDEM-1.2.3``):
    * [std::vector<string>] `type` ``REQUIRED``: List of particle type names.
    * [std::vector<uint32_t>] `group` ``REQUIRED``: Group index associated to each type (same order as `type`).
+   * [uint32_t] `n_groups` ``OUTPUT``: Number of distinct groups (max group index + 1), written back for downstream operators such as ``multimat_contact_params``, ``drivers_contact_params`` and ``check_group_completeness``.
    * Comment: Assigns the ``group`` field to every particle according to its type. It can be used to (re)define groups after ``set_fields`` has been called, without having to redefine every other field.
 
 .. note::

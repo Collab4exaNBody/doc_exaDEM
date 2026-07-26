@@ -23,6 +23,10 @@ New Features:
       - Add the ``group`` parameter to ``set_fields``.
       - Add the ``set_group`` operator to (re)assign the ``group`` field to particles according to their type.
 
+   * Force Field
+
+      - Add the ``check_group_completeness`` operator, which stops the simulation if the ``group`` particle field references a group index not covered by ``multimat_contact_params``/``drivers_contact_params``.
+
    * I/O
 
       - Add support for the ``group`` field in dump file readers/writers, including legacy Rockable readers (legacy writers are not affected).

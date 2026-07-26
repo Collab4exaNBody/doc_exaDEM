@@ -419,6 +419,13 @@ Particle-Particle
 | ``default_config`` | Applies the same parameter set to all undefined               |
 |                    | interaction configurations.                                   |
 +--------------------+---------------------------------------------------------------+
+| ``n_groups``       | Number of distinct groups (``INPUT_OUTPUT``, since            |
+|                    | ``1.2.3``). Usually left unset: it is then deduced from       |
+|                    | ``group1``/``group2`` (max index + 1). If it was already set  |
+|                    | upstream (e.g. by ``set_group``), it is checked against       |
+|                    | ``group1``/``group2`` instead, and a ``default_config`` must  |
+|                    | be provided to cover any group pair not listed explicitly.    |
++--------------------+---------------------------------------------------------------+
 
 .. note::
 
@@ -501,6 +508,21 @@ Particle-Driver
      damprate:  [  0.999, 0.999 ]
 
 A complete example is available (please report if the link does not work): `rotating-multimat.msp <https://github.com/Collab4exaNBody/exaDEM/blob/main/example/polyhedra/multimat/rotating-multimat.msp>`_
+
+Checking Group Completeness
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* **Operator Name:** ``check_group_completeness`` (since ``exaDEM-1.2.3``)
+* **Description:** Verifies that the number of groups configured in ``multimat_cp`` (via ``multimat_contact_params`` and/or ``drivers_contact_params``) is large enough to cover the maximum ``group`` index actually present on particles. The simulation stops if a particle references a group for which no contact parameters were set up.
+* **Parameters:** none.
+
+.. code-block:: yaml
+
+  - check_group_completeness
+
+.. note::
+
+   This operator has no effect (it silently returns) if ``multimat_cp`` has not been produced yet, so it can safely be placed anywhere after ``multimat_contact_params`` and/or ``drivers_contact_params`` in the operator chain, typically right before ``compute_force``.
 
 External Forces
 ---------------
