@@ -13,7 +13,7 @@ Release Notes v1.2.3 (in development)
 
 .. note::
 
-   This release is under development on branch ``349-integrate-group-field`` and has not been tagged yet.
+   This release is under development on the ``main`` branch and has not been tagged yet.
 
 New Features:
 
