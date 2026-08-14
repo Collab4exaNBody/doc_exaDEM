@@ -11,5 +11,6 @@ This project is written in ``C++-20``.
 
    changelog.rst
    parallelization.rst
+   classifier.rst
    contributing_guide.rst
    contributors.rst
