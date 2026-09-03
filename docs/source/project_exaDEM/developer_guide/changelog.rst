@@ -30,6 +30,8 @@ New Features:
    * I/O
 
       - Add support for the ``group`` field in dump file readers/writers, including legacy Rockable readers (legacy writers are not affected).
+      - Add the ``dump_inspector`` operator (and ``scripts/tools/dump_inspector.sh`` wrapper) to print a ``.dump`` checkpoint file's header without reading particle data.
+      - *Pending, not yet merged into* ``main`` *(branch* ``365-exademtotxt`` *):* add the ``dump_to_txt`` operator (and ``scripts/tools/ConvExaDEMToTxt`` wrapper) to export a ``.dump`` checkpoint file to plain-text particle/interaction/summary files.
 
 Changes and Enhancements:
 

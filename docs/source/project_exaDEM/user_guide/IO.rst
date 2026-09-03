@@ -303,7 +303,77 @@ Writer Of MPIIO Files
 - Default behaviour: the default name is defined by : `- timestep_file: "exaDEM_%09d.dump` and piloted by `simulation_dump_frequency: 1` in the operator `global`.
 
 .. note::
-  This operator is defined in the default `ExaDEM` operator named `dump_data_particles`. 
+  This operator is defined in the default `ExaDEM` operator named `dump_data_particles`.
+
+Dump Inspection & Export Tools
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Two small operators, each with a command-line wrapper script in ``scripts/tools``, let you look
+at a ``.dump`` checkpoint file (written by `write_dump_particle_interaction` above) without
+writing a full simulation input file by hand.
+
+``dump_inspector``
+"""""""""""""""""""
+
+- Name: `dump_inspector`
+- Description: Reads a `.dump` checkpoint file's header and prints its content (format version, particle count, timestep, physical time, field list, domain). No particle data is read.
+- Parameters:
+   * `filename`: Path to the `.dump` checkpoint file to inspect.
+
+YAML example:
+
+.. code-block:: yaml
+
+  - dump_inspector:
+     filename: CheckpointFiles/exadem_0000012345.dump
+
+**From the command line**, the ``dump_inspector.sh`` wrapper builds this YAML input for you and
+takes the ``.dump`` path as a plain argument. CMake also drops a ``dump_inspector`` launcher next
+to the ``exaDEM`` binary in the build directory, so it works the same way:
+
+.. code-block:: bash
+
+   ./scripts/tools/dump_inspector.sh CheckpointFiles/exadem_0000012345.dump   # from the source tree
+   # or, from the build directory:
+   ./dump_inspector CheckpointFiles/exadem_0000012345.dump
+
+``dump_to_txt`` / ``ConvExaDEMToTxt``
+"""""""""""""""""""""""""""""""""""""
+
+.. note::
+  Work in progress: not merged into ``main`` yet (branch ``365-exademtotxt``).
+
+- Name: `dump_to_txt`
+- Description: Reads a `.dump` checkpoint file and exports it to plain-text column files:
+  `<pattern_name>_particles.txt` (one row per particle, columns taken from the dump's own
+  header), `<pattern_name>_interactions.txt` (one row per interaction, only written if the dump
+  has any), and `<pattern_name>_summary.txt`. Whether the dump was written with
+  `read_dump_particle_interaction` or `read_dump_particle_fragmentation` (which adds a `cluster`
+  field) is detected automatically from the dump's own header -- nothing to choose.
+- Parameters:
+   * `filename`: The `.dump` file to export.
+   * `pattern_name`: Output prefix for the generated `.txt` files.
+
+.. note::
+  This operator only writes files from MPI rank 0; run it with a single rank (``mpirun -n 1``)
+  for a complete export.
+
+YAML example:
+
+.. code-block:: yaml
+
+  - dump_to_txt:
+     filename: exadem_0000012345.dump
+     pattern_name: exadem_0000012345
+
+**From the command line**, the ``ConvExaDEMToTxt`` wrapper builds this YAML input for you:
+
+.. code-block:: bash
+
+   ./scripts/tools/ConvExaDEMToTxt CheckpointFiles/exadem_0000012345.dump my_export   # from the source tree
+   # or, from the build directory:
+   ./ConvExaDEMToTxt CheckpointFiles/exadem_0000012345.dump my_export
+
 
 Writer Of Rockable Files
 ^^^^^^^^^^^^^^^^^^^^^^^^
