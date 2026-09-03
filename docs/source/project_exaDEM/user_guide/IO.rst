@@ -308,9 +308,9 @@ Writer Of MPIIO Files
 Dump Inspection & Export Tools
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Two small operators, each with a command-line wrapper script in ``scripts/tools``, let you look
-at a ``.dump`` checkpoint file (written by `write_dump_particle_interaction` above) without
-writing a full simulation input file by hand.
+A few small operators, each with a command-line wrapper script in ``scripts/tools``, let you look
+at or convert a ``.dump`` checkpoint file (written by `write_dump_particle_interaction` above)
+without writing a full simulation input file by hand.
 
 ``dump_inspector``
 """""""""""""""""""
@@ -340,16 +340,13 @@ to the ``exaDEM`` binary in the build directory, so it works the same way:
 ``dump_to_txt`` / ``ConvExaDEMToTxt``
 """""""""""""""""""""""""""""""""""""
 
-.. note::
-  Work in progress: not merged into ``main`` yet (branch ``365-exademtotxt``).
-
 - Name: `dump_to_txt`
 - Description: Reads a `.dump` checkpoint file and exports it to plain-text column files:
   `<pattern_name>_particles.txt` (one row per particle, columns taken from the dump's own
   header), `<pattern_name>_interactions.txt` (one row per interaction, only written if the dump
   has any), and `<pattern_name>_summary.txt`. Whether the dump was written with
   `read_dump_particle_interaction` or `read_dump_particle_fragmentation` (which adds a `cluster`
-  field) is detected automatically from the dump's own header -- nothing to choose.
+  field) is detected automatically from the dump's own , nothing to choose.
 - Parameters:
    * `filename`: The `.dump` file to export.
    * `pattern_name`: Output prefix for the generated `.txt` files.
@@ -374,6 +371,58 @@ YAML example:
    # or, from the build directory:
    ./ConvExaDEMToTxt CheckpointFiles/exadem_0000012345.dump my_export
 
+``dump_to_rockable`` / ``ConvExaDEMToRockable``
+"""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+- Name: `dump_to_rockable`
+- Description: Reads a `.dump` checkpoint file and exports its particles to a Rockable `.conf`
+  file.
+- Parameters:
+   * `filename`: The `.dump` file to convert.
+   * `conf_filename`: Output Rockable `.conf` file path.
+   * `shape_filename` (*optional*): A `.shp` file mapping each particle type index to its shape
+     name; copied next to `conf_filename` as `shape.shp`, and used to write one
+     ``density <group> <value>`` header line per group actually present. Without it, the
+     particle `name` column in the `.conf` is just the numeric type index, no density lines are
+     written, and no `shape.shp` is copied.
+   * `dt` (*optional*, default ``0``): Timestep size written to the `.conf`'s `dt` line, not
+     stored in a `.dump`, so it must be given explicitly if needed.
+
+.. note::
+  This operator only writes files from MPI rank 0; run it with a single rank (``mpirun -n 1``)
+  for a complete export. Only particles are exported for now, interactions and drivers are not written to the `.conf`
+  file (`nDriven` is always `0`).
+
+YAML example:
+
+.. code-block:: yaml
+
+  - dump_to_rockable:
+     filename: ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump
+     conf_filename: conf0.conf
+     shape_filename: ExaDEMOutputDir/CheckpointFiles/RestartShapeFile.shp
+     dt: 0.0001
+
+**From the command line**, the ``ConvExaDEMToRockable`` wrapper builds this YAML input for you:
+
+.. code-block:: bash
+
+   ./scripts/tools/ConvExaDEMToRockable ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump conf0.conf   # from the source tree
+   ./scripts/tools/ConvExaDEMToRockable ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump conf0.conf ExaDEMOutputDir/CheckpointFiles/RestartShapeFile.shp
+   # or, from the build directory:
+   ./ConvExaDEMToRockable ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump conf0.conf
+
+``--last`` picks the highest-iteration ``exadem_*.dump`` (and ``RestartShapeFile.shp``, if
+present) under ``<input-dir>/CheckpointFiles/`` for you, ``<input-dir>`` defaults to
+``ExaDEMOutputDir`` (matching ``restart_template.py``'s convention), override with
+``--input-dir=DIR``; ``--dt=VALUE`` sets the timestep:
+
+.. code-block:: bash
+
+   ./scripts/tools/ConvExaDEMToRockable --last conf0.conf
+   ./scripts/tools/ConvExaDEMToRockable --last conf0.conf --input-dir=OtherOutputDir --dt=0.0001
 
 Writer Of Rockable Files
 ^^^^^^^^^^^^^^^^^^^^^^^^
