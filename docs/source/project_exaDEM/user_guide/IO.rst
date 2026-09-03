@@ -30,50 +30,8 @@ YAML example:
      avg_stress_tensor_name: "AvgStressTensor.txt"
      interaction_basename: "InteractionOutputDir-"
 
-Checkpoint/Restart Operators
-----------------------------
-
-Reader Of xyz File
-^^^^^^^^^^^^^^^^^^
-
-- Name: `read_xyz`
-- Description: This operator reads a file written according to the xyz format.
-- Parameters:
-   * `bounds_mode` : default mode corresponds to ReadBoundsSelectionMode.
-   * `enlarge_bounds` : Define a layer around the volume size in the xyz file. Default size is 0.
-   * `file` : File name, this parameter is required.
-   * `pbc_adjust_xform` : Adjust the form.
-
-YAML example: 
-
-.. code-block:: yaml
-
- - read_xyz:
-   file: input_file_rigid_surface.xyz
-   bounds_mode: FILE
-   enlarge_bounds: 1.0 m
-
-
-How to build your xyz input file of `nb` particles.
-
-.. code-block:: python
-
- nb
- box_size_x box_size_y box_size_z
- type_0 pos_x_0 pos_y_0 pos_z_0
- type_1 pos_x_1 pos_y_1 pos_z_1
- type_2 pos_x_2 pos_y_2 pos_z_2
- ...
- type_nb-1 pos_x_nb-1 pos_y_nb-1 pos_z_nb-1
-
-This is an example of two particles the same type in a domain [[0,0,0],[10,10,10]].
-
-.. code-block:: python
-
- 2
- 10 10 10
- 0 2.5 5.0 5.0
- 0 7.5 5.0 5.0
+MPIIO / .dump Format
+---------------------
 
 Reader Of MPIIO File
 ^^^^^^^^^^^^^^^^^^^^
@@ -100,16 +58,29 @@ YAML example:
 .. note::
   This operator is used for spheres and not polyhedra because we need a special reader to read current interaction values containing the friction and moment. Show `read_dump_particle_interaction`.
 
-Restart file script
-^^^^^^^^^^^^^^^^^^^
+Writer Of MPIIO Files
+^^^^^^^^^^^^^^^^^^^^^^
 
-In the `scripts` folder, you have the option of using a script ``restart_template.py`` that will enable you to quickly write the restart section of your simulation by directly retrieving the path to any saved files. This script directly includes whether the simulation mode is spherical or polyhedral. If the mode is polyhedral, the shape file will also be loaded automatically. The script will also check for a file containing driver data and include it. Finally, it will also include the last dump file (highest iteration). 
+- Name: `write_dump_particle_interaction`
+- Description: This operator writes a dump file with all particle information required to restart the simulation. See operator: @read_dump_particles.
+- Parameters:
+   * `compression_level` Zlib compression level.
+   * `filename` Dump output file name.
+- Default behaviour: the default name is defined by : `- timestep_file: "exaDEM_%09d.dump` and piloted by `simulation_dump_frequency: 1` in the operator `global`.
+
+.. note::
+  This operator is defined in the default `ExaDEM` operator named `dump_data_particles`.
+
+Restart file script
+^^^^^^^^^^^^^^^^^^^^
+
+In the `scripts` folder, you have the option of using a script ``restart_template.py`` that will enable you to quickly write the restart section of your simulation by directly retrieving the path to any saved files. This script directly includes whether the simulation mode is spherical or polyhedral. If the mode is polyhedral, the shape file will also be loaded automatically. The script will also check for a file containing driver data and include it. Finally, it will also include the last dump file (highest iteration).
 
 Option:
 
 * `directory`: Output file path, the default path is `ExaDEMOutputDir`. Note that it should contain a subdirectory named: `CheckpointFiles` and this output file path is defined into the operator ``io_tree``.
 
-Example: 
+Example:
 
 .. code-block:: bash
 
@@ -120,17 +91,141 @@ Output:
 .. code-block:: bash
 
    Restart directory: SpheresMovableWallDir
-   Particle mode: Spheres 
+   Particle mode: Spheres
    Last iteration identified: 29000
-   Here s a template for restarting your simulation at the last saved iteration: 
-   
+   Here s a template for restarting your simulation at the last saved iteration:
+
    includes:
      - config_spheres.msp
      - SpheresMovableWallDir/CheckpointFiles/driver_0000029000.msp
-   
+
    input_data:
      - read_dump_particle_interaction:
         filename: SpheresMovableWallDir/CheckpointFiles/exadem_0000029000.dump
+
+Dump Inspection & Export Tools
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A few small operators, each with a command-line wrapper script in ``scripts/tools``, let you look
+at or convert a ``.dump`` checkpoint file (written by `write_dump_particle_interaction` above)
+without writing a full simulation input file by hand.
+
+``dump_inspector``
+"""""""""""""""""""
+
+- Name: `dump_inspector`
+- Description: Reads a `.dump` checkpoint file's header and prints its content (format version, particle count, timestep, physical time, field list, domain). No particle data is read.
+- Parameters:
+   * `filename`: Path to the `.dump` checkpoint file to inspect.
+
+YAML example:
+
+.. code-block:: yaml
+
+  - dump_inspector:
+     filename: CheckpointFiles/exadem_0000012345.dump
+
+**From the command line**, the ``dump_inspector.sh`` wrapper builds this YAML input for you and
+takes the ``.dump`` path as a plain argument. CMake also drops a ``dump_inspector`` launcher next
+to the ``exaDEM`` binary in the build directory, so it works the same way:
+
+.. code-block:: bash
+
+   ./scripts/tools/dump_inspector.sh CheckpointFiles/exadem_0000012345.dump   # from the source tree
+   # or, from the build directory:
+   ./dump_inspector CheckpointFiles/exadem_0000012345.dump
+
+``dump_to_txt`` / ``ConvExaDEMToTxt``
+"""""""""""""""""""""""""""""""""""""
+
+- Name: `dump_to_txt`
+- Description: Reads a `.dump` checkpoint file and exports it to plain-text column files:
+  `<pattern_name>_particles.txt` (one row per particle, columns taken from the dump's own
+  header), `<pattern_name>_interactions.txt` (one row per interaction, only written if the dump
+  has any), and `<pattern_name>_summary.txt`. Whether the dump was written with
+  `read_dump_particle_interaction` or `read_dump_particle_fragmentation` (which adds a `cluster`
+  field) is detected automatically from the dump's own header, nothing to choose.
+- Parameters:
+   * `filename`: The `.dump` file to export.
+   * `pattern_name`: Output prefix for the generated `.txt` files.
+
+.. note::
+  This operator only writes files from MPI rank 0; run it with a single rank (``mpirun -n 1``)
+  for a complete export.
+
+YAML example:
+
+.. code-block:: yaml
+
+  - dump_to_txt:
+     filename: exadem_0000012345.dump
+     pattern_name: exadem_0000012345
+
+**From the command line**, the ``ConvExaDEMToTxt`` wrapper builds this YAML input for you:
+
+.. code-block:: bash
+
+   ./scripts/tools/ConvExaDEMToTxt CheckpointFiles/exadem_0000012345.dump my_export   # from the source tree
+   # or, from the build directory:
+   ./ConvExaDEMToTxt CheckpointFiles/exadem_0000012345.dump my_export
+
+``dump_to_rockable`` / ``ConvExaDEMToRockable``
+"""""""""""""""""""""""""""""""""""""""""""""""
+
+- Name: `dump_to_rockable`
+- Description: Reads a `.dump` checkpoint file and exports its particles to a Rockable `.conf`
+  file.
+- Parameters:
+   * `filename`: The `.dump` file to convert.
+   * `conf_filename`: Output Rockable `.conf` file path.
+   * `shape_filename` (*optional*): A `.shp` file mapping each particle type index to its shape
+     name; copied next to `conf_filename` as `shape.shp`, and used to write one
+     ``density <group> <value>`` header line per group actually present. Without it, the
+     particle `name` column in the `.conf` is just the numeric type index, no density lines are
+     written, and no `shape.shp` is copied.
+   * `dt` (*optional*, default ``0``): Timestep size written to the `.conf`'s `dt` line, not
+     stored in a `.dump`, so it must be given explicitly if needed.
+
+.. note::
+  Work in progress: not merged into ``main`` yet (branch ``364-exademtorockable``). Only
+  particles are exported for now -- interactions and drivers are not written to the `.conf`
+  file (`nDriven` is always `0`).
+
+.. note::
+  This operator only writes files from MPI rank 0; run it with a single rank (``mpirun -n 1``)
+  for a complete export.
+
+YAML example:
+
+.. code-block:: yaml
+
+  - dump_to_rockable:
+     filename: ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump
+     conf_filename: conf0.conf
+     shape_filename: ExaDEMOutputDir/CheckpointFiles/RestartShapeFile.shp
+     dt: 0.0001
+
+**From the command line**, the ``ConvExaDEMToRockable`` wrapper builds this YAML input for you:
+
+.. code-block:: bash
+
+   ./scripts/tools/ConvExaDEMToRockable ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump conf0.conf   # from the source tree
+   ./scripts/tools/ConvExaDEMToRockable ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump conf0.conf ExaDEMOutputDir/CheckpointFiles/RestartShapeFile.shp
+   # or, from the build directory:
+   ./ConvExaDEMToRockable ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump conf0.conf
+
+``--last`` picks the highest-iteration ``exadem_*.dump`` (and ``RestartShapeFile.shp``, if
+present) under ``<input-dir>/CheckpointFiles/`` for you, ``<input-dir>`` defaults to
+``ExaDEMOutputDir`` (matching ``restart_template.py``'s convention), override with
+``--input-dir=DIR``; ``--dt=VALUE`` sets the timestep:
+
+.. code-block:: bash
+
+   ./scripts/tools/ConvExaDEMToRockable --last conf0.conf
+   ./scripts/tools/ConvExaDEMToRockable --last conf0.conf --input-dir=OtherOutputDir --dt=0.0001
+
+Rockable Format
+---------------
 
 Reader Of Rockable Files
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -141,8 +236,8 @@ Reader Of Rockable Files
    * `bounds` This option defines the simulation domain. If not specified, the domain size is determined by the particle positions. Ex: [[0,0,0],[1,1,1]].
    * `filename` Dump file name to read.
    * `enlarge_bounds` Define a layer around the volume size. Default size is 0.
-   * `bounds_mode` (*str*) Defines the bounding box calculation mode. 
-      Default is ``COMPUTED_BOUNDS`` (bounds are dynamically calculated from particles and shapes). 
+   * `bounds_mode` (*str*) Defines the bounding box calculation mode.
+      Default is ``COMPUTED_BOUNDS`` (bounds are dynamically calculated from particles and shapes).
       An alternative is ``DOMAIN`` (uses predefined global domain limits).
    * `region` (*Region object*) Filters particles or IDs based on a specified geometric region.
    * `vtk` (*bool*) If set to ``true``, exports the shape geometry as VTK files for visualization.
@@ -154,7 +249,7 @@ Yaml Example:
   input_data:
     - read_conf_rockable:
        filename: input_file/518_poly.conf
-  
+
   input_data:
     - read_conf_rockable:
        filename: input_a10.txt
@@ -197,9 +292,118 @@ What is not read:
 - iconf
 - boxForLinkCellsOpt
 
+Writer Of Rockable Files
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Name: `write_conf_rockable`
+- Description: This operator writes a minimal rockable output file to use the rockable tool `see`.
+- No parameter
+
+YAML example:
+
+.. code-block:: yaml
+
+   iteration_dump_writer:
+     - write_conf_rockable
+
+.. note::
+
+  Only particles data are written to use the rockable tool `see`.
+
+.. note::
+
+  To convert an existing ``.dump`` checkpoint file to a Rockable ``.conf`` file instead of
+  writing one during a live simulation, see ``dump_to_rockable`` / ``ConvExaDEMToRockable`` in
+  the MPIIO / ``.dump`` Format section above.
+
+XYZ Format
+----------
+
+Reader Of xyz File
+^^^^^^^^^^^^^^^^^^
+
+- Name: `read_xyz`
+- Description: This operator reads a file written according to the xyz format.
+- Parameters:
+   * `bounds_mode` : default mode corresponds to ReadBoundsSelectionMode.
+   * `enlarge_bounds` : Define a layer around the volume size in the xyz file. Default size is 0.
+   * `file` : File name, this parameter is required.
+   * `pbc_adjust_xform` : Adjust the form.
+
+YAML example:
+
+.. code-block:: yaml
+
+ - read_xyz:
+   file: input_file_rigid_surface.xyz
+   bounds_mode: FILE
+   enlarge_bounds: 1.0 m
+
+
+How to build your xyz input file of `nb` particles.
+
+.. code-block:: python
+
+ nb
+ box_size_x box_size_y box_size_z
+ type_0 pos_x_0 pos_y_0 pos_z_0
+ type_1 pos_x_1 pos_y_1 pos_z_1
+ type_2 pos_x_2 pos_y_2 pos_z_2
+ ...
+ type_nb-1 pos_x_nb-1 pos_y_nb-1 pos_z_nb-1
+
+This is an example of two particles the same type in a domain [[0,0,0],[10,10,10]].
+
+.. code-block:: python
+
+ 2
+ 10 10 10
+ 0 2.5 5.0 5.0
+ 0 7.5 5.0 5.0
+
+Writer Of XYZ Files
+^^^^^^^^^^^^^^^^^^^^
+
+- Name: `write_xyz`
+- Description: This operator writes a txt file (`.xyz`) with all specified fields.
+- Parameters:
+  * `fields`: array of fieldsets. Example: ``[ id, velocity, radius ]``
+  * `filename`: name of the output file.
+  * `units`: array of units. Example: ``{ velocity: "m/s", radius: "m" }``
+
+.. note::
+  The first line of the output file contains the number of particles. The second line contains the “lattice” description, useful when using ovito.
+
+YAML example: Replaces MPIIO output files with xyz files.
+
+.. code-block:: yaml
+
+  dump_data_xyz:
+    - timestep_file: "dem_pos_vel_%09d.xyz"
+    - write_xyz:
+       fields: [ id, velocity, radius ]
+       units: { velocity: "m/s", radius: "m" }
+
+  iteration_dump_writer:
+    - dump_data_xyz
+
+  global:
+    simulation_dump_frequency: 500
+
+
+To process these files, a sample script is provided in ``scripts/post_processing/profile_pos_vel.py``. This is a minimal, easily modifiable post-processing file that calculates the averages of all position and velocity components.
+
+Output file: [mean_r_v.pdf]
+
+.. image:: ../../_static/Analyses/mean_r_v.png
+   :width: 500pt
+   :align: center
+
+Shapes
+------
 
 Read Shape File
-^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
 
 The purpose of this operator is to add shapes to a collection of shapes. This operator can be called as many times as desired. However, if you add the same shape multiple times, it will create duplicates. Additionally, the shapes will be ordered according to the order of reading, meaning that type 0 will be associated with the first shape from the first input file. Furthermore, this operator will automatically create a polydata for each shape, which will be used for displaying the polyhedra using ParaView.
 
@@ -267,14 +471,14 @@ Example of a shape:
   5 4
   5 3
   nf 8
-  3 0 1 2 
-  3 2 3 4 
-  3 1 2 4 
-  3 0 2 3 
-  3 0 5 1 
-  3 0 5 3 
-  3 3 5 4 
-  3 4 5 1 
+  3 0 1 2
+  3 2 3 4
+  3 1 2 4
+  3 0 2 3
+  3 0 5 1
+  3 0 5 3
+  3 3 5 4
+  3 4 5 1
   obb.extent 0.33107890345411484 0.33107890345411484 0.4267949192431123
   obb.e1 1.0 0.0 0.0
   obb.e2 0.0 1.0 0.0
@@ -291,194 +495,3 @@ Example of `Octahedron.vtk` with paraview:
 .. image:: ../../_static/octahedron.png
    :width: 300pt
    :align: center
-
-Writer Of MPIIO Files
-^^^^^^^^^^^^^^^^^^^^^
-
-- Name: `write_dump_particle_interaction`
-- Description: This operator writes a dump file with all particle information required to restart the simulation. See operator: @read_dump_particles.
-- Parameters:
-   * `compression_level` Zlib compression level.
-   * `filename` Dump output file name.
-- Default behaviour: the default name is defined by : `- timestep_file: "exaDEM_%09d.dump` and piloted by `simulation_dump_frequency: 1` in the operator `global`.
-
-.. note::
-  This operator is defined in the default `ExaDEM` operator named `dump_data_particles`.
-
-Dump Inspection & Export Tools
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-A few small operators, each with a command-line wrapper script in ``scripts/tools``, let you look
-at or convert a ``.dump`` checkpoint file (written by `write_dump_particle_interaction` above)
-without writing a full simulation input file by hand.
-
-``dump_inspector``
-"""""""""""""""""""
-
-- Name: `dump_inspector`
-- Description: Reads a `.dump` checkpoint file's header and prints its content (format version, particle count, timestep, physical time, field list, domain). No particle data is read.
-- Parameters:
-   * `filename`: Path to the `.dump` checkpoint file to inspect.
-
-YAML example:
-
-.. code-block:: yaml
-
-  - dump_inspector:
-     filename: CheckpointFiles/exadem_0000012345.dump
-
-**From the command line**, the ``dump_inspector.sh`` wrapper builds this YAML input for you and
-takes the ``.dump`` path as a plain argument. CMake also drops a ``dump_inspector`` launcher next
-to the ``exaDEM`` binary in the build directory, so it works the same way:
-
-.. code-block:: bash
-
-   ./scripts/tools/dump_inspector.sh CheckpointFiles/exadem_0000012345.dump   # from the source tree
-   # or, from the build directory:
-   ./dump_inspector CheckpointFiles/exadem_0000012345.dump
-
-``dump_to_txt`` / ``ConvExaDEMToTxt``
-"""""""""""""""""""""""""""""""""""""
-
-- Name: `dump_to_txt`
-- Description: Reads a `.dump` checkpoint file and exports it to plain-text column files:
-  `<pattern_name>_particles.txt` (one row per particle, columns taken from the dump's own
-  header), `<pattern_name>_interactions.txt` (one row per interaction, only written if the dump
-  has any), and `<pattern_name>_summary.txt`. Whether the dump was written with
-  `read_dump_particle_interaction` or `read_dump_particle_fragmentation` (which adds a `cluster`
-  field) is detected automatically from the dump's own , nothing to choose.
-- Parameters:
-   * `filename`: The `.dump` file to export.
-   * `pattern_name`: Output prefix for the generated `.txt` files.
-
-.. note::
-  This operator only writes files from MPI rank 0; run it with a single rank (``mpirun -n 1``)
-  for a complete export.
-
-YAML example:
-
-.. code-block:: yaml
-
-  - dump_to_txt:
-     filename: exadem_0000012345.dump
-     pattern_name: exadem_0000012345
-
-**From the command line**, the ``ConvExaDEMToTxt`` wrapper builds this YAML input for you:
-
-.. code-block:: bash
-
-   ./scripts/tools/ConvExaDEMToTxt CheckpointFiles/exadem_0000012345.dump my_export   # from the source tree
-   # or, from the build directory:
-   ./ConvExaDEMToTxt CheckpointFiles/exadem_0000012345.dump my_export
-
-``dump_to_rockable`` / ``ConvExaDEMToRockable``
-"""""""""""""""""""""""""""""""""""""""""""""""
-
-
-
-- Name: `dump_to_rockable`
-- Description: Reads a `.dump` checkpoint file and exports its particles to a Rockable `.conf`
-  file.
-- Parameters:
-   * `filename`: The `.dump` file to convert.
-   * `conf_filename`: Output Rockable `.conf` file path.
-   * `shape_filename` (*optional*): A `.shp` file mapping each particle type index to its shape
-     name; copied next to `conf_filename` as `shape.shp`, and used to write one
-     ``density <group> <value>`` header line per group actually present. Without it, the
-     particle `name` column in the `.conf` is just the numeric type index, no density lines are
-     written, and no `shape.shp` is copied.
-   * `dt` (*optional*, default ``0``): Timestep size written to the `.conf`'s `dt` line, not
-     stored in a `.dump`, so it must be given explicitly if needed.
-
-.. note::
-  This operator only writes files from MPI rank 0; run it with a single rank (``mpirun -n 1``)
-  for a complete export. Only particles are exported for now, interactions and drivers are not written to the `.conf`
-  file (`nDriven` is always `0`).
-
-YAML example:
-
-.. code-block:: yaml
-
-  - dump_to_rockable:
-     filename: ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump
-     conf_filename: conf0.conf
-     shape_filename: ExaDEMOutputDir/CheckpointFiles/RestartShapeFile.shp
-     dt: 0.0001
-
-**From the command line**, the ``ConvExaDEMToRockable`` wrapper builds this YAML input for you:
-
-.. code-block:: bash
-
-   ./scripts/tools/ConvExaDEMToRockable ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump conf0.conf   # from the source tree
-   ./scripts/tools/ConvExaDEMToRockable ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump conf0.conf ExaDEMOutputDir/CheckpointFiles/RestartShapeFile.shp
-   # or, from the build directory:
-   ./ConvExaDEMToRockable ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump conf0.conf
-
-``--last`` picks the highest-iteration ``exadem_*.dump`` (and ``RestartShapeFile.shp``, if
-present) under ``<input-dir>/CheckpointFiles/`` for you, ``<input-dir>`` defaults to
-``ExaDEMOutputDir`` (matching ``restart_template.py``'s convention), override with
-``--input-dir=DIR``; ``--dt=VALUE`` sets the timestep:
-
-.. code-block:: bash
-
-   ./scripts/tools/ConvExaDEMToRockable --last conf0.conf
-   ./scripts/tools/ConvExaDEMToRockable --last conf0.conf --input-dir=OtherOutputDir --dt=0.0001
-
-Writer Of Rockable Files
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-- Name: `write_conf_rockable`
-- Description: This operator writes a minimal rockable output file to use the rockable tool `see`.
-- No parameter
-
-YAML example:
-
-.. code-block:: yaml
-
-   iteration_dump_writer:
-     - write_conf_rockable
-
-.. note::
-
-  Only particles data are written to use the rockable tool `see`.
-
-Writer Of XYZ Files
-^^^^^^^^^^^^^^^^^^^
-
-- Name: `write_xyz`
-- Description: This operator writes a txt file (`.xyz`) with all specified fields.
-- Parameters:
-  * `fields`: array of fieldsets. Example: ``[ id, velocity, radius ]``
-  * `filename`: name of the output file.
-  * `units`: array of units. Example: ``{ velocity: "m/s", radius: "m" }``
-
-.. note:: 
-  The first line of the output file contains the number of particles. The second line contains the “lattice” description, useful when using ovito.
-
-YAML example: Replaces MPIIO output files with xyz files. 
-
-.. code-block:: yaml
-
-  dump_data_xyz:
-    - timestep_file: "dem_pos_vel_%09d.xyz"
-    - write_xyz:
-       fields: [ id, velocity, radius ]
-       units: { velocity: "m/s", radius: "m" }
-
-  iteration_dump_writer:
-    - dump_data_xyz
-
-  global:
-    simulation_dump_frequency: 500
-
-
-To process these files, a sample script is provided in ``scripts/post_processing/profile_pos_vel.py``. This is a minimal, easily modifiable post-processing file that calculates the averages of all position and velocity components.
-
-Output file: [mean_r_v.pdf]
-
-.. image:: ../../_static/Analyses/mean_r_v.png
-   :width: 500pt
-   :align: center
-
-
-
