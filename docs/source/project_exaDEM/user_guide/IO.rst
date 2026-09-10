@@ -77,12 +77,12 @@ Restart Operator
 ^^^^^^^^^^^^^^^^^
 
 - Name: `restart`
-- Description: Finds and reads everything needed to restart a simulation in one operator:
+- Description: Finds and reads everything needed to restart a simulation, in one operator:
   the latest (or a given) ``exadem_*.dump`` checkpoint under ``<dir_name>/CheckpointFiles/``,
   the matching shape file (``RestartShapeFile.shp`` by default) if the simulation uses
   polyhedra, and the matching drivers storage file (``drivers_<iteration>.msp``, written by
-  `dump_drivers`, see the Drivers Format section below) if there are any drivers. Replaces manually chaining
-  `read_dump_particle_interaction`, a shape reader and a driver restore.
+  `dump_drivers`, see the Drivers Format section below) if there are any drivers. This replaces
+  manually chaining `read_dump_particle_interaction`, a shape reader, and a driver restore.
 - Parameters:
    * `dir_name` (*optional*): Main output directory, usually already set by `io_config`.
      Checkpoints are looked up under ``<dir_name>/CheckpointFiles/``.
@@ -287,25 +287,19 @@ Drivers Format
 --------------
 
 Driver state (position, velocity, motion parameters, ...) is checkpointed separately from
-particles, in its own ``.msp`` file. There are actually **two** unrelated formats for this,
-written side by side by the same default pipeline (piloted by ``simulation_dump_frequency``,
-see `io_config` / `Writer Of MPIIO Files`_ above), meant for two different restart paths:
+particles, in its own ``.msp`` file. It is written and read back automatically: the same
+``simulation_dump_frequency`` setting that checkpoints particles and interactions (see
+`io_config` / `Writer Of MPIIO Files`_ above) triggers `dump_drivers` (below), and the `Restart
+Operator`_ above reads its file back via `read_drivers` (below) -- normally you won't call
+either operator directly.
 
-.. list-table::
-   :widths: 25 25 50
-   :header-rows: 1
+.. note::
 
-   * - File
-     - Format
-     - Meant to be...
-   * - ``driver_%010d.msp``
-     - ``setup_drivers:``/``register_*:`` operator-invocation snippet (`write_op_drivers`)
-     - pasted into a top-level ``includes:`` list, for a *manual* restart. Documented in the
-       I/O Drivers section of the Drivers page.
-   * - ``drivers_%010d.msp``
-     - plain ``drivers:`` storage list (`dump_drivers`, below)
-     - read back directly by `read_drivers` -- used automatically by the `Restart Operator`_
-       above, nothing to include by hand.
+   The default pipeline also writes a second, legacy file, ``driver_%010d.msp``
+   (operator `write_op_drivers`): a ``setup_drivers:``/``register_*:`` snippet meant to be
+   pasted into a top-level ``includes:`` list for a *manual* restart that doesn't use the
+   `Restart Operator`_. Normally you shouldn't need it -- see the I/O Drivers section of the
+   Drivers page if you do.
 
 ``dump_drivers``
 ^^^^^^^^^^^^^^^^^

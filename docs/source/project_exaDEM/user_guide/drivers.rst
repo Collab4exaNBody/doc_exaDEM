@@ -801,7 +801,7 @@ To restart with drivers, use the :ref:`restart operator <io_restart_operator>`: 
   The pipeline also writes a second, legacy file, ``driver_%010d.msp`` (operator
   ``write_op_drivers``): a ``setup_drivers:``/``register_*:`` snippet meant to be pasted into a
   top-level ``includes:`` list for a manual restart, without the ``restart`` operator. Normally
-  you shouldn't need it -- prefer ``dump_drivers``/``restart`` above.
+  you shouldn't need it -- prefer the ``dump_drivers``/``restart`` path described above.
 
 YAML example (legacy, manual restart):
 
