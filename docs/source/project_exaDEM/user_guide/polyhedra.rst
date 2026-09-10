@@ -1,17 +1,17 @@
 R-Shape / Polyhedron
 ====================
 
-In this section, we will describe the various information used to build simulations with R-shape or sphero-polyhedron particles.
+In this section, we describe the various concepts used to build simulations with R-shape or sphero-polyhedron particles.
 
 Overview
 ^^^^^^^^
 
-The polyhedra implemented in ``ExaDEM`` are sphero-polyhedra, i.e. the vertices of the polyhedra are considered as spheres and the edges as cylinders. To achieve this, ``ExaDEM`` incorporates many of the features of the ``Rockable`` DEM code developed at CNRS (https://github.com/richefeu/rockable, https://richefeu.github.io/rockable/quickStart.html). ``ExaDEM`` relies in particular on a ``Shape`` class containing information about the polyhedron (vertex, edge, face, and Minskowski radius) and an interaction class used to qualify a contact between polyhedra. It's important to note that the spheropolyhedron approach can be used to simulate complex non-convex particles such as hexapods.
+The polyhedra implemented in ``ExaDEM`` are sphero-polyhedra: the vertices are treated as spheres and the edges as cylinders. To achieve this, ``ExaDEM`` reuses many features of the ``Rockable`` DEM code developed at CNRS (https://github.com/richefeu/rockable, https://richefeu.github.io/rockable/quickStart.html). It relies in particular on a ``Shape`` class, which stores a polyhedron's geometry (vertices, edges, faces, and Minkowski radius), and an interaction class used to qualify contacts between polyhedra. The sphero-polyhedron approach can also represent complex non-convex particles such as hexapods.
 
 Shape
 ^^^^^
 
-The ``Shape`` class provides all the information on vertices, edges, and faces, but it also provides other support to speed up calculations, such as ``OBB`` sets for each type of information. ``ExaDEM`` provides many features linked to the ``Shape`` class, such as reading ``.shp`` files (the format used by ``Rockable``), as well as other functions such as outputting a ``.vtk`` file of the shape. This class is defined by the following properties:
+The ``Shape`` class stores a polyhedron's vertices, edges, and faces, plus extra data to speed up calculations, such as an ``OBB`` (Oriented Bounding Box) per element. ``ExaDEM`` provides several operators around this class, such as reading ``.shp`` files (the format used by ``Rockable``) or exporting a shape to ``.vtk`` for visualization. Its properties are:
 
 
 .. list-table:: Shape Class Properties
@@ -57,13 +57,18 @@ The ``Shape`` class provides all the information on vertices, edges, and faces, 
      - List of ``OBB`` for each face.
 
 .. note::
-		OBB (Oriented Bounded Boxes) are enlarged of the Minskowki radius.
+
+  Each OBB is enlarged by the shape's Minkowski radius.
 
 .. note::
-		By default, every shape is stored in a list of shapes, and the maximum cut-off radius is deduced from these shapes. Note that a cut-off radius that is too large can drastically reduce simulation performance. That's why, do not put big shapes using the classical way (i.e. ``read_shape_file``), big shapes should be defined as ``drivers``.
-		
-Shape example (octahedron, 6 vertices, 12 edges, and 8 faces): 
-	
+
+  Every shape is stored in a shared list, and the simulation's cut-off radius is deduced from
+  the largest shape in that list. A cut-off radius that is too large can drastically reduce
+  performance, so avoid adding very large shapes through ``read_shape_file``; define them as
+  ``drivers`` instead.
+
+Shape example (octahedron, 6 vertices, 12 edges, and 8 faces):
+
 .. code-block:: bash
 
   <
@@ -91,14 +96,14 @@ Shape example (octahedron, 6 vertices, 12 edges, and 8 faces):
   5 4
   5 3
   nf 8
-  3 0 1 2 
-  3 2 3 4 
-  3 1 2 4 
-  3 0 2 3 
-  3 0 5 1 
-  3 0 5 3 
-  3 3 5 4 
-  3 4 5 1 
+  3 0 1 2
+  3 2 3 4
+  3 1 2 4
+  3 0 2 3
+  3 0 5 1
+  3 0 5 3
+  3 3 5 4
+  3 4 5 1
   obb.extent 0.33107890345411484 0.33107890345411484 0.4267949192431123
   obb.e1 1.0 0.0 0.0
   obb.e2 0.0 1.0 0.0
@@ -110,7 +115,7 @@ Shape example (octahedron, 6 vertices, 12 edges, and 8 faces):
   I/m 0.04999999999999999 0.04999999999999999 0.04999999999999999
   >
 
-Or a sphere (1 vertex, 0 edge, 0 face):
+Or a sphere (1 vertex, 0 edges, 0 faces):
 
 .. code-block:: bash
 
@@ -131,10 +136,10 @@ Or a sphere (1 vertex, 0 edge, 0 face):
   I/m 0.1 0.1 0.1
   >
 
-It's important to note that using a shape of a spherical particle with a polyhedron configuration instead of directly using a sphere configuration decreases overall performance due to unnecessary calculations, such as applying an orientation to a vertex. We have observed that in this case, simulations are about 2 to 3 times slower. 
+Using a spherical shape in a polyhedron configuration instead of a native sphere configuration decreases performance, due to unnecessary calculations such as applying an orientation to a single vertex -- about 2 to 3 times slower in our benchmarks.
 
 * Operator Name: ``read_shape_file``
-* Description: This operator initialize the shapes data structure from a shape input file.
+* Description: This operator initializes the shapes data structure from a shape input file.
 * Parameters:
 
   * ``filename``: Input file name (.shp)
@@ -153,7 +158,7 @@ YAML example:
        rename:       [ PolyRSize2, OctahedronSize2]
        scale_factor: [        2.0,             2.0]
 
-Example: See :ref:`test_case_rescale_shape` . 
+Example: See :ref:`test_case_rescale_shape` .
 
 
 Basic Shapes
@@ -162,51 +167,51 @@ Basic Shapes
 ``ExaDEM`` provides some basic shapes without using a shape file.
 
 * Operator Name: ``add_sphere``
-* Description: Add a sphere to the shape lists.
+* Description: Adds a sphere to the shape list.
 * Parameters:
 
-  * ``length``: Define cube length.
-  * ``minskowski``: Define the Minskowski value.
+  * ``name``: Set the shape's name. Default is "sphere".
+  * ``minkowski``: Set the Minkowski (radius) value.
 
 .. code-block:: yaml
 
   - add_sphere:
      name: MySphere
-     minskowski: 1.0
+     minkowski: 1.0
 
 * Operator Name: ``add_cube``
-* Description: Add a cube to the shape lists.
+* Description: Adds a cube to the shape list.
 * Parameters:
 
-  * ``length``: Define cube length.
-  * ``name``: Set Shape name. Default is "cube".
-  * ``minskowski``: Define the Minskowski value.
+  * ``length``: Set the cube's edge length.
+  * ``name``: Set the shape's name. Default is "cube".
+  * ``minkowski``: Set the Minkowski (radius) value.
 
-YAML Example:
+YAML example:
 
 .. code-block:: yaml
 
   - add_cube:
      name: MyCube
      length: 0.5
-     minskowki: 0.25
+     minkowski: 0.25
 
 * Operator Name: ``add_rice``
-* Description: Add a rice to the shape lists.
+* Description: Adds a rice-shaped particle to the shape list.
 * Parameters:
 
-  * ``length``: Define rice length.
-  * ``name``: Set Shape name. Default is "rice".
-  * ``minskowski``: Define the Minskowski value.
+  * ``length``: Set the rice's length.
+  * ``name``: Set the shape's name. Default is "rice".
+  * ``minkowski``: Set the Minkowski (radius) value.
 
-YAML Example:
+YAML example:
 
 .. code-block:: yaml
 
   - add_rice:
      name: MyRice
      length: 0.5
-     minskowki: 0.025
+     minkowski: 0.025
 
 .. image:: ../../_static/rice_bowl.gif
    :align: center
@@ -217,7 +222,7 @@ YAML Example:
 Polyhedra - Interaction / Contact
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types of interactions between polyhedra and between polyhedra and ``drivers``. This class serves as a crucial component for identifying two elements within the data grid and characterizing the type of interaction between them.
+The ``exaDEM::Interaction`` class models a contact between two polyhedra, or between a polyhedron and a ``driver``. It identifies the two elements involved and characterizes the kind of contact between them.
 
 **Interaction Class Attributes:**
 
@@ -225,12 +230,12 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 * :math:`cell_i` and :math:`cell_j`: Indices of the cells containing the interacting polyhedra.
 * :math:`p_i` and :math:`p_j`: Positions of the polyhedra within their respective cells.
 * :math:`sub_i` and :math:`sub_j`: Indices of the vertex, edge, or face of the polyhedron involved in the interaction.
-* type: Type of interaction (integer). See Interaction Glossary.
-* friction and moment: Storage used for temporary computations.
+* ``type``: Type of interaction (integer), see the glossary below.
+* ``friction`` and ``moment``: Temporary storage for contact-law computations.
 
 
 .. note::
-  When the interaction involves a polyhedron and a ``driver``, particle j is used to locate the ``driver``. In this scenario, cell_j represents the index of the ``driver``. If the ``driver`` utilizes a shape, such as with ``RShapeDriver``, sub_j is also utilized to store the index of the vertex, edge, or face.
+  When the interaction is between a polyhedron and a ``driver``, particle j locates the driver: ``cell_j`` is the driver's index, and, for drivers that carry a shape (``RShapeDriver``), ``sub_j`` stores the index of the involved vertex, edge, or face.
 
 
 .. list-table:: Glossary of ``Interaction`` types
@@ -238,7 +243,7 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
    :header-rows: 1
 
    * - Value
-     - Type 
+     - Type
      - Description
    * - 0
      - Vertex - Vertex
@@ -272,7 +277,7 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
      - Contact between a vertex of a polyhedron and a face of a RShape Driver
    * - 10
      - Edge - Edge (Driver)
-     - Contact between an edge of a polyhedron and a edge of a RShape Driver
+     - Contact between an edge of a polyhedron and an edge of a RShape Driver
    * - 11
      - Vertex (Driver) - Edge
      - Contact between a vertex of a RShape Driver and an edge of a polyhedron
@@ -285,24 +290,21 @@ The ``exaDEM::Interaction`` class in ``ExaDEM`` is used to model various types o
 
 **Interaction Class Usage:**
 
-To retrieve data associated with a specific interaction between two polyhedra, the attributes of the ``exaDEM::Interaction`` class are used to identify cells, positions, and interaction types. This information is then used within simulation computations to accurately model interactions between polyhedra, considering the interaction type.
+The class's attributes identify the cells, positions, and interaction type of a given contact, which simulation computations then use to model that contact accurately.
 
-These interactions are used as a level of granularity for intra-node parallelization, applicable to both ``CPU`` and upcoming ``GPU`` implementations. The interactions are populated within the ``nbh_polyhedron`` operator and subsequently processed in the ``contact_polyhedron`` operator.
-
-
-In summary, the ``exaDEM::Interaction`` class provides a crucial data structure for managing interactions between polyhedra and drivers within DEM simulations. By storing information such as cell numbers, positions, and interaction types, it enables precise modeling of physical interactions between simulated objects.
+Interactions are the unit of intra-node parallelization, on both ``CPU`` and (upcoming) ``GPU`` implementations. They are built by the ``nbh_polyhedron`` operator and then processed by ``contact_polyhedron``.
 
 **Grid Of Interactions:**
 
-In ``ExaDEM``, interactions are stored in the form of a grid of cells (AOSOA), the cell (SOA) then containing a ``GridExtraDynamicDataStorageT``, i.e. a data structure similar to a vector of ``Interactions`` + particle information vector. This data structure facilitates the migration of information between ``MPI`` processes when the interaction is considered to be always active (i.e. the two polyhedra are always in contact from one time step to the next). For more details in code, see `src/polyhedra/include/exaDEM/interaction/grid_cell_interaction.hpp` and the ``extra_storage`` package in ``ExaNBody``.
+Interactions are stored in a grid of cells (an Array-of-Structures-of-Arrays): each cell (a Structure of Arrays) holds a ``GridExtraDynamicDataStorageT``, essentially a vector of ``Interaction``\ s paired with a vector of particle information. This layout makes it straightforward to migrate interaction data between ``MPI`` processes for interactions considered always active (i.e. the two polyhedra stay in contact from one time step to the next). See `src/interaction/include/exaDEM/interaction/grid_cell_interaction.hpp` and the ``extra_storage`` package in ``ExaNBody`` for details.
 
 **Classifier:**
 
-To improve the implementation of kernels linked to ``GPU`` interactions, ``exaDEM`` relies on the `classifier` class, which sorts all interactions by type in an ``SOA``, so that several kernels can be launched, each dealing with the same type of interaction. The aim is to limit instruction divergence between ``GPU`` threads.
+To make ``GPU`` kernels for interactions more efficient, ``exaDEM`` also relies on the ``Classifier`` class, which sorts interactions by type into a Structure of Arrays, so that each kernel launch handles a single interaction type -- reducing instruction divergence between ``GPU`` threads. See :ref:`exadem_views_interactions_classifier` in the Developer Guide for a full description of ``Classifier`` and the ``View`` mechanism it's built on.
 
-It's important to point out that this data structure complements the interaction grid. The main idea is to classify and unclassify interaction information as long as the data has not changed (``cell migration``, ``move particle``, ``IO``). To achieve this, we use two operators: ``classify`` and ``unclassify``.
+This ``Classifier`` complements the interaction grid rather than replacing it: interactions are moved into it (``classify_interactions``) and back out of it (``unclassify_interactions``) only when the underlying data actually changes (cell migration, particle motion, I/O); otherwise they stay classified across time steps.
 
-Using the classifier is currently the default strategy in exaDEM for spheres and polyhedra.
+Using the classifier is currently exaDEM's default strategy for both spheres and polyhedra.
 
 Fragmentation Feature
 ^^^^^^^^^^^^^^^^^^^^^
@@ -311,32 +313,31 @@ Fragmentation Feature
 
   This feature is currently ``experimental``.
 
-The strategy for handling fragmentation in ``exaDEM`` consists of pre-cutting the grains into small polyhedrons and adding springs between the opposite vertices for the faces to be bonded. To use these developments, you must include the ``config_fragmentation.msp`` file instead of ``config_polyhedra.msp``.
+``exaDEM`` handles fragmentation by pre-cutting grains into small polyhedra and adding springs between opposite vertices to bond their faces together. To use this feature, include ``config_fragmentation.msp`` instead of ``config_polyhedra.msp``.
 
  .. figure:: ../../_static/fragmentation_pic.png
    :align: center
    :width: 550pt
 
-The criterion for sticking particles depends on the distance between opposite vertices based on the distance defined by: ``sticking_threshold: 1.e-04`` to be defined in the ``global`` operator, please also define ``apply_particle_sticking: true``. 
+Particles stick together when the distance between opposite vertices falls below ``sticking_threshold`` (e.g. ``1.e-04``), set in the ``global`` block alongside ``apply_particle_sticking: true``.
 
 .. figure:: ../../_static/sticking_threshold.png
    :align: center
    :width: 260pt
 
-Finally, ``exaDEM`` will process interfaces that are a set of ``InnerBond`` interactions (typeId = 13) and check at each time step whether the energy released exceeds a certain threshold (depending on the surface area and a parameter g).
+At each time step, ``exaDEM`` then checks every interface -- a set of ``InnerBond`` interactions (type id 13) -- to see whether the released energy exceeds a threshold that depends on the bonded surface area and a parameter ``g``.
 
 .. figure:: ../../_static/two_fragments.gif
    :align: center
    :width: 500pt
 
-If an ``Interface`` is broken, the interactions are removed and the interaction lists are reconstructed. Note that if two particles are stuck together by an interface, no other interactions (vertex-vertex, vertex-edge, etc.) are possible.
+When an interface breaks, its interactions are removed and the interaction lists are rebuilt. Note that two particles stuck together by an interface cannot have any other kind of contact (vertex-vertex, vertex-edge, etc.) between them at the same time.
 
 
 Data layout: Particle Vertices
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The vertices of the polyhedra are stored in a different grid structure called ``CellVertexField``. It is composed as a grid of VertexFields and is reallocated by the ``compute_vertices`` operator.
-The following image illustrates the memory layout of the vertices:
+Polyhedron vertices are stored in a separate grid structure, ``CellVertexField`` -- a grid of ``VertexField``\ s, reallocated by the ``compute_vertices`` operator. The image below illustrates this memory layout:
 
 .. figure:: ../../_static/structure_vertices.png
 
@@ -344,8 +345,8 @@ The following image illustrates the memory layout of the vertices:
 * Description: This operator computes the vertices for every polyhedron.
 * Parameters:
 
-  * *resize_vertex*: enable to resize the data storage used for vertices, default is true
-  * *minimize_memory_footprint* enable to resize the data storage using only the maximum of vertices according to the particle shapes into a cell. This option is useful if there are some particles with a very high number of particles, default is false.
+  * ``resize_vertex``: Resize the vertex storage to fit the current data. Default is ``true``.
+  * ``minimize_memory_footprint``: Size the vertex storage to just the maximum number of vertices actually needed per cell, based on the shapes present in that cell. Useful when a few particles have a much higher vertex count than the rest. Default is ``false``.
 
 YAML examples:
 
