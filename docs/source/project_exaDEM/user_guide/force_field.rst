@@ -7,14 +7,14 @@ The force field encompasses a broader set of operators and mechanisms responsibl
 Contact Force Laws
 ------------------
 
-``Contact's Law`` in the context of the Discrete Element Method (DEM) refers to the principle used to calculate forces between particles based on their relative displacements. In DEM simulations, ``Contact's Law`` is applied to model ``interactions`` between particles, enabling the simulation of elastic deformation and linear force behaviors within particle-based systems.
+A **contact law**, in the context of the Discrete Element Method (DEM), is the principle used to calculate the force between two particles from their relative displacement. In DEM simulations, a contact law models the interaction between particles, capturing elastic deformation and linear force behaviors.
 
-We distinguish two kinds of interaction : 
+There are two kinds of interaction:
 
 - pure contact interaction
 - cohesive interaction
 
-Here after are given the main laws available in exaDEM :
+The main laws available in exaDEM are:
 
 +--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
 | Name         | type           | Description                                                                                                                        |
@@ -28,51 +28,57 @@ Here after are given the main laws available in exaDEM :
 
 The variables required to describe interactions are:
 
-+-----------------+-----------------------------------------+
-| Variable        | Description                             |
-+=================+=========================================+
-| \\(cp\\)        | The contact position                    |
-+-----------------+-----------------------------------------+
-| \\(r_i\\)       | The position of the particle i          |
-+-----------------+-----------------------------------------+
-| \\(r_j\\)       | The position of the particle j          |
-+-----------------+-----------------------------------------+
-| \\(v_i\\)       | The velocity of the particle i          |
-+-----------------+-----------------------------------------+
-| \\(v_j\\)       | The velocity of the particle j          |
-+-----------------+-----------------------------------------+
-| \\(vrot_i\\)    | The angular velocity of the particle i  |
-+-----------------+-----------------------------------------+
-| \\(vrot_j\\)    | The angular velocity of the particle j  |
-+-----------------+-----------------------------------------+
-| \\(m_i\\)       | The mass of the particle i              |
-+-----------------+-----------------------------------------+
-| \\(m_j\\)       | The mass of the particle j              |
-+-----------------+-----------------------------------------+
-| \\(\\delta_n\\) | The interpenetration / particle overlap |
-+-----------------+-----------------------------------------+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Variable
+     - Description
+   * - :math:`cp`
+     - The contact position
+   * - :math:`r_i`
+     - The position of particle :math:`i`
+   * - :math:`r_j`
+     - The position of particle :math:`j`
+   * - :math:`v_i`
+     - The velocity of particle :math:`i`
+   * - :math:`v_j`
+     - The velocity of particle :math:`j`
+   * - :math:`vrot_i`
+     - The angular velocity of particle :math:`i`
+   * - :math:`vrot_j`
+     - The angular velocity of particle :math:`j`
+   * - :math:`m_i`
+     - The mass of particle :math:`i`
+   * - :math:`m_j`
+     - The mass of particle :math:`j`
+   * - :math:`\delta_n`
+     - The interpenetration / particle overlap
 
 Each kind of interaction also requires additional constants, reflecting for most of them mechanical properties:
 
-+-----------------+--------------------------------------+
-| Constant        | Description                          |
-+=================+======================================+
-| \\(\\Delta_t\\) | The timestep increment               |
-+-----------------+--------------------------------------+
-| \\(\\alpha_n\\) | The damping rate                     |
-+-----------------+--------------------------------------+
-| \\(k_n\\)       | The normal stiffness coefficient     |
-+-----------------+--------------------------------------+
-| \\(k_t\\)       | The tangential stiffness coefficient |
-+-----------------+--------------------------------------+
-| \\(v_t\\)       | The relative tangential velocity     |
-+-----------------+--------------------------------------+
-| \\(k_r\\)       | The rotational stiffness coefficient |
-+-----------------+--------------------------------------+
-| \\(\\mu\\)      | The coefficient of friction          |
-+-----------------+--------------------------------------+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
 
-Elastic linear force with friction tangent force (``hooke``)
+   * - Constant
+     - Description
+   * - :math:`\Delta_t`
+     - The timestep increment
+   * - :math:`\alpha_n`
+     - The damping rate
+   * - :math:`k_n`
+     - The normal stiffness coefficient
+   * - :math:`k_t`
+     - The tangential stiffness coefficient
+   * - :math:`v_t`
+     - The relative tangential velocity
+   * - :math:`k_r`
+     - The rotational stiffness coefficient
+   * - :math:`\mu`
+     - The coefficient of friction
+
+``hooke`` law: elastic normal force with tangential friction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the Discrete Element Method (DEM), the equations of motion (translations and rotations) are discretized in time. Only the rigid-body displacements are considered. Small overlaps between the particles are allowed and used as strain variables. The total contact force between particle :math:`i` and particle :math:`j` is given by 
@@ -107,7 +113,7 @@ where:
  
   The formulas are identical to those used in Rockable (see `Rockable Force Laws <https://richefeu.github.io/rockable/forceLaws.html#default-model-keywork-default>`_) but are implemented differently to align with the `exaDEM` data structure.
 
-The tangential force represents the frictional resistance between particles when they slide against each other. This force is calculated based on the relative tangential velocity (:math:`v_t`) and a tangential stiffness parameter (:math:`k_t`, keyword ``ktContact``). 
+The tangential force represents the frictional resistance between particles when they slide against each other. This force is calculated based on the relative tangential velocity (:math:`v_t`) and a tangential stiffness parameter (:math:`k_t`, called ``ktContact`` in Rockable).
 
 The **Coulomb friction model** is used to limit the tangential force, ensuring that it does not exceed the product of the friction coefficient :math:`\mu` and the normal force (:math:`f_n`):
 
@@ -122,6 +128,7 @@ The tangential force :math:`f_t` is incrementally updated at each time step acco
     f_t = f_t + k_t \cdot v_t \cdot \Delta t
 
 where:
+
 - :math:`f_t` is the tangential force,
 - :math:`k_t` is the tangential stiffness,
 - :math:`v_t` is the relative tangential velocity, and
@@ -129,30 +136,32 @@ where:
 
 The friction force is reset to zero as soon as contact is lost.
 
-``cohesive`` normal law
-~~~~~~~~~~~~~~~~~~~~~~~
-This interaction requires two more parameters that are : 
+``cohesive`` law: cohesive normal force
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This interaction requires two additional parameters:
 
-+-----------------+---------------------------------------------+
-| Constant        | Description                                 |
-+=================+=============================================+
-| \\(fc\\)        | Cohesive force threshold                    |
-+-----------------+---------------------------------------------+
-| \\(dncut\\)     | Distance cutoff for cohesive interaction    |
-+-----------------+---------------------------------------------+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
 
+   * - Constant
+     - Description
+   * - :math:`fc`
+     - Cohesive force threshold
+   * - :math:`dncut`
+     - Distance cutoff for cohesive interaction
 
-Three possibilities depending on the value of the interpenetration between \\(\\delta_n\\) two particles:
+There are three cases, depending on the interpenetration :math:`\delta_n` between the two particles:
 
-*  \\( \\delta_n < -dncut \\)
-*  \\( -dncut < \\delta_n < 0 \\)
-*  \\( 0 < \\delta_n < dncut \\)
+* :math:`\delta_n < -dncut`
+* :math:`-dncut < \delta_n < 0`
+* :math:`0 < \delta_n < dncut`
 
 .. warning::
 
-  Cohesive forces (`dncut`) are only applied if you use the operators ``contact_[*]_[*]_[*]_cohesive``. Otherwise we only consider the case :math:`\\d_n < 0.0`.
+  Cohesive forces (`dncut`) are only applied if you use the operators ``contact_[*]_[*]_[*]_cohesive``. Otherwise we only consider the case :math:`\delta_n < 0.0`.
 
-**Formula between particle i and particle j if \\( \\delta_n < -dncut \\) :**
+**Formula between particle i and particle j if** :math:`\delta_n < -dncut` **:**
 
 
 .. math::
@@ -171,7 +180,7 @@ and the relative velocity norm:
 
   v_n = (v_i - (cp - r_i) \wedge vrot_i) - (v_j - (cp - r_j) \wedge vrot_j) 
 
-**Formula between particle i and particle j if \\( -dncut < \\delta_n < 0 \\) :**
+**Formula between particle i and particle j if** :math:`-dncut < \delta_n < 0` **:**
 
 .. math::
 
@@ -189,25 +198,28 @@ with:
    \end{array} 
    \right.
 
-**Formula between particle i and particle j if \\( 0 < \\delta_n < dncut \\) :**
+**Formula between particle i and particle j if** :math:`0 < \delta_n < dncut` **:**
 
 .. math::
 
   \textbf{f}_{ij} = (\frac{fc}{dncut} . \delta_n - fc) . \textbf{n}
 
-with **n** normalized vector from particle i to particle j
+with **n** the normalized vector from particle i to particle j
 
 
-``dmt`` adhesive normal law
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-DMT (Derjaguin–Muller–Toporov) is usually used to compute pull-off forces (force needed to split two rigid objects in contact). It is computed with global energy calculation. 
-To define it, it needs an additional parameter representing an energy : 
+``dmt`` law: adhesive normal force (Van der Waals)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+DMT (Derjaguin–Muller–Toporov) is usually used to compute pull-off forces (the force needed to split two rigid objects in contact), computed from a global energy balance.
+To define it, it needs an additional parameter representing an energy:
 
-+-----------------+--------------------------------------+
-| Constant        | Description                          |
-+=================+======================================+
-| \\(\\\gamma\\)  | Adhesion energy per unit of surface  |
-+-----------------+--------------------------------------+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Constant
+     - Description
+   * - :math:`\gamma`
+     - Adhesion energy per unit of surface
 
 In case of contact, an additional force :math:`f_{DMT}` is added to the normal force such that :
 
@@ -230,10 +242,12 @@ and :math:`\gamma` is the surface energy (linked to Van der Waals forces).
    Since DMT force law is added to the normal force, it requires the definition of a pure contact law, such as ``hooke`` one.
 
 
+.. _force_field_contact_law_operators:
+
 Contact Law Operators
 ---------------------
 
-Contact Law Operators define the type of contact law and the parameters associated with. 
+Contact Law Operators select a contact law and define its parameters.
 
 The operator naming convention follows the rule below:
 
@@ -295,7 +309,7 @@ In a contact operator, the following parameters can be defined:
 +---------------------+------------------------------------------------------------------------------+
 | `symetric`          | Activate or disable symmetric updates (do not disable it with polyhedron).   |
 +---------------------+------------------------------------------------------------------------------+
-| `config`            | Data structure that contains contact force parameters (dncut, kn, kt,        | 
+| `config`            | Data structure that contains contact force parameters (dncut, kn, kt,        |
 |                     | kr, fc, mu, damp_rate). Type = exaDEM::ContactParams. No default parameter.  |
 +---------------------+------------------------------------------------------------------------------+
 | `config_driver`     | Data structure that contains contact force parameters (dncut, kn, kt,        |
@@ -305,7 +319,7 @@ In a contact operator, the following parameters can be defined:
 | `save_interactions` | Store interactions into the classifier data structure. Default is false.     |
 +---------------------+------------------------------------------------------------------------------+
 
-Here are 4 examples with YAML:
+Here are four YAML examples:
 
 .. code-block:: yaml
 
@@ -340,25 +354,22 @@ Here are 4 examples with YAML:
 
 .. note::
 
-  It is important to check that interaction lists have been built with this option enabled. By default, `exaDEM` always builds interaction lists using the symmetry option to limit the number of calculations.
+  If you set ``symetric: false``, make sure the interaction lists were also built without the symmetry option -- by default, ``exaDEM`` always builds them with symmetry enabled, to limit the number of calculations.
 
 .. note::
 
-  Contact Force With Cohesion ([cohesion_law] = ``cohesive``) operator includes a cohesion force from `rcut` to `rcut+dncut` with the cohesion force parameter `fc`.
+  The cohesion law ([cohesion_law] = ``cohesive``) adds a cohesion force between `rcut` and `rcut+dncut`, scaled by the cohesion force parameter `fc`.
 
 .. note::
 
   - The ``contact_[*]_sphere_[*]_[*]``  operators are designed to process interactions built in ``nbh_sphere`` (please, include the config_spheres.msp file).
-  - The ``contact_[*]_polyhedron_[*]_[*]`` operators are designed to process interactions built in ``nbh_polyhedron`` (please, include the config_polyhedra.msp file).
+  - The ``contact_[*]_polyhedron_[*]_[*]`` operators are designed to process interactions built in ``nbh_polyhedron`` (please, include the config_polyhedra.msp file). For the list of polyhedron interaction types these operators process, see :ref:`interaction_type_poly` on the R-Shape / Polyhedron page.
 
 
 Multi-Material
 --------------
 
-In the previous section, the contact law used the same parameters for all interactions ([material_mode] = ``singlemat``). 
-It is also possible to specify the contact law depending on the type of interaction ([material_mode] = ``multimat``) .  
-In this section, we introduce how to define the values of the contact law between particles,  
-as well as between particles and drivers.
+In the previous section, the contact law used the same parameters for every interaction (``singlemat`` mode). It is also possible to make the contact law depend on the group of the interacting particles (``multimat`` mode). This section explains how to define contact-law values between particles, as well as between particles and drivers.
 
 .. note::
 
@@ -369,7 +380,7 @@ as well as between particles and drivers.
 
    Since ``exaDEM-1.2.3``, multi-material contact parameters are indexed by ``group`` (an integer, see the ``group`` particle field in the Particle Fields page) instead of directly by particle ``type``. Before ``1.2.3``, the particle ``type`` was used directly. This decouples the shape/material identity (``type``) from the contact-law identity (``group``): several particle types can share the same group and therefore reuse the same contact parameters. Groups must be assigned beforehand, either with the ``group`` parameter of ``set_fields`` or with the dedicated ``set_group`` operator (see the Particle Fields page).
 
-To handle multiple particle types, you must use either the ``contact_multimat_[*]_[*]_[*]`` operators  as illustrated below.
+To handle multiple particle groups, use one of the ``contact_multimat_[*]_[*]_[*]`` operators, as illustrated below.
 
 * **YAML example for polyhedra:**
 
@@ -391,8 +402,8 @@ To handle multiple particle types, you must use either the ``contact_multimat_[*
 The following examples illustrate the definition of contact parameters for two particle
 groups (**group 0**, **group 1**) and a driver identified by **0**.
 
-Particle-Particle
-~~~~~~~~~~~~~~~~~
+Particle-Particle Contact Parameters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * **Operator Name:** ``multimat_contact_params``
 * **Description:** This operator defines the contact law parameters between different particle groups.
@@ -461,8 +472,8 @@ With `default_config`:
 
 A complete example is available (please report if the link does not work): `rotating-multimat.msp <https://github.com/Collab4exaNBody/exaDEM/blob/main/example/polyhedra/multimat/rotating-multimat.msp>`_
 
-Particle-Driver
-~~~~~~~~~~~~~~~
+Particle-Driver Contact Parameters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * **Operator Name:** ``drivers_contact_params``
 * **Description:** This operator defines the contact law parameters between particles and drivers.
@@ -546,7 +557,7 @@ With **f** the forces, m the particle mass, and **g** the gravity constant.
 * Parameter:
 
 +-----------+----------------------------------------------------------------------------------------------------------------------------+
-| `gravity` |  Define the gravity constant in function of the gravity axis, default value are x axis = 0, y axis = 0 and z axis = -9.807 |
+| `gravity` |  Gravity vector, one value per axis. Default values are x = 0, y = 0, z = -9.807                                           |
 +-----------+----------------------------------------------------------------------------------------------------------------------------+
 
 ``YAML`` example:
@@ -566,10 +577,10 @@ Formula:
 
    \textbf{f} = -\mu.cx.\|v\|.\textbf{v}  
 
-With **f** the particle forces, cx the aerodynamic coefficient, and \\(\\mu\\) the drag coefficient, \||v\|| the norm of the particle velocity, and **v** the particle velocity.
+With **f** the particle force, ``cx`` the aerodynamic coefficient, :math:`\mu` the drag coefficient, :math:`\|v\|` the norm of the particle velocity, and **v** the particle velocity.
 
 * Operator Name: ``quadratic_force``
-* Description: External forces that model air or fluid, f = - mu * cx * norm(v) * vector(v).
+* Description: External force modeling air or fluid drag: :math:`\textbf{f} = -\mu \cdot cx \cdot \|v\| \cdot \textbf{v}`.
 * Parameter:
 
 +------+------------------------------------------------------------+
@@ -591,11 +602,11 @@ Fluid Grid Force
 ~~~~~~~~~~~~~~~~
 
 * Operator Name: ``sphere_fluid_friction``
-* Description: External forces that model a fluid computed from a grid such as: f = ||fv - pv|| 
+* Description: External force modeling drag from a fluid velocity field defined on a grid.
 
 .. math::
 
-	dv = fv - pv 
+  dv = fv - pv
 
 .. math::
 
@@ -607,11 +618,18 @@ With `fv` the fluid velocity, `pv` the particle velocity, `r` the particle radiu
 
   The fluid velocity `fv` for each point of the grid has been defined by the operator `set_cell_values` (pure exaNBody operator).
 
+.. _force_field_inner_bond_forces:
+
 Inner Bond Forces
 -----------------
 
-Description
-~~~~~~~~~~~
+.. note::
+
+   This section describes the *force law* applied between already-bonded faces. The
+   geometric/sticking side of fragmentation -- pre-cutting grains, the sticking threshold that
+   decides which vertices get bonded in the first place, and interface breakage -- is described
+   in the Fragmentation Feature section of the R-Shape / Polyhedron page (see
+   :ref:`polyhedra_fragmentation`).
 
 The ``inner_bond_force`` law models a **cohesive bond** between two contacting
 polyhedron faces, combining a linear elastic + viscous **normal** force, a
@@ -635,8 +653,8 @@ energies (tension only) are:
    E_n &= \tfrac12\, w\, k_n\, \delta^2 \\
    E_t &= \tfrac12\, w\, k_t\, \lVert \mathbf{t_{ds}} \rVert^2
 
-Parameters
-~~~~~~~~~~
+Inner Bond Parameters
+~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :header-rows: 1
@@ -673,10 +691,10 @@ Parameters
    ``gn`` together with ``gt`` (SeparateModes). Mixing the two, or omitting
    both, is rejected at parsing time.
 
-Usage
-~~~~~
+Usage Examples
+~~~~~~~~~~~~~~
 
-Single material, mixed-mode fracture:
+Single configuration (no groups), mixed-mode fracture:
 
 .. code-block:: yaml
 
@@ -686,7 +704,7 @@ Single material, mixed-mode fracture:
      damp_rate: 0.1
      g: 5.0 J/m^2
 
-Single material, separate-mode fracture:
+Single configuration (no groups), separate-mode fracture:
 
 .. code-block:: yaml
 
@@ -697,8 +715,8 @@ Single material, separate-mode fracture:
      gn: 5.0 J/m^2
      gt: 2.0 J/m^2
 
-Multi-material simulations use the ``inner_bond_params`` operator with one
-entry per ``(group1[p], group2[p])`` pair in parallel arrays:
+With multiple groups, use the ``inner_bond_params`` operator with one entry
+per ``(group1[p], group2[p])`` pair in parallel arrays:
 
 .. note::
 

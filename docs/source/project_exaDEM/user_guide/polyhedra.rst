@@ -224,6 +224,13 @@ Polyhedra - Interaction / Contact
 
 The ``exaDEM::Interaction`` class models a contact between two polyhedra, or between a polyhedron and a ``driver``. It identifies the two elements involved and characterizes the kind of contact between them.
 
+.. note::
+
+   This page describes how interactions are identified and stored; the contact law itself
+   (``hooke``, ``cohesive``, ``dmt``) and its parameters (``kn``, ``kt``, ``kr``, ``mu``,
+   ``damp_rate``, and, for cohesive/DMT variants, ``fc``/``dncut``/``gamma``) are defined on the
+   Force Field page, see :ref:`force_field_contact_law_operators`.
+
 **Interaction Class Attributes:**
 
 * :math:`id_i` and :math:`id_j`: Id of both polyhedra.
@@ -306,6 +313,8 @@ This ``Classifier`` complements the interaction grid rather than replacing it: i
 
 Using the classifier is currently exaDEM's default strategy for both spheres and polyhedra.
 
+.. _polyhedra_fragmentation:
+
 Fragmentation Feature
 ^^^^^^^^^^^^^^^^^^^^^
 
@@ -314,6 +323,13 @@ Fragmentation Feature
   This feature is currently ``experimental``.
 
 ``exaDEM`` handles fragmentation by pre-cutting grains into small polyhedra and adding springs between opposite vertices to bond their faces together. To use this feature, include ``config_fragmentation.msp`` instead of ``config_polyhedra.msp``.
+
+.. note::
+
+   This section covers the geometric side of fragmentation: pre-cutting, sticking, and
+   interface breakage. The bond *force law* itself and its parameters (``kn``, ``kt``,
+   ``damp_rate``, and the fracture criterion ``g`` or ``gn``/``gt``) are defined on the Force
+   Field page, see :ref:`force_field_inner_bond_forces`.
 
  .. figure:: ../../_static/fragmentation_pic.png
    :align: center
