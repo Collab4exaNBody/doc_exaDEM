@@ -2,11 +2,13 @@ Numerical Scheme
 ================
 
 .. |dt| replace:: :math:`\Delta_t`
+.. |bq| replace:: :math:`\bar{Q}`
+.. |do| replace:: :math:`\dot{\omega}`
 
 Velocity Verlet Scheme
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The time integration in ``exaDEM`` is performed using the velocity form of the Störmer-Verlet time integration algorithm, well-known as the `velocity-Verlet` algorithm. It is advantageous for DEM simulations due to its simplicity, stability, and accuracy. It provides a straightforward method for integrating Newton's equations of motion, efficiently calculating both positions and velocities. The `velocity-verlet` algorithm is integrated using the following scheme at each time step:
+The time integration in ``exaDEM`` uses the velocity form of the Störmer-Verlet algorithm, better known as *velocity-Verlet*. It is well suited to DEM simulations for its simplicity, stability, and accuracy, providing a straightforward way to integrate Newton's equations of motion and compute positions and velocities efficiently. At each time step, it proceeds as follows:
 
 1. Calculate the position vector at full timestep:
 
@@ -21,7 +23,7 @@ The time integration in ``exaDEM`` is performed using the velocity form of the S
     \mathbf{v} \left( t + \frac{\Delta t}{2} \right) = \mathbf{v} \left( t \right) + \mathbf{a} \left( t \right) \frac{\Delta t}{2}
    
 
-3. Compute the acceleration vector at full time-step \\( \\mathbf{a} \\left( t + \\Delta t\\right) \\) from the interatomic potential using the position at full timestep \\( \\mathbf{x} \\left( t + \\Delta t\\right) \\)
+3. Compute the acceleration vector at full time step, :math:`\mathbf{a} \left( t + \Delta t\right)`, from the interatomic potential, using the position at full time step, :math:`\mathbf{x} \left( t + \Delta t\right)`
 
 4. Finally, calculate the velocity vector at full timestep:
    
@@ -29,12 +31,12 @@ The time integration in ``exaDEM`` is performed using the velocity form of the S
 
     \mathbf{v} \left( t + \Delta t \right) = \mathbf{v} \left( t + \frac{\Delta t}{2} \right) + \frac{1}{2} \mathbf{a} \left( t + \Delta t\right) \Delta t
 
-In ``exaDEM``, the numerical scheme definition can be found in ``exaDEM/data/config/config_numerical_schemes.msp`` and the YAML block for the Velocity-Verlet scheme reads
+In ``exaDEM``, the numerical scheme definition can be found in ``exaDEM/data/config/config_numerical_schemes.msp``. Written out step by step (without the field-loading optimizations described below), the Velocity-Verlet scheme reads:
 
 .. code-block:: yaml
 
    numerical_scheme: numerical_scheme_verlet
-   
+
    numerical_scheme_verlet:
      name: scheme
      body:
@@ -43,15 +45,20 @@ In ``exaDEM``, the numerical scheme definition can be found in ``exaDEM/data/con
       - push_to_quaternion: { dt_scale: 1.0 }
       - check_and_update_particles
       - reset_force_moment
-      - compute_force_op
+      - compute_force
       - force_to_accel
-      - update_angular_acceleration 
-      - update_angular_velocity: { dt_scale: 1 }
+      - push_to_angular_acceleration
+      - push_to_angular_velocity: { dt_scale: 1 }
       - push_f_v: { dt_scale: 0.5 }
 
 .. note::
 
-  Some operators are combined in operators to optimize code and avoid loading the same fields several times: ``combined_compute_prolog`` and ``combined_compute_epilog``. 
+  To avoid loading the same fields several times, some of these operators are in practice
+  combined into ``combined_compute_prolog`` and ``combined_compute_epilog`` (see below), and the
+  default config additionally interleaves driver-specific counterparts of several of these steps
+  (e.g. ``push_f_v_r_driver``, ``force_to_accel_driver``). The above is the conceptual,
+  fully-expanded form; see ``config_numerical_schemes.msp`` itself for the exact, up-to-date
+  default pipeline.
 
 The ``exaNBody`` code provides a generic operator for 1st order time-integration purposes. For example, the file ``exaNBody/src/exanb/push_vec3_1st_order_xform.cpp`` provides 3 different variants:
 
@@ -68,7 +75,7 @@ Since in ``exaDEM`` positions are expressed in a reduced frame, the argument ``x
 Operators
 ^^^^^^^^^
 
-In this section, we'll explain operators and how to use them. The idea is to be able to easily reorder / add / remove operators to easily build another time integration scheme than the Verlet Vitesse scheme. For performance reasons, some operators are merged into a single operator, such as ``combined_compute_epilog`` and ``combined_compute_prolog``.
+This section describes each operator individually, so you can reorder, add, or remove them to build a time-integration scheme other than Velocity-Verlet. For performance reasons, some of them are merged into a single operator, such as ``combined_compute_epilog`` and ``combined_compute_prolog``.
 
 
 Reset Forces and Moments
@@ -178,12 +185,7 @@ Formula:
 
   aa = Q.\dot{\omega}
 
-.. math::
-
-.. |bq| replace:: :math:`\bar{Q}`
-.. |do| replace:: :math:`\dot{\omega}`  
-
-with **aa** the angular acceleration, **av** the angular velocity, I the particle inertia, and Q the particle orientation (and |bq| its conjugate). To compute |do|, we need the particle moment and the particle inertia values. 
+with **aa** the angular acceleration, **av** the angular velocity, I the particle inertia, and Q the particle orientation (and |bq| its conjugate). To compute |do|, we need the particle moment and the particle inertia values.
 
 Here is a YAML example:
 
@@ -199,15 +201,13 @@ Combined Prolog
 ---------------
 
 * Operator Name: ``combined_compute_prolog``
-* Description: This is an operator that combines 3 operators:
+* Description: This is an operator that combines 3 operators, in order, with the same
+  ``dt_scale`` values as steps 1, 2, and 3 of the scheme above (1.0, 0.5, and 1.0
+  respectively -- not user-configurable, unlike the standalone operators):
 
-  * push_f_v_r
-  * push_f_v
-  * push_to_quaternion
-
-* Parameter:
-
-  * ``dt_scale``: Coefficient applied to the increment time (|dt|) 
+  * ``push_f_v_r``
+  * ``push_f_v``
+  * ``push_to_quaternion``
 
 Here is a YAML example:
 
@@ -219,11 +219,11 @@ Combined Epilog
 ---------------
 
 * Operator Name: ``combined_compute_epilog``
-* Description: This is an operator that combines 3 operators:
+* Description: This is an operator that combines 3 operators, in order:
 
-  * push_to_angular_accelaration
-  * push_angular_velocity
-  * push_f_v
+  * ``push_to_angular_acceleration``
+  * ``push_to_angular_velocity``
+  * ``push_f_v``
 
 Here is a YAML example:
 
