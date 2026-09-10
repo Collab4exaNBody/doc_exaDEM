@@ -71,37 +71,95 @@ Writer Of MPIIO Files
 .. note::
   This operator is defined in the default `ExaDEM` operator named `dump_data_particles`.
 
+.. _io_restart_operator:
+
+Restart Operator
+^^^^^^^^^^^^^^^^^
+
+- Name: `restart`
+- Description: Finds and reads everything needed to restart a simulation in one operator:
+  the latest (or a given) ``exadem_*.dump`` checkpoint under ``<dir_name>/CheckpointFiles/``,
+  the matching shape file (``RestartShapeFile.shp`` by default) if the simulation uses
+  polyhedra, and the matching drivers storage file (``drivers_<iteration>.msp``, written by
+  `dump_drivers`, see the Drivers Format section below) if there are any drivers. Replaces manually chaining
+  `read_dump_particle_interaction`, a shape reader and a driver restore.
+- Parameters:
+   * `dir_name` (*optional*): Main output directory, usually already set by `io_config`.
+     Checkpoints are looked up under ``<dir_name>/CheckpointFiles/``.
+   * `restart_iteration` (*optional*): Checkpoint iteration to restart from. Defaults to the
+     latest ``exadem_*.dump`` found under ``<dir_name>/CheckpointFiles/``.
+   * `shape_filename` (*optional*): Overrides the default
+     ``<dir_name>/CheckpointFiles/RestartShapeFile.shp`` shape file.
+   * `drivers_filename` (*optional*): Overrides the default
+     ``<dir_name>/CheckpointFiles/drivers_<iteration>.msp`` drivers storage file. If neither is
+     given nor found, drivers are simply left empty -- not every simulation has any.
+
+For spheres there is no shape file at all, and not every simulation has drivers: if either is
+missing (not given and not found at its default path), it is simply skipped -- no error.
+
+YAML example:
+
+.. code-block:: yaml
+
+  input_data:
+    - restart
+
+  input_data:
+    - restart:
+       restart_iteration: 12345
+       shape_filename: OtherCheckpointDir/shapes.shp
+
+.. note::
+  ``domain:`` must still be defined in the ``.msp`` file as usual (grid size, periodicity,
+  ...); only the particle/shape/driver *state* comes from the checkpoint.
+
 Restart file script
 ^^^^^^^^^^^^^^^^^^^^
 
-In the `scripts` folder, you have the option of using a script ``restart_template.py`` that will enable you to quickly write the restart section of your simulation by directly retrieving the path to any saved files. This script directly includes whether the simulation mode is spherical or polyhedral. If the mode is polyhedral, the shape file will also be loaded automatically. The script will also check for a file containing driver data and include it. Finally, it will also include the last dump file (highest iteration).
+The ``scripts/tools/restart_template.py`` script adapts an existing, real launch ``.msp`` file
+for restart, so you don't have to hand-edit ``input_data:``/``setup_drivers:`` yourself. Given a
+launch file, it writes a new ``<name>_restart.msp`` next to it, ready to run.
 
-Option:
-
-* `directory`: Output file path, the default path is `ExaDEMOutputDir`. Note that it should contain a subdirectory named: `CheckpointFiles` and this output file path is defined into the operator ``io_tree``.
-
-Example:
+Usage:
 
 .. code-block:: bash
 
-   python3 ~/exaDEM/scripts/restart_template.py --directory SpheresMovableWallDir
+   python3 scripts/tools/restart_template.py path/to/my_simulation.msp
+   # -> writes path/to/my_simulation_restart.msp
 
-Output:
+.. warning:: How it rewrites ``input_data:``
 
-.. code-block:: bash
+  The generated file's ``input_data:`` is **not** a copy of the original one. Every entry is
+  dropped and replaced with a single ``- restart`` (the Restart Operator above), **except**
+  entries whose name ends in ``_params`` (``multimat_contact_params:``,
+  ``drivers_contact_params:``, ``inner_bond_params:``, ...), which are kept, in their original
+  order, right after ``- restart``. Concretely:
 
-   Restart directory: SpheresMovableWallDir
-   Particle mode: Spheres
-   Last iteration identified: 29000
-   Here s a template for restarting your simulation at the last saved iteration:
+  .. code-block:: yaml
 
-   includes:
-     - config_spheres.msp
-     - SpheresMovableWallDir/CheckpointFiles/driver_0000029000.msp
+     # before, input_data: in my_simulation.msp
+     input_data:
+       - init_rcb_grid
+       - particle_type: { type: [ Sphere1, Sphere2 ] }
+       - lattice: { structure: BCC, types: [ Sphere1, Sphere2 ], size: [ 1.0, 1.0, 1.0 ] }
+       - set_fields: { polyhedra: false, type: [ Sphere1, Sphere2 ], radius: [ 0.5, 0.25 ] }
+       - multimat_contact_params: { group1: [0], group2: [0], kn: [5000], kt: [4000], kr: [0.0], mu: [0.1], damprate: [0.999] }
 
-   input_data:
-     - read_dump_particle_interaction:
-        filename: SpheresMovableWallDir/CheckpointFiles/exadem_0000029000.dump
+     # after, input_data: in my_simulation_restart.msp
+     input_data:
+       - restart
+       - multimat_contact_params: { group1: [0], group2: [0], kn: [5000], kt: [4000], kr: [0.0], mu: [0.1], damprate: [0.999] }
+
+  If your original ``input_data:`` relies on any other operator to (re)build simulation state
+  -- a custom field-setup operator that isn't a ``*_params`` entry, for instance -- it is
+  **silently dropped** and must be re-added to the generated file by hand.
+
+  ``setup_drivers:`` is dropped entirely (drivers are restored by ``restart`` itself from
+  `dump_drivers`'s file, not by re-running ``register_*:`` operators), and ``global:`` has
+  ``apply_particle_sticking`` forced to ``false`` (restored bonds already encode which particles
+  are stuck; recomputing it against already-evolved positions would be wrong). Every other
+  block (``domain:``, ``compute_force:``, ``includes:``, ...) is kept byte-for-byte, and comment
+  lines are stripped throughout.
 
 Dump Inspection & Export Tools
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -187,9 +245,8 @@ YAML example:
      stored in a `.dump`, so it must be given explicitly if needed.
 
 .. note::
-  Work in progress: not merged into ``main`` yet (branch ``364-exademtorockable``). Only
-  particles are exported for now -- interactions and drivers are not written to the `.conf`
-  file (`nDriven` is always `0`).
+  Only particles are exported for now, interactions and drivers are not written to the
+  `.conf` file (`nDriven` is always `0`).
 
 .. note::
   This operator only writes files from MPI rank 0; run it with a single rank (``mpirun -n 1``)
@@ -216,13 +273,92 @@ YAML example:
 
 ``--last`` picks the highest-iteration ``exadem_*.dump`` (and ``RestartShapeFile.shp``, if
 present) under ``<input-dir>/CheckpointFiles/`` for you, ``<input-dir>`` defaults to
-``ExaDEMOutputDir`` (matching ``restart_template.py``'s convention), override with
+``ExaDEMOutputDir`` (the usual ``dir_name``/`io_config` default), override with
 ``--input-dir=DIR``; ``--dt=VALUE`` sets the timestep:
 
 .. code-block:: bash
 
    ./scripts/tools/ConvExaDEMToRockable --last conf0.conf
    ./scripts/tools/ConvExaDEMToRockable --last conf0.conf --input-dir=OtherOutputDir --dt=0.0001
+
+.. _io_drivers_format:
+
+Drivers Format
+--------------
+
+Driver state (position, velocity, motion parameters, ...) is checkpointed separately from
+particles, in its own ``.msp`` file. There are actually **two** unrelated formats for this,
+written side by side by the same default pipeline (piloted by ``simulation_dump_frequency``,
+see `io_config` / `Writer Of MPIIO Files`_ above), meant for two different restart paths:
+
+.. list-table::
+   :widths: 25 25 50
+   :header-rows: 1
+
+   * - File
+     - Format
+     - Meant to be...
+   * - ``driver_%010d.msp``
+     - ``setup_drivers:``/``register_*:`` operator-invocation snippet (`write_op_drivers`)
+     - pasted into a top-level ``includes:`` list, for a *manual* restart. Documented in the
+       I/O Drivers section of the Drivers page.
+   * - ``drivers_%010d.msp``
+     - plain ``drivers:`` storage list (`dump_drivers`, below)
+     - read back directly by `read_drivers` -- used automatically by the `Restart Operator`_
+       above, nothing to include by hand.
+
+``dump_drivers``
+^^^^^^^^^^^^^^^^^
+
+- Name: `dump_drivers`
+- Description: Writes driver information to ``<dir_name>/CheckpointFiles/drivers_%010d.msp``,
+  in a plain ``drivers:`` storage format (one entry per driver: type, id, state, params, and
+  for RSHAPE drivers a filename/minkowski) meant to be read back directly by `read_drivers`.
+- Parameters:
+   * `dir_name`: Main output directory.
+   * `timestep`: Iteration number (used to build the output filename).
+
+YAML example:
+
+.. code-block:: yaml
+
+  - dump_drivers
+
+.. note::
+  This is part of the default ``dump_data_particles`` pipeline, alongside
+  `write_dump_particle_interaction` and `write_op_drivers` -- it normally doesn't need to be
+  called explicitly.
+
+Output format (one entry per driver, e.g. a stationary surface driver):
+
+.. code-block:: yaml
+
+  drivers:
+    - type: SURFACE
+      id: 2
+      state: {offset: -10, center: [0, 0, -10], normal: [0, 0, 1], vel: [0, 0, 0], vrot: [0, 0, 0], surface: 0}
+      params: {motion_type: STATIONARY, motion_vector: [0, 0, 0], motion_start_threshold: 0, motion_end_threshold: 1e+300}
+
+``read_drivers``
+^^^^^^^^^^^^^^^^^
+
+- Name: `read_drivers`
+- Description: Reads a drivers storage file (written by `dump_drivers`) and registers each
+  driver it contains -- restoring drivers at restart time without going through
+  ``setup_drivers:``/``register_*:`` operators or a top-level ``includes:``.
+- Parameters:
+   * `filename`: Path to a drivers storage file, as written by `dump_drivers`.
+
+YAML example:
+
+.. code-block:: yaml
+
+  - read_drivers:
+     filename: ExaDEMOutputDir/CheckpointFiles/drivers_0001400000.msp
+
+.. note::
+  The `Restart Operator`_ above calls this automatically; you only need it directly if you're
+  restoring drivers outside of ``restart`` (e.g. a manual, chained restart).
 
 Rockable Format
 ---------------

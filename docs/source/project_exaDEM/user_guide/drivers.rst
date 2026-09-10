@@ -792,9 +792,18 @@ I/O Drivers
 
 An input/output system has been implemented primarily for drivers performing movements, such as a rigid surface compressing a sample or a blade rotating around an axis.
 
-The drivers' output is automatically triggered when the user sets the global variable: ``simulation_dump_frequency``. This command also allows particles and interactions to be stored in a separate file. The drivers are then saved in a file located at ``ExaDEMOutputDir/CheckpointFiles/driver_%010d.msp``, containing the drivers' information. In the case of an ``RShape`` driver, a shp file is added to the ``ExaDEMOutputDir/CheckpointFiles/`` directory, which contains the geometry of the ``RShape``. To restart the driver along with your simulation, simply include the ``.msp`` file containing the ``setup_driver`` operator block at the beginning of your restart file.
+The drivers' output is automatically triggered when the user sets the global variable ``simulation_dump_frequency`` (the same setting that checkpoints particles and interactions). At each checkpoint, driver state is saved to ``ExaDEMOutputDir/CheckpointFiles/drivers_%010d.msp`` (operator ``dump_drivers``), in a plain ``drivers:`` storage list. In the case of an ``RShape`` driver, a ``.shp`` file is also added to ``ExaDEMOutputDir/CheckpointFiles/``, containing the geometry of the ``RShape``.
 
-YAML example: 
+To restart with drivers, use the :ref:`restart operator <io_restart_operator>`: it reads ``drivers_%010d.msp`` back automatically (via ``read_drivers``), nothing to add to ``includes:`` by hand. See :ref:`io_drivers_format` on the Input/Output page for the ``dump_drivers``/``read_drivers`` operators behind it.
+
+.. note::
+
+  The pipeline also writes a second, legacy file, ``driver_%010d.msp`` (operator
+  ``write_op_drivers``): a ``setup_drivers:``/``register_*:`` snippet meant to be pasted into a
+  top-level ``includes:`` list for a manual restart, without the ``restart`` operator. Normally
+  you shouldn't need it -- prefer ``dump_drivers``/``restart`` above.
+
+YAML example (legacy, manual restart):
 
 .. code:: yaml
 
