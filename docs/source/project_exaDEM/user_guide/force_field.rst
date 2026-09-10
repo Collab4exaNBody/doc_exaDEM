@@ -366,6 +366,8 @@ Here are four YAML examples:
   - The ``contact_[*]_polyhedron_[*]_[*]`` operators are designed to process interactions built in ``nbh_polyhedron`` (please, include the config_polyhedra.msp file). For the list of polyhedron interaction types these operators process, see :ref:`interaction_type_poly` on the R-Shape / Polyhedron page.
 
 
+.. _force_field_multi_material:
+
 Multi-Material
 --------------
 

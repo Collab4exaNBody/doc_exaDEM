@@ -1,19 +1,20 @@
 Particle Fields
 ===============
 
-In this section, we provide an overview of ``ExaDEM`` operators associated with ``field`` mutation. This section is divided into three subsections: the unified ``field`` operator for spheres and polyhedra, ``field`` operators applicable to particles of any type, and ``field`` operators specifically designed for polyhedra.
+This page covers ``ExaDEM``'s ``field``-mutation operators, in three parts: the unified ``set_fields`` operator (for both spheres and polyhedra), operators that work on particles of any type, and operators specific to polyhedra.
 
 
 Unified Field Operators
 -----------------------
 
-.. warning:: 
+.. warning::
 
-  This operator has many possible combinations, some of which may be wrong. Please report any doubts.
+  ``set_fields`` accepts many parameter combinations, and not all of them have been exhaustively
+  tested. If a combination produces unexpected results, please report it.
 
 * Operator name: ``set_fields``:
 * Parameters ``REQUIRED``:
-   * [bool] `polyhedra`: Define if the kind of particles is polyhedron or sphere.
+   * [bool] `polyhedra`: Whether the particles are polyhedra (``true``) or spheres (``false``).
    * [std::vector<string>] `type`: Particle type names.
 * Parameters ``OPTIONAL``:
    * [std::vector<double>] `density`: List of density values. If not defined, density is 1.
@@ -23,16 +24,16 @@ Unified Field Operators
    * [std::vector<Vec3d>] `angular_velocity`: List of angular velocity values. If not defined, angular velocity is [0,0,0].
    * [std::vector<double>] `sigma_angular_velocity`: Standard deviation (sigma). If not defined, the normal distribution is not applied.
    * [std::vector<Quaternion>] `quaternion`: List of orientations. If not defined, quaternion is [w = 1,0,0,0].
-   * [std::vector<bool>] `random_quaternion`: Choice if the orientation is random or not. If not defined, random is false.
+   * [std::vector<bool>] `random_quaternion`: Whether the orientation is randomized. If not defined, random is false.
    * [std::vector<uint32_t>] `group`: Group index associated to each particle type (same order as `type`). If not defined, group is 0 for all particles.
 
 .. note::
 
-  For spheres, you need to call particle_type operator to create the particle map required by ``set_fields``.
+  For spheres, you need to call the ``particle_type`` operator to create the particle map required by ``set_fields``.
 
 .. note::
 
-  Since ``exaDEM-1.2.3``, the ``group`` field is used by the multi-material contact operators (``multimat_contact_params``, ``drivers_contact_params``, ``inner_bond_params``) to select which set of contact parameters applies between two particles. Before ``1.2.3``, the particle ``type`` itself was directly used to look up these contact parameters. With ``group``, several particle types can share the same group and therefore reuse the same contact parameters, decoupling the (shape-related) ``type`` from the (contact-law-related) ``group``. See the Multi-Material section of the Force Field page for details. Groups can also be (re)assigned after initialization with the ``set_group`` operator.
+  Since ``exaDEM-1.2.3``, the ``group`` field is used by the multi-material contact operators (``multimat_contact_params``, ``drivers_contact_params``, ``inner_bond_params``) to select which set of contact parameters applies between two particles. Before ``1.2.3``, the particle ``type`` itself was directly used to look up these contact parameters. With ``group``, several particle types can share the same group and therefore reuse the same contact parameters, decoupling the (shape-related) ``type`` from the (contact-law-related) ``group``. See :ref:`force_field_multi_material` on the Force Field page for details. Groups can also be (re)assigned after initialization with the ``set_group`` operator, below.
 
 YAML example (Spheres):
 
@@ -79,39 +80,37 @@ Field Operators For All Particles
 ---------------------------------
 
 
-This repertory plugin only provides operators for modifying fields, especially at initialization. The following operators are based on the functor `set` and initialize one or more fields: 
+This plugin provides operators for modifying fields, mainly at initialization. The following operators are based on the ``set`` functor and initialize one or more fields:
 
-* ``set_densities_multiple_materials``: 
+* ``set_densities_multiple_materials``: Applies a different density to each particle type. Mass is deduced from density and radius.
    * [std::vector<double>] `densities`
-   * Comment: mass is deduced from the density and radius
-* ``set_density``:
+* ``set_density``: Applies the same density to every particle. Use ``set_densities_multiple_materials`` above instead if densities should vary by particle type.
    * [double] `density`
-* ``set_homothety``:
+* ``set_homothety``: Sets the same homothety (scale factor) on every particle in a region.
    * [double] `homothety`
-* ``set_type``:
+* ``set_type``: Sets the same particle type on every particle in a region.
    * [uint32_t] `type`
-* ``set_material_properties``:
-   * [uint8_t] `type`
+* ``set_material_properties``: Sets radius, density, and orientation together, in one call, for every particle in a region.
+   * [uint32_t] `type`
    * [double] `rad`
    * [double] `density`
    * [Quaternion] `quat`
-* ``set_quaternion``:
+* ``set_quaternion``: Sets the same orientation on every particle in a region, or a random orientation for each.
    * [Quaternion] `quat`
-   * [bool] `random`, default is false. 
-* ``set_radius``:
+   * [bool] `random`, default is false.
+* ``set_radius``: Sets the same radius on every particle in a region.
    * [double] `rad`
-* ``set_radius_multiple_materials``:
-   * [std::vector<double>]` radius` (list of radii according to types)
-* ``set_rand_vrot_arot``:
+* ``set_radius_multiple_materials``: Applies a different radius to each particle type.
+   * [std::vector<double>] `radius` (list of radii according to types)
+* ``set_rand_vrot_arot``: Draws angular velocity and angular acceleration from a normal distribution, for every particle.
    * [double] `var_vrot` (variance), default = 0
    * [double] `var_arot` (variance), default = 0
    * [Vec3d] `mean_arot` (mean), default = {0,0,0}
    * [Vec3d] `mean_vrot` (mean), default = {0,0,0}
-   * Comment : This operator sets the angular acceleration and velocity using a normal distribution
-* ``set_rand_velocity``:
+* ``set_rand_velocity``: Draws velocity from a normal distribution, for every particle in a region.
    * [double] `var` (variance), default = 0
    * [Vec3d] `mean`, default = {0,0,0}
-* ``update_inertia``
+* ``update_inertia``: Recomputes the inertia field from mass and radius (:math:`0.4 \cdot mass \cdot radius^2`), for every particle in a region.
 * ``set_group`` (since ``exaDEM-1.2.3``):
    * [std::vector<string>] `type` ``REQUIRED``: List of particle type names.
    * [std::vector<uint32_t>] `group` ``REQUIRED``: Group index associated to each type (same order as `type`).
@@ -151,18 +150,18 @@ YAML example:
         type:  [ Sphere1, Sphere2, Sphere3 ]
         group: [       0,       1,       0 ]
 
-Explore a minimal example provided in the "tutorial" section to understand how you can add your own mutator_field operator.
+See :ref:`add_mutator_field_operator` in the Tutorial page for a minimal example of how to add your own ``mutator_field`` operator.
 
 Field Operators For Polyhedra
 -----------------------------
 
-In this section, we briefly describe ``field`` mutator operators that relate to data contained within the ``shape`` data structure (see the Polyhedra Section for more details).
+In this section, we briefly describe ``field`` mutator operators that relate to data contained within the ``shape`` data structure (see :ref:`polyhedra_shape` on the R-Shape / Polyhedron page for more details).
 
 
 * ``density_from_shape`` : This operator deduces the particle mass from the shape volume and the particle density.
    * [double] `density`
 * ``inertia_from_shape`` : This operator deduces the particle inertia from the shape constant I/M and the particle mass.
-* ``radius_from_shape`` : This operator computes the maximum radius cutoff in function of shape types and stores the radius cutoff for every particle corresponding to their shape types.
+* ``radius_from_shape`` : This operator computes the maximum radius cutoff as a function of shape type, and stores it on every particle according to its shape type.
 
 .. note::
 

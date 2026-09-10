@@ -8,6 +8,8 @@ Overview
 
 The polyhedra implemented in ``ExaDEM`` are sphero-polyhedra: the vertices are treated as spheres and the edges as cylinders. To achieve this, ``ExaDEM`` reuses many features of the ``Rockable`` DEM code developed at CNRS (https://github.com/richefeu/rockable, https://richefeu.github.io/rockable/quickStart.html). It relies in particular on a ``Shape`` class, which stores a polyhedron's geometry (vertices, edges, faces, and Minkowski radius), and an interaction class used to qualify contacts between polyhedra. The sphero-polyhedron approach can also represent complex non-convex particles such as hexapods.
 
+.. _polyhedra_shape:
+
 Shape
 ^^^^^
 
