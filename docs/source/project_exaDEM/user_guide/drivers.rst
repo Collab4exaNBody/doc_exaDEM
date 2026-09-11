@@ -40,7 +40,9 @@ The current implementation of ``ExaDEM`` includes a variety of ``drivers``, each
      - no operator
 
 .. note::
- When adding a ``driver`` to the simulation in ``ExaDEM``, it is essential to define a contact parameter list specific to the ``driver`` within the `compute_contact_interaction` operator.
+ When adding a ``driver`` to the simulation in ``ExaDEM``, it is essential to define contact
+ parameters between it and particle groups, via the ``drivers_contact_params`` operator (see
+ :ref:`force_field_particle_driver_contact_parameters` on the Force Field page).
 
 Common Driver Parameters
 ------------------------
@@ -62,7 +64,7 @@ Drivers share common parameters contained in the Driver_params class. These para
    * - ``LINEAR_FORCE_MOTION``
      - Linear motion driven by constant acceleration, incorporating the effects of the sample's resultant force.
    * - ``FORCE``
-     - General movement caused by applied forces. Act likes a particle (R-shape).
+     - General movement caused by applied forces. Acts like a particle (R-shape).
    * - ``LINEAR_COMPRESSIVE_MOTION``
      - Linear movement combined with compressive forces. 
    * - ``TABULATED``
@@ -170,7 +172,7 @@ For all these types of movement, the drivers adopt a velocity Verlet integration
          R_{acceleration} = \frac{F_{driver} - \sigma . S - damprate . R_{velocity}}{0.5 . m_{system}}
  
 
-      with :math:`S`, the driver surface, :math:`m_{system}` the mass of the system, and math:`damprate` the damprate (TODO complete).
+      with :math:`S`, the driver surface, :math:`m_{system}` the mass of the system, and :math:`damprate` the damping rate.
 
    .. tab:: ``LINEAR_FORCE_MOTION``
 
@@ -194,7 +196,7 @@ For all these types of movement, the drivers adopt a velocity Verlet integration
 
          F = (dot(M_{vector}, F_{driver}) - \sigma . S - damprate . V) . M_{vector}
 
-      with :math:`F` the driver forces, :math:`V` the driver velocity, :math:`S`, the driver surface, :math:`damprate` the damprate (TODO complete), and :math:`M_{vector}` the motion vector. 
+      with :math:`F` the driver forces, :math:`V` the driver velocity, :math:`S`, the driver surface, :math:`damprate` the damping rate, and :math:`M_{vector}` the motion vector.
 
    .. tab:: ``SHAKER``
 
@@ -204,7 +206,7 @@ For all these types of movement, the drivers adopt a velocity Verlet integration
 
          V = \omega . A . cos(\omega T) . N_{shaker},
 
-      with :math:`C` the driver center, :math:`C_{initial}` the initial driver center at :math:`T` = t - ``motion_start_threshold``,  math:`N_{shaker}` the shaker normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, and :math:`\omega`, the signal frequency. 
+      with :math:`C` the driver center, :math:`C_{initial}` the initial driver center at :math:`T` = t - ``motion_start_threshold``, :math:`N_{shaker}` the shaker normal vector, :math:`V` the driver velocity, :math:`A` the signal amplitude, and :math:`\omega` the signal frequency.
 
    .. tab:: ``PENDULUM_MOTION``
 
@@ -217,33 +219,33 @@ For all these types of movement, the drivers adopt a velocity Verlet integration
          B_t = A . sin(\omega T) . D + B_0,
          V = 0
 
-      with :math:`B_0` the initial position, :math:`B_t` the current position at :math:`T` = t - ``motion_start_threshold``,  math:`D` the swing normal vector,  math:`V` the driver velocity, :math:`A` the signal amplitude, :math:`\omega`, the signal frequency, :math:`A`, the anchor point (A is invariant and always intersect the surface), :math:`N` the normal of the surface (if it's a surface) or the new direction of the object. 
+      with :math:`B_0` the initial position, :math:`B_t` the current position at :math:`T` = t - ``motion_start_threshold``, :math:`D` the swing normal vector, :math:`V` the driver velocity, :math:`A` the signal amplitude, :math:`\omega` the signal frequency, :math:`Anchor` the anchor point (invariant, and always on the surface), and :math:`N` the normal of the surface (if it's a surface) or the new direction of the object.
 
    .. tab:: ``EXPRESSION``
 
       .. math::
 
-         V = Fomula(t)
+         V = Formula(t)
 
          V_{rot} = Formula(t)
 
-     with math:`V` the driver velocity and math:`V_rot` the angular driver velocity. Formula are defined in the struct ``Driver_expr`` (expr) in the slot `params`.
+      with :math:`V` the driver velocity and :math:`V_{rot}` the angular driver velocity. The formulas are defined in the ``Driver_expr`` struct (``expr``), in the ``params`` slot.
 
-And keywords:
+And keywords, all in the ``params`` slot:
 
-	- ``motion_vector``: :math:`M_{vector}`, slot ``params``
-	- ``const_vel``: :math:`C_{velocity}`, slot ``params``
-	- ``const_f``: :math:`C_F`, slot ``params``
-	- ``damprate``: :math:`damprate`, slot ``params``
-	- ``amplitude``: :math:`A`, slot ``params``
-	- ``omega``: :math:`\omega`, slot ``params``
-	- ``shaker_dir``: :math:`N_{shaker}`, slot ``params``
-	- ``pendulum_anchor_point``: :math:`Anchor`, slot ``params``
-	- ``pendulum_initial_position``: :math:`B_0`, slot ``params``
-	- ``pendulum_swing_dir``: :math:`D`, slot ``params``
+  - ``motion_vector``: :math:`M_{vector}`
+  - ``const_vel``: :math:`C_{velocity}`
+  - ``const_force``: :math:`C_F`
+  - ``damprate``: :math:`damprate`
+  - ``amplitude``: :math:`A`
+  - ``omega``: :math:`\omega`
+  - ``shaker_dir``: :math:`N_{shaker}`
+  - ``pendulum_anchor_point``: :math:`Anchor`
+  - ``pendulum_initial_position``: :math:`B_0`
+  - ``pendulum_swing_dir``: :math:`D`
 
 Add a Driver To Your Simulation
--------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In ``ExaDEM``, ``drivers`` are managed differently depending on whether spheres or polyhedra are used in the simulation. Forces are computed per interaction for polyhedra, while forces are computed and summed per sphere body:
 
@@ -256,7 +258,7 @@ In the following sections, we provide brief descriptions of available ``drivers`
 Rotating Drum / Cylinder
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its middle, velocity, axis, and angular velocity.
+The rotating drum or cylinder driver represents an infinite cylinder rotating along a specified axis. It is defined by parameters including its center, velocity, axis, and angular velocity.
 
 .. image:: ../../_static/rotating_drum_end.png
    :align: center
@@ -445,7 +447,7 @@ YAML example:
 
 See: ``exaDEM/example/spheres/ball/driver-ball-stationary.msp``
 
-``LINEAR MOTION`` mode
+``LINEAR_MOTION`` mode
 ----------------------
 
 .. code:: yaml
@@ -511,7 +513,7 @@ The RShape driver is constructed from a `.stl` (Stereolithography) or a `.shp` (
 
   * *id*: Driver index
   * *filename*: Input filename (.stl or .shp)
-  * *minskowski*: Minskowski radius value
+  * *minkowski*: Minkowski radius value
   * *binary*: Define if the stl file is ascii or binary, default is false. Ignored if the format file is a .shp.
   * *scale*: Define the scale factor of applied to the shape, default is 1. 
   * *deform*: Define the non-uniform deformation factors along x, y, and z axes. Format is [x, y, z]. Values must be strictly positive. Default is [1, 1, 1].
@@ -529,7 +531,7 @@ YAML examples:
      id: 0
      binary: false
      filename: mesh.stl
-     minskowski: 0.001 m
+     minkowski: 0.001 m
      params: {motion_type: STATIONARY}
 
 .. image:: ../../_static/stl_stationary.gif
@@ -546,7 +548,7 @@ YAML examples:
      state: {center: [0.4,0,0]}
      params: { motion_type: LINEAR_MOTION, motion_vector: [-1,0,0], const_vel: 0.5 }
      filename: mesh.shp
-     minskowski: 0.001 m
+     minkowski: 0.001 m
 
 .. image:: ../../_static/stl_linear_motion.gif
    :align: center
@@ -566,7 +568,7 @@ YAML examples:
         time: [0, 1, 1.5, 2]
         positions: [[0.4, 0, 0], [-1, 0, 0], [0.4, 0, 0], [0.4, 0, 0]]
      filename: mesh.stl
-     minskowski: 0.001 m
+     minkowski: 0.001 m
 
 .. image:: ../../_static/mesh_stl_tabulated.gif
    :align: center
@@ -581,7 +583,7 @@ YAML examples:
      id: 1
      filename: piston_haut.stl
      scale: 0.5002
-     minskowski: 0.001
+     minkowski: 0.001
      state: { center: [0.0, 0.0, 9.], vel: [0,0,-0.025], quat: [1,0,0,0], mass: 1}
      params: { motion_type: LINEAR_FORCE_MOTION, motion_vector: [0,0,-1], const_force: 100 }
 
@@ -602,7 +604,7 @@ YAML examples:
      id: 1 
      filename: piston_haut.stl 
      scale: 0.5002 
-     minskowski: 0.001 
+     minkowski: 0.001 
      state: { center: [0.0, 0.0, 9.], vel: [0,0,-0.025], quat: [1,0,0,0], mass: 1, surface: 1.6146970415e+02} 
      params: { motion_type: LINEAR_COMPRESSIVE_MOTION, motion_vector: [0,0,-1], sigma: 0.5, damprate: 0.5 } 
 
@@ -623,7 +625,7 @@ YAML examples:
 
   - register_rshape:
      id: 0
-     minskowski: 0.1
+     minkowski: 0.1
      filename: shaker.stl
      binary: true
      state: {center: [0,0,0] }
@@ -649,7 +651,7 @@ This example is available here (RSA plugins is required): ``exaDEM/example/spher
   - register_stl_mesh:
      id: 0
      filename: tore.stl
-     minskowski: 0.01
+     minkowski: 0.01
      state: { }
      params:
         motion_type: EXPRESSION
@@ -669,7 +671,7 @@ Example to impose moment:
   - register_stl_mesh:
      id: 0
      filename: pale2.stl
-     minskowski: 0.01
+     minkowski: 0.01
      binary: true
      state:
         vrot: [0,0,0]
@@ -720,9 +722,9 @@ YAML example:
     - register_stl_mesh:
        id: 0
        filename: pale2.stl
-       minskowski: 0.01
+       minkowski: 0.01
        binary: true
-       state: { vrot: [0,0,0], center: [2.5,2.5,2], quat: [0,-0.707107,-0.707107,0] , mass: 49.0454, inertia: [77.238167282, 388.401803042, 344.515979122], moment: [0,0,1] } # vrot: rad.s-1 normalement 
+       state: { vrot: [0,0,0], center: [2.5,2.5,2], quat: [0,-0.707107,-0.707107,0] , mass: 49.0454, inertia: [77.238167282, 388.401803042, 344.515979122], moment: [0,0,1] } # vrot is in rad/s
        params: { motion_type: STATIONARY }
 
 .. image:: ../../_static/applied_mom.gif
@@ -966,7 +968,7 @@ Configuration is done through the `register_driver_extractor` operator as shown 
             fields: [fy]
           - id: 1
             fields: [fy]
-         verbosity: true
+        verbosity: true
 
 The `id` field corresponds to the unique identifier of the driver. The `fields` list specifies which quantities (see Trackable fields section) will be recorded for this driver.
 
@@ -1041,11 +1043,11 @@ The purpose of this operator is to project the RShape (vertices, edges, and face
   [1] This operator only projects the RShape driver onto the grid making up the MPI process subdomain. If the subdomain changes, the update must be forced (force_reset=0).
   [2] If the RShape is stationary (v= null, vrot=null), the grid is not updated. This speeds up calculations when the RShape driver has many elements.
 
-YAML example: 
+YAML example:
 
 .. code:: yaml
 
-  - compute_driver_vertices:
+  - grid_rshape_driver:
      force_reset: true
 
 Compute Driver Vertices
@@ -1053,7 +1055,7 @@ Compute Driver Vertices
 
 This operator is used to update the vertex positions of operators with vertices. For the moment, this operator is only used for RShape drivers and to fill in the `vertices` field.
 
-* Operator name: ``compute_driver_vertices``    
+* Operator name: ``driver_vertices``
 * Description: This operator calculates new vertex positions.
 * Parameters:
 
@@ -1063,11 +1065,11 @@ This operator is used to update the vertex positions of operators with vertices.
 
   For GPU performance reasons, you may decide not to update the GPU data directly, knowing that it will be used to build the CPU interaction list.
 
-YAML example: 
+YAML example:
 
 .. code:: yaml
 
-  - compute_driver_vertices:
+  - driver_vertices:
      force_host: false
 
 Check Driver Displacement

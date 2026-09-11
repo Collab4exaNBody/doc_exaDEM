@@ -474,6 +474,8 @@ With `default_config`:
 
 A complete example is available (please report if the link does not work): `rotating-multimat.msp <https://github.com/Collab4exaNBody/exaDEM/blob/main/example/polyhedra/multimat/rotating-multimat.msp>`_
 
+.. _force_field_particle_driver_contact_parameters:
+
 Particle-Driver Contact Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -281,6 +281,58 @@ present) under ``<input-dir>/CheckpointFiles/`` for you, ``<input-dir>`` default
    ./scripts/tools/ConvExaDEMToRockable --last conf0.conf
    ./scripts/tools/ConvExaDEMToRockable --last conf0.conf --input-dir=OtherOutputDir --dt=0.0001
 
+``dump_to_xyz`` / ``ConvExaDEMToXYZ``
+"""""""""""""""""""""""""""""""""""""
+
+- Name: `dump_to_xyz`
+- Description: Reads a `.dump` checkpoint file and exports its particles to a plain `.xyz`
+  file: particle count, then the domain bounds' upper corner, then one ``type x y z`` row per
+  particle. Which of the known `.dump` field-set combinations (interaction/fragmentation,
+  with/without a `group` field) matches the dump is auto-detected from its header.
+- Parameters:
+   * `filename`: The `.dump` file to convert.
+   * `xyz_filename`: Output `.xyz` file path.
+   * `shape_filename` (*optional*): A `.shp` file mapping each particle type index to its shape
+     name, used as the ``type`` column. Without it (and without `type_map`), the numeric type
+     index is used.
+   * `type_map` (*optional*): List of names indexed by particle type, e.g. ``[S1, S2, S3]``,
+     used as the ``type`` column instead of the numeric index. Takes priority over
+     `shape_filename`'s names if both are given.
+
+.. note::
+  This operator only writes files from MPI rank 0; run it with a single rank (``mpirun -n 1``)
+  for a complete export.
+
+YAML example:
+
+.. code-block:: yaml
+
+  - dump_to_xyz:
+     filename: ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump
+     xyz_filename: out.xyz
+     shape_filename: ExaDEMOutputDir/CheckpointFiles/RestartShapeFile.shp
+     type_map: [S1, S2, S3]
+
+**From the command line**, the ``ConvExaDEMToXYZ`` wrapper builds this YAML input for you:
+
+.. code-block:: bash
+
+   ./scripts/tools/ConvExaDEMToXYZ ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump out.xyz   # from the source tree
+   ./scripts/tools/ConvExaDEMToXYZ ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump out.xyz ExaDEMOutputDir/CheckpointFiles/RestartShapeFile.shp
+   # or, from the build directory:
+   ./ConvExaDEMToXYZ ExaDEMOutputDir/CheckpointFiles/exadem_0000012345.dump out.xyz
+
+``--last`` picks the highest-iteration ``exadem_*.dump`` (and ``RestartShapeFile.shp``, if
+present) under ``<input-dir>/CheckpointFiles/`` for you, ``<input-dir>`` defaults to
+``ExaDEMOutputDir`` (the usual ``dir_name``/`io_config` default), override with
+``--input-dir=DIR``; ``--type-map=[S1,S2,S3]`` maps type indices to names directly, without a
+`.shp` file (and takes priority over one if both are given):
+
+.. code-block:: bash
+
+   ./scripts/tools/ConvExaDEMToXYZ --last out.xyz
+   ./scripts/tools/ConvExaDEMToXYZ --last out.xyz --input-dir=OtherOutputDir --type-map=[S1,S2,S3]
+
 .. _io_drivers_format:
 
 Drivers Format
@@ -370,7 +422,6 @@ Reader Of Rockable Files
       Default is ``COMPUTED_BOUNDS`` (bounds are dynamically calculated from particles and shapes).
       An alternative is ``DOMAIN`` (uses predefined global domain limits).
    * `region` (*Region object*) Filters particles or IDs based on a specified geometric region.
-   * `vtk` (*bool*) If set to ``true``, exports the shape geometry as VTK files for visualization.
 
 Yaml Example:
 
@@ -383,8 +434,6 @@ Yaml Example:
   input_data:
     - read_conf_rockable:
        filename: input_a10.txt
-       verbosity: false
-       vtk: false
        bounds_mode: DOMAIN
        region: AREA
 
@@ -402,7 +451,6 @@ What is read:
 
 What is not read:
 
-- Interactions (read but NOT used)
 - Interfaces
 - gravity
 - AddOrRemoveInteractions
@@ -414,7 +462,6 @@ What is not read:
 - tmax
 - DVerlet
 - dVerlet
-- gravity
 - ParamsInInterfaces
 - dynamicUpdateNL
 - ContactPartnership
@@ -455,7 +502,7 @@ Reader Of xyz File
 - Name: `read_xyz`
 - Description: This operator reads a file written according to the xyz format.
 - Parameters:
-   * `bounds_mode` : default mode corresponds to ReadBoundsSelectionMode.
+   * `bounds_mode` : Bounding-box calculation mode. Default is ``FILE_BOUNDS`` (bounds taken from the xyz file itself).
    * `enlarge_bounds` : Define a layer around the volume size in the xyz file. Default size is 0.
    * `file` : File name, this parameter is required.
    * `pbc_adjust_xform` : Adjust the form.
@@ -543,10 +590,11 @@ The purpose of this operator is to add shapes to a collection of shapes. This op
 
 * `read_shape_file` :
    * `filename`: Input file name, no default name.
-   * `scale_factor`: This option 'scale_factor' the input shapes. OBB, volume, vertices, and inertia are recomputed. Note that a vector of double should be provided. Example: scale_factor: [1.2,1,5.2].
-   * `rename`: This option renames the input shapes. Note that a vector of string should be provided. Example: rename: [Shape1, Shape2, Shape3].
-   * `rescale_minskowski`: This option disables the rescaling of the minskowski radius.
-   * `verbosity`: It displays the typename and typeid.
+   * `scale_factor`: Rescales the input shapes (OBB, volume, vertices, and inertia are recomputed accordingly). Takes a vector of double, one value per shape, in the same order as the shapes read by this call. Example: scale_factor: [1.2,1,5.2].
+   * `rename`: Renames the input shapes. Takes a vector of string. Example: rename: [Shape1, Shape2, Shape3].
+   * `rescale_minkowski`: Set to ``false`` to disable rescaling the Minkowski radius when ``scale_factor`` is applied. Default is ``true``.
+   * `verbosity`: Displays the typename and typeid. Default is ``true``.
+   * `vtk`: Writes a ``.vtk`` file for each shape, for visualization. Default is ``true``.
 
 Warnings:
 
@@ -570,7 +618,7 @@ YAML example:
   - read_shape_file:
      filename: shapes.shp
      rename:       [ PolyRSize2, OctahedronSize2]
-     scale_facton: [        2.0,             2.0]
+     scale_factor: [        2.0,             2.0]
 
 Example of a shape:
 

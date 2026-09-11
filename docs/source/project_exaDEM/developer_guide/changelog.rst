@@ -33,6 +33,7 @@ New Features:
       - Add the ``dump_inspector`` operator (and ``scripts/tools/dump_inspector.sh`` wrapper) to print a ``.dump`` checkpoint file's header without reading particle data.
       - Add the ``dump_to_txt`` operator (and ``scripts/tools/ConvExaDEMToTxt`` wrapper) to export a ``.dump`` checkpoint file to plain-text particle/interaction/summary files.
       - Add the ``dump_to_rockable`` operator (and ``scripts/tools/ConvExaDEMToRockable`` wrapper) to export a ``.dump`` checkpoint file's particles to a Rockable ``.conf`` file.
+      - Add the ``dump_to_xyz`` operator (and ``scripts/tools/ConvExaDEMToXYZ`` wrapper) to export a ``.dump`` checkpoint file's particles to a plain ``.xyz`` file.
 
 Changes and Enhancements:
 
