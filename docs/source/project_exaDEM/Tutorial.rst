@@ -135,16 +135,19 @@ Then we need to initialize hexapods in this region (AREA). The default density i
    - set_fields:
       polyhedra: true
       type:           [    alpha3 ]
+      group:          [         0 ]
       velocity:       [ [0,0,-10] ]
       sigma_velocity: [       0.1 ]
       density:        [         1 ]
       region: AREA
 
-Now, we can define our `input_data` operator:
+Now, we can define our `input_data` operator. ``init_rcb_grid`` must come first -- it builds the
+MPI domain decomposition that every particle-creation operator below relies on.
 
 .. code-block:: yaml
 
  input_data:
+   - init_rcb_grid
    - read_shape_file:
       filename: alpha3.shp
    - add_particles
@@ -190,7 +193,7 @@ First, load the snapshot at time step 1,200,000 and disable generation. It's imp
    - read_shape_file:
       filename: alpha3.shp
    - read_dump_particle_interaction:
-      filename: ExaDEMOutputDir/CheckpointFiles/exaDEM_001200000.dump
+      filename: ExaDEMOutputDir/CheckpointFiles/exadem_0001200000.dump
    - radius_from_shape
 
 Disable the hexapod generator:
@@ -440,7 +443,46 @@ After 100,000 time steps [t = 1,500,000 time steps], you should reach the follow
    :align: center
    :width: 300pt
 
-Step 3, 
+Step 3, now that the deposit has settled, we set the blade in motion. Restart from the step-2 checkpoint the
+same way as before (drivers, shapes and particles), then add the "palefine" STL mesh driver with a
+``LINEAR_MOTION`` type so it rotates around the cylinder axis. This is also where friction is re-enabled: it
+was kept at ``0`` during deposition (see the note in Step 1) so the powder bed would settle without
+resistance, and is now raised to its final value (``mu: 0.1`` particle-particle, ``mu: 0.3`` particle-driver)
+so the blade actually drags and compacts the grains as it turns.
+
+.. code-block:: yaml
+
+  includes:
+    - config_polyhedra.msp
+    - ExaDEMOutputDir/CheckpointFiles/driver_0001500000.msp
+
+  setup_drivers:
+    - register_stl_mesh: {id: 0, filename: mod_base.shp, center: [0,0,-20], minkowski: 0.01}
+    - register_stl_mesh:
+       id: 2
+       filename: exaDEM-Data/stl_files/palefine.stl
+       minkowski: 0.05 m
+       state: {vrot: [0,0,-0.004], center: [0,0,1.5]}
+       params: {motion_type: LINEAR_MOTION, motion_vector: [0,0,-1], const_vel: 0.0174}
+    - register_cylinder: {id: 1, state: {radius: 25, center: [0,0,0], axis: [1,1,0]}, params: {motion_type: STATIONARY}}
+
+  input_data:
+    - read_shape_file:
+       filename: ExaDEMOutputDir/CheckpointFiles/RestartShapeFile.shp
+    - read_dump_particle_interaction:
+       filename: ExaDEMOutputDir/CheckpointFiles/exadem_0001500000.dump
+    - radius_from_shape
+
+  compute_force:
+    - gravity_force: {gravity: [0,0,-0.00981]}
+    - contact_polyhedron: {symetric: true, config: {kn: 1.257, kt: 1.077, kr: 0.0, mu: 0.1, damp_rate: 0.999}, config_driver: {kn: 1.257, kt: 1.077, kr: 0.0, mu: 0.3, damp_rate: 0.999}}
+
+.. note::
+
+  ``driver_0001500000.msp`` (included above) already registers the base and the rotating cylinder from the
+  deposit step; only the "palefine" blade is new. Since this driver checkpoint is loaded through ``includes``
+  rather than ``setup_drivers``, it follows the legacy driver restart mechanism -- see :ref:`drivers_io_drivers`
+  for the difference with the newer ``dump_drivers``/``restart`` operators.
 
 .. image:: ../_static/blade-step3.png
    :align: center
@@ -466,7 +508,7 @@ This is a minimal example to add your own mutator_field operator:
 
 .. code-block:: cpp
 
- #include <exaDEM/set_fields.h>
+ #include <exaDEM/set_fields.hpp>
  namespace exaDEM
  {
     using namespace exanb;
@@ -483,10 +525,10 @@ This is a minimal example to add your own mutator_field operator:
       static constexpr ComputeFields compute_field_set {};
 
       ADD_SLOT( GridT, grid , INPUT_OUTPUT );
-      ADD_SLOT( YOUR_TYPE_1, your_field_1, INPUT, default_radius, DocString{"default  value for all particles"} );
-      ADD_SLOT( YOUR_TYPE_2, your_field_2, INPUT, default_radius, DocString{"default value for all particles"} );
+      ADD_SLOT( YOUR_TYPE_1, your_field_1, INPUT, default_field_value_1, DocString{"default value for all particles"} );
+      ADD_SLOT( YOUR_TYPE_2, your_field_2, INPUT, default_field_value_2, DocString{"default value for all particles"} );
       ...
-      ADD_SLOT( YOUR_TYPE_N, your_field_N, INPUT, default_radius, DocString{"default value for all particles"} );
+      ADD_SLOT( YOUR_TYPE_N, your_field_N, INPUT, default_field_value_N, DocString{"default value for all particles"} );
 
       public:
 
@@ -505,17 +547,16 @@ This is a minimal example to add your own mutator_field operator:
          ... , 
          {*your_field_N} 
        };
-        compute_cell_particles( 
-          *grid , false , func , 
-          compute_field_set , 
-          gpu_execution_context() , 
-          gpu_time_account_func() 
+        compute_cell_particles(
+          *grid , false , func ,
+          compute_field_set ,
+          parallel_execution_context("set_your_fields")
         );
       }
     };
     template<class GridT> using SetYourFieldsTmpl = SetYourFields<GridT>;
-    // === register factories ===  
-    CONSTRUCTOR_FUNCTION
+    // === register factories ===
+    ONIKA_AUTORUN_INIT(set_your_fields)
     {
       OperatorNodeFactory::instance()->register_factory( "set_your_fields", make_grid_variant_operator< SetYourFieldsTmpl > );
     }
