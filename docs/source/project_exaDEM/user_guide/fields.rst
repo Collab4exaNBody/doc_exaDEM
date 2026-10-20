@@ -152,6 +152,7 @@ YAML example:
 
 See :ref:`add_mutator_field_operator` in the Tutorial page for a minimal example of how to add your own ``mutator_field`` operator.
 
+
 Field Operators For Polyhedra
 -----------------------------
 
@@ -166,4 +167,148 @@ In this section, we briefly describe ``field`` mutator operators that relate to 
 .. note::
 
   It is possible to specify the ``region`` slot to apply the following kernel to a special spatial area: ``radius_from_shape``.
+
+
+
+Rigid Frame Operator
+--------------------
+
+The ``compute_frame_velocity`` operator drives a group of particles (a *frame*, e.g. the loading plate of a mechanical test) as a single rigid body. For each component of the frame velocity, the user chooses between:
+
+* ``velocity`` control: the velocity is imposed;
+* ``force`` control: the velocity is obtained from the motion of a virtual rigid body of mass :math:`M`, driven by a target force:
+
+.. math::
+
+  M \frac{dv}{dt} = F_{target}(t) + F_{specimen} - c \, v
+
+where :math:`F_{specimen}` is the sum of the forces acting on the particles of the frame region (i.e. the force exerted by the sample on the frame), :math:`F_{target}` is the force applied by the "machine" on the frame and :math:`c` is a viscous damping coefficient. The velocity is integrated with an explicit Euler scheme using the simulation time step.
+
+The operator does **not** modify the particles: it only computes the ``frame_velocity`` slot. The velocity is then applied with the existing operators ``freeze_particles`` and ``set_velocity`` (with its ``value`` slot rebound to ``frame_velocity``).
+
+* Operator name: ``compute_frame_velocity``
+* Parameters ``REQUIRED``:
+   * [ParticleRegionCSG] `region`: Frame region, e.g. ``TOP`` or ``TOP or LEFT_UP``.
+   * [double] `frame_mass`: Virtual mass :math:`M` of the frame (used by force-controlled components).
+* Parameters ``OPTIONAL``:
+   * [std::vector<string>] `control_mode`: Control mode of each component (x, y, z), ``velocity`` or ``force``. Default is ``[velocity, velocity, velocity]``.
+   * [Vec3d] `imposed_velocity`: Velocity of the velocity-controlled components. Default is [0,0,0].
+   * [Vec3d] `target_force`: Target force applied **by the machine on the frame** (force-controlled components). Default is [0,0,0].
+   * [long] `force_ramp_start`: Timestep at which the linear force ramp starts. Default is 0.
+   * [long] `force_ramp_steps`: Number of timesteps of the linear ramp from 0 to `target_force` (0: no ramp, the full force is applied at once). Default is 0.
+   * [double] `frame_damping`: Viscous damping coefficient :math:`c`. Default is 0.
+   * [double] `frame_max_velocity`: Cap on the absolute value of each force-controlled velocity component (<= 0: no cap). Default is -1.
+   * [long] `frame_log_frequency`: Prints the frame state (number of particles, target force, specimen force, velocity) every n timesteps (<= 0: never). Default is 1000.
+* Parameters ``INPUT_OUTPUT`` / ``OUTPUT``:
+   * [Vec3d] `frame_velocity`: Current frame velocity. This is the state of the virtual rigid body; it is shared between all the instances of the operator, which allows switching between several loading stages without discontinuity.
+   * [Vec3d] `frame_force`: Force exerted by the sample on the frame (:math:`F_{specimen}`), available for other operators.
+
+.. note::
+
+  * Place ``compute_frame_velocity`` in ``compute_force`` **after** the contact and inner bond operators (so that the particle forces are complete) and **before** ``freeze_particles`` / ``set_velocity``.
+  * The `region` of ``compute_frame_velocity`` must contain **all** the regions that are frozen and moved with the frame. A region that is moved but not included in the sum of the forces is not in equilibrium with the frame.
+  * The sign convention follows the forces: with a target force of +F along y on the top frame, the machine pulls the frame upward (tension); in this case :math:`F_{specimen}` is negative.
+  * After a sudden failure of the sample, a force-controlled frame accelerates freely. `frame_max_velocity` limits this runaway; it is a numerical device that should be reported when it is active.
+  * Choosing :math:`M` and :math:`c`: the frame and the sample behave as a mass-spring system of stiffness :math:`K` (sample stiffness). The period :math:`2\pi\sqrt{M/K}` should be large compared to the time step, and :math:`c \approx 2\sqrt{K M}` gives a critically damped response.
+
+YAML example (spheres, compression of a sample by a force-controlled top frame, see ``example/spheres/impose_frame/movable_frame_force.msp``):
+
+.. code-block:: yaml
+
+  particle_regions:
+    - FRAME: { bounds: [ [ -5. , -5. , 19.0 ] , [ 15. , 15. , 25. ] ] }
+
+  frame_box:
+    - compute_frame_velocity:
+        region: FRAME
+        control_mode: [ velocity , velocity , force ]   # x, y, z
+        target_force: [ 0. , 0. , -72. ]                # pushes the frame toward -z
+        imposed_velocity: [ 0. , 0. , 0. ]
+        frame_mass: 1.0
+        frame_log_frequency: 1000
+    - freeze_particles: { region: FRAME }
+    - apply_frame_velocity:
+        rebind: { value: frame_velocity }
+        body:
+          - set_velocity: { region: FRAME }
+
+  compute_force:
+    - contact_singlemat_sphere_hooke_cohesive:
+       ...
+    - frame_box
+
+YAML example (polyhedra, tension of a block of bonded polyhedra: bottom frame fixed, top frame driven by a force ramp along y):
+
+.. code-block:: yaml
+
+  particle_regions:
+    - BOT: { bounds: [ [ -5. , -5. , -5. ] , [ 15. ,  3. , 10. ] ] }
+    - TOP: { bounds: [ [ -5. , 17. , -5. ] , [ 15. , 25. , 10. ] ] }
+
+  frame_traction:
+    - compute_frame_velocity:
+        region: TOP
+        control_mode: [ velocity , force , velocity ]
+        target_force: [ 0. , 150. , 0. ]
+        force_ramp_start: 0
+        force_ramp_steps: 100000
+        frame_mass: 60.
+        frame_damping: 3500.
+        frame_max_velocity: 0.02
+        frame_log_frequency: 200
+    - freeze_particles: { region: TOP }
+    - apply_frame_velocity:
+        rebind: { value: frame_velocity }
+        body:
+          - set_velocity: { region: TOP }
+    - freeze_particles: { region: BOT }
+
+  compute_force:
+    - contact_multimat_polyhedron
+    - inner_bond_polyhedron
+    - frame_traction
+
+YAML example (two loading stages: a lateral force is first ramped up, then kept constant while an axial velocity is imposed; both instances share the same ``frame_velocity`` state, and ``target_force`` / ``force_ramp_steps`` must be identical in both stages):
+
+.. code-block:: yaml
+
+  eval_stage:
+    rebind: { result: stage1 }
+    body:
+      - before_timestep: { end_at: 72000 }
+
+  frame_stage1:
+    condition: stage1
+    body:
+      - compute_frame_velocity:
+          region: TOP or LEFT_UP
+          control_mode: [ force , force , velocity ]
+          target_force: [ 585. , 0. , 0. ]
+          force_ramp_steps: 52000
+          frame_mass: 60.
+          frame_damping: 7000.
+          frame_max_velocity: 0.02
+
+  frame_stage2:
+    condition: not stage1
+    body:
+      - compute_frame_velocity:
+          region: TOP or LEFT_UP
+          control_mode: [ force , velocity , velocity ]
+          target_force: [ 585. , 0. , 0. ]
+          imposed_velocity: [ 0. , 0.002 , 0. ]
+          force_ramp_steps: 52000
+          frame_mass: 60.
+          frame_damping: 7000.
+          frame_max_velocity: 0.02
+
+  frame_loading:
+    - eval_stage
+    - frame_stage1
+    - frame_stage2
+    - freeze_particles: { region: TOP or LEFT_UP }
+    - apply_frame_velocity:
+        rebind: { value: frame_velocity }
+        body:
+          - set_velocity: { region: TOP or LEFT_UP }
 
