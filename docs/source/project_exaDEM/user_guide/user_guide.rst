@@ -12,6 +12,7 @@ User Guide
    polyhedra.rst
    fields.rst
    force_field.rst
+   fragmentation.rst
    numerical_scheme.rst
    drivers.rst
    IO.rst

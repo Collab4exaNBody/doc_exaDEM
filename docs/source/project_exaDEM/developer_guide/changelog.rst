@@ -17,6 +17,11 @@ Release Notes v1.2.3 (in development)
 
 New Features:
 
+   * Fragmentation
+
+      - Add the ``number_weight_contact_polyhedron`` operator to weight down ``kn``/``kt`` by the number of simultaneously active contacts between the same pair of particles, keeping contact stiffness consistent right after an inner bond breaks. See :ref:`fragmentation_weighted_contacts`.
+      - Fragmentation is no longer an experimental feature.
+
    * Fields
 
       - Add a ``group`` particle field, used to select multi-material contact parameters independently from the particle ``type``. Several particle types can share the same group and therefore reuse the same contact law.

@@ -295,7 +295,7 @@ The ``exaDEM::Interaction`` class models a contact between two polyhedra, or bet
      - Contact between a vertex of a RShape Driver and a face of a polyhedron
    * - 13
      - Inner Bond
-     - Contact within a grain composed of fragments (polyhedra)
+     - Contact within a grain composed of fragments (polyhedra), see :ref:`exadem_fragmentation`
 
 **Interaction Class Usage:**
 
@@ -315,42 +315,10 @@ This ``Classifier`` complements the interaction grid rather than replacing it: i
 
 Using the classifier is currently exaDEM's default strategy for both spheres and polyhedra.
 
-.. _polyhedra_fragmentation:
-
-Fragmentation Feature
-^^^^^^^^^^^^^^^^^^^^^
-
 .. note::
 
-  This feature is currently ``experimental``.
-
-``exaDEM`` handles fragmentation by pre-cutting grains into small polyhedra and adding springs between opposite vertices to bond their faces together. To use this feature, include ``config_fragmentation.msp`` instead of ``config_polyhedra.msp``.
-
-.. note::
-
-   This section covers the geometric side of fragmentation: pre-cutting, sticking, and
-   interface breakage. The bond *force law* itself and its parameters (``kn``, ``kt``,
-   ``damp_rate``, and the fracture criterion ``g`` or ``gn``/``gt``) are defined on the Force
-   Field page, see :ref:`force_field_inner_bond_forces`.
-
- .. figure:: ../../_static/fragmentation_pic.png
-   :align: center
-   :width: 550pt
-
-Particles stick together when the distance between opposite vertices falls below ``sticking_threshold`` (e.g. ``1.e-04``), set in the ``global`` block alongside ``apply_particle_sticking: true``.
-
-.. figure:: ../../_static/sticking_threshold.png
-   :align: center
-   :width: 260pt
-
-At each time step, ``exaDEM`` then checks every interface -- a set of ``InnerBond`` interactions (type id 13) -- to see whether the released energy exceeds a threshold that depends on the bonded surface area and a parameter ``g``.
-
-.. figure:: ../../_static/two_fragments.gif
-   :align: center
-   :width: 500pt
-
-When an interface breaks, its interactions are removed and the interaction lists are rebuilt. Note that two particles stuck together by an interface cannot have any other kind of contact (vertex-vertex, vertex-edge, etc.) between them at the same time.
-
+   A grain can also be modelled as several bonded fragments that break apart under load.
+   This is covered on its own page, see :ref:`exadem_fragmentation`.
 
 Data layout: Particle Vertices
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -550,7 +550,7 @@ In this simulation, two shapes are selected: PolyR and Octahedron. Each shape is
 Example 7: Fragmentation with two fragments 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This simulation demonstrates the fragmentation capability. The test case considers a grain composed of two fragments that is rapidly projected onto a rigid surface. Two configurations are compared. In the first one, the grain remains intact because the breakage criterion, governed by the parameter g, is not reached. In the second configuration, a lower value of g leads to the failure of the interface between the two fragments, resulting in fragmentation.
+This simulation demonstrates the fragmentation capability (see :ref:`exadem_fragmentation`). The test case considers a grain composed of two fragments that is rapidly projected onto a rigid surface. Two configurations are compared. In the first one, the grain remains intact because the breakage criterion, governed by the parameter g, is not reached. In the second configuration, a lower value of g leads to the failure of the interface between the two fragments, resulting in fragmentation.
 
 - Input files:
 
