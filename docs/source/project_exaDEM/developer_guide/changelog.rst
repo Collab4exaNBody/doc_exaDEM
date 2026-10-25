@@ -39,12 +39,66 @@ New Features:
       - Add the ``dump_to_txt`` operator (and ``scripts/tools/ConvExaDEMToTxt`` wrapper) to export a ``.dump`` checkpoint file to plain-text particle/interaction/summary files.
       - Add the ``dump_to_rockable`` operator (and ``scripts/tools/ConvExaDEMToRockable`` wrapper) to export a ``.dump`` checkpoint file's particles to a Rockable ``.conf`` file.
       - Add the ``dump_to_xyz`` operator (and ``scripts/tools/ConvExaDEMToXYZ`` wrapper) to export a ``.dump`` checkpoint file's particles to a plain ``.xyz`` file.
+      - Add the ``restart`` operator to restart a simulation from the last (or a given) checkpoint: it reads the ``.dump`` file, the shape file and the drivers file. Drivers are now saved in a dedicated file format. The restart template script (``scripts/tools/restart_template.py``) uses this operator.
+      - ``add_xyz`` can now read files containing several particle types.
+
+   * Drivers
+
+      - Add the ``SHAKER`` motion type for cylinders (example: ``example/spheres/shaker_cylinder``).
+
+   * Boundary Conditions
+
+      - Add the ``compute_frame_velocity`` operator to drive a frame of particles (defined by a region) with an imposed velocity or an imposed force, component by component (``control_mode``), with an optional linear force ramp. Examples: ``example/spheres/impose_frame`` and ``example/polyhedra/impose_frame_fragmentation``.
 
 Changes and Enhancements:
 
    * Force Field
 
       - ``multimat_contact_params``, ``drivers_contact_params`` and ``inner_bond_params`` now select contact parameters using ``group1``/``group2`` (or ``group``) instead of particle type names (``mat1``/``mat2``/``mat``). See the Multi-Material section of the Force Field page.
+
+   * Fields
+
+      - ``set_fields`` has been reworked: values are applied in a single pass over the grid, and random values (``sigma_velocity``, ``sigma_angular_velocity``, ``random_quaternion``) are generated from the particle id, so they no longer depend on the number of MPI processes or on the order of the types. The previous implementation is still available as ``set_fields_deprecated``.
+
+   * Performance
+
+      - ``number_weight_contact_polyhedron`` runs on GPU.
+      - Update the DEM cost model used for load balancing.
+      - Avoid unnecessary particle redistributions in some I/O operators (``restart``, interaction dump reader).
+      - The profiling summary is disabled by default, its cost is not negligible for very long runs.
+
+   * I/O
+
+      - The final dump written at the end of a simulation is disabled by default.
+
+   * Visualization / ParaView
+
+      - ``write_paraview_polyhedra`` now writes parallel unstructured grid files (``.pvtu``/``.vtu``) with per-polyhedron fields (``id``, ``type``, ``velocity``, ``stress``, ...) selected with the ``fields`` slot. It is the default particle output for polyhedra. The previous ``.pvtp`` (PolyData) version has been removed.
+      - Data arrays are written by default in binary mode (zlib-compressed, base64-encoded), which produces much smaller files. The ``compression`` slot sets the compression level (``default``, ``min``, ``max`` or ``[0-9]``), and ``binary_mode: false`` writes ascii files.
+      - Default ParaView outputs (particles, drivers, contact network) are now defined in a dedicated ``config_paraview.msp`` file.
+
+   * Cleanup and Refactoring
+
+      - Rework ``Interaction`` and the ``Classifier`` with onika spans and tuples.
+      - Replace ``InteractionWrapper`` by ``ClassifierContainer::View`` and ``InteractionDispatcher`` by ``ClassifierDispatcher``.
+      - Rename several shape/OBB methods (``add_radius`` -> ``set_radius``, ``get_normal`` -> ``compute_normal``, ``OBB::rotate`` -> ``rotate_in_place``, ...) and ``mass`` -> ``system_mass`` in ``driver_params``.
+      - Fix Doxygen documentation mistakes.
+
+   * Tests / CI
+
+      - Add verification tests of the Hooke contact law (two spheres, sphere/plane, restitution coefficient sweep) in ``example/spheres/verif_hooke``.
+      - Add a regression test for the ``restart`` operator with four driver types.
+      - Use MPICH in CI.
+
+Bug Fixes:
+
+   - The particle counter (``particle_counter``) now writes the global number of particles instead of the number of particles of MPI process 0.
+   - Driver forces and moments are now reduced over MPI processes, required by the driver extractor in parallel runs.
+   - Stop the execution when several shapes share the same name.
+   - Correctly reset the pointers of an ``OBBTree``.
+   - Fix a deadlock in the destructor of OpenMP locks and a small memory leak in ``grid_stl_mesh``.
+   - ``ghost_update`` no longer skips subdomains without particles (required e.g. for code coupling with LBM).
+   - Contact messages now report negative distances as penetrations.
 
 Release Notes v1.2.2 (07/26)
 -----------------------------
