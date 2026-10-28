@@ -167,7 +167,6 @@ Inputs
   .. code-block:: yaml
 
     global:
-      symetric: true
       analysis_interaction_dump_frequency: 500
 
 Outputs

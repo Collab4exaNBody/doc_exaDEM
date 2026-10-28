@@ -21,6 +21,9 @@ The main laws available in exaDEM are:
 +==============+================+====================================================================================================================================+
 | ``hooke``    | pure contact   | Default configuration : elastic linear normal force, normal viscosity force, Coulomb friction tangent force and rolling resistance |
 +--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
+| ``hertz``    | pure contact   | Spheres only: elastic non-linear (Hertz) normal force defined from the materials (Young modulus, Poisson ratio), normal viscosity  |
+|              |                | force, Coulomb friction tangent force and rolling resistance                                                                       |
++--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
 | ``cohesive`` | Cohesive       | Addition of a normal cohesive force depending on the distance between particles                                                    |
 +--------------+----------------+------------------------------------------------------------------------------------------------------------------------------------+
 | ``dmt``      | Cohesive       | Addition of an adhesive law at contact to model Van der Waals force for hard particles                                             |
@@ -136,6 +139,93 @@ where:
 
 The friction force is reset to zero as soon as contact is lost.
 
+.. _force_field_hertz_law:
+
+``hertz`` law: non-linear elastic normal force (spheres)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``hertz`` law is available for spheres only. Unlike the ``hooke`` law, the normal stiffness is not a parameter: it depends on the overlap, on the radii of the particles and on the materials in contact. The materials are described by their Young modulus :math:`E` and their Poisson ratio :math:`\nu`.
+
+The additional variables and constants of this law are:
+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Variable / Constant
+     - Description
+   * - :math:`\delta = -\delta_n`
+     - The overlap (positive in case of contact)
+   * - :math:`E_i`, :math:`\nu_i`
+     - The Young modulus and the Poisson ratio of the material of particle (or driver) :math:`i`
+   * - :math:`E^*`
+     - The reduced Young modulus of the contact
+   * - :math:`R^*`
+     - The effective radius of the contact
+   * - :math:`m^*`
+     - The effective mass of the contact
+   * - :math:`\zeta`
+     - The damping ratio (``damp_rate``)
+
+with:
+
+.. math::
+
+  \frac{1}{E^*} = \frac{1 - \nu_i^2}{E_i} + \frac{1 - \nu_j^2}{E_j}, \qquad
+  R^* = \frac{R_i R_j}{R_i + R_j}, \qquad
+  m^* = \frac{m_i m_j}{m_i + m_j}
+
+The normal force is the sum of the elastic Hertz force :math:`f_e` and of a viscous damping force, and it is never attractive:
+
+.. math::
+
+  f_e = \frac{4}{3} E^* \sqrt{R^*} \, \delta^{3/2}
+
+  f_n = \max\left(0, \; f_e + c \, v_n\right)
+
+where :math:`v_n` is the normal component of the relative velocity. The damping coefficient :math:`c` is computed from the tangent stiffness :math:`k` of the contact (the derivative of :math:`f_e` with respect to :math:`\delta`):
+
+.. math::
+
+  k = \frac{d f_e}{d \delta} = 2 E^* \sqrt{R^* \delta}
+
+  c = 2 \zeta \sqrt{m^* k}
+
+The damping coefficient therefore grows with :math:`\delta^{1/4}`. With this damping, the restitution coefficient :math:`e_n` only depends on :math:`\zeta` (not on the velocity, the masses, the radii or :math:`E^*`). The relation between :math:`e_n` and :math:`\zeta` is not the one of the ``hooke`` law; some reference values are:
+
+.. list-table::
+   :widths: 30 17 17 17 17
+   :header-rows: 0
+
+   * - :math:`e_n`
+     - 0.9
+     - 0.7
+     - 0.5
+     - 0.3
+   * - :math:`\zeta` (``damp_rate``)
+     - 0.0312797
+     - 0.1115664
+     - 0.2330340
+     - 0.4539161
+
+The tangential force and the rolling resistance are the same as for the ``hooke`` law (constant tangential stiffness :math:`k_t`, rotational stiffness :math:`k_r`). The Coulomb limit of the friction is computed from the elastic Hertz force:
+
+.. math::
+
+  \|\textbf{f}_t\| \leq \mu \, f_e
+
+The ``cohesive`` and ``dmt`` laws described below can be combined with the ``hertz`` law, as with the ``hooke`` law (:math:`k_n \delta_n` and the damping term are then replaced by the Hertz normal force).
+
+.. warning::
+
+  The critical time step is not estimated for the ``hertz`` law. The time step must be chosen by the user, e.g. as a small fraction of the Hertz contact time:
+
+  .. math::
+
+    t_c \approx 2.87 \left( \frac{{m^*}^2}{R^* {E^*}^2 v_0} \right)^{1/5}
+
+  with :math:`v_0` the impact velocity.
+
 ``cohesive`` law: cohesive normal force
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This interaction requires two additional parameters:
@@ -239,7 +329,7 @@ where the effective radius :math:`R_{eff}` is obtained from the respective radii
 and :math:`\gamma` is the surface energy (linked to Van der Waals forces).
 
 .. note::
-   Since DMT force law is added to the normal force, it requires the definition of a pure contact law, such as ``hooke`` one.
+   Since DMT force law is added to the normal force, it requires the definition of a pure contact law, such as ``hooke`` or ``hertz``.
 
 
 .. _force_field_contact_law_operators:
@@ -271,8 +361,8 @@ Where each field is defined as follows:
      - ``sphere``, ``polyhedron``
      - Type of particles
    * - [pure_contact_law]
-     - ``hooke``
-     - Pure contact law
+     - ``hooke``, ``hertz``
+     - Pure contact law (``hertz``: spheres only, see below)
    * - [cohesion_law]
      - ``cohesive``, ``dmt``, ``none``
      - Cohesion / adhesion law
@@ -304,10 +394,22 @@ Where each field is defined as follows:
      is equivalent to  
      ``contact_multimat_polyhedron_hooke_none``
 
-In a contact operator, the following parameters can be defined:
+.. note::
 
-+---------------------+------------------------------------------------------------------------------+
-| `symetric`          | Activate or disable symmetric updates (do not disable it with polyhedron).   |
+   The ``hertz`` law is defined from the materials of the particles, which are given per group (see :ref:`force_field_hertz_contact_parameters`). It is therefore only available in ``multimat`` mode, and its operators are named:
+
+   ::
+
+      contact_sphere_hertz_[cohesion_law]
+
+   i.e. ``contact_sphere_hertz_none``, ``contact_sphere_hertz_cohesive`` and ``contact_sphere_hertz_dmt``. These operators have no ``config`` / ``config_driver`` parameter: the contact parameters are read from ``multimat_contact_params_hertz`` and ``drivers_contact_params_hertz``.
+
+.. note::
+
+   Contact laws are always symmetric: an interaction between two particles is stored once in the interaction lists, and the contact law computes the force (and moment) of both particles at once.
+
+In a ``hooke`` contact operator, the following parameters can be defined:
+
 +---------------------+------------------------------------------------------------------------------+
 | `config`            | Data structure that contains contact force parameters (dncut, kn, kt,        |
 |                     | kr, fc, mu, damp_rate). Type = exaDEM::ContactParams. No default parameter.  |
@@ -324,7 +426,6 @@ Here are four YAML examples:
 .. code-block:: yaml
 
    - contact_sphere:
-      symetric: true
       config: { kn: 100000, kt: 100000, kr: 0.1, mu: 0.9, damp_rate: 0.9}
 
 .. code-block:: yaml
@@ -336,7 +437,6 @@ Here are four YAML examples:
 .. code-block:: yaml
 
    - contact_singlemat_sphere_hooke_cohesive:
-      symetric: true
       config: { dncut: 0.1 m, kn: 100000, kt: 100000, kr: 0.1, fc: 0.05, mu: 0.9, damp_rate: 0.9}
 
 .. code-block:: yaml
@@ -351,10 +451,9 @@ Here are four YAML examples:
      config: { kn: 1000, kt: 1000, kr: 0.1,mu: 0.2, damp_rate: 0.9, gamma: 10.}
      config_driver: { kn: 1000, kt: 800, kr: 0.1,mu: 0.5, damp_rate: 0.9, gamma: 10.}
 
+.. code-block:: yaml
 
-.. note::
-
-  If you set ``symetric: false``, make sure the interaction lists were also built without the symmetry option -- by default, ``exaDEM`` always builds them with symmetry enabled, to limit the number of calculations.
+  - contact_sphere_hertz_none
 
 .. note::
 
@@ -375,8 +474,9 @@ In the previous section, the contact law used the same parameters for every inte
 
 .. note::
 
-   Unlike in some other DEM codes, the coefficients are **not** derived from the material
-   properties (such as Poisson’s ratio and Young’s modulus).
+   For the ``hooke`` law, unlike in some other DEM codes, the coefficients are **not** derived from the material
+   properties (such as Poisson’s ratio and Young’s modulus). For the ``hertz`` law, the normal force is derived
+   from the Young modulus and the Poisson ratio of each group, see :ref:`force_field_hertz_contact_parameters`.
 
 .. note::
 
@@ -398,8 +498,15 @@ To handle multiple particle groups, use one of the ``contact_multimat_[*]_[*]_[*
 
    compute_force:
      - gravity_force
-     - contact_multimat_sphere:
-        symetric: true
+     - contact_multimat_sphere
+
+* **YAML example for spheres with the** ``hertz`` **law:**
+
+.. code-block:: yaml
+
+   compute_force:
+     - gravity_force
+     - contact_sphere_hertz_none
 
 The following examples illustrate the definition of contact parameters for two particle
 groups (**group 0**, **group 1**) and a driver identified by **0**.
@@ -524,11 +631,122 @@ Particle-Driver Contact Parameters
 
 A complete example is available (please report if the link does not work): `rotating-multimat.msp <https://github.com/Collab4exaNBody/exaDEM/blob/main/example/polyhedra/multimat/rotating-multimat.msp>`_
 
+.. _force_field_hertz_contact_parameters:
+
+Hertz Contact Parameters
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``hertz`` law has its own parameter operators: ``multimat_contact_params_hertz`` (particle-particle) and ``drivers_contact_params_hertz`` (particle-driver). They replace ``multimat_contact_params`` and ``drivers_contact_params`` when the ``contact_sphere_hertz_[*]`` operators are used. There is no ``kn`` parameter: the normal force is defined by the reduced Young modulus :math:`E^*` of each pair, computed from the Young modulus and the Poisson ratio of the materials (see :ref:`force_field_hertz_law`). The other parameters have the same meaning as for the ``hooke`` law.
+
+* **Operator Name:** ``multimat_contact_params_hertz``
+* **Description:** This operator defines the Hertz contact law parameters between different particle groups. The materials (``young``, ``poisson``) are given **per group** (one value per group), and :math:`E^*` is computed for every pair of groups. The other lists have one value per listed pair of groups.
+
++--------------------+---------------------------------------------------------------+
+| **Parameter**      | **Description**                                               |
++====================+===============================================================+
+| ``group1``         | List of the first particle group indice(s).                   |
++--------------------+---------------------------------------------------------------+
+| ``group2``         | List of the second particle group indice(s).                  |
++--------------------+---------------------------------------------------------------+
+| ``young``          | Young modulus of each group material (one value per group).   |
+|                    | Requires ``poisson``.                                         |
++--------------------+---------------------------------------------------------------+
+| ``poisson``        | Poisson ratio of each group material (one value per group).   |
+|                    | Requires ``young``.                                           |
++--------------------+---------------------------------------------------------------+
+| ``kt``             | Tangential force coefficient (one value per pair, required).  |
++--------------------+---------------------------------------------------------------+
+| ``kr``             | Rolling resistance coefficient (one value per pair, optional, |
+|                    | default 0).                                                   |
++--------------------+---------------------------------------------------------------+
+| ``mu``             | Friction coefficient (one value per pair, required).          |
++--------------------+---------------------------------------------------------------+
+| ``damprate``       | Damping ratio :math:`\zeta` (one value per pair, required).   |
++--------------------+---------------------------------------------------------------+
+| ``fc``, ``dncut``  | Cohesive force threshold and distance cutoff (one value per   |
+|                    | pair, optional, must be defined together).                    |
++--------------------+---------------------------------------------------------------+
+| ``gamma``          | DMT adhesion energy per unit of surface (one value per pair,  |
+|                    | optional, default 0).                                         |
++--------------------+---------------------------------------------------------------+
+| ``default_config`` | Applies the same parameter set to all undefined pairs of      |
+|                    | groups (see below).                                           |
++--------------------+---------------------------------------------------------------+
+| ``n_groups``       | Number of distinct groups (``INPUT_OUTPUT``), same behavior   |
+|                    | as in ``multimat_contact_params``.                            |
++--------------------+---------------------------------------------------------------+
+| ``verbosity``      | Print the parameter table. Default is false.                  |
++--------------------+---------------------------------------------------------------+
+
+YAML example:
+
+.. code-block:: yaml
+
+  - multimat_contact_params_hertz:
+     group1:    [      0,     0,     1 ]
+     group2:    [      0,     1,     1 ]
+     young:     [   70e9, 200e9 ]
+     poisson:   [   0.33,  0.30 ]
+     kt:        [   4000,  8000, 12000 ]
+     kr:        [    0.0,   0.0,   0.0 ]
+     mu:        [    0.1,   0.2,   0.3 ]
+     damprate:  [  0.999, 0.999, 0.999 ]
+
+The ``default_config`` parameter is a single parameter set, with the keys ``kt``, ``kr``, ``mu``, ``damp_rate`` (and optionally ``fc``/``dncut``, ``gamma``), and either ``estar`` (the reduced Young modulus, given directly) or ``young`` and ``poisson`` (a contact between two particles of this material).
+
+* **Operator Name:** ``drivers_contact_params_hertz``
+* **Description:** This operator defines the Hertz contact law parameters between particle groups and drivers. The group materials come from ``multimat_contact_params_hertz`` (which must therefore be called before, with ``young`` and ``poisson``), and the driver materials are given with ``driver_young`` and ``driver_poisson`` (one value per driver).
+
++--------------------+---------------------------------------------------------------+
+| **Parameter**      | **Description**                                               |
++====================+===============================================================+
+| ``group``          | List of particle group indice(s) concerned by the interaction.|
++--------------------+---------------------------------------------------------------+
+| ``driver_id``      | Identifier(s) of the driver(s) interacting with the particles.|
++--------------------+---------------------------------------------------------------+
+| ``driver_young``   | Young modulus of each driver material (one value per driver). |
+|                    | Requires ``driver_poisson``.                                  |
++--------------------+---------------------------------------------------------------+
+| ``driver_poisson`` | Poisson ratio of each driver material (one value per driver). |
+|                    | Requires ``driver_young``.                                    |
++--------------------+---------------------------------------------------------------+
+| ``kt``, ``kr``,    | Same as in ``multimat_contact_params_hertz``, one value per   |
+| ``mu``,            | listed (group, driver) pair.                                  |
+| ``damprate``,      |                                                               |
+| ``fc``, ``dncut``, |                                                               |
+| ``gamma``          |                                                               |
++--------------------+---------------------------------------------------------------+
+| ``default_config`` | Applies the same parameter set to all undefined               |
+|                    | (group, driver) pairs.                                        |
++--------------------+---------------------------------------------------------------+
+| ``verbosity``      | Print the parameter table. Default is false.                  |
++--------------------+---------------------------------------------------------------+
+
+.. code-block:: yaml
+
+  - drivers_contact_params_hertz:
+     group:          [      0,     1 ]
+     driver_id:      [      0,     0 ]
+     kt:             [   8000, 12000 ]
+     kr:             [    0.0,   0.1 ]
+     mu:             [    0.5,   0.5 ]
+     damprate:       [  0.999, 0.999 ]
+     driver_young:   [ 200e9 ]
+     driver_poisson: [  0.30 ]
+
+.. note::
+
+   A rigid driver (e.g. a plane) is modeled with a very large Young modulus, for example ``driver_young: [ 1.e40 ]``, so that :math:`E^* = E / (1 - \nu^2)` with :math:`E` and :math:`\nu` the material of the particle.
+
+.. note::
+
+   The ``contact_sphere_hertz_[*]`` operators stop the simulation if the reduced Young modulus of a pair of groups is not defined (``young`` and ``poisson`` missing in ``multimat_contact_params_hertz``), and print a warning if it is not defined for a (group, driver) pair.
+
 Checking Group Completeness
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * **Operator Name:** ``check_group_completeness`` (since ``exaDEM-1.2.3``)
-* **Description:** Verifies that the number of groups configured in ``multimat_cp`` (via ``multimat_contact_params`` and/or ``drivers_contact_params``) is large enough to cover the maximum ``group`` index actually present on particles. The simulation stops if a particle references a group for which no contact parameters were set up.
+* **Description:** Verifies that the number of groups configured in ``multimat_cp`` (via ``multimat_contact_params`` and/or ``drivers_contact_params``) or in ``multimat_hertz_cp`` (via ``multimat_contact_params_hertz`` and/or ``drivers_contact_params_hertz``) is large enough to cover the maximum ``group`` index actually present on particles. The simulation stops if a particle references a group for which no contact parameters were set up.
 * **Parameters:** none.
 
 .. code-block:: yaml
@@ -537,7 +755,142 @@ Checking Group Completeness
 
 .. note::
 
-   This operator has no effect (it silently returns) if ``multimat_cp`` has not been produced yet, so it can safely be placed anywhere after ``multimat_contact_params`` and/or ``drivers_contact_params`` in the operator chain, typically right before ``compute_force``.
+   This operator has no effect (it silently returns) if neither ``multimat_cp`` nor ``multimat_hertz_cp`` has been produced yet, so it can safely be placed anywhere after the contact parameter operators in the operator chain, typically right before ``compute_force``.
+
+Verification of the Hertz Law
+-----------------------------
+
+The ``hertz`` law is verified against the normal impact tests (tests 1, 2 and 3) of Y. C. Chung, J. Y. Ooi, *"Benchmark tests for verifying discrete element modelling codes at particle impact level"*, Granular Matter 13, 643-656 (2011), `doi:10.1007/s10035-011-0277-0 <https://doi.org/10.1007/s10035-011-0277-0>`_, with the materials of Table 2 of the paper. The results are compared with Table 3 of the paper (Hertz theory) and with a reference solution of the impact (:math:`m^* \ddot{x} = -f_n`, integrated with a 4th order Runge-Kutta scheme). The oblique impacts (tests 4 to 8) are not reproduced, since the tangential force of exaDEM is a constant :math:`k_t` spring with a Coulomb limit, not Mindlin's theory (:math:`k_t = \mu = 0` in these tests).
+
+In every test, the particles start in contact (zero gap) and there is no gravity. The rigid plane is a ``surface`` driver with ``driver_young: [ 1.e40 ]``.
+
+.. list-table:: Materials (Table 2 of the paper)
+   :header-rows: 1
+
+   * - Material
+     - E [GPa]
+     - :math:`\nu`
+     - :math:`\rho` [kg/m³]
+   * - Glass
+     - 48
+     - 0.20
+     - 2800
+   * - Limestone
+     - 20
+     - 0.25
+     - 2500
+   * - Al. alloy
+     - 70
+     - 0.30
+     - 2699
+   * - Al. oxide
+     - 380
+     - 0.23
+     - 4000
+
+.. list-table:: Tests
+   :header-rows: 1
+   :widths: 10 30 60
+
+   * - Test
+     - File
+     - Description
+   * - 1
+     - ``test1_two_spheres.msp``
+     - Elastic head-on impact of two identical spheres (R = 1 cm, ±10 m/s), Glass pair and Limestone pair
+   * - 2
+     - ``test2_sphere_plane.msp``
+     - Elastic impact of an Al. alloy sphere (R = 0.1 m) on a rigid plane at 0.2 m/s
+   * - 3
+     - ``test3_restitution_sweep.msp``
+     - Impacts of 4 Al. oxide spheres (R = 2.5 mm) on a rigid plane at 3.9 m/s, ``damprate`` set for :math:`e_n` = 0.9, 0.7, 0.5, 0.3
+
+.. list-table:: Results (exaDEM vs. Table 3 of the paper)
+   :header-rows: 1
+   :widths: 15 35 25 25
+
+   * - Test
+     - Quantity
+     - exaDEM
+     - Paper
+   * - 1, Glass
+     - max overlap / max force / contact time
+     - 274.1 µm / 10697 N / 40.3 µs
+     - 274.1 µm / 10697 N / 40.3 µs
+   * - 1, Limestone
+     - max overlap / max force / contact time
+     - 368.3 µm / 7108 N / 54.2 µs
+     - 368.3 µm / 7108 N / 54.2 µs
+   * - 2, Al. alloy
+     - max overlap / max force / contact time
+     - 49.72 µm / 11370 N / 731 µs
+     - 49.7 µm / 11370 N / 731.6 µs
+   * - 3
+     - restitution coefficient
+     - 0.9000, 0.7000, 0.5000, 0.2999
+     - 0.9, 0.7, 0.5, 0.3
+
+In the figures below, crosses are exaDEM results, lines are the reference solution, and stars / dotted lines are the values of Table 3 of the paper.
+
+.. figure:: ../../_static/verif_hertz_test1.png
+   :width: 100%
+   :align: center
+
+   Test 1: elastic impact of two identical spheres (Glass and Limestone).
+
+.. figure:: ../../_static/verif_hertz_test2.png
+   :width: 100%
+   :align: center
+
+   Test 2: elastic impact of an Al. alloy sphere on a rigid plane.
+
+.. figure:: ../../_static/verif_hertz_test3.png
+   :width: 100%
+   :align: center
+
+   Test 3: impacts on a rigid plane with different restitution coefficients.
+
+Test 2 (sphere / rigid plane) is defined as follows:
+
+.. code-block:: yaml
+
+  input_data:
+    - set_fields:
+       polyhedra: false
+       type:     [        Sphere ]
+       group:    [             0 ]
+       radius:   [           0.1 ]
+       density:  [          2699 ]
+       velocity: [ [0, 0, -0.2] ]
+    - multimat_contact_params_hertz:
+       group1:   [     0 ]
+       group2:   [     0 ]
+       young:    [ 70.e9 ]
+       poisson:  [  0.30 ]
+       kt:       [     0 ]
+       kr:       [     0 ]
+       mu:       [     0 ]
+       damprate: [     0 ]
+    - drivers_contact_params_hertz:
+       group:          [     0 ]
+       driver_id:      [     0 ]
+       kt:             [     0 ]
+       kr:             [     0 ]
+       mu:             [     0 ]
+       damprate:       [     0 ]
+       driver_young:   [ 1.e40 ]  # rigid plane
+       driver_poisson: [     0 ]
+
+  setup_drivers:
+    - register_surface:
+       id: 0
+       state: { normal: [0, 0, 1], offset: 0 }
+       params: { motion_type: STATIONARY }
+
+  compute_force:
+    - contact_sphere_hertz_none
+
+The test files, the reference solution and the comparison / plotting scripts are available in `example/spheres/verif_hertz <https://github.com/Collab4exaNBody/exaDEM/tree/main/example/spheres/verif_hertz>`_. They are also run as non-regression tests (``Example_ExaDEM_VerifHertzTest<N>`` and ``Example_ExaDEM_VerifHertzDampRate`` in CTest).
 
 External Forces
 ---------------

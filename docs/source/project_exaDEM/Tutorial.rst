@@ -89,7 +89,6 @@ We use the contact's law to compute contact force between the polyhedra/polyhedr
  compute_force:
    - gravity_force
    - contact_polyhedron:
-      symetric: true
       config: { kn: 10000, kt: 10000, kr: 0.0, mu: 0.1, damp_rate: 0.999}
       config_driver: { kn: 10000, kt: 10000, kr: 0.0, mu: 0.1, damp_rate: 0.999} 
 
@@ -377,7 +376,6 @@ Next, define the parameters of the contact law and add gravity for gravity depos
     - gravity_force:
        gravity: [0,0,-0.00981]
    - contact_polyhedron:
-       symetric: true
        config: { kn: 1.257, kt: 1.077, kr: 0.0, mu: 0.0, damp_rate: 0.999}
        config_driver: { kn: 12.57, kt: 10.77, kr: 0.0, mu: 0.0, damp_rate: 0.999}
 
@@ -475,7 +473,7 @@ so the blade actually drags and compacts the grains as it turns.
 
   compute_force:
     - gravity_force: {gravity: [0,0,-0.00981]}
-    - contact_polyhedron: {symetric: true, config: {kn: 1.257, kt: 1.077, kr: 0.0, mu: 0.1, damp_rate: 0.999}, config_driver: {kn: 1.257, kt: 1.077, kr: 0.0, mu: 0.3, damp_rate: 0.999}}
+    - contact_polyhedron: {config: {kn: 1.257, kt: 1.077, kr: 0.0, mu: 0.1, damp_rate: 0.999}, config_driver: {kn: 1.257, kt: 1.077, kr: 0.0, mu: 0.3, damp_rate: 0.999}}
 
 .. note::
 
