@@ -146,6 +146,9 @@ This example is defined in the repository: https://github.com/Collab4exaNBody/ex
    * - v1.1.5 (26/10/25)
      - 8.44   ( 3.3  / 2.6)
      - 18.0   ( 10.8 / 4.1)
+   * - master (09/11/26)
+     - 19.14   ( 11.45  / 4.02 )
+     - 105.6  ( 85.44 / 14.43 )
 
 Rotating Drum - CPU (Sphere)
 ----------------------------
