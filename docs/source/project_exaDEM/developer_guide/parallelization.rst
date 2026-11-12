@@ -155,6 +155,9 @@ This example is defined in the repository: https://github.com/Collab4exaNBody/ex
    * - master (09/11/26)
      - 19.14   ( 11.45  / 4.02 )
      - 105.6  ( 85.44 / 14.43 )
+   * - main (12/11/26, fix interaction grid ) 
+     - 6.11 ( 2.31 / 2.5 )
+     - 16.2 ( 9.7 / 4.46)
 
 Rotating Drum - CPU (Sphere)
 ----------------------------
