@@ -14,6 +14,7 @@ User Guide
    force_field.rst
    fragmentation.rst
    numerical_scheme.rst
+   barostat.rst
    drivers.rst
    IO.rst
    post_processings.rst
